@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-17 11:30:10 PDT",
+  "updated_at": "2026-03-17 11:45:12 PDT",
   "month_label": "March 2026",
   "day_of_month": 17,
   "days_in_month": 31,
@@ -11,9 +11,9 @@
   "total_revenue": 453905.0,
   "total_deals": 57,
   "total_booked": 528,
-  "total_shown": 296,
+  "total_shown": 297,
   "team_close_rate": 10.8,
-  "team_show_rate": 56.1,
+  "team_show_rate": 56.2,
   "today_revenue": 23991.0,
   "today_deals": 3,
   "reps": [
@@ -50,9 +50,9 @@
       "quota": 100000,
       "pct_to_quota": 52.1,
       "booked": 45,
-      "shown": 30,
+      "shown": 31,
       "close_rate": 13.3,
-      "show_rate": 66.7,
+      "show_rate": 68.9,
       "is_manager": false,
       "exclude_meetings": false
     },
@@ -109,19 +109,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Joe Dysert",
-      "revenue": 17994.0,
-      "deals": 2,
-      "quota": 0,
-      "pct_to_quota": 0,
-      "booked": 0,
-      "shown": 0,
-      "close_rate": 0,
-      "show_rate": 0,
-      "is_manager": true,
-      "exclude_meetings": true
-    },
-    {
       "name": "Lyle Hubbard",
       "revenue": 17994.0,
       "deals": 2,
@@ -133,6 +120,19 @@
       "show_rate": 54.8,
       "is_manager": false,
       "exclude_meetings": false
+    },
+    {
+      "name": "Joe Dysert",
+      "revenue": 17994.0,
+      "deals": 2,
+      "quota": 0,
+      "pct_to_quota": 0,
+      "booked": 0,
+      "shown": 0,
+      "close_rate": 0,
+      "show_rate": 0,
+      "is_manager": true,
+      "exclude_meetings": true
     },
     {
       "name": "John Kirk",
@@ -174,6 +174,19 @@
       "exclude_meetings": true
     },
     {
+      "name": "Jordan Humphrey",
+      "revenue": 11994.0,
+      "deals": 2,
+      "quota": 100000,
+      "pct_to_quota": 12.0,
+      "booked": 20,
+      "shown": 12,
+      "close_rate": 10.0,
+      "show_rate": 60.0,
+      "is_manager": false,
+      "exclude_meetings": false
+    },
+    {
       "name": "Ryan Jones",
       "revenue": 11994.0,
       "deals": 2,
@@ -183,19 +196,6 @@
       "shown": 16,
       "close_rate": 8.0,
       "show_rate": 64.0,
-      "is_manager": false,
-      "exclude_meetings": false
-    },
-    {
-      "name": "Jake Skinner",
-      "revenue": 11994.0,
-      "deals": 2,
-      "quota": 75000,
-      "pct_to_quota": 16.0,
-      "booked": 28,
-      "shown": 13,
-      "close_rate": 7.1,
-      "show_rate": 46.4,
       "is_manager": false,
       "exclude_meetings": false
     },
@@ -213,15 +213,15 @@
       "exclude_meetings": false
     },
     {
-      "name": "Jordan Humphrey",
+      "name": "Jake Skinner",
       "revenue": 11994.0,
       "deals": 2,
-      "quota": 100000,
-      "pct_to_quota": 12.0,
-      "booked": 20,
-      "shown": 12,
-      "close_rate": 10.0,
-      "show_rate": 60.0,
+      "quota": 75000,
+      "pct_to_quota": 16.0,
+      "booked": 28,
+      "shown": 13,
+      "close_rate": 7.1,
+      "show_rate": 46.4,
       "is_manager": false,
       "exclude_meetings": false
     },
