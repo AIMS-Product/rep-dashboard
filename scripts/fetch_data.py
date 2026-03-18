@@ -52,7 +52,7 @@ CF_LEAD_OWNER_NAME       = "Lead Owner"
 TEAM_QUOTA = 906_000
 
 REP_QUOTAS = {
-    "Christian Hartwell": 100_000,
+    "Christian Hartwell": 50_000,
     "Lyle Hubbard": 100_000,
     "Ategeka Musinguzi": 100_000,
     "Scott Seymour": 100_000,
@@ -81,6 +81,9 @@ REVENUE_ONLY_USERS = {"William Chase"}
 
 # Managers: no quota, show "(mgr)" label, no "Ramping" badge
 MANAGER_USERS = {"Joe Dysert"}
+
+# Team leads: show "(lead)" label
+LEAD_USERS = {"Christian Hartwell"}
 
 # Users whose meeting activities are never counted (resolved to user_ids at runtime)
 EXCLUDE_MEETING_USER_NAMES = {
@@ -527,6 +530,7 @@ def build_dashboard_data():
             "close_rate": close_rate,
             "show_rate": show_rate,
             "is_manager": name in MANAGER_USERS,
+            "is_lead": name in LEAD_USERS,
             "exclude_meetings": is_deals_only,
         })
 
