@@ -70,11 +70,14 @@ REP_QUOTAS = {
 }
 
 # Fully excluded from all dashboard data (revenue, deals, meetings)
-EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "Julia Scaroni", "William Chase"}
+EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "Julia Scaroni"}
 
 # Only appear on dashboard if they have closed deals that month
 # Meeting data N/A'd out — only show on Revenue Closed and Opps Closed
 DEALS_ONLY_USERS = {"Kristin Nelson", "Joe Dysert"}
+
+# Revenue counts toward team totals but rep never appears as a row
+REVENUE_ONLY_USERS = {"William Chase"}
 
 # Managers: no quota, show "(mgr)" label, no "Ramping" badge
 MANAGER_USERS = {"Joe Dysert"}
@@ -494,6 +497,7 @@ def build_dashboard_data():
     all_rep_names.update(rep_booked.keys())
     all_rep_names.update(REP_QUOTAS.keys())
     all_rep_names -= EXCLUDE_USERS
+    all_rep_names -= REVENUE_ONLY_USERS  # revenue counts in totals but no row
 
     reps = []
     for name in all_rep_names:
@@ -526,9 +530,11 @@ def build_dashboard_data():
             "exclude_meetings": is_deals_only,
         })
 
-    # Step 5: Team totals
-    total_revenue = sum(r["revenue"] for r in reps)
-    total_deals = sum(r["deals"] for r in reps)
+    # Step 5: Team totals (computed from raw dicts, includes REVENUE_ONLY_USERS)
+    all_counted = set(rep_revenue.keys()) | set(rep_deals.keys()) | set(rep_booked.keys())
+    all_counted -= EXCLUDE_USERS
+    total_revenue = round(sum(rep_revenue.get(n, 0) for n in all_counted), 2)
+    total_deals = sum(rep_deals.get(n, 0) for n in all_counted)
     total_booked = sum(r["booked"] for r in reps)
     total_shown = sum(r["shown"] for r in reps)
     team_close_rate = round(total_deals / total_booked * 100, 1) if total_booked > 0 else 0
