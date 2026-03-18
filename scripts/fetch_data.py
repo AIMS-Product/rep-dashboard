@@ -60,7 +60,6 @@ REP_QUOTAS = {
     "Jordan Humphrey": 100_000,
     "Jason Aaron": 100_000,
     "Robin Perkins": 100_000,
-    "William Chase": 100_000,
     "Ryan Jones": 100_000,
     "John Kirk": 100_000,
     "Jake Skinner": 75_000,
@@ -71,7 +70,7 @@ REP_QUOTAS = {
 }
 
 # Fully excluded from all dashboard data (revenue, deals, meetings)
-EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "Julia Scaroni"}
+EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "Julia Scaroni", "William Chase"}
 
 # Only appear on dashboard if they have closed deals that month
 # Meeting data N/A'd out — only show on Revenue Closed and Opps Closed
@@ -83,7 +82,7 @@ MANAGER_USERS = {"Joe Dysert"}
 # Users whose meeting activities are never counted (resolved to user_ids at runtime)
 EXCLUDE_MEETING_USER_NAMES = {
     "Kristin Nelson", "Spencer Reynolds", "Stephen Olivas",
-    "Ahmad Bukhari", "Mallory Kent", "Julia Scaroni", "Unknown",
+    "Ahmad Bukhari", "Mallory Kent", "Julia Scaroni", "William Chase", "Unknown",
 }
 
 
