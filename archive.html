@@ -346,7 +346,8 @@
     return (r.quota && r.pct_to_quota >= 100) ? '<span class="goal-badge">At Goal</span>' : '';
   }
   function repLabel(r) {
-    return `${r.name}${r.is_manager ? '<span class="mgr-tag">(mgr)</span>' : ''}`;
+    const tag = r.is_manager ? '<span class="mgr-tag">(mgr)</span>' : r.is_lead ? '<span class="mgr-tag">(lead)</span>' : '';
+    return `${r.name}${tag}`;
   }
 
   // ─── Render dashboard from data.json ───
