@@ -436,7 +436,8 @@
     return 'rk';
   }
   function repLabel(r) {
-    return `<span class="rep-name">${r.name}</span>${r.is_manager ? '<span class="mgr-tag">(mgr)</span>' : ''}`;
+    const tag = r.is_manager ? '<span class="mgr-tag">(mgr)</span>' : r.is_lead ? '<span class="mgr-tag">(lead)</span>' : '';
+    return `<span class="rep-name">${r.name}</span>${tag}`;
   }
 
   function render(D) {
