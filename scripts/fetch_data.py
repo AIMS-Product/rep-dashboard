@@ -190,10 +190,10 @@ def is_qualifying_meeting(title):
     """Classify a meeting title. Returns True if it's a qualifying first call.
 
     Rules applied in order — first match wins.
-    Blank titles count as qualifying (GCal sync safety net).
+    Blank titles are excluded (not a known first-call pattern).
     """
     if not title or not title.strip():
-        return True
+        return False
 
     stripped = title.strip()
 
