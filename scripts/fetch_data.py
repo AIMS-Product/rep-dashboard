@@ -70,7 +70,7 @@ REP_QUOTAS = {
 }
 
 # Fully excluded from all dashboard data (revenue, deals, meetings)
-EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "Julia Scaroni"}
+EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "Julia Scaroni", "Spencer Reynolds"}
 
 # Only appear on dashboard if they have closed deals that month
 # Meeting data N/A'd out — only show on Revenue Closed and Opps Closed
