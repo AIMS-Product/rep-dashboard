@@ -57,7 +57,6 @@ REP_QUOTAS = {
     "Ategeka Musinguzi": 100_000,
     "Scott Seymour": 100_000,
     "Eric Piccione": 100_000,
-    "Jordan Humphrey": 100_000,
     "Jason Aaron": 100_000,
     "Robin Perkins": 100_000,
     "Ryan Jones": 100_000,
@@ -66,18 +65,17 @@ REP_QUOTAS = {
     "Vince Bartolini": 50_000,
     "Elvis Ellis": 50_000,
     "Chris Wanke": 50_000,
-    "Andrea Shoop": 50_000,
 }
 
 # Fully excluded from all dashboard data (revenue, deals, meetings)
-EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "Julia Scaroni", "Spencer Reynolds"}
+EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "Julia Scaroni", "Spencer Reynolds", "Andrea Shoop"}
 
 # Only appear on dashboard if they have closed deals that month
 # Meeting data N/A'd out — only show on Revenue Closed and Opps Closed
 DEALS_ONLY_USERS = {"Kristin Nelson", "Joe Dysert"}
 
 # Revenue counts toward team totals but rep never appears as a row
-REVENUE_ONLY_USERS = {"William Chase"}
+REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey"}
 
 # Managers: no quota, show "(mgr)" label, no "Ramping" badge
 MANAGER_USERS = {"Joe Dysert"}
@@ -88,7 +86,8 @@ LEAD_USERS = {"Christian Hartwell"}
 # Users whose meeting activities are never counted (resolved to user_ids at runtime)
 EXCLUDE_MEETING_USER_NAMES = {
     "Kristin Nelson", "Spencer Reynolds", "Stephen Olivas",
-    "Ahmad Bukhari", "Mallory Kent", "Julia Scaroni", "William Chase", "Unknown",
+    "Ahmad Bukhari", "Mallory Kent", "Julia Scaroni", "William Chase",
+    "Andrea Shoop", "Jordan Humphrey", "Unknown",
 }
 
 
