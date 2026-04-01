@@ -49,7 +49,20 @@ CF_FIRST_CALL_SHOW_NAME = "First Call Show Up (Opp)"
 CF_LEAD_OWNER_ID         = "cf_gOfS9pFwext58oberEegLyix8hZzeHrxhCZOVh3P3rd"
 CF_LEAD_OWNER_NAME       = "Lead Owner"
 
-TEAM_QUOTA = 906_000
+# Team quota by month (year, month) -> amount
+TEAM_QUOTAS = {
+    (2026, 3):  906_000,
+    (2026, 4):  1_006_000,
+    (2026, 5):  1_000_000,
+    (2026, 6):  1_000_000,
+    (2026, 7):  1_100_000,
+    (2026, 8):  1_100_000,
+    (2026, 9):  1_100_000,
+    (2026, 10): 1_100_000,
+    (2026, 11): 1_100_000,
+    (2026, 12): 1_100_000,
+}
+DEFAULT_TEAM_QUOTA = 1_100_000  # fallback for months not listed
 
 REP_QUOTAS = {
     "Christian Hartwell": 50_000,
@@ -544,10 +557,11 @@ def build_dashboard_data():
     team_show_rate = round(total_shown / total_booked * 100, 1) if total_booked > 0 else 0
 
     # Step 6: Time context
+    team_quota = TEAM_QUOTAS.get((year, month), DEFAULT_TEAM_QUOTA)
     working_days_total = count_working_days(year, month)
     working_days_elapsed = count_working_days(year, month, today_day)
     pct_month_passed = round(working_days_elapsed / working_days_total * 100, 1) if working_days_total > 0 else 0
-    pct_team_quota = round(total_revenue / TEAM_QUOTA * 100, 1) if TEAM_QUOTA > 0 else 0
+    pct_team_quota = round(total_revenue / team_quota * 100, 1) if team_quota > 0 else 0
 
     reps.sort(key=lambda r: r["revenue"], reverse=True)
 
@@ -559,7 +573,7 @@ def build_dashboard_data():
         "working_days_total": working_days_total,
         "working_days_elapsed": working_days_elapsed,
         "pct_month_passed": pct_month_passed,
-        "team_quota": TEAM_QUOTA,
+        "team_quota": team_quota,
         "pct_team_quota": pct_team_quota,
         "total_revenue": round(total_revenue, 2),
         "total_deals": total_deals,
