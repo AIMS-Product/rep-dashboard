@@ -81,14 +81,14 @@ REP_QUOTAS = {
 }
 
 # Fully excluded from all dashboard data (revenue, deals, meetings)
-EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "Julia Scaroni", "Spencer Reynolds", "Andrea Shoop"}
+EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "Spencer Reynolds"}
 
 # Only appear on dashboard if they have closed deals that month
 # Meeting data N/A'd out — only show on Revenue Closed and Opps Closed
 DEALS_ONLY_USERS = {"Kristin Nelson", "Joe Dysert"}
 
-# Revenue counts toward team totals but rep never appears as a row
-REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey"}
+# Revenue and meeting counts toward team totals but rep never appears as a row
+REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni"}
 
 # Managers: no quota, show "(mgr)" label, no "Ramping" badge
 MANAGER_USERS = {"Joe Dysert"}
@@ -99,8 +99,7 @@ LEAD_USERS = {"Christian Hartwell"}
 # Users whose meeting activities are never counted (resolved to user_ids at runtime)
 EXCLUDE_MEETING_USER_NAMES = {
     "Kristin Nelson", "Spencer Reynolds", "Stephen Olivas",
-    "Ahmad Bukhari", "Mallory Kent", "Julia Scaroni", "William Chase",
-    "Andrea Shoop", "Jordan Humphrey", "Unknown",
+    "Ahmad Bukhari", "Mallory Kent", "Unknown",
 }
 
 
@@ -559,12 +558,12 @@ def build_dashboard_data():
         })
 
     # Step 5: Team totals (computed from raw dicts, includes REVENUE_ONLY_USERS)
-    all_counted = set(rep_revenue.keys()) | set(rep_deals.keys()) | set(rep_booked.keys())
+    all_counted = set(rep_revenue.keys()) | set(rep_deals.keys()) | set(rep_booked.keys()) | set(rep_shown.keys())
     all_counted -= EXCLUDE_USERS
     total_revenue = round(sum(rep_revenue.get(n, 0) for n in all_counted), 2)
     total_deals = sum(rep_deals.get(n, 0) for n in all_counted)
-    total_booked = sum(r["booked"] for r in reps)
-    total_shown = sum(r["shown"] for r in reps)
+    total_booked = sum(rep_booked.get(n, 0) for n in all_counted)
+    total_shown = sum(rep_shown.get(n, 0) for n in all_counted)
     team_close_rate = round(total_deals / total_booked * 100, 1) if total_booked > 0 else 0
     team_show_rate = round(total_shown / total_booked * 100, 1) if total_booked > 0 else 0
 
