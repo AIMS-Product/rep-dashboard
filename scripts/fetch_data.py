@@ -75,9 +75,9 @@ REP_QUOTAS = {
     "Ryan Jones": 100_000,
     "John Kirk": 100_000,
     "Jake Skinner": 75_000,
-    "Vince Bartolini": 50_000,
-    "Elvis Ellis": 50_000,
-    "Chris Wanke": 50_000,
+    "Vince Bartolini": 75_000,
+    "Elvis Ellis": 75_000,
+    "Chris Wanke": 75_000,
 }
 
 # Fully excluded from all dashboard data (revenue, deals, meetings)
@@ -189,12 +189,20 @@ def fetch_closed_won_opportunities(year, month):
 
 # --- Meeting title classification (matches Scorecard methodology) ---
 
+# Scraper "Next Steps" pattern — must be checked BEFORE generic "Next Steps" exclusion
+_SCRAPER_NEXT_STEPS_RE = re.compile(
+    r"vendingpren[eu]+rs?\s*-?\s*next\s+steps"
+    r"|vendingpreneur\s+next\s+steps",
+    re.IGNORECASE,
+)
+
 _INCLUDED_TITLE_PATTERNS = [
     re.compile(r"vending\s+strategy\s+call", re.IGNORECASE),
     re.compile(r"vendingpren[eu]+rs?\s+consultation", re.IGNORECASE),
     re.compile(r"vendingpren[eu]+rs?\s+strategy\s+call", re.IGNORECASE),
     re.compile(r"new\s+vendingpren[eu]+r\s+strategy\s+call", re.IGNORECASE),
     re.compile(r"vending\s+consult\b", re.IGNORECASE),
+    re.compile(r"post\s+masterclass\s+strategy\s+call", re.IGNORECASE),
 ]
 
 
@@ -219,20 +227,24 @@ def is_qualifying_meeting(title):
     if "vending quick discovery" in t:
         return False
 
-    # Rule 3: Follow-ups
+    # Rule 3: Scraper "Next Steps" titles — INCLUDE (before generic exclusion)
+    if _SCRAPER_NEXT_STEPS_RE.search(stripped):
+        return True
+
+    # Rule 4: Follow-ups (generic "next steps" excluded here, after scraper check)
     for p in ("follow-up", "follow up", "fallow up", "f/u", "next steps"):
         if p in t:
             return False
 
-    # Rule 4: Rescheduled
+    # Rule 5: Rescheduled
     if "rescheduled" in t or "reschedule" in t:
         return False
 
-    # Rule 5: Internal Q&A
+    # Rule 6: Internal Q&A
     if "anthony" in t and "q&a" in t:
         return False
 
-    # Rule 6: Enrollment / onboarding
+    # Rule 7: Enrollment / onboarding
     for p in ("enrollment", "silver start up", "bronze enrollment", "questions on enrollment"):
         if p in t:
             return False
