@@ -396,13 +396,23 @@ def fetch_meeting_data(year, month, today_str, pst_tz, user_map, name_to_id):
         except Exception as e:
             print(f"  Warning: could not fetch lead {lid}: {e}", flush=True)
 
-    # Step 4: Attribute and count
+    # Step 4: Deduplicate by lead_id — most recent meeting wins (matches Capacity Dashboard)
+    lead_best = {}
+    for q in qualifying:
+        lid = q["lead_id"]
+        if not lid:
+            continue
+        if lid not in lead_best or q["date"] > lead_best[lid]["date"]:
+            lead_best[lid] = q
+    deduped = list(lead_best.values())
+    print(f"  Deduplication: {len(qualifying)} meetings → {len(deduped)} unique leads", flush=True)
+
+    # Step 5: Attribute and count
     rep_booked = {}
     rep_shown = {}
     excluded_status = 0
-    shown_leads = set()  # per-lead dedup for shown
 
-    for q in qualifying:
+    for q in deduped:
         lid = q["lead_id"]
         lead = lead_cache.get(lid)
         if not lead:
@@ -427,12 +437,10 @@ def fetch_meeting_data(year, month, today_str, pst_tz, user_map, name_to_id):
 
         rep_booked[rep_name] = rep_booked.get(rep_name, 0) + 1
 
-        # Shown: per unique lead per rep (avoid double-count)
+        # Shown: already deduped by lead, just check the field
         show_up = get_custom_value(merged, CF_FIRST_CALL_SHOW_ID, CF_FIRST_CALL_SHOW_NAME)
-        shown_key = f"{rep_name}:{lid}"
-        if str(show_up).strip().lower() == "yes" and shown_key not in shown_leads:
+        if str(show_up).strip().lower() == "yes":
             rep_shown[rep_name] = rep_shown.get(rep_name, 0) + 1
-            shown_leads.add(shown_key)
 
     print(f"  Excluded {excluded_status} meetings (Canceled/Outside US lead status)", flush=True)
     print(f"  Final: {sum(rep_booked.values())} booked, {sum(rep_shown.values())} shown", flush=True)
