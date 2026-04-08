@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-08 11:15:14 PDT",
+  "updated_at": "2026-04-08 11:30:27 PDT",
   "month_label": "April 2026",
   "day_of_month": 8,
   "days_in_month": 30,
@@ -7,15 +7,15 @@
   "working_days_elapsed": 6,
   "pct_month_passed": 27.3,
   "team_quota": 1006000,
-  "pct_team_quota": 18.1,
-  "total_revenue": 182137.0,
-  "total_deals": 22,
+  "pct_team_quota": 18.7,
+  "total_revenue": 188134.0,
+  "total_deals": 23,
   "total_booked": 221,
   "total_shown": 113,
-  "team_close_rate": 10.0,
+  "team_close_rate": 10.4,
   "team_show_rate": 51.1,
-  "today_revenue": 0.0,
-  "today_deals": 0,
+  "today_revenue": 5997.0,
+  "today_deals": 1,
   "reps": [
     {
       "name": "Scott Seymour",
@@ -29,6 +29,20 @@
       "show_rate": 68.0,
       "is_manager": false,
       "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Christian Hartwell",
+      "revenue": 29688.0,
+      "deals": 4,
+      "quota": 50000,
+      "pct_to_quota": 59.4,
+      "booked": 19,
+      "shown": 10,
+      "close_rate": 21.1,
+      "show_rate": 52.6,
+      "is_manager": false,
+      "is_lead": true,
       "exclude_meetings": false
     },
     {
@@ -46,17 +60,17 @@
       "exclude_meetings": false
     },
     {
-      "name": "Christian Hartwell",
-      "revenue": 23691.0,
-      "deals": 3,
-      "quota": 50000,
-      "pct_to_quota": 47.4,
-      "booked": 19,
-      "shown": 10,
-      "close_rate": 15.8,
-      "show_rate": 52.6,
+      "name": "Jason Aaron",
+      "revenue": 19994.0,
+      "deals": 2,
+      "quota": 100000,
+      "pct_to_quota": 20.0,
+      "booked": 32,
+      "shown": 16,
+      "close_rate": 6.2,
+      "show_rate": 50.0,
       "is_manager": false,
-      "is_lead": true,
+      "is_lead": false,
       "exclude_meetings": false
     },
     {
@@ -69,20 +83,6 @@
       "shown": 16,
       "close_rate": 8.3,
       "show_rate": 66.7,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
-      "name": "Jason Aaron",
-      "revenue": 19994.0,
-      "deals": 2,
-      "quota": 100000,
-      "pct_to_quota": 20.0,
-      "booked": 32,
-      "shown": 16,
-      "close_rate": 6.2,
-      "show_rate": 50.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
@@ -186,20 +186,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Erick Aguero",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 0,
-      "pct_to_quota": 0,
-      "booked": 4,
-      "shown": 1,
-      "close_rate": 0.0,
-      "show_rate": 25.0,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Vince Bartolini",
       "revenue": 0,
       "deals": 0,
@@ -209,6 +195,20 @@
       "shown": 6,
       "close_rate": 0.0,
       "show_rate": 50.0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Erick Aguero",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 0,
+      "pct_to_quota": 0,
+      "booked": 4,
+      "shown": 1,
+      "close_rate": 0.0,
+      "show_rate": 25.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
