@@ -67,7 +67,6 @@ DEFAULT_TEAM_QUOTA = 1_100_000  # fallback for months not listed
 REP_QUOTAS = {
     "Christian Hartwell": 50_000,
     "Lyle Hubbard": 100_000,
-    "Ategeka Musinguzi": 100_000,
     "Scott Seymour": 100_000,
     "Eric Piccione": 100_000,
     "Jason Aaron": 100_000,
@@ -88,7 +87,7 @@ EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "
 DEALS_ONLY_USERS = {"Kristin Nelson", "Joe Dysert"}
 
 # Revenue and meeting counts toward team totals but rep never appears as a row
-REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni"}
+REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni", "Ategeka Musinguzi"}
 
 # Managers: no quota, show "(mgr)" label, no "Ramping" badge
 MANAGER_USERS = {"Joe Dysert"}
