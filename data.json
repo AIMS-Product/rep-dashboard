@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-14 07:00:15 PDT",
+  "updated_at": "2026-04-14 07:15:11 PDT",
   "month_label": "April 2026",
   "day_of_month": 14,
   "days_in_month": 30,
@@ -7,15 +7,15 @@
   "working_days_elapsed": 10,
   "pct_month_passed": 45.5,
   "team_quota": 1006000,
-  "pct_team_quota": 28.2,
-  "total_revenue": 284104.0,
-  "total_deals": 33,
+  "pct_team_quota": 30.3,
+  "total_revenue": 305101.0,
+  "total_deals": 34,
   "total_booked": 394,
   "total_shown": 213,
-  "team_close_rate": 8.4,
+  "team_close_rate": 8.6,
   "team_show_rate": 54.1,
-  "today_revenue": 0.0,
-  "today_deals": 0,
+  "today_revenue": 20997.0,
+  "today_deals": 2,
   "reps": [
     {
       "name": "Scott Seymour",
@@ -41,6 +41,20 @@
       "shown": 27,
       "close_rate": 11.6,
       "show_rate": 62.8,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Eric Piccione",
+      "revenue": 38988.0,
+      "deals": 4,
+      "quota": 100000,
+      "pct_to_quota": 39.0,
+      "booked": 32,
+      "shown": 24,
+      "close_rate": 12.5,
+      "show_rate": 75.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
@@ -102,20 +116,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Eric Piccione",
-      "revenue": 17991.0,
-      "deals": 3,
-      "quota": 100000,
-      "pct_to_quota": 18.0,
-      "booked": 32,
-      "shown": 24,
-      "close_rate": 9.4,
-      "show_rate": 75.0,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "John Kirk",
       "revenue": 11994.0,
       "deals": 2,
@@ -172,20 +172,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Vince Bartolini",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 75000,
-      "pct_to_quota": 0.0,
-      "booked": 31,
-      "shown": 13,
-      "close_rate": 0.0,
-      "show_rate": 41.9,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Erick Aguero",
       "revenue": 0,
       "deals": 0,
@@ -195,6 +181,20 @@
       "shown": 4,
       "close_rate": 0.0,
       "show_rate": 57.1,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Vince Bartolini",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 75000,
+      "pct_to_quota": 0.0,
+      "booked": 31,
+      "shown": 13,
+      "close_rate": 0.0,
+      "show_rate": 41.9,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
