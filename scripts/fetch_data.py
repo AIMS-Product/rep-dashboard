@@ -4,21 +4,20 @@ Fetch sales data from Close CRM and generate data.json for the GitHub Pages dash
 
 Data collected:
   1. Closed/Won opportunities (MTD + today) -> revenue & deal counts per rep
-  2. Meeting activities classified by title (Option A) -> meetings booked per rep
+  2. Leads with "First Sales Call Booked Date" in current month -> meetings booked per rep
   3. Lead-level "First Call Show Up (Opp)" = "Yes" -> meetings shown per rep
   4. Close rate = deals closed / meetings booked
 
-Meeting methodology (Option A — matches Scorecard):
-  - Paginates ALL meeting activities from Close API (~11,000+)
-  - Converts starts_at UTC -> Pacific time, filters to current month through today
-  - Classifies each title against inclusion/exclusion rules
-  - Fetches leads for qualifying meetings to get Lead Owner, status, and show-up
+Meeting methodology:
+  - Queries leads by "First Sales Call Booked Date" custom field (1st of month through today)
+  - This field is populated by a separate updater script using title classification
+  - One lead = one booked count (field is per-lead, no dedup needed)
   - Excludes leads in "Canceled (by Lead)" or "Outside the US" status
+  - Attribution via Lead Owner custom field
 """
 
 import json
 import os
-import re
 import sys
 import time
 from datetime import datetime, timezone, date, timedelta
@@ -43,6 +42,9 @@ EXCLUDED_LEAD_STATUSES = {
 }
 
 # Custom field IDs (lead object)
+CF_FIRST_SALES_CALL_BOOKED_ID   = "cf_LFdYEQ6bsgp49YjZzefypDmdVx8iwuakWDSLPLpVrBq"
+CF_FIRST_SALES_CALL_BOOKED_NAME = "First Sales Call Booked Date"
+
 CF_FIRST_CALL_SHOW_ID   = "cf_OPyvpU45RdvjLqfm8V1VWwNxrGKogEH2IBJmfCj0Uhq"
 CF_FIRST_CALL_SHOW_NAME = "First Call Show Up (Opp)"
 
@@ -94,12 +96,6 @@ MANAGER_USERS = {"Joe Dysert"}
 
 # Team leads: show "(lead)" label
 LEAD_USERS = {"Christian Hartwell"}
-
-# Users whose meeting activities are never counted (resolved to user_ids at runtime)
-EXCLUDE_MEETING_USER_NAMES = {
-    "Kristin Nelson", "Spencer Reynolds", "Stephen Olivas",
-    "Ahmad Bukhari", "Mallory Kent", "Unknown",
-}
 
 
 # --- API helpers (with rate limiting + 429 retry) ---
@@ -185,106 +181,7 @@ def fetch_closed_won_opportunities(year, month):
     return [o for o in all_opps if o.get("pipeline_id") == PIPELINE_ID]
 
 
-# --- Meeting title classification (matches Scorecard methodology) ---
-
-# Scraper "Next Steps" pattern — must be checked BEFORE generic "Next Steps" exclusion
-_SCRAPER_NEXT_STEPS_RE = re.compile(
-    r"vendingpren[eu]+rs?\s*-?\s*next\s+steps"
-    r"|vendingpreneur\s+next\s+steps",
-    re.IGNORECASE,
-)
-
-_INCLUDED_TITLE_PATTERNS = [
-    re.compile(r"vending\s+strategy\s+call", re.IGNORECASE),
-    re.compile(r"vendingpren[eu]+rs?\s+consultation", re.IGNORECASE),
-    re.compile(r"vendingpren[eu]+rs?\s+strategy\s+call", re.IGNORECASE),
-    re.compile(r"new\s+vendingpren[eu]+r\s+strategy\s+call", re.IGNORECASE),
-    re.compile(r"vending\s+consult\b", re.IGNORECASE),
-    re.compile(r"post\s+masterclass\s+strategy\s+call", re.IGNORECASE),
-]
-
-
-def is_qualifying_meeting(title):
-    """Classify a meeting title. Returns True if it's a qualifying first call.
-
-    Rules applied in order — first match wins.
-    Blank titles are excluded (not a known first-call pattern).
-    """
-    if not title or not title.strip():
-        return False
-
-    stripped = title.strip()
-
-    # Rule 1: Canceled prefix
-    if stripped.startswith("Canceled:"):
-        return False
-
-    t = stripped.lower()
-
-    # Rule 2: Discovery calls (setter, not strategy)
-    if "vending quick discovery" in t:
-        return False
-
-    # Rule 3: Scraper "Next Steps" titles — INCLUDE (before generic exclusion)
-    if _SCRAPER_NEXT_STEPS_RE.search(stripped):
-        return True
-
-    # Rule 4: Follow-ups (generic "next steps" excluded here, after scraper check)
-    for p in ("follow-up", "follow up", "fallow up", "f/u", "next steps"):
-        if p in t:
-            return False
-
-    # Rule 5: Rescheduled
-    if "rescheduled" in t or "reschedule" in t:
-        return False
-
-    # Rule 6: Internal Q&A
-    if "anthony" in t and "q&a" in t:
-        return False
-
-    # Rule 7: Enrollment / onboarding
-    for p in ("enrollment", "silver start up", "bronze enrollment", "questions on enrollment"):
-        if p in t:
-            return False
-
-    # Check inclusion patterns
-    for pattern in _INCLUDED_TITLE_PATTERNS:
-        if pattern.search(stripped):
-            return True
-
-    # Default: not a qualifying first call
-    return False
-
-
-# --- Meeting data (Option A: activity title classification) ---
-
-def fetch_all_meeting_activities():
-    """Paginate ALL meeting activities from Close API.
-
-    Close silently ignores date filters on this endpoint,
-    so we fetch everything and filter by date in Python.
-    """
-    all_meetings = []
-    skip = 0
-    limit = 100
-    page = 0
-
-    while True:
-        page += 1
-        params = {"_skip": str(skip), "_limit": str(limit)}
-        data = api_get("/activity/meeting/", params)
-        meetings = data.get("data", [])
-        all_meetings.extend(meetings)
-
-        if page % 25 == 0:
-            print(f"    ... {len(all_meetings)} meetings ({page} pages)", flush=True)
-
-        if not data.get("has_more", False):
-            break
-        skip += limit
-
-    return all_meetings
-
+# --- Meeting data (field-based: "First Sales Call Booked Date") ---
 
 def get_custom_value(custom_dict, field_id, field_name):
     """Try multiple key formats to get a custom field value from a lead."""
@@ -322,101 +219,48 @@ def resolve_owner_to_name(owner_raw, user_map, name_to_id):
     return owner_str if owner_str else "Unknown"
 
 
-def fetch_meeting_data(year, month, today_str, pst_tz, user_map, name_to_id):
-    """Fetch and classify meeting activities, then look up lead data.
+def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
+    """Query leads by "First Sales Call Booked Date" field for the current month.
 
-    Uses Option A: meeting activity title classification (matches Scorecard).
+    One lead = one booked count. No title classification or dedup needed —
+    the field is per-lead and already reflects the true first booking date.
     Returns (rep_booked, rep_shown) dicts.
     """
-    # Build excluded user_ids from names
-    exclude_uids = set()
-    for name in EXCLUDE_MEETING_USER_NAMES:
-        uid = name_to_id.get(name)
-        if uid:
-            exclude_uids.add(uid)
-    print(f"  Excluding meetings from {len(exclude_uids)} user IDs", flush=True)
+    date_gte = f"{year}-{month:02d}-01"
+    date_lte = today_str  # cap at today, no future-dated counts
 
-    # Step 1: Paginate all meetings
-    print("  Paginating all meeting activities...", flush=True)
-    all_meetings = fetch_all_meeting_activities()
-    print(f"  Fetched {len(all_meetings)} total meetings.", flush=True)
+    query_str = (
+        f'"First Sales Call Booked Date" >= "{date_gte}" '
+        f'"First Sales Call Booked Date" <= "{date_lte}"'
+    )
 
-    # Step 2: Filter by date + user + title
-    date_start = f"{year}-{month:02d}-01"
-    qualifying = []
-    stats = {"title_excluded": 0, "user_excluded": 0, "date_excluded": 0}
+    # Paginate lead query
+    all_leads = []
+    skip = 0
+    limit = 200
 
-    for m in all_meetings:
-        if m.get("user_id") in exclude_uids:
-            stats["user_excluded"] += 1
-            continue
+    while True:
+        params = {
+            "query": query_str,
+            "_skip": str(skip),
+            "_limit": str(limit),
+        }
+        data = api_get("/lead/", params)
+        leads = data.get("data", [])
+        all_leads.extend(leads)
+        if not data.get("has_more", False):
+            break
+        skip += limit
 
-        starts_at = m.get("starts_at", "")
-        if not starts_at:
-            continue
-        try:
-            dt_utc = datetime.fromisoformat(starts_at.replace("Z", "+00:00"))
-            dt_pst = dt_utc.astimezone(pst_tz)
-            meeting_date = dt_pst.strftime("%Y-%m-%d")
-        except (ValueError, TypeError):
-            continue
+    print(f"  Found {len(all_leads)} leads with First Sales Call Booked Date in range.", flush=True)
 
-        if meeting_date < date_start or meeting_date > today_str:
-            stats["date_excluded"] += 1
-            continue
-
-        title = m.get("title", "") or ""
-        if not is_qualifying_meeting(title):
-            stats["title_excluded"] += 1
-            continue
-
-        qualifying.append({
-            "lead_id": m.get("lead_id", ""),
-            "date": meeting_date,
-        })
-
-    print(f"  Classification: {len(qualifying)} qualifying | "
-          f"{stats['title_excluded']} title-excluded | "
-          f"{stats['user_excluded']} user-excluded | "
-          f"{stats['date_excluded']} outside date range", flush=True)
-
-    # Step 3: Fetch unique leads
-    unique_lead_ids = set(q["lead_id"] for q in qualifying if q["lead_id"])
-    print(f"  Fetching {len(unique_lead_ids)} unique leads...", flush=True)
-
-    lead_cache = {}
-    fetched = 0
-    for lid in unique_lead_ids:
-        try:
-            lead_cache[lid] = api_get(f"/lead/{lid}")
-            fetched += 1
-            if fetched % 25 == 0:
-                print(f"    ... {fetched}/{len(unique_lead_ids)} leads", flush=True)
-        except Exception as e:
-            print(f"  Warning: could not fetch lead {lid}: {e}", flush=True)
-
-    # Step 4: Deduplicate by lead_id — most recent meeting wins (matches Capacity Dashboard)
-    lead_best = {}
-    for q in qualifying:
-        lid = q["lead_id"]
-        if not lid:
-            continue
-        if lid not in lead_best or q["date"] > lead_best[lid]["date"]:
-            lead_best[lid] = q
-    deduped = list(lead_best.values())
-    print(f"  Deduplication: {len(qualifying)} meetings → {len(deduped)} unique leads", flush=True)
-
-    # Step 5: Attribute and count
+    # Attribute and count
     rep_booked = {}
     rep_shown = {}
     excluded_status = 0
 
-    for q in deduped:
-        lid = q["lead_id"]
-        lead = lead_cache.get(lid)
-        if not lead:
-            continue
-
+    for lead in all_leads:
+        # Exclude by lead status
         if lead.get("status_id", "") in EXCLUDED_LEAD_STATUSES:
             excluded_status += 1
             continue
@@ -436,12 +280,12 @@ def fetch_meeting_data(year, month, today_str, pst_tz, user_map, name_to_id):
 
         rep_booked[rep_name] = rep_booked.get(rep_name, 0) + 1
 
-        # Shown: already deduped by lead, just check the field
+        # Shown
         show_up = get_custom_value(merged, CF_FIRST_CALL_SHOW_ID, CF_FIRST_CALL_SHOW_NAME)
         if str(show_up).strip().lower() == "yes":
             rep_shown[rep_name] = rep_shown.get(rep_name, 0) + 1
 
-    print(f"  Excluded {excluded_status} meetings (Canceled/Outside US lead status)", flush=True)
+    print(f"  Excluded {excluded_status} leads (Canceled/Outside US status)", flush=True)
     print(f"  Final: {sum(rep_booked.values())} booked, {sum(rep_shown.values())} shown", flush=True)
 
     return rep_booked, rep_shown
@@ -518,9 +362,9 @@ def build_dashboard_data():
             today_revenue += value_dollars
             today_deals += 1
 
-    # Step 3: Meetings (Option A: activity title classification)
-    print("  === Meeting classification (Option A) ===", flush=True)
-    rep_booked, rep_shown = fetch_meeting_data(year, month, today_str, pst, user_map, name_to_id)
+    # Step 3: Meetings (field-based: "First Sales Call Booked Date")
+    print("  === Fetching meeting data (First Sales Call Booked Date field) ===", flush=True)
+    rep_booked, rep_shown = fetch_meeting_data(year, month, today_str, user_map, name_to_id)
     print(f"  Meetings booked by {len(rep_booked)} reps, shown by {len(rep_shown)} reps.", flush=True)
 
     # Step 4: Build per-rep data
@@ -645,6 +489,6 @@ if __name__ == "__main__":
     print(f"   Total Revenue: ${data['total_revenue']:,.2f}")
     print(f"   Today Revenue: ${data['today_revenue']:,.2f}")
     print(f"   Total Deals: {data['total_deals']}")
-    print(f"   Meetings Booked: {data['total_booked']} (title-classified)")
+    print(f"   Meetings Booked: {data['total_booked']} (First Sales Call Booked Date field)")
     print(f"   Meetings Shown: {data['total_shown']}")
     print(f"   Reps tracked: {len(data['reps'])}")
