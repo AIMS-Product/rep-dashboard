@@ -73,10 +73,8 @@ REP_QUOTAS = {
     "Eric Piccione": 100_000,
     "Jason Aaron": 100_000,
     "Robin Perkins": 100_000,
-    "Ryan Jones": 100_000,
     "John Kirk": 100_000,
     "Jake Skinner": 75_000,
-    "Vince Bartolini": 75_000,
     "Elvis Ellis": 75_000,
     "Chris Wanke": 75_000,
 }
@@ -89,7 +87,7 @@ EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "
 DEALS_ONLY_USERS = {"Kristin Nelson", "Joe Dysert"}
 
 # Revenue and meeting counts toward team totals but rep never appears as a row
-REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni", "Ategeka Musinguzi"}
+REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni", "Ategeka Musinguzi", "Ryan Jones", "Vince Bartolini"}
 
 # Managers: no quota, show "(mgr)" label, no "Ramping" badge
 MANAGER_USERS = {"Joe Dysert"}
