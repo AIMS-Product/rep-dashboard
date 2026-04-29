@@ -77,6 +77,10 @@ REP_QUOTAS = {
     "Jake Skinner": 75_000,
     "Elvis Ellis": 75_000,
     "Chris Wanke": 75_000,
+    "Bryan Barcus": 0,
+    "Kelly Schrader": 0,
+    "Steve Starnes": 0,
+    "Cameron Caswell": 0,
 }
 
 # Fully excluded from all dashboard data (revenue, deals, meetings)
@@ -87,7 +91,7 @@ EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "
 DEALS_ONLY_USERS = {"Kristin Nelson", "Joe Dysert"}
 
 # Revenue and meeting counts toward team totals but rep never appears as a row
-REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni", "Ategeka Musinguzi", "Ryan Jones", "Vince Bartolini"}
+REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni", "Ategeka Musinguzi", "Ryan Jones", "Vince Bartolini", "Erick Aguero"}
 
 # Managers: no quota, show "(mgr)" label, no "Ramping" badge
 MANAGER_USERS = {"Joe Dysert"}
