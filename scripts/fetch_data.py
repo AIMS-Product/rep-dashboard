@@ -67,20 +67,22 @@ TEAM_QUOTAS = {
 DEFAULT_TEAM_QUOTA = 1_100_000  # fallback for months not listed
 
 REP_QUOTAS = {
-    "Christian Hartwell": 50_000,
-    "Lyle Hubbard": 100_000,
+    # Lane 1
+    "Christian Hartwell": 50_000,   # lead (half quota)
     "Scott Seymour": 100_000,
-    "Eric Piccione": 100_000,
-    "Jason Aaron": 100_000,
     "Robin Perkins": 100_000,
-    "John Kirk": 100_000,
-    "Jake Skinner": 75_000,
-    "Elvis Ellis": 75_000,
-    "Chris Wanke": 75_000,
-    "Bryan Barcus": 0,
-    "Kelly Schrader": 0,
-    "Steve Starnes": 0,
-    "Cameron Caswell": 0,
+    "Eric Piccione": 100_000,
+    "Chris Wanke": 100_000,
+    "Jake Skinner": 100_000,
+    # Lane 2
+    "Jason Aaron": 25_000,          # lead (ramping quota)
+    "John Kirk": 50_000,
+    "Lyle Hubbard": 50_000,
+    "Elvis Ellis": 50_000,
+    "Bryan Barcus": 25_000,
+    "Kelly Schrader": 25_000,
+    "Steve Starnes": 25_000,
+    "Cameron Caswell": 25_000,
 }
 
 # Fully excluded from all dashboard data (revenue, deals, meetings)
@@ -97,7 +99,7 @@ REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia
 MANAGER_USERS = {"Joe Dysert"}
 
 # Team leads: show "(lead)" label
-LEAD_USERS = {"Christian Hartwell"}
+LEAD_USERS = {"Christian Hartwell", "Jason Aaron"}
 
 
 # --- API helpers (with rate limiting + 429 retry) ---
