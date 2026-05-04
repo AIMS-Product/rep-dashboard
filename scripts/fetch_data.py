@@ -81,7 +81,7 @@ REP_QUOTAS = {
     "Elvis Ellis": 50_000,
     "Bryan Barcus": 25_000,
     "Kelly Schrader": 25_000,
-    "Steve Starnes": 25_000,
+    "Steven Starnes": 25_000,
     "Cameron Caswell": 25_000,
 }
 
