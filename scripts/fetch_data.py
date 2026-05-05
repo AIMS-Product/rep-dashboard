@@ -51,6 +51,11 @@ CF_FIRST_CALL_SHOW_NAME = "First Call Show Up (Opp)"
 CF_LEAD_OWNER_ID         = "cf_gOfS9pFwext58oberEegLyix8hZzeHrxhCZOVh3P3rd"
 CF_LEAD_OWNER_NAME       = "Lead Owner"
 
+CF_BTC_BUSINESS_LINE_ID  = "cf_aJlNlilQZIgLLuhcymNN8fiOzewnFxrbWjLZFPmsucO"
+
+# Allowed BTC Business Line values for REVENUE_ONLY_USERS (blank also allowed)
+ALLOWED_BUSINESS_LINES = {"Vendingpreneurs (VP)", ""}
+
 # Team quota by month (year, month) -> amount
 TEAM_QUOTAS = {
     (2026, 3):  906_000,
@@ -344,12 +349,32 @@ def build_dashboard_data():
     today_revenue = 0.0
     today_deals = 0
     seen_leads = set()
+    lead_bl_cache = {}  # cache lead business line lookups
+    bl_excluded = 0
 
     for opp in opps:
         user_id = opp.get("user_id")
         rep_name = user_map.get(user_id, "Unknown")
         if rep_name in EXCLUDE_USERS:
             continue
+
+        # For REVENUE_ONLY users, check BTC Business Line on the lead
+        # Only count VP or blank — skip BK, AOC, etc.
+        if rep_name in REVENUE_ONLY_USERS:
+            lead_id = opp.get("lead_id", "")
+            if lead_id and lead_id not in lead_bl_cache:
+                try:
+                    lead_data = api_get(f"/lead/{lead_id}")
+                    custom = lead_data.get("custom", {})
+                    bl_val = custom.get("BTC Business Line", custom.get(CF_BTC_BUSINESS_LINE_ID, ""))
+                    lead_bl_cache[lead_id] = str(bl_val).strip() if bl_val else ""
+                except Exception:
+                    lead_bl_cache[lead_id] = ""  # default to blank (allowed)
+
+            bl = lead_bl_cache.get(lead_id, "")
+            if bl not in ALLOWED_BUSINESS_LINES:
+                bl_excluded += 1
+                continue
 
         value_dollars = (opp.get("value", 0) or 0) / 100
         lead_id = opp.get("lead_id", "")
@@ -365,6 +390,9 @@ def build_dashboard_data():
         if date_won == today_str:
             today_revenue += value_dollars
             today_deals += 1
+
+    if bl_excluded:
+        print(f"  Excluded {bl_excluded} opps from REVENUE_ONLY users (non-VP business line)", flush=True)
 
     # Step 3: Meetings (field-based: "First Sales Call Booked Date")
     print("  === Fetching meeting data (First Sales Call Booked Date field) ===", flush=True)
