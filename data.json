@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-15 18:45:10 PDT",
+  "updated_at": "2026-05-15 19:00:11 PDT",
   "month_label": "May 2026",
   "day_of_month": 15,
   "days_in_month": 31,
@@ -7,15 +7,15 @@
   "working_days_elapsed": 11,
   "pct_month_passed": 52.4,
   "team_quota": 1000000,
-  "pct_team_quota": 29.5,
-  "total_revenue": 294792.0,
+  "pct_team_quota": 30.2,
+  "total_revenue": 301792.0,
   "total_deals": 36,
   "total_booked": 657,
   "total_shown": 238,
   "team_close_rate": 5.5,
   "team_show_rate": 36.2,
-  "today_revenue": 18994.0,
-  "today_deals": 2,
+  "today_revenue": 25994.0,
+  "today_deals": 3,
   "reps": [
     {
       "name": "Scott Seymour",
@@ -46,6 +46,20 @@
       "exclude_meetings": false
     },
     {
+      "name": "Jason Aaron",
+      "revenue": 24991.0,
+      "deals": 3,
+      "quota": 25000,
+      "pct_to_quota": 100.0,
+      "booked": 62,
+      "shown": 14,
+      "close_rate": 4.8,
+      "show_rate": 22.6,
+      "is_manager": false,
+      "is_lead": true,
+      "exclude_meetings": false
+    },
+    {
       "name": "Christian Hartwell",
       "revenue": 23388.0,
       "deals": 4,
@@ -55,20 +69,6 @@
       "shown": 16,
       "close_rate": 19.0,
       "show_rate": 76.2,
-      "is_manager": false,
-      "is_lead": true,
-      "exclude_meetings": false
-    },
-    {
-      "name": "Jason Aaron",
-      "revenue": 17991.0,
-      "deals": 3,
-      "quota": 25000,
-      "pct_to_quota": 72.0,
-      "booked": 62,
-      "shown": 14,
-      "close_rate": 4.8,
-      "show_rate": 22.6,
       "is_manager": false,
       "is_lead": true,
       "exclude_meetings": false
@@ -144,20 +144,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Elvis Ellis",
-      "revenue": 8997.0,
-      "deals": 1,
-      "quota": 50000,
-      "pct_to_quota": 18.0,
-      "booked": 48,
-      "shown": 14,
-      "close_rate": 2.1,
-      "show_rate": 29.2,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Jake Skinner",
       "revenue": 8997.0,
       "deals": 1,
@@ -167,6 +153,20 @@
       "shown": 23,
       "close_rate": 2.5,
       "show_rate": 57.5,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Elvis Ellis",
+      "revenue": 8997.0,
+      "deals": 1,
+      "quota": 50000,
+      "pct_to_quota": 18.0,
+      "booked": 48,
+      "shown": 14,
+      "close_rate": 2.1,
+      "show_rate": 29.2,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
