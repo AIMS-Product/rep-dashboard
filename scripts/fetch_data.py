@@ -56,6 +56,12 @@ CF_BTC_BUSINESS_LINE_ID  = "cf_aJlNlilQZIgLLuhcymNN8fiOzewnFxrbWjLZFPmsucO"
 # Allowed BTC Business Line values for REVENUE_ONLY_USERS (blank also allowed)
 ALLOWED_BUSINESS_LINES = {"Vendingpreneurs (VP)", ""}
 
+# Funnel field for meeting exclusions
+CF_FUNNEL_NAME_DEAL_ID  = "cf_xqDQE8fkPsWa0RNEve7hcaxKblCe6489XeZGRDzyPdX"
+
+# Funnels excluded from meeting booked/shown counts
+EXCLUDED_FUNNELS = {"LTF - Quiz Funnel"}
+
 # Team quota by month (year, month) -> amount
 TEAM_QUOTAS = {
     (2026, 3):  906_000,
@@ -77,7 +83,6 @@ REP_QUOTAS = {
     "Scott Seymour": 100_000,
     "Robin Perkins": 100_000,
     "Eric Piccione": 100_000,
-    "Chris Wanke": 100_000,
     "Jake Skinner": 100_000,
     "Dubem Adindu": 100_000,
     # Lane 2
@@ -87,7 +92,6 @@ REP_QUOTAS = {
     "Elvis Ellis": 50_000,
     "Bryan Barcus": 25_000,
     "Kelly Schrader": 25_000,
-    "Steven Starnes": 25_000,
     "Cameron Caswell": 25_000,
 }
 
@@ -99,7 +103,7 @@ EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "
 DEALS_ONLY_USERS = {"Kristin Nelson", "Joe Dysert"}
 
 # Revenue and meeting counts toward team totals but rep never appears as a row
-REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni", "Ategeka Musinguzi", "Ryan Jones", "Vince Bartolini", "Erick Aguero"}
+REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni", "Ategeka Musinguzi", "Ryan Jones", "Vince Bartolini", "Erick Aguero", "Steven Starnes", "Chris Wanke"}
 
 # Managers: no quota, show "(mgr)" label, no "Ramping" badge
 MANAGER_USERS = {"Joe Dysert"}
@@ -268,6 +272,7 @@ def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
     rep_booked = {}
     rep_shown = {}
     excluded_status = 0
+    excluded_funnel = 0
 
     for lead in all_leads:
         # Exclude by lead status
@@ -281,6 +286,12 @@ def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
             if k.startswith("custom."):
                 merged[k] = v
                 merged[k.replace("custom.", "")] = v
+
+        # Exclude by funnel (e.g., LTF - Quiz Funnel)
+        funnel = get_custom_value(merged, CF_FUNNEL_NAME_DEAL_ID, "Funnel Name DEAL (Opp)")
+        if str(funnel).strip() in EXCLUDED_FUNNELS:
+            excluded_funnel += 1
+            continue
 
         owner_raw = get_custom_value(merged, CF_LEAD_OWNER_ID, CF_LEAD_OWNER_NAME)
         rep_name = resolve_owner_to_name(owner_raw, user_map, name_to_id)
@@ -296,6 +307,8 @@ def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
             rep_shown[rep_name] = rep_shown.get(rep_name, 0) + 1
 
     print(f"  Excluded {excluded_status} leads (Canceled/Outside US status)", flush=True)
+    if excluded_funnel:
+        print(f"  Excluded {excluded_funnel} leads (excluded funnel: LTF - Quiz Funnel)", flush=True)
     print(f"  Final: {sum(rep_booked.values())} booked, {sum(rep_shown.values())} shown", flush=True)
 
     return rep_booked, rep_shown
