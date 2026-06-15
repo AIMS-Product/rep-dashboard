@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-14 20:00:18 PDT",
+  "updated_at": "2026-06-14 20:15:19 PDT",
   "month_label": "June 2026",
   "day_of_month": 14,
   "days_in_month": 30,
@@ -43,6 +43,20 @@
       "show_rate": 70.0,
       "is_manager": false,
       "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Christian Hartwell",
+      "revenue": 14994.0,
+      "deals": 2,
+      "quota": 50000,
+      "pct_to_quota": 30.0,
+      "booked": 18,
+      "shown": 13,
+      "close_rate": 11.1,
+      "show_rate": 72.2,
+      "is_manager": false,
+      "is_lead": true,
       "exclude_meetings": false
     },
     {
@@ -99,20 +113,6 @@
       "show_rate": 20.0,
       "is_manager": false,
       "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
-      "name": "Christian Hartwell",
-      "revenue": 14994.0,
-      "deals": 2,
-      "quota": 50000,
-      "pct_to_quota": 30.0,
-      "booked": 18,
-      "shown": 13,
-      "close_rate": 11.1,
-      "show_rate": 72.2,
-      "is_manager": false,
-      "is_lead": true,
       "exclude_meetings": false
     },
     {
