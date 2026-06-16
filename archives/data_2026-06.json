@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-16 11:45:15 PDT",
+  "updated_at": "2026-06-16 12:00:28 PDT",
   "month_label": "June 2026",
   "day_of_month": 16,
   "days_in_month": 30,
@@ -10,10 +10,10 @@
   "pct_team_quota": 26.2,
   "total_revenue": 262389.0,
   "total_deals": 38,
-  "total_booked": 315,
+  "total_booked": 314,
   "total_shown": 218,
   "team_close_rate": 12.1,
-  "team_show_rate": 69.2,
+  "team_show_rate": 69.4,
   "today_revenue": 5997.0,
   "today_deals": 1,
   "reps": [
@@ -32,6 +32,20 @@
       "exclude_meetings": false
     },
     {
+      "name": "Robin Perkins",
+      "revenue": 20991.0,
+      "deals": 3,
+      "quota": 100000,
+      "pct_to_quota": 21.0,
+      "booked": 47,
+      "shown": 37,
+      "close_rate": 6.4,
+      "show_rate": 78.7,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
       "name": "Jake Skinner",
       "revenue": 20991.0,
       "deals": 3,
@@ -41,20 +55,6 @@
       "shown": 16,
       "close_rate": 11.5,
       "show_rate": 61.5,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
-      "name": "Robin Perkins",
-      "revenue": 20991.0,
-      "deals": 3,
-      "quota": 100000,
-      "pct_to_quota": 21.0,
-      "booked": 48,
-      "shown": 37,
-      "close_rate": 6.2,
-      "show_rate": 77.1,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
@@ -88,34 +88,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Lyle Hubbard",
-      "revenue": 14994.0,
-      "deals": 2,
-      "quota": 50000,
-      "pct_to_quota": 30.0,
-      "booked": 15,
-      "shown": 10,
-      "close_rate": 13.3,
-      "show_rate": 66.7,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
-      "name": "Kelly Schrader",
-      "revenue": 14994.0,
-      "deals": 2,
-      "quota": 25000,
-      "pct_to_quota": 60.0,
-      "booked": 19,
-      "shown": 10,
-      "close_rate": 10.5,
-      "show_rate": 52.6,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Christian Hartwell",
       "revenue": 14994.0,
       "deals": 2,
@@ -139,6 +111,34 @@
       "shown": 1,
       "close_rate": 40.0,
       "show_rate": 20.0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Lyle Hubbard",
+      "revenue": 14994.0,
+      "deals": 2,
+      "quota": 50000,
+      "pct_to_quota": 30.0,
+      "booked": 15,
+      "shown": 10,
+      "close_rate": 13.3,
+      "show_rate": 66.7,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Kelly Schrader",
+      "revenue": 14994.0,
+      "deals": 2,
+      "quota": 25000,
+      "pct_to_quota": 60.0,
+      "booked": 19,
+      "shown": 10,
+      "close_rate": 10.5,
+      "show_rate": 52.6,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
