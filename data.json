@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-16 08:15:23 PDT",
+  "updated_at": "2026-06-16 08:30:25 PDT",
   "month_label": "June 2026",
   "day_of_month": 16,
   "days_in_month": 30,
@@ -10,10 +10,10 @@
   "pct_team_quota": 25.6,
   "total_revenue": 256392.0,
   "total_deals": 37,
-  "total_booked": 314,
+  "total_booked": 313,
   "total_shown": 211,
   "team_close_rate": 11.8,
-  "team_show_rate": 67.2,
+  "team_show_rate": 67.4,
   "today_revenue": 0.0,
   "today_deals": 0,
   "reps": [
@@ -27,20 +27,6 @@
       "shown": 36,
       "close_rate": 33.3,
       "show_rate": 80.0,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
-      "name": "Robin Perkins",
-      "revenue": 20991.0,
-      "deals": 3,
-      "quota": 100000,
-      "pct_to_quota": 21.0,
-      "booked": 49,
-      "shown": 36,
-      "close_rate": 6.1,
-      "show_rate": 73.5,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
@@ -60,6 +46,20 @@
       "exclude_meetings": false
     },
     {
+      "name": "Robin Perkins",
+      "revenue": 20991.0,
+      "deals": 3,
+      "quota": 100000,
+      "pct_to_quota": 21.0,
+      "booked": 48,
+      "shown": 36,
+      "close_rate": 6.2,
+      "show_rate": 75.0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
       "name": "Eric Piccione",
       "revenue": 17991.0,
       "deals": 3,
@@ -69,34 +69,6 @@
       "shown": 22,
       "close_rate": 8.8,
       "show_rate": 64.7,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
-      "name": "Elvis Ellis",
-      "revenue": 14994.0,
-      "deals": 2,
-      "quota": 50000,
-      "pct_to_quota": 30.0,
-      "booked": 4,
-      "shown": 1,
-      "close_rate": 50.0,
-      "show_rate": 25.0,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
-      "name": "Kelly Schrader",
-      "revenue": 14994.0,
-      "deals": 2,
-      "quota": 25000,
-      "pct_to_quota": 60.0,
-      "booked": 19,
-      "shown": 10,
-      "close_rate": 10.5,
-      "show_rate": 52.6,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
@@ -125,6 +97,34 @@
       "shown": 10,
       "close_rate": 13.3,
       "show_rate": 66.7,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Kelly Schrader",
+      "revenue": 14994.0,
+      "deals": 2,
+      "quota": 25000,
+      "pct_to_quota": 60.0,
+      "booked": 19,
+      "shown": 10,
+      "close_rate": 10.5,
+      "show_rate": 52.6,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Elvis Ellis",
+      "revenue": 14994.0,
+      "deals": 2,
+      "quota": 50000,
+      "pct_to_quota": 30.0,
+      "booked": 4,
+      "shown": 1,
+      "close_rate": 50.0,
+      "show_rate": 25.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
@@ -186,20 +186,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Luis Galarza",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 0,
-      "pct_to_quota": 0,
-      "booked": 1,
-      "shown": 0,
-      "close_rate": 0.0,
-      "show_rate": 0.0,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Danny Santolaya",
       "revenue": 0,
       "deals": 0,
@@ -209,6 +195,20 @@
       "shown": 2,
       "close_rate": 0.0,
       "show_rate": 50.0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Luis Galarza",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 0,
+      "pct_to_quota": 0,
+      "booked": 1,
+      "shown": 0,
+      "close_rate": 0.0,
+      "show_rate": 0.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
