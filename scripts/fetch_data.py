@@ -85,6 +85,7 @@ REP_QUOTAS = {
     "Eric Piccione": 100_000,
     "Jake Skinner": 100_000,
     "Dubem Adindu": 100_000,
+    "Zac Clover": 0,            # ramping
     # Lane 2
     "Jason Aaron": 25_000,          # lead (ramping quota)
     "Lyle Hubbard": 50_000,
