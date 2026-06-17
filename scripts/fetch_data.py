@@ -154,13 +154,22 @@ def api_get(endpoint, params=None):
 
 def fetch_org_users():
     """Fetch all org users -> dict of user_id: full_name."""
-    data = api_get("/user/")
     users = {}
-    for u in data.get("data", []):
-        first = u.get("first_name", "")
-        last = u.get("last_name", "")
-        full = f"{first} {last}".strip()
-        users[u["id"]] = full
+    skip = 0
+    limit = 100
+
+    while True:
+        params = {"_skip": str(skip), "_limit": str(limit)}
+        data = api_get("/user/", params)
+        for u in data.get("data", []):
+            first = u.get("first_name", "")
+            last = u.get("last_name", "")
+            full = f"{first} {last}".strip()
+            users[u["id"]] = full
+        if not data.get("has_more", False):
+            break
+        skip += limit
+
     return users
 
 
