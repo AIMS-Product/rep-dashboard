@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-18 13:30:16 PDT",
+  "updated_at": "2026-06-18 13:45:12 PDT",
   "month_label": "June 2026",
   "day_of_month": 18,
   "days_in_month": 30,
@@ -11,9 +11,9 @@
   "total_revenue": 301877.0,
   "total_deals": 43,
   "total_booked": 391,
-  "total_shown": 255,
+  "total_shown": 256,
   "team_close_rate": 11.0,
-  "team_show_rate": 65.2,
+  "team_show_rate": 65.5,
   "today_revenue": 8997.0,
   "today_deals": 1,
   "reps": [
@@ -46,20 +46,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Robin Perkins",
-      "revenue": 20991.0,
-      "deals": 3,
-      "quota": 100000,
-      "pct_to_quota": 21.0,
-      "booked": 55,
-      "shown": 43,
-      "close_rate": 5.5,
-      "show_rate": 78.2,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Elvis Ellis",
       "revenue": 20991.0,
       "deals": 3,
@@ -69,6 +55,20 @@
       "shown": 2,
       "close_rate": 50.0,
       "show_rate": 33.3,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Robin Perkins",
+      "revenue": 20991.0,
+      "deals": 3,
+      "quota": 100000,
+      "pct_to_quota": 21.0,
+      "booked": 55,
+      "shown": 43,
+      "close_rate": 5.5,
+      "show_rate": 78.2,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
@@ -116,20 +116,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Christian Hartwell",
-      "revenue": 14994.0,
-      "deals": 2,
-      "quota": 50000,
-      "pct_to_quota": 30.0,
-      "booked": 22,
-      "shown": 16,
-      "close_rate": 9.1,
-      "show_rate": 72.7,
-      "is_manager": false,
-      "is_lead": true,
-      "exclude_meetings": false
-    },
-    {
       "name": "Kelly Schrader",
       "revenue": 14994.0,
       "deals": 2,
@@ -155,6 +141,20 @@
       "show_rate": 72.2,
       "is_manager": false,
       "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Christian Hartwell",
+      "revenue": 14994.0,
+      "deals": 2,
+      "quota": 50000,
+      "pct_to_quota": 30.0,
+      "booked": 22,
+      "shown": 16,
+      "close_rate": 9.1,
+      "show_rate": 72.7,
+      "is_manager": false,
+      "is_lead": true,
       "exclude_meetings": false
     },
     {
@@ -200,29 +200,15 @@
       "exclude_meetings": false
     },
     {
-      "name": "Danny Santolaya",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 0,
-      "pct_to_quota": 0,
-      "booked": 18,
-      "shown": 6,
-      "close_rate": 0.0,
-      "show_rate": 33.3,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Zac Clover",
       "revenue": 0,
       "deals": 0,
       "quota": 0,
       "pct_to_quota": 0,
       "booked": 3,
-      "shown": 0,
+      "shown": 1,
       "close_rate": 0.0,
-      "show_rate": 0.0,
+      "show_rate": 33.3,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
@@ -237,6 +223,20 @@
       "shown": 0,
       "close_rate": 0.0,
       "show_rate": 0.0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Danny Santolaya",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 0,
+      "pct_to_quota": 0,
+      "booked": 18,
+      "shown": 6,
+      "close_rate": 0.0,
+      "show_rate": 33.3,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
