@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-19 11:30:16 PDT",
+  "updated_at": "2026-06-19 11:45:11 PDT",
   "month_label": "June 2026",
   "day_of_month": 19,
   "days_in_month": 30,
@@ -10,10 +10,10 @@
   "pct_team_quota": 33.5,
   "total_revenue": 335371.0,
   "total_deals": 46,
-  "total_booked": 414,
+  "total_booked": 415,
   "total_shown": 270,
   "team_close_rate": 11.1,
-  "team_show_rate": 65.2,
+  "team_show_rate": 65.1,
   "today_revenue": 27497.0,
   "today_deals": 2,
   "reps": [
@@ -74,6 +74,20 @@
       "exclude_meetings": false
     },
     {
+      "name": "Robin Perkins",
+      "revenue": 20991.0,
+      "deals": 3,
+      "quota": 100000,
+      "pct_to_quota": 21.0,
+      "booked": 60,
+      "shown": 46,
+      "close_rate": 5.0,
+      "show_rate": 76.7,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
       "name": "Elvis Ellis",
       "revenue": 20991.0,
       "deals": 3,
@@ -83,20 +97,6 @@
       "shown": 1,
       "close_rate": 60.0,
       "show_rate": 20.0,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
-      "name": "Robin Perkins",
-      "revenue": 20991.0,
-      "deals": 3,
-      "quota": 100000,
-      "pct_to_quota": 21.0,
-      "booked": 59,
-      "shown": 46,
-      "close_rate": 5.1,
-      "show_rate": 78.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
@@ -130,20 +130,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Kelly Schrader",
-      "revenue": 14994.0,
-      "deals": 2,
-      "quota": 25000,
-      "pct_to_quota": 60.0,
-      "booked": 24,
-      "shown": 14,
-      "close_rate": 8.3,
-      "show_rate": 58.3,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Christian Hartwell",
       "revenue": 14994.0,
       "deals": 2,
@@ -155,6 +141,20 @@
       "show_rate": 75.0,
       "is_manager": false,
       "is_lead": true,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Kelly Schrader",
+      "revenue": 14994.0,
+      "deals": 2,
+      "quota": 25000,
+      "pct_to_quota": 60.0,
+      "booked": 24,
+      "shown": 14,
+      "close_rate": 8.3,
+      "show_rate": 58.3,
+      "is_manager": false,
+      "is_lead": false,
       "exclude_meetings": false
     },
     {
@@ -200,20 +200,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Danny Santolaya",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 0,
-      "pct_to_quota": 0,
-      "booked": 21,
-      "shown": 8,
-      "close_rate": 0.0,
-      "show_rate": 38.1,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Zac Clover",
       "revenue": 0,
       "deals": 0,
@@ -237,6 +223,20 @@
       "shown": 0,
       "close_rate": 0.0,
       "show_rate": 0.0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Danny Santolaya",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 0,
+      "pct_to_quota": 0,
+      "booked": 21,
+      "shown": 8,
+      "close_rate": 0.0,
+      "show_rate": 38.1,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
