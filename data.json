@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-18 17:00:17 PDT",
+  "updated_at": "2026-06-18 17:15:12 PDT",
   "month_label": "June 2026",
   "day_of_month": 18,
   "days_in_month": 30,
@@ -11,9 +11,9 @@
   "total_revenue": 301877.0,
   "total_deals": 43,
   "total_booked": 388,
-  "total_shown": 261,
+  "total_shown": 262,
   "team_close_rate": 11.1,
-  "team_show_rate": 67.3,
+  "team_show_rate": 67.5,
   "today_revenue": 8997.0,
   "today_deals": 1,
   "reps": [
@@ -23,10 +23,10 @@
       "deals": 16,
       "quota": 100000,
       "pct_to_quota": 119.0,
-      "booked": 58,
+      "booked": 59,
       "shown": 45,
-      "close_rate": 27.6,
-      "show_rate": 77.6,
+      "close_rate": 27.1,
+      "show_rate": 76.3,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
@@ -46,20 +46,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Elvis Ellis",
-      "revenue": 20991.0,
-      "deals": 3,
-      "quota": 50000,
-      "pct_to_quota": 42.0,
-      "booked": 5,
-      "shown": 1,
-      "close_rate": 60.0,
-      "show_rate": 20.0,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Robin Perkins",
       "revenue": 20991.0,
       "deals": 3,
@@ -69,6 +55,20 @@
       "shown": 45,
       "close_rate": 5.5,
       "show_rate": 81.8,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Elvis Ellis",
+      "revenue": 20991.0,
+      "deals": 3,
+      "quota": 50000,
+      "pct_to_quota": 42.0,
+      "booked": 5,
+      "shown": 1,
+      "close_rate": 60.0,
+      "show_rate": 20.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
@@ -116,6 +116,20 @@
       "exclude_meetings": false
     },
     {
+      "name": "Christian Hartwell",
+      "revenue": 14994.0,
+      "deals": 2,
+      "quota": 50000,
+      "pct_to_quota": 30.0,
+      "booked": 22,
+      "shown": 17,
+      "close_rate": 9.1,
+      "show_rate": 77.3,
+      "is_manager": false,
+      "is_lead": true,
+      "exclude_meetings": false
+    },
+    {
       "name": "Kelly Schrader",
       "revenue": 14994.0,
       "deals": 2,
@@ -141,20 +155,6 @@
       "show_rate": 72.2,
       "is_manager": false,
       "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
-      "name": "Christian Hartwell",
-      "revenue": 14994.0,
-      "deals": 2,
-      "quota": 50000,
-      "pct_to_quota": 30.0,
-      "booked": 22,
-      "shown": 16,
-      "close_rate": 9.1,
-      "show_rate": 72.7,
-      "is_manager": false,
-      "is_lead": true,
       "exclude_meetings": false
     },
     {
@@ -219,7 +219,7 @@
       "deals": 0,
       "quota": 0,
       "pct_to_quota": 0,
-      "booked": 5,
+      "booked": 4,
       "shown": 0,
       "close_rate": 0.0,
       "show_rate": 0.0,
