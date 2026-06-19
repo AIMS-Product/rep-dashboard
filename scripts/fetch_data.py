@@ -89,9 +89,7 @@ REP_QUOTAS = {
     # Lane 2
     "Jason Aaron": 25_000,          # lead (ramping quota)
     "Lyle Hubbard": 50_000,
-    "Elvis Ellis": 50_000,
     "Kelly Schrader": 25_000,
-    "Cameron Caswell": 25_000,
 }
 
 # Fully excluded from all dashboard data (revenue, deals, meetings)
@@ -102,7 +100,7 @@ EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "
 DEALS_ONLY_USERS = {"Kristin Nelson", "Joe Dysert"}
 
 # Revenue and meeting counts toward team totals but rep never appears as a row
-REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni", "Ategeka Musinguzi", "Ryan Jones", "Vince Bartolini", "Erick Aguero", "Steven Starnes", "Chris Wanke", "Bryan Barcus", "John Kirk"}
+REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni", "Ategeka Musinguzi", "Ryan Jones", "Vince Bartolini", "Erick Aguero", "Steven Starnes", "Chris Wanke", "Bryan Barcus", "John Kirk", "Cameron Caswell", "Elvis Ellis"}
 
 # Managers: no quota, show "(mgr)" label, no "Ramping" badge
 MANAGER_USERS = {"Joe Dysert"}
