@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-24 10:30:15 PDT",
+  "updated_at": "2026-06-24 10:45:10 PDT",
   "month_label": "June 2026",
   "day_of_month": 24,
   "days_in_month": 30,
@@ -7,15 +7,15 @@
   "working_days_elapsed": 18,
   "pct_month_passed": 81.8,
   "team_quota": 670000,
-  "pct_team_quota": 58.6,
-  "total_revenue": 392350.0,
-  "total_deals": 53,
+  "pct_team_quota": 59.9,
+  "total_revenue": 401347.0,
+  "total_deals": 54,
   "total_booked": 512,
   "total_shown": 319,
-  "team_close_rate": 10.4,
+  "team_close_rate": 10.5,
   "team_show_rate": 62.3,
-  "today_revenue": 0.0,
-  "today_deals": 0,
+  "today_revenue": 8997.0,
+  "today_deals": 1,
   "reps": [
     {
       "name": "Scott Seymour",
@@ -27,6 +27,20 @@
       "shown": 47,
       "close_rate": 28.8,
       "show_rate": 71.2,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Robin Perkins",
+      "revenue": 35985.0,
+      "deals": 5,
+      "quota": 100000,
+      "pct_to_quota": 36.0,
+      "booked": 68,
+      "shown": 53,
+      "close_rate": 7.4,
+      "show_rate": 77.9,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
@@ -46,20 +60,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Christian Hartwell",
-      "revenue": 29988.0,
-      "deals": 4,
-      "quota": 50000,
-      "pct_to_quota": 60.0,
-      "booked": 32,
-      "shown": 22,
-      "close_rate": 12.5,
-      "show_rate": 68.8,
-      "is_manager": false,
-      "is_lead": true,
-      "exclude_meetings": false
-    },
-    {
       "name": "Jake Skinner",
       "revenue": 29988.0,
       "deals": 4,
@@ -74,17 +74,17 @@
       "exclude_meetings": false
     },
     {
-      "name": "Robin Perkins",
-      "revenue": 26988.0,
+      "name": "Christian Hartwell",
+      "revenue": 29988.0,
       "deals": 4,
-      "quota": 100000,
-      "pct_to_quota": 27.0,
-      "booked": 68,
-      "shown": 53,
-      "close_rate": 5.9,
-      "show_rate": 77.9,
+      "quota": 50000,
+      "pct_to_quota": 60.0,
+      "booked": 32,
+      "shown": 22,
+      "close_rate": 12.5,
+      "show_rate": 68.8,
       "is_manager": false,
-      "is_lead": false,
+      "is_lead": true,
       "exclude_meetings": false
     },
     {
@@ -200,15 +200,15 @@
       "exclude_meetings": false
     },
     {
-      "name": "Luke Herman",
+      "name": "Jacob Hepner",
       "revenue": 0,
       "deals": 0,
       "quota": 0,
       "pct_to_quota": 0,
-      "booked": 12,
-      "shown": 6,
+      "booked": 3,
+      "shown": 0,
       "close_rate": 0.0,
-      "show_rate": 50.0,
+      "show_rate": 0.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
@@ -228,15 +228,15 @@
       "exclude_meetings": false
     },
     {
-      "name": "Jacob Hepner",
+      "name": "Luke Herman",
       "revenue": 0,
       "deals": 0,
       "quota": 0,
       "pct_to_quota": 0,
-      "booked": 3,
-      "shown": 0,
+      "booked": 12,
+      "shown": 6,
       "close_rate": 0.0,
-      "show_rate": 0.0,
+      "show_rate": 50.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
