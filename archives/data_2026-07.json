@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-13 12:30:38 PDT",
+  "updated_at": "2026-07-13 12:45:14 PDT",
   "month_label": "July 2026",
   "day_of_month": 13,
   "days_in_month": 31,
@@ -7,15 +7,15 @@
   "working_days_elapsed": 9,
   "pct_month_passed": 39.1,
   "team_quota": 750000,
-  "pct_team_quota": 33.0,
-  "total_revenue": 247610.0,
-  "total_deals": 33,
-  "total_booked": 291,
-  "total_shown": 167,
-  "team_close_rate": 11.3,
-  "team_show_rate": 57.4,
-  "today_revenue": 38088.0,
-  "today_deals": 4,
+  "pct_team_quota": 33.8,
+  "total_revenue": 253607.0,
+  "total_deals": 34,
+  "total_booked": 292,
+  "total_shown": 168,
+  "team_close_rate": 11.6,
+  "team_show_rate": 57.5,
+  "today_revenue": 44085.0,
+  "today_deals": 5,
   "reps": [
     {
       "name": "Shreya Bechra",
@@ -74,6 +74,20 @@
       "exclude_meetings": false
     },
     {
+      "name": "Robin Perkins",
+      "revenue": 23988.0,
+      "deals": 4,
+      "quota": 100000,
+      "pct_to_quota": 24.0,
+      "booked": 24,
+      "shown": 17,
+      "close_rate": 16.7,
+      "show_rate": 70.8,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
       "name": "Danny Santolaya",
       "revenue": 22191.0,
       "deals": 3,
@@ -102,20 +116,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Robin Perkins",
-      "revenue": 17991.0,
-      "deals": 3,
-      "quota": 100000,
-      "pct_to_quota": 18.0,
-      "booked": 24,
-      "shown": 16,
-      "close_rate": 12.5,
-      "show_rate": 66.7,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Zac Clover",
       "revenue": 15300.0,
       "deals": 3,
@@ -125,34 +125,6 @@
       "shown": 34,
       "close_rate": 4.7,
       "show_rate": 53.1,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
-      "name": "Dubem Adindu",
-      "revenue": 5997.0,
-      "deals": 1,
-      "quota": 100000,
-      "pct_to_quota": 6.0,
-      "booked": 33,
-      "shown": 14,
-      "close_rate": 3.0,
-      "show_rate": 42.4,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
-      "name": "Luke Herman",
-      "revenue": 5997.0,
-      "deals": 1,
-      "quota": 0,
-      "pct_to_quota": 0,
-      "booked": 12,
-      "shown": 9,
-      "close_rate": 8.3,
-      "show_rate": 75.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
@@ -172,6 +144,34 @@
       "exclude_meetings": false
     },
     {
+      "name": "Luke Herman",
+      "revenue": 5997.0,
+      "deals": 1,
+      "quota": 0,
+      "pct_to_quota": 0,
+      "booked": 12,
+      "shown": 9,
+      "close_rate": 8.3,
+      "show_rate": 75.0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Dubem Adindu",
+      "revenue": 5997.0,
+      "deals": 1,
+      "quota": 100000,
+      "pct_to_quota": 6.0,
+      "booked": 34,
+      "shown": 14,
+      "close_rate": 2.9,
+      "show_rate": 41.2,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
       "name": "Jason Aaron",
       "revenue": 0,
       "deals": 0,
@@ -186,20 +186,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Lyle Hubbard",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 50000,
-      "pct_to_quota": 0.0,
-      "booked": 0,
-      "shown": 0,
-      "close_rate": 0,
-      "show_rate": 0,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Luis Galarza",
       "revenue": 0,
       "deals": 0,
@@ -209,6 +195,20 @@
       "shown": 7,
       "close_rate": 0.0,
       "show_rate": 50.0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Lyle Hubbard",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 50000,
+      "pct_to_quota": 0.0,
+      "booked": 0,
+      "shown": 0,
+      "close_rate": 0,
+      "show_rate": 0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
