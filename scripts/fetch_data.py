@@ -98,7 +98,7 @@ EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "
 DEALS_ONLY_USERS = {"Kristin Nelson", "Joe Dysert"}
 
 # Revenue and meeting counts toward team totals but rep never appears as a row
-REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni", "Ategeka Musinguzi", "Ryan Jones", "Vince Bartolini", "Erick Aguero", "Steven Starnes", "Chris Wanke", "Bryan Barcus", "John Kirk", "Cameron Caswell", "Elvis Ellis", "Jacob Hepner", "Jake Skinner", "Lyle Hubbard"}
+REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni", "Ategeka Musinguzi", "Ryan Jones", "Vince Bartolini", "Erick Aguero", "Steven Starnes", "Chris Wanke", "Bryan Barcus", "John Kirk", "Cameron Caswell", "Elvis Ellis", "Jacob Hepner", "Jake Skinner", "Lyle Hubbard", "Luis Galarza"}
 
 # Managers: no quota, show "(mgr)" label, no "Ramping" badge
 MANAGER_USERS = {"Joe Dysert"}
