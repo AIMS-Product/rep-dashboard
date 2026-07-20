@@ -83,12 +83,16 @@ REP_QUOTAS = {
     "Scott Seymour": 100_000,
     "Robin Perkins": 100_000,
     "Eric Piccione": 100_000,
-    "Dubem Adindu": 100_000,
     "Zac Clover": 0,            # ramping
     # Lane 2
+    "Dubem Adindu": 100_000,
     "Jason Aaron": 25_000,          # lead (ramping quota)
     "Kelly Schrader": 25_000,
 }
+
+# Lane 2 reps: shown on board individually but their booked/shown/deals
+# are excluded from team totals (so they don't affect team show/close rates)
+LANE_2_REPS = {"Dubem Adindu", "Jason Aaron", "Kelly Schrader"}
 
 # Fully excluded from all dashboard data (revenue, deals, meetings)
 EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "Spencer Reynolds"}
@@ -459,12 +463,15 @@ def build_dashboard_data():
         })
 
     # Step 5: Team totals (computed from raw dicts, includes REVENUE_ONLY_USERS)
+    # Revenue includes everyone; booked/shown/deals exclude LANE_2_REPS
+    # so team show rate and close rate reflect Lane 1 performance only
     all_counted = set(rep_revenue.keys()) | set(rep_deals.keys()) | set(rep_booked.keys()) | set(rep_shown.keys())
     all_counted -= EXCLUDE_USERS
+    lane1_counted = all_counted - LANE_2_REPS
     total_revenue = round(sum(rep_revenue.get(n, 0) for n in all_counted), 2)
-    total_deals = sum(rep_deals.get(n, 0) for n in all_counted)
-    total_booked = sum(rep_booked.get(n, 0) for n in all_counted)
-    total_shown = sum(rep_shown.get(n, 0) for n in all_counted)
+    total_deals = sum(rep_deals.get(n, 0) for n in lane1_counted)
+    total_booked = sum(rep_booked.get(n, 0) for n in lane1_counted)
+    total_shown = sum(rep_shown.get(n, 0) for n in lane1_counted)
     team_close_rate = round(total_deals / total_booked * 100, 1) if total_booked > 0 else 0
     team_show_rate = round(total_shown / total_booked * 100, 1) if total_booked > 0 else 0
 
