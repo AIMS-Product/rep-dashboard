@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-04 17:30:15 PDT",
+  "updated_at": "2026-08-04 17:45:19 PDT",
   "month_label": "August 2026",
   "day_of_month": 4,
   "days_in_month": 31,
@@ -9,13 +9,13 @@
   "team_quota": 1100000,
   "pct_team_quota": 2.8,
   "total_revenue": 30988.0,
-  "total_deals": 4,
+  "total_deals": 5,
   "total_booked": 51,
-  "total_shown": 28,
-  "team_close_rate": 7.8,
-  "team_show_rate": 54.9,
+  "total_shown": 29,
+  "team_close_rate": 9.8,
+  "team_show_rate": 56.9,
   "today_revenue": 8997.0,
-  "today_deals": 1,
+  "today_deals": 2,
   "reps": [
     {
       "name": "Robin Perkins",
@@ -74,6 +74,20 @@
       "exclude_meetings": false
     },
     {
+      "name": "Luke Herman",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 0,
+      "pct_to_quota": 0,
+      "booked": 4,
+      "shown": 3,
+      "close_rate": 0.0,
+      "show_rate": 75.0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
       "name": "Zac Clover",
       "revenue": 0,
       "deals": 0,
@@ -88,15 +102,29 @@
       "exclude_meetings": false
     },
     {
-      "name": "Luke Herman",
+      "name": "Dubem Adindu",
       "revenue": 0,
       "deals": 0,
+      "quota": 100000,
+      "pct_to_quota": 0.0,
+      "booked": 0,
+      "shown": 0,
+      "close_rate": 0,
+      "show_rate": 0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Joe Vaughan",
+      "revenue": 0.0,
+      "deals": 1,
       "quota": 0,
       "pct_to_quota": 0,
-      "booked": 4,
-      "shown": 3,
-      "close_rate": 0.0,
-      "show_rate": 75.0,
+      "booked": 16,
+      "shown": 7,
+      "close_rate": 6.2,
+      "show_rate": 43.8,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
@@ -130,34 +158,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Joe Vaughan",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 0,
-      "pct_to_quota": 0,
-      "booked": 16,
-      "shown": 6,
-      "close_rate": 0.0,
-      "show_rate": 37.5,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
-      "name": "Eric Piccione",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 5,
-      "shown": 3,
-      "close_rate": 0.0,
-      "show_rate": 60.0,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Kelly Schrader",
       "revenue": 0,
       "deals": 0,
@@ -172,20 +172,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Dubem Adindu",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 0,
-      "shown": 0,
-      "close_rate": 0,
-      "show_rate": 0,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Danny Santolaya",
       "revenue": 0,
       "deals": 0,
@@ -195,6 +181,20 @@
       "shown": 1,
       "close_rate": 0.0,
       "show_rate": 20.0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Eric Piccione",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 100000,
+      "pct_to_quota": 0.0,
+      "booked": 5,
+      "shown": 3,
+      "close_rate": 0.0,
+      "show_rate": 60.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
