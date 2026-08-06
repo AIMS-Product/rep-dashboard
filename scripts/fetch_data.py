@@ -78,21 +78,20 @@ TEAM_QUOTAS = {
 DEFAULT_TEAM_QUOTA = 1_100_000  # fallback for months not listed
 
 REP_QUOTAS = {
-    # Lane 1
     "Christian Hartwell": 50_000,   # lead (half quota)
     "Scott Seymour": 100_000,
     "Robin Perkins": 100_000,
     "Eric Piccione": 100_000,
-    "Zac Clover": 0,            # ramping
-    # Lane 2
-    "Dubem Adindu": 100_000,
-    "Jason Aaron": 25_000,          # lead (ramping quota)
-    "Kelly Schrader": 25_000,
+    "Zac Clover": 100_000,
+    "Joe Vaughan": 100_000,
+    "Shreya Bechra": 100_000,
+    "Luke Herman": 100_000,
+    "Danny Santolaya": 100_000,
 }
 
 # Lane 2 reps: shown on board individually but their booked/shown/deals
 # are excluded from team totals (so they don't affect team show/close rates)
-LANE_2_REPS = {"Dubem Adindu", "Jason Aaron", "Kelly Schrader"}
+LANE_2_REPS = set()  # currently empty — all Lane 2 reps moved to REVENUE_ONLY
 
 # Fully excluded from all dashboard data (revenue, deals, meetings)
 EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "Spencer Reynolds"}
@@ -102,13 +101,13 @@ EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "
 DEALS_ONLY_USERS = {"Kristin Nelson", "Joe Dysert"}
 
 # Revenue and meeting counts toward team totals but rep never appears as a row
-REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni", "Ategeka Musinguzi", "Ryan Jones", "Vince Bartolini", "Erick Aguero", "Steven Starnes", "Chris Wanke", "Bryan Barcus", "John Kirk", "Cameron Caswell", "Elvis Ellis", "Jacob Hepner", "Jake Skinner", "Lyle Hubbard", "Luis Galarza", "Juan Cajina", "William Nowak"}
+REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni", "Ategeka Musinguzi", "Ryan Jones", "Vince Bartolini", "Erick Aguero", "Steven Starnes", "Chris Wanke", "Bryan Barcus", "John Kirk", "Cameron Caswell", "Elvis Ellis", "Jacob Hepner", "Jake Skinner", "Lyle Hubbard", "Luis Galarza", "Juan Cajina", "William Nowak", "Kelly Schrader", "Dubem Adindu", "Jason Aaron"}
 
 # Managers: no quota, show "(mgr)" label, no "Ramping" badge
 MANAGER_USERS = {"Joe Dysert"}
 
 # Team leads: show "(lead)" label
-LEAD_USERS = {"Christian Hartwell", "Jason Aaron"}
+LEAD_USERS = set()  # currently unused
 
 
 # --- API helpers (with rate limiting + 429 retry) ---
