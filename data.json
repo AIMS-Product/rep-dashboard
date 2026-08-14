@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-14 13:45:13 PDT",
+  "updated_at": "2026-08-14 14:00:18 PDT",
   "month_label": "August 2026",
   "day_of_month": 14,
   "days_in_month": 31,
@@ -7,18 +7,23 @@
   "working_days_elapsed": 10,
   "pct_month_passed": 47.6,
   "team_quota": 750000,
-  "pct_team_quota": 21.8,
-  "total_revenue": 163484.0,
-  "total_deals": 24,
+  "pct_team_quota": 23.0,
+  "total_revenue": 172481.0,
+  "total_deals": 25,
   "total_booked": 254,
   "total_shown": 142,
-  "team_close_rate": 9.4,
+  "team_close_rate": 9.8,
   "team_show_rate": 55.9,
-  "today_revenue": 21544.0,
-  "today_deals": 3,
+  "today_revenue": 30541.0,
+  "today_deals": 4,
   "today_closers": [
     {
       "name": "Joe Vaughan",
+      "deals": 1,
+      "total": 8997.0
+    },
+    {
+      "name": "Luke Herman",
       "deals": 1,
       "total": 8997.0
     },
@@ -105,6 +110,20 @@
       "exclude_meetings": false
     },
     {
+      "name": "Luke Herman",
+      "revenue": 17994.0,
+      "deals": 2,
+      "quota": 100000,
+      "pct_to_quota": 18.0,
+      "booked": 28,
+      "shown": 12,
+      "close_rate": 7.1,
+      "show_rate": 42.9,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
       "name": "Joe Dysert",
       "revenue": 9997.0,
       "deals": 2,
@@ -117,20 +136,6 @@
       "is_manager": true,
       "is_lead": false,
       "exclude_meetings": true
-    },
-    {
-      "name": "Luke Herman",
-      "revenue": 8997.0,
-      "deals": 1,
-      "quota": 100000,
-      "pct_to_quota": 9.0,
-      "booked": 28,
-      "shown": 12,
-      "close_rate": 3.6,
-      "show_rate": 42.9,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
     },
     {
       "name": "Danny Santolaya",
