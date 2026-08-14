@@ -139,6 +139,28 @@
     color: var(--text-secondary);
     margin-top: 4px;
   }
+  .kpi-closers {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    min-width: 200px;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .kpi-closers .kpi-label { margin-bottom: 8px; }
+  .closers-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2px 12px;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .closer-name { font-weight: 600; color: var(--text); white-space: nowrap; }
+  .closer-val { font-weight: 700; color: var(--green); text-align: right; white-space: nowrap; }
+  .closer-count { font-weight: 400; color: var(--text-muted); font-size: 10px; }
 
   /* ─── Quota Strip ─── */
   .quota-strip {
@@ -471,6 +493,16 @@
             <div class="kpi-val">${fmtBig$(D.total_revenue)}</div>
             <div class="kpi-sub">${daysLeft} days left</div>
           </div>
+          ${(D.today_closers && D.today_closers.length) ? `
+          <div class="kpi-closers">
+            <div class="kpi-label">Today&rsquo;s Closers</div>
+            <div class="closers-grid">
+              ${D.today_closers.map(c => `
+                <div class="closer-name">${c.name}${c.deals > 1 ? ' <span class="closer-count">x '+c.deals+'</span>' : ''}</div>
+                <div class="closer-val">$${c.total.toLocaleString('en-US',{maximumFractionDigits:0})}</div>
+              `).join('')}
+            </div>
+          </div>` : ''}
         </div>
       </div>`;
 
