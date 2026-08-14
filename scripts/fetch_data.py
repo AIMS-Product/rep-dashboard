@@ -369,6 +369,7 @@ def build_dashboard_data():
     rep_deals = {}
     today_revenue = 0.0
     today_deals = 0
+    today_closers = {}  # rep_name -> list of deal values (for daily closers display)
     seen_leads = set()
     lead_bl_cache = {}  # cache lead business line lookups
     bl_excluded = 0
@@ -411,6 +412,9 @@ def build_dashboard_data():
         if date_won == today_str:
             today_revenue += value_dollars
             today_deals += 1
+            if rep_name not in today_closers:
+                today_closers[rep_name] = []
+            today_closers[rep_name].append(value_dollars)
 
     if bl_excluded:
         print(f"  Excluded {bl_excluded} opps from REVENUE_ONLY users (non-VP business line)", flush=True)
@@ -501,6 +505,10 @@ def build_dashboard_data():
         "team_show_rate": team_show_rate,
         "today_revenue": round(today_revenue, 2),
         "today_deals": today_deals,
+        "today_closers": [
+            {"name": name, "deals": len(vals), "total": round(sum(vals), 2)}
+            for name, vals in sorted(today_closers.items(), key=lambda x: -sum(x[1]))
+        ],
         "reps": reps,
     }
 
