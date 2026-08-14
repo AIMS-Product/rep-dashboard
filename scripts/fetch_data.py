@@ -82,7 +82,6 @@ REP_QUOTAS = {
     "Scott Seymour": 100_000,
     "Robin Perkins": 100_000,
     "Eric Piccione": 100_000,
-    "Zac Clover": 100_000,
     "Joe Vaughan": 100_000,
     "Shreya Bechra": 100_000,
     "Luke Herman": 100_000,
@@ -101,7 +100,7 @@ EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "
 DEALS_ONLY_USERS = {"Kristin Nelson", "Joe Dysert"}
 
 # Revenue and meeting counts toward team totals but rep never appears as a row
-REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni", "Ategeka Musinguzi", "Ryan Jones", "Vince Bartolini", "Erick Aguero", "Steven Starnes", "Chris Wanke", "Bryan Barcus", "John Kirk", "Cameron Caswell", "Elvis Ellis", "Jacob Hepner", "Jake Skinner", "Lyle Hubbard", "Luis Galarza", "Juan Cajina", "William Nowak", "Kelly Schrader", "Dubem Adindu", "Jason Aaron", "Pearl Sathekge"}
+REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni", "Ategeka Musinguzi", "Ryan Jones", "Vince Bartolini", "Erick Aguero", "Steven Starnes", "Chris Wanke", "Bryan Barcus", "John Kirk", "Cameron Caswell", "Elvis Ellis", "Jacob Hepner", "Jake Skinner", "Lyle Hubbard", "Luis Galarza", "Juan Cajina", "William Nowak", "Kelly Schrader", "Dubem Adindu", "Jason Aaron", "Pearl Sathekge", "Zac Clover", "Adam Wolfe", "Jacob Herbig"}
 
 # Managers: no quota, show "(mgr)" label, no "Ramping" badge
 MANAGER_USERS = {"Joe Dysert"}
