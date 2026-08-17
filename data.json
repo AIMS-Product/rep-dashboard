@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-17 10:00:18 PDT",
+  "updated_at": "2026-08-17 10:45:14 PDT",
   "month_label": "August 2026",
   "day_of_month": 17,
   "days_in_month": 31,
@@ -7,16 +7,22 @@
   "working_days_elapsed": 11,
   "pct_month_passed": 52.4,
   "team_quota": 750000,
-  "pct_team_quota": 23.8,
-  "total_revenue": 178478.0,
-  "total_deals": 26,
+  "pct_team_quota": 25.0,
+  "total_revenue": 187475.0,
+  "total_deals": 27,
   "total_booked": 282,
   "total_shown": 155,
-  "team_close_rate": 9.2,
+  "team_close_rate": 9.6,
   "team_show_rate": 55.0,
-  "today_revenue": 0.0,
-  "today_deals": 0,
-  "today_closers": [],
+  "today_revenue": 8997.0,
+  "today_deals": 1,
+  "today_closers": [
+    {
+      "name": "Robin Perkins",
+      "deals": 1,
+      "total": 8997.0
+    }
+  ],
   "reps": [
     {
       "name": "Shreya Bechra",
@@ -28,6 +34,20 @@
       "shown": 32,
       "close_rate": 11.5,
       "show_rate": 61.5,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Robin Perkins",
+      "revenue": 31991.0,
+      "deals": 4,
+      "quota": 100000,
+      "pct_to_quota": 32.0,
+      "booked": 17,
+      "shown": 12,
+      "close_rate": 23.5,
+      "show_rate": 70.6,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
@@ -89,20 +109,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Robin Perkins",
-      "revenue": 22994.0,
-      "deals": 3,
-      "quota": 100000,
-      "pct_to_quota": 23.0,
-      "booked": 17,
-      "shown": 12,
-      "close_rate": 17.6,
-      "show_rate": 70.6,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Joe Dysert",
       "revenue": 9997.0,
       "deals": 2,
@@ -117,20 +123,6 @@
       "exclude_meetings": true
     },
     {
-      "name": "Danny Santolaya",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 24,
-      "shown": 14,
-      "close_rate": 0.0,
-      "show_rate": 58.3,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Eric Piccione",
       "revenue": 0,
       "deals": 0,
@@ -140,6 +132,20 @@
       "shown": 20,
       "close_rate": 0.0,
       "show_rate": 74.1,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Danny Santolaya",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 100000,
+      "pct_to_quota": 0.0,
+      "booked": 24,
+      "shown": 14,
+      "close_rate": 0.0,
+      "show_rate": 58.3,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
