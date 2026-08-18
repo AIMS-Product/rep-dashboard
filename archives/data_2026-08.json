@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-17 16:45:12 PDT",
+  "updated_at": "2026-08-17 17:00:19 PDT",
   "month_label": "August 2026",
   "day_of_month": 17,
   "days_in_month": 31,
@@ -7,20 +7,25 @@
   "working_days_elapsed": 11,
   "pct_month_passed": 52.4,
   "team_quota": 750000,
-  "pct_team_quota": 25.0,
-  "total_revenue": 187475.0,
-  "total_deals": 27,
+  "pct_team_quota": 25.8,
+  "total_revenue": 193472.0,
+  "total_deals": 28,
   "total_booked": 284,
   "total_shown": 161,
-  "team_close_rate": 9.5,
+  "team_close_rate": 9.9,
   "team_show_rate": 56.7,
-  "today_revenue": 8997.0,
-  "today_deals": 1,
+  "today_revenue": 14994.0,
+  "today_deals": 2,
   "today_closers": [
     {
       "name": "Robin Perkins",
       "deals": 1,
       "total": 8997.0
+    },
+    {
+      "name": "Luke Herman",
+      "deals": 1,
+      "total": 5997.0
     }
   ],
   "reps": [
@@ -67,6 +72,20 @@
       "exclude_meetings": false
     },
     {
+      "name": "Luke Herman",
+      "revenue": 29988.0,
+      "deals": 4,
+      "quota": 100000,
+      "pct_to_quota": 30.0,
+      "booked": 36,
+      "shown": 20,
+      "close_rate": 11.1,
+      "show_rate": 55.6,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
       "name": "Christian Hartwell",
       "revenue": 26991.0,
       "deals": 4,
@@ -95,20 +114,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Luke Herman",
-      "revenue": 23991.0,
-      "deals": 3,
-      "quota": 100000,
-      "pct_to_quota": 24.0,
-      "booked": 36,
-      "shown": 20,
-      "close_rate": 8.3,
-      "show_rate": 55.6,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Joe Dysert",
       "revenue": 9997.0,
       "deals": 2,
@@ -123,15 +128,15 @@
       "exclude_meetings": true
     },
     {
-      "name": "Eric Piccione",
+      "name": "Charlie Ingram",
       "revenue": 0,
       "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 27,
-      "shown": 20,
+      "quota": 0,
+      "pct_to_quota": 0,
+      "booked": 1,
+      "shown": 0,
       "close_rate": 0.0,
-      "show_rate": 74.1,
+      "show_rate": 0.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
@@ -151,20 +156,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Charlie Ingram",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 0,
-      "pct_to_quota": 0,
-      "booked": 1,
-      "shown": 0,
-      "close_rate": 0.0,
-      "show_rate": 0.0,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Danny Santolaya",
       "revenue": 0,
       "deals": 0,
@@ -174,6 +165,20 @@
       "shown": 0,
       "close_rate": 0,
       "show_rate": 0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Eric Piccione",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 100000,
+      "pct_to_quota": 0.0,
+      "booked": 27,
+      "shown": 20,
+      "close_rate": 0.0,
+      "show_rate": 74.1,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
