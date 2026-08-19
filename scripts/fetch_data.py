@@ -85,7 +85,6 @@ REP_QUOTAS = {
     "Joe Vaughan": 100_000,
     "Shreya Bechra": 100_000,
     "Luke Herman": 100_000,
-    "Danny Santolaya": 100_000,
 }
 
 # Lane 2 reps: shown on board individually but their booked/shown/deals
@@ -100,7 +99,11 @@ EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "
 DEALS_ONLY_USERS = {"Kristin Nelson", "Joe Dysert"}
 
 # Revenue and meeting counts toward team totals but rep never appears as a row
-REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni", "Ategeka Musinguzi", "Ryan Jones", "Vince Bartolini", "Erick Aguero", "Steven Starnes", "Chris Wanke", "Bryan Barcus", "John Kirk", "Cameron Caswell", "Elvis Ellis", "Jacob Hepner", "Jake Skinner", "Lyle Hubbard", "Luis Galarza", "Juan Cajina", "William Nowak", "Kelly Schrader", "Dubem Adindu", "Jason Aaron", "Pearl Sathekge", "Zac Clover", "Adam Wolfe", "Jacob Herbig"}
+REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni", "Ategeka Musinguzi", "Ryan Jones", "Vince Bartolini", "Erick Aguero", "Steven Starnes", "Chris Wanke", "Bryan Barcus", "John Kirk", "Cameron Caswell", "Elvis Ellis", "Jacob Hepner", "Jake Skinner", "Lyle Hubbard", "Luis Galarza", "Juan Cajina", "William Nowak", "Kelly Schrader", "Dubem Adindu", "Jason Aaron", "Pearl Sathekge", "Zac Clover", "Adam Wolfe", "Jacob Herbig", "Danny Santolaya"}
+
+# Setters: revenue counts in team totals if any, but call counts (booked/shown) excluded
+# No row on board (also in REVENUE_ONLY behavior but meetings skipped)
+SETTER_USERS = {"August Young", "Charlie Ingram", "Ariella Irvine"}
 
 # Managers: no quota, show "(mgr)" label, no "Ramping" badge
 MANAGER_USERS = {"Joe Dysert"}
@@ -305,6 +308,10 @@ def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
         if rep_name in EXCLUDE_USERS:
             continue
 
+        # Setters: skip from meeting counts (their revenue still counts via opp processing)
+        if rep_name in SETTER_USERS:
+            continue
+
         rep_booked[rep_name] = rep_booked.get(rep_name, 0) + 1
 
         # Shown
@@ -431,6 +438,7 @@ def build_dashboard_data():
     all_rep_names.update(REP_QUOTAS.keys())
     all_rep_names -= EXCLUDE_USERS
     all_rep_names -= REVENUE_ONLY_USERS  # revenue counts in totals but no row
+    all_rep_names -= SETTER_USERS  # revenue in totals, no meeting counts, no row
 
     reps = []
     for name in all_rep_names:
@@ -465,15 +473,14 @@ def build_dashboard_data():
         })
 
     # Step 5: Team totals (computed from raw dicts, includes REVENUE_ONLY_USERS)
-    # Revenue includes everyone; booked/shown/deals exclude LANE_2_REPS
-    # so team show rate and close rate reflect Lane 1 performance only
+    # Revenue includes everyone; booked/shown/deals exclude LANE_2_REPS and SETTER_USERS
     all_counted = set(rep_revenue.keys()) | set(rep_deals.keys()) | set(rep_booked.keys()) | set(rep_shown.keys())
     all_counted -= EXCLUDE_USERS
-    lane1_counted = all_counted - LANE_2_REPS
+    meetings_counted = all_counted - LANE_2_REPS - SETTER_USERS
     total_revenue = round(sum(rep_revenue.get(n, 0) for n in all_counted), 2)
-    total_deals = sum(rep_deals.get(n, 0) for n in lane1_counted)
-    total_booked = sum(rep_booked.get(n, 0) for n in lane1_counted)
-    total_shown = sum(rep_shown.get(n, 0) for n in lane1_counted)
+    total_deals = sum(rep_deals.get(n, 0) for n in meetings_counted)
+    total_booked = sum(rep_booked.get(n, 0) for n in meetings_counted)
+    total_shown = sum(rep_shown.get(n, 0) for n in meetings_counted)
     team_close_rate = round(total_deals / total_booked * 100, 1) if total_booked > 0 else 0
     team_show_rate = round(total_shown / total_booked * 100, 1) if total_booked > 0 else 0
 
