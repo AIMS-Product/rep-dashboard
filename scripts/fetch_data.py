@@ -78,7 +78,7 @@ TEAM_QUOTAS = {
 DEFAULT_TEAM_QUOTA = 750_000  # fallback for months not listed
 
 REP_QUOTAS = {
-    "Christian Hartwell": 50_000,   # lead (half quota)
+    "Christian Hartwell": 100_000,
     "Scott Seymour": 100_000,
     "Robin Perkins": 100_000,
     "Eric Piccione": 100_000,
@@ -103,7 +103,7 @@ REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia
 
 # Setters: revenue counts in team totals if any, but call counts (booked/shown) excluded
 # No row on board (also in REVENUE_ONLY behavior but meetings skipped)
-SETTER_USERS = {"August Young", "Charlie Ingram", "Ariella Irvine"}
+SETTER_USERS = {"August Young", "Charlie Ingram", "Ariella Irvine", "Connor George"}
 
 # Managers: no quota, show "(mgr)" label, no "Ramping" badge
 MANAGER_USERS = {"Joe Dysert"}
