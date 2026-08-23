@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-23 13:45:13 PDT",
+  "updated_at": "2026-08-23 14:00:18 PDT",
   "month_label": "August 2026",
   "day_of_month": 23,
   "days_in_month": 31,
@@ -7,16 +7,22 @@
   "working_days_elapsed": 15,
   "pct_month_passed": 71.4,
   "team_quota": 750000,
-  "pct_team_quota": 37.7,
-  "total_revenue": 282539.0,
-  "total_deals": 40,
+  "pct_team_quota": 38.9,
+  "total_revenue": 291536.0,
+  "total_deals": 41,
   "total_booked": 348,
   "total_shown": 187,
-  "team_close_rate": 11.5,
+  "team_close_rate": 11.8,
   "team_show_rate": 53.7,
-  "today_revenue": 0.0,
-  "today_deals": 0,
-  "today_closers": [],
+  "today_revenue": 8997.0,
+  "today_deals": 1,
+  "today_closers": [
+    {
+      "name": "Joe Vaughan",
+      "deals": 1,
+      "total": 8997.0
+    }
+  ],
   "reps": [
     {
       "name": "Christian Hartwell",
@@ -75,6 +81,20 @@
       "exclude_meetings": false
     },
     {
+      "name": "Joe Vaughan",
+      "revenue": 38988.0,
+      "deals": 4,
+      "quota": 100000,
+      "pct_to_quota": 39.0,
+      "booked": 78,
+      "shown": 25,
+      "close_rate": 5.1,
+      "show_rate": 32.1,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
       "name": "Scott Seymour",
       "revenue": 35985.0,
       "deals": 5,
@@ -84,20 +104,6 @@
       "shown": 4,
       "close_rate": 100.0,
       "show_rate": 80.0,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
-      "name": "Joe Vaughan",
-      "revenue": 29991.0,
-      "deals": 3,
-      "quota": 100000,
-      "pct_to_quota": 30.0,
-      "booked": 78,
-      "shown": 25,
-      "close_rate": 3.8,
-      "show_rate": 32.1,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
