@@ -103,7 +103,7 @@ REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia
 
 # Setters: revenue counts in team totals if any, but call counts (booked/shown) excluded
 # No row on board (also in REVENUE_ONLY behavior but meetings skipped)
-SETTER_USERS = {"August Young", "Charlie Ingram", "Ariella Irvine", "Connor George"}
+SETTER_USERS = {"August Young", "Charlie Ingram", "Ariella Irvine", "Connor George", "Cassie Caraballo"}
 
 # Managers: no quota, show "(mgr)" label, no "Ramping" badge
 MANAGER_USERS = {"Joe Dysert"}
