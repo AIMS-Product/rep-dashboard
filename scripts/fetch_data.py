@@ -430,18 +430,13 @@ def build_dashboard_data():
     rep_booked, rep_shown = fetch_meeting_data(year, month, today_str, user_map, name_to_id)
     print(f"  Meetings booked by {len(rep_booked)} reps, shown by {len(rep_shown)} reps.", flush=True)
 
-    # Step 4: Build per-rep data
-    all_rep_names = set()
-    all_rep_names.update(rep_revenue.keys())
-    all_rep_names.update(rep_deals.keys())
-    all_rep_names.update(rep_booked.keys())
-    all_rep_names.update(REP_QUOTAS.keys())
-    all_rep_names -= EXCLUDE_USERS
-    all_rep_names -= REVENUE_ONLY_USERS  # revenue counts in totals but no row
-    all_rep_names -= SETTER_USERS  # revenue in totals, no meeting counts, no row
+    # Step 4: Build per-rep data (WHITELIST — only approved closers get rows)
+    # Only reps in REP_QUOTAS or DEALS_ONLY_USERS can appear on the board.
+    # Everyone else's data still counts in team totals via raw dicts.
+    approved = set(REP_QUOTAS.keys()) | DEALS_ONLY_USERS
 
     reps = []
-    for name in all_rep_names:
+    for name in approved:
         revenue = rep_revenue.get(name, 0)
         deals = rep_deals.get(name, 0)
         quota = REP_QUOTAS.get(name, 0)
