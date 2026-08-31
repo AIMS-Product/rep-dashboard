@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-31 16:30:15 PDT",
+  "updated_at": "2026-08-31 16:50:15 PDT",
   "month_label": "August 2026",
   "day_of_month": 31,
   "days_in_month": 31,
@@ -7,20 +7,25 @@
   "working_days_elapsed": 21,
   "pct_month_passed": 100.0,
   "team_quota": 750000,
-  "pct_team_quota": 63.0,
-  "total_revenue": 472579.0,
-  "total_deals": 62,
-  "total_booked": 514,
+  "pct_team_quota": 63.8,
+  "total_revenue": 478576.0,
+  "total_deals": 63,
+  "total_booked": 513,
   "total_shown": 282,
-  "team_close_rate": 12.1,
-  "team_show_rate": 54.9,
-  "today_revenue": 11694.0,
-  "today_deals": 2,
+  "team_close_rate": 12.3,
+  "team_show_rate": 55.0,
+  "today_revenue": 17691.0,
+  "today_deals": 3,
   "today_closers": [
     {
       "name": "Christian Hartwell",
       "deals": 2,
       "total": 11694.0
+    },
+    {
+      "name": "Joe Dysert",
+      "deals": 1,
+      "total": 5997.0
     }
   ],
   "reps": [
@@ -30,10 +35,10 @@
       "deals": 15,
       "quota": 100000,
       "pct_to_quota": 98.7,
-      "booked": 101,
+      "booked": 100,
       "shown": 66,
-      "close_rate": 14.9,
-      "show_rate": 65.3,
+      "close_rate": 15.0,
+      "show_rate": 66.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
@@ -81,6 +86,20 @@
       "exclude_meetings": false
     },
     {
+      "name": "Joe Dysert",
+      "revenue": 48785.0,
+      "deals": 7,
+      "quota": 0,
+      "pct_to_quota": 0,
+      "booked": 0,
+      "shown": 0,
+      "close_rate": 0,
+      "show_rate": 0,
+      "is_manager": true,
+      "is_lead": false,
+      "exclude_meetings": true
+    },
+    {
       "name": "Luke Herman",
       "revenue": 48482.0,
       "deals": 6,
@@ -93,20 +112,6 @@
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
-    },
-    {
-      "name": "Joe Dysert",
-      "revenue": 42788.0,
-      "deals": 6,
-      "quota": 0,
-      "pct_to_quota": 0,
-      "booked": 0,
-      "shown": 0,
-      "close_rate": 0,
-      "show_rate": 0,
-      "is_manager": true,
-      "is_lead": false,
-      "exclude_meetings": true
     },
     {
       "name": "Scott Seymour",
