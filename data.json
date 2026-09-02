@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-02 11:30:18 PDT",
+  "updated_at": "2026-09-02 11:45:15 PDT",
   "month_label": "September 2026",
   "day_of_month": 2,
   "days_in_month": 30,
@@ -7,20 +7,25 @@
   "working_days_elapsed": 2,
   "pct_month_passed": 9.1,
   "team_quota": 750000,
-  "pct_team_quota": 2.8,
-  "total_revenue": 21344.0,
-  "total_deals": 3,
-  "total_booked": 40,
+  "pct_team_quota": 3.8,
+  "total_revenue": 28241.0,
+  "total_deals": 4,
+  "total_booked": 39,
   "total_shown": 19,
-  "team_close_rate": 7.5,
-  "team_show_rate": 47.5,
-  "today_revenue": 15347.0,
-  "today_deals": 2,
+  "team_close_rate": 10.3,
+  "team_show_rate": 48.7,
+  "today_revenue": 22244.0,
+  "today_deals": 3,
   "today_closers": [
     {
       "name": "Joe Vaughan",
       "deals": 2,
       "total": 15347.0
+    },
+    {
+      "name": "Shreya Bechra",
+      "deals": 1,
+      "total": 6897.0
     }
   ],
   "reps": [
@@ -30,10 +35,24 @@
       "deals": 2,
       "quota": 100000,
       "pct_to_quota": 15.3,
-      "booked": 8,
+      "booked": 7,
       "shown": 4,
-      "close_rate": 25.0,
-      "show_rate": 50.0,
+      "close_rate": 28.6,
+      "show_rate": 57.1,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Shreya Bechra",
+      "revenue": 6897.0,
+      "deals": 1,
+      "quota": 100000,
+      "pct_to_quota": 6.9,
+      "booked": 6,
+      "shown": 5,
+      "close_rate": 16.7,
+      "show_rate": 83.3,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
@@ -67,6 +86,20 @@
       "exclude_meetings": false
     },
     {
+      "name": "Christian Hartwell",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 100000,
+      "pct_to_quota": 0.0,
+      "booked": 9,
+      "shown": 5,
+      "close_rate": 0.0,
+      "show_rate": 55.6,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
       "name": "Eric Piccione",
       "revenue": 0,
       "deals": 0,
@@ -81,20 +114,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Shreya Bechra",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 6,
-      "shown": 5,
-      "close_rate": 0.0,
-      "show_rate": 83.3,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Scott Seymour",
       "revenue": 0,
       "deals": 0,
@@ -104,20 +123,6 @@
       "shown": 0,
       "close_rate": 0,
       "show_rate": 0,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
-      "name": "Christian Hartwell",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 9,
-      "shown": 5,
-      "close_rate": 0.0,
-      "show_rate": 55.6,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
