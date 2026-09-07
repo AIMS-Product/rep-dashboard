@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-07 10:45:13 PDT",
+  "updated_at": "2026-09-07 11:00:18 PDT",
   "month_label": "September 2026",
   "day_of_month": 7,
   "days_in_month": 30,
@@ -7,26 +7,32 @@
   "working_days_elapsed": 5,
   "pct_month_passed": 22.7,
   "team_quota": 750000,
-  "pct_team_quota": 12.4,
-  "total_revenue": 93014.0,
-  "total_deals": 13,
+  "pct_team_quota": 13.3,
+  "total_revenue": 99911.0,
+  "total_deals": 14,
   "total_booked": 128,
   "total_shown": 63,
-  "team_close_rate": 10.2,
+  "team_close_rate": 10.9,
   "team_show_rate": 49.2,
-  "today_revenue": 0.0,
-  "today_deals": 0,
-  "today_closers": [],
+  "today_revenue": 6897.0,
+  "today_deals": 1,
+  "today_closers": [
+    {
+      "name": "Luke Herman",
+      "deals": 1,
+      "total": 6897.0
+    }
+  ],
   "reps": [
     {
       "name": "Luke Herman",
-      "revenue": 24888.0,
-      "deals": 4,
+      "revenue": 31785.0,
+      "deals": 5,
       "quota": 100000,
-      "pct_to_quota": 24.9,
+      "pct_to_quota": 31.8,
       "booked": 31,
       "shown": 14,
-      "close_rate": 12.9,
+      "close_rate": 16.1,
       "show_rate": 45.2,
       "is_manager": false,
       "is_lead": false,
@@ -103,20 +109,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Scott Seymour",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 0,
-      "shown": 0,
-      "close_rate": 0,
-      "show_rate": 0,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Robin Perkins",
       "revenue": 0,
       "deals": 0,
@@ -126,6 +118,20 @@
       "shown": 0,
       "close_rate": 0.0,
       "show_rate": 0.0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Scott Seymour",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 100000,
+      "pct_to_quota": 0.0,
+      "booked": 0,
+      "shown": 0,
+      "close_rate": 0,
+      "show_rate": 0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
