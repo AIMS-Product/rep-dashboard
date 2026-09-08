@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-08 01:00:20 PDT",
+  "updated_at": "2026-09-08 01:15:13 PDT",
   "month_label": "September 2026",
   "day_of_month": 8,
   "days_in_month": 30,
@@ -7,16 +7,22 @@
   "working_days_elapsed": 6,
   "pct_month_passed": 27.3,
   "team_quota": 750000,
-  "pct_team_quota": 14.2,
-  "total_revenue": 106808.0,
-  "total_deals": 15,
+  "pct_team_quota": 15.4,
+  "total_revenue": 115805.0,
+  "total_deals": 16,
   "total_booked": 144,
   "total_shown": 70,
-  "team_close_rate": 10.4,
+  "team_close_rate": 11.1,
   "team_show_rate": 48.6,
-  "today_revenue": 0.0,
-  "today_deals": 0,
-  "today_closers": [],
+  "today_revenue": 8997.0,
+  "today_deals": 1,
+  "today_closers": [
+    {
+      "name": "Robin Perkins",
+      "deals": 1,
+      "total": 8997.0
+    }
+  ],
   "reps": [
     {
       "name": "Luke Herman",
@@ -89,6 +95,20 @@
       "exclude_meetings": false
     },
     {
+      "name": "Robin Perkins",
+      "revenue": 8997.0,
+      "deals": 1,
+      "quota": 100000,
+      "pct_to_quota": 9.0,
+      "booked": 2,
+      "shown": 0,
+      "close_rate": 50.0,
+      "show_rate": 0.0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
       "name": "Eric Piccione",
       "revenue": 6897.0,
       "deals": 1,
@@ -98,20 +118,6 @@
       "shown": 6,
       "close_rate": 5.3,
       "show_rate": 31.6,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
-      "name": "Robin Perkins",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 2,
-      "shown": 0,
-      "close_rate": 0.0,
-      "show_rate": 0.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
