@@ -245,10 +245,10 @@ def resolve_owner_to_name(owner_raw, user_map, name_to_id):
 
 
 def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
-    """Query leads by "First Sales Call Booked Date" field for the current month.
+    """Source 1: Query leads by "First Sales Call Booked Date" field.
 
-    One lead = one booked count. No title classification or dedup needed —
-    the field is per-lead and already reflects the true first booking date.
+    Covers all funnels EXCEPT Reactivation Scrapers (those use Source 2).
+    One lead = one booked count.
     Returns (rep_booked, rep_shown) dicts.
     """
     date_gte = f"{year}-{month:02d}-01"
@@ -284,6 +284,7 @@ def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
     rep_shown = {}
     excluded_status = 0
     excluded_funnel = 0
+    excluded_scraper = 0
 
     for lead in all_leads:
         # Exclude by lead status
@@ -300,8 +301,14 @@ def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
 
         # Exclude by funnel (e.g., LTF - Quiz Funnel)
         funnel = get_custom_value(merged, CF_FUNNEL_NAME_DEAL_ID, "Funnel Name DEAL (Opp)")
-        if str(funnel).strip() in EXCLUDED_FUNNELS:
+        funnel_str = str(funnel).strip()
+        if funnel_str in EXCLUDED_FUNNELS:
             excluded_funnel += 1
+            continue
+
+        # Skip Reactivation Scrapers — counted via Source 2 (title detection)
+        if funnel_str == "Reactivation Scrapers":
+            excluded_scraper += 1
             continue
 
         owner_raw = get_custom_value(merged, CF_LEAD_OWNER_ID, CF_LEAD_OWNER_NAME)
@@ -321,10 +328,127 @@ def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
         if str(show_up).strip().lower() == "yes":
             rep_shown[rep_name] = rep_shown.get(rep_name, 0) + 1
 
-    print(f"  Excluded {excluded_status} leads (Canceled/Outside US status)", flush=True)
-    if excluded_funnel:
-        print(f"  Excluded {excluded_funnel} leads (excluded funnel: LTF - Quiz Funnel)", flush=True)
-    print(f"  Final: {sum(rep_booked.values())} booked, {sum(rep_shown.values())} shown", flush=True)
+    print(f"  Source 1: {sum(rep_booked.values())} booked, {sum(rep_shown.values())} shown", flush=True)
+    print(f"  Excluded: {excluded_status} status, {excluded_funnel} funnel, {excluded_scraper} scrapers (→ Source 2)", flush=True)
+
+    return rep_booked, rep_shown
+
+
+def fetch_scraper_meeting_data(year, month, today_str, pst_tz, user_map, name_to_id):
+    """Source 2: Count Reactivation Scraper meetings by title detection.
+
+    Paginates all meeting activities and counts every meeting where title
+    contains 'next steps' (case-insensitive) within the MTD window.
+    Unlike Source 1, this counts per-meeting, not per-lead — so a lead
+    with 3 'Next Steps' meetings = 3 booked counts.
+    Returns (rep_booked, rep_shown) dicts.
+    """
+    print("  Paginating all meeting activities for scraper detection...", flush=True)
+
+    # Paginate all meetings
+    all_meetings = []
+    skip = 0
+    limit = 100
+    page = 0
+
+    while True:
+        page += 1
+        params = {"_skip": str(skip), "_limit": str(limit)}
+        data = api_get("/activity/meeting/", params)
+        meetings = data.get("data", [])
+        all_meetings.extend(meetings)
+        if page % 25 == 0:
+            print(f"    ... {len(all_meetings)} meetings ({page} pages)", flush=True)
+        if not data.get("has_more", False):
+            break
+        skip += limit
+
+    print(f"  Fetched {len(all_meetings)} total meetings.", flush=True)
+
+    # Filter: title contains "next steps" + date in range
+    date_start = f"{year}-{month:02d}-01"
+    qualifying = []
+
+    for m in all_meetings:
+        title = m.get("title", "") or ""
+        if "next steps" not in title.lower():
+            continue
+
+        starts_at = m.get("starts_at", "")
+        if not starts_at:
+            continue
+        try:
+            dt_utc = datetime.fromisoformat(starts_at.replace("Z", "+00:00"))
+            dt_pst = dt_utc.astimezone(pst_tz)
+            meeting_date = dt_pst.strftime("%Y-%m-%d")
+        except (ValueError, TypeError):
+            continue
+
+        if meeting_date < date_start or meeting_date > today_str:
+            continue
+
+        qualifying.append({
+            "lead_id": m.get("lead_id", ""),
+            "date": meeting_date,
+        })
+
+    print(f"  Found {len(qualifying)} 'Next Steps' meetings in date range.", flush=True)
+
+    # Fetch unique leads
+    unique_lead_ids = set(q["lead_id"] for q in qualifying if q["lead_id"])
+    print(f"  Fetching {len(unique_lead_ids)} unique leads...", flush=True)
+
+    lead_cache = {}
+    fetched = 0
+    for lid in unique_lead_ids:
+        try:
+            lead_cache[lid] = api_get(f"/lead/{lid}")
+            fetched += 1
+            if fetched % 25 == 0:
+                print(f"    ... {fetched}/{len(unique_lead_ids)} leads", flush=True)
+        except Exception as e:
+            print(f"  Warning: could not fetch lead {lid}: {e}", flush=True)
+
+    # Attribute per meeting (not per lead — scraper counts every meeting)
+    rep_booked = {}
+    rep_shown = {}
+    excluded_status = 0
+
+    for q in qualifying:
+        lid = q["lead_id"]
+        lead = lead_cache.get(lid)
+        if not lead:
+            continue
+
+        if lead.get("status_id", "") in EXCLUDED_LEAD_STATUSES:
+            excluded_status += 1
+            continue
+
+        custom = lead.get("custom", {})
+        merged = dict(custom)
+        for k, v in lead.items():
+            if k.startswith("custom."):
+                merged[k] = v
+                merged[k.replace("custom.", "")] = v
+
+        owner_raw = get_custom_value(merged, CF_LEAD_OWNER_ID, CF_LEAD_OWNER_NAME)
+        rep_name = resolve_owner_to_name(owner_raw, user_map, name_to_id)
+
+        if rep_name in EXCLUDE_USERS:
+            continue
+        if rep_name in SETTER_USERS:
+            continue
+
+        rep_booked[rep_name] = rep_booked.get(rep_name, 0) + 1
+
+        # Shown: if lead showed, all meetings on that lead count as shown
+        show_up = get_custom_value(merged, CF_FIRST_CALL_SHOW_ID, CF_FIRST_CALL_SHOW_NAME)
+        if str(show_up).strip().lower() == "yes":
+            rep_shown[rep_name] = rep_shown.get(rep_name, 0) + 1
+
+    print(f"  Source 2: {sum(rep_booked.values())} booked, {sum(rep_shown.values())} shown", flush=True)
+    if excluded_status:
+        print(f"  Excluded {excluded_status} meetings (Canceled/Outside US lead status)", flush=True)
 
     return rep_booked, rep_shown
 
@@ -427,10 +551,23 @@ def build_dashboard_data():
     if bl_excluded:
         print(f"  Excluded {bl_excluded} opps from REVENUE_ONLY users (non-VP business line)", flush=True)
 
-    # Step 3: Meetings (field-based: "First Sales Call Booked Date")
-    print("  === Fetching meeting data (First Sales Call Booked Date field) ===", flush=True)
+    # Step 3: Meetings — two sources combined
+    # Source 1: FSCBD field (all funnels except Reactivation Scrapers)
+    print("  === Source 1: First Sales Call Booked Date field ===", flush=True)
     rep_booked, rep_shown = fetch_meeting_data(year, month, today_str, user_map, name_to_id)
-    print(f"  Meetings booked by {len(rep_booked)} reps, shown by {len(rep_shown)} reps.", flush=True)
+
+    # Source 2: Title detection for Reactivation Scrapers ("next steps" meetings)
+    print("  === Source 2: Reactivation Scraper title detection ===", flush=True)
+    scraper_booked, scraper_shown = fetch_scraper_meeting_data(year, month, today_str, pst, user_map, name_to_id)
+
+    # Combine both sources
+    for name, count in scraper_booked.items():
+        rep_booked[name] = rep_booked.get(name, 0) + count
+    for name, count in scraper_shown.items():
+        rep_shown[name] = rep_shown.get(name, 0) + count
+
+    print(f"  Combined: {sum(rep_booked.values())} booked, {sum(rep_shown.values())} shown "
+          f"({len(rep_booked)} reps)", flush=True)
 
     # Step 4: Build per-rep data (WHITELIST — only approved closers get rows)
     # Only reps in REP_QUOTAS or DEALS_ONLY_USERS can appear on the board.
