@@ -85,6 +85,8 @@ REP_QUOTAS = {
     "Joe Vaughan": 100_000,
     "Shreya Bechra": 100_000,
     "Luke Herman": 100_000,
+    "Ariella Irvine": 100_000,
+    "Oscar Pugh": 100_000,
 }
 
 # Lane 2 reps: shown on board individually but their booked/shown/deals
@@ -103,7 +105,7 @@ REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia
 
 # Setters: revenue counts in team totals if any, but call counts (booked/shown) excluded
 # No row on board (also in REVENUE_ONLY behavior but meetings skipped)
-SETTER_USERS = {"August Young", "Charlie Ingram", "Ariella Irvine", "Connor George", "Cassie Caraballo"}
+SETTER_USERS = {"August Young", "Charlie Ingram", "Connor George", "Cassie Caraballo"}
 
 # Managers: no quota, show "(mgr)" label, no "Ramping" badge
 MANAGER_USERS = {"Joe Dysert"}
