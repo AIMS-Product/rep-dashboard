@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-09 10:00:18 PDT",
+  "updated_at": "2026-09-09 10:15:15 PDT",
   "month_label": "September 2026",
   "day_of_month": 9,
   "days_in_month": 30,
@@ -7,16 +7,22 @@
   "working_days_elapsed": 7,
   "pct_month_passed": 31.8,
   "team_quota": 750000,
-  "pct_team_quota": 17.4,
-  "total_revenue": 130802.0,
-  "total_deals": 17,
-  "total_booked": 182,
+  "pct_team_quota": 18.2,
+  "total_revenue": 136799.0,
+  "total_deals": 18,
+  "total_booked": 181,
   "total_shown": 87,
-  "team_close_rate": 9.3,
-  "team_show_rate": 47.8,
-  "today_revenue": 0.0,
-  "today_deals": 0,
-  "today_closers": [],
+  "team_close_rate": 9.9,
+  "team_show_rate": 48.1,
+  "today_revenue": 5997.0,
+  "today_deals": 1,
+  "today_closers": [
+    {
+      "name": "Joe Dysert",
+      "deals": 1,
+      "total": 5997.0
+    }
+  ],
   "reps": [
     {
       "name": "Luke Herman",
@@ -61,23 +67,9 @@
       "exclude_meetings": false
     },
     {
-      "name": "Shreya Bechra",
-      "revenue": 19791.0,
-      "deals": 3,
-      "quota": 100000,
-      "pct_to_quota": 19.8,
-      "booked": 27,
-      "shown": 17,
-      "close_rate": 11.1,
-      "show_rate": 63.0,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Joe Dysert",
-      "revenue": 14997.0,
-      "deals": 1,
+      "revenue": 20994.0,
+      "deals": 2,
       "quota": 0,
       "pct_to_quota": 0,
       "booked": 0,
@@ -87,6 +79,20 @@
       "is_manager": true,
       "is_lead": false,
       "exclude_meetings": true
+    },
+    {
+      "name": "Shreya Bechra",
+      "revenue": 19791.0,
+      "deals": 3,
+      "quota": 100000,
+      "pct_to_quota": 19.8,
+      "booked": 26,
+      "shown": 17,
+      "close_rate": 11.5,
+      "show_rate": 65.4,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
     },
     {
       "name": "Christian Hartwell",
