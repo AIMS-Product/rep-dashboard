@@ -248,11 +248,12 @@ def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
     """Source 1: Query leads by "First Sales Call Booked Date" field.
 
     Covers all funnels EXCEPT Reactivation Scrapers (those use Source 2).
-    One lead = one booked count.
+    One lead = one booked count. Full month window (matches MTD Funnel dashboard).
     Returns (rep_booked, rep_shown) dicts.
     """
+    _, last_day = monthrange(year, month)
     date_gte = f"{year}-{month:02d}-01"
-    date_lte = today_str  # cap at today, no future-dated counts
+    date_lte = f"{year}-{month:02d}-{last_day:02d}"  # full month
 
     query_str = (
         f'"First Sales Call Booked Date" >= "{date_gte}" '
@@ -334,11 +335,11 @@ def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
     return rep_booked, rep_shown
 
 
-def fetch_scraper_meeting_data(year, month, today_str, pst_tz, user_map, name_to_id):
+def fetch_scraper_meeting_data(year, month, pst_tz, user_map, name_to_id):
     """Source 2: Count Reactivation Scraper meetings by title detection.
 
     Paginates all meeting activities and counts every meeting where title
-    contains 'next steps' (case-insensitive) within the MTD window.
+    contains 'next steps' (case-insensitive) within the full month window.
     Unlike Source 1, this counts per-meeting, not per-lead — so a lead
     with 3 'Next Steps' meetings = 3 booked counts.
     Returns (rep_booked, rep_shown) dicts.
@@ -365,8 +366,10 @@ def fetch_scraper_meeting_data(year, month, today_str, pst_tz, user_map, name_to
 
     print(f"  Fetched {len(all_meetings)} total meetings.", flush=True)
 
-    # Filter: title contains "next steps" + date in range
+    # Filter: title contains "next steps" + date in full month range
+    _, last_day = monthrange(year, month)
     date_start = f"{year}-{month:02d}-01"
+    date_end = f"{year}-{month:02d}-{last_day:02d}"
     qualifying = []
 
     for m in all_meetings:
@@ -384,7 +387,7 @@ def fetch_scraper_meeting_data(year, month, today_str, pst_tz, user_map, name_to
         except (ValueError, TypeError):
             continue
 
-        if meeting_date < date_start or meeting_date > today_str:
+        if meeting_date < date_start or meeting_date > date_end:
             continue
 
         qualifying.append({
@@ -558,7 +561,7 @@ def build_dashboard_data():
 
     # Source 2: Title detection for Reactivation Scrapers ("next steps" meetings)
     print("  === Source 2: Reactivation Scraper title detection ===", flush=True)
-    scraper_booked, scraper_shown = fetch_scraper_meeting_data(year, month, today_str, pst, user_map, name_to_id)
+    scraper_booked, scraper_shown = fetch_scraper_meeting_data(year, month, pst, user_map, name_to_id)
 
     # Combine both sources
     for name, count in scraper_booked.items():
