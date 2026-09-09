@@ -416,6 +416,7 @@ def fetch_scraper_meeting_data(year, month, pst_tz, user_map, name_to_id):
     rep_booked = {}
     rep_shown = {}
     excluded_status = 0
+    excluded_non_scraper = 0
 
     for q in qualifying:
         lid = q["lead_id"]
@@ -433,6 +434,13 @@ def fetch_scraper_meeting_data(year, month, pst_tz, user_map, name_to_id):
             if k.startswith("custom."):
                 merged[k] = v
                 merged[k.replace("custom.", "")] = v
+
+        # Only count meetings on leads with Funnel = "Reactivation Scrapers"
+        # (matches MTD methodology — closers' own "Next Steps" follow-ups are not scrapers)
+        funnel = get_custom_value(merged, CF_FUNNEL_NAME_DEAL_ID, "Funnel Name DEAL (Opp)")
+        if str(funnel).strip() != "Reactivation Scrapers":
+            excluded_non_scraper += 1
+            continue
 
         owner_raw = get_custom_value(merged, CF_LEAD_OWNER_ID, CF_LEAD_OWNER_NAME)
         rep_name = resolve_owner_to_name(owner_raw, user_map, name_to_id)
@@ -452,6 +460,8 @@ def fetch_scraper_meeting_data(year, month, pst_tz, user_map, name_to_id):
     print(f"  Source 2: {sum(rep_booked.values())} booked, {sum(rep_shown.values())} shown", flush=True)
     if excluded_status:
         print(f"  Excluded {excluded_status} meetings (Canceled/Outside US lead status)", flush=True)
+    if excluded_non_scraper:
+        print(f"  Excluded {excluded_non_scraper} meetings (non-scraper funnel — closer follow-ups)", flush=True)
 
     return rep_booked, rep_shown
 
