@@ -434,10 +434,10 @@ def fetch_scraper_meeting_data(year, month, today_str, pst_tz, user_map, name_to
         owner_raw = get_custom_value(merged, CF_LEAD_OWNER_ID, CF_LEAD_OWNER_NAME)
         rep_name = resolve_owner_to_name(owner_raw, user_map, name_to_id)
 
-        if rep_name in EXCLUDE_USERS:
-            continue
-        if rep_name in SETTER_USERS:
-            continue
+        # RS meetings on setter/excluded-user leads still count toward team total
+        # but are bucketed under a neutral name so no rep row is created for them
+        if rep_name in EXCLUDE_USERS or rep_name in SETTER_USERS:
+            rep_name = "Reactivation Scrapers"
 
         rep_booked[rep_name] = rep_booked.get(rep_name, 0) + 1
 
