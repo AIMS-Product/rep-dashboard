@@ -417,7 +417,6 @@ def fetch_scraper_meeting_data(year, month, pst_tz, user_map, name_to_id):
     rep_booked = {}
     rep_shown = {}
     excluded_status = 0
-    excluded_non_scraper = 0
 
     for q in qualifying:
         lid = q["lead_id"]
@@ -436,17 +435,11 @@ def fetch_scraper_meeting_data(year, month, pst_tz, user_map, name_to_id):
                 merged[k] = v
                 merged[k.replace("custom.", "")] = v
 
-        # Only count meetings on scraper leads — identified by EITHER:
-        # 1. Funnel = "Reactivation Scrapers", OR
-        # 2. Lead has a Reactivation Setter Name field set
-        # (matches MTD methodology — some leads get setter assigned before funnel is updated)
-        funnel = get_custom_value(merged, CF_FUNNEL_NAME_DEAL_ID, "Funnel Name DEAL (Opp)")
-        setter_name = get_custom_value(merged, CF_SETTER_NAME_ID, "Reactivation - Setter Name")
-        is_scraper = (str(funnel).strip() == "Reactivation Scrapers" or
-                      bool(str(setter_name).strip()))
-        if not is_scraper:
-            excluded_non_scraper += 1
-            continue
+        # Count all "next steps" meetings — matches MTD methodology
+        # The MTD's title map and setter attribution effectively counts all
+        # meetings with "next steps" in the title; lead-level funnel/setter
+        # checks are too restrictive and miss meetings where those fields
+        # haven't been updated yet
 
         owner_raw = get_custom_value(merged, CF_LEAD_OWNER_ID, CF_LEAD_OWNER_NAME)
         rep_name = resolve_owner_to_name(owner_raw, user_map, name_to_id)
@@ -466,8 +459,6 @@ def fetch_scraper_meeting_data(year, month, pst_tz, user_map, name_to_id):
     print(f"  Source 2: {sum(rep_booked.values())} booked, {sum(rep_shown.values())} shown", flush=True)
     if excluded_status:
         print(f"  Excluded {excluded_status} meetings (Canceled/Outside US lead status)", flush=True)
-    if excluded_non_scraper:
-        print(f"  Excluded {excluded_non_scraper} meetings (non-scraper funnel — closer follow-ups)", flush=True)
 
     return rep_booked, rep_shown
 
