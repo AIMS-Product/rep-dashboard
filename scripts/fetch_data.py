@@ -59,6 +59,9 @@ ALLOWED_BUSINESS_LINES = {"Vendingpreneurs (VP)", ""}
 # Funnel field for meeting exclusions
 CF_FUNNEL_NAME_DEAL_ID  = "cf_xqDQE8fkPsWa0RNEve7hcaxKblCe6489XeZGRDzyPdX"
 
+# Reactivation Setter Name field — used to identify scraper meetings
+CF_SETTER_NAME_ID = "cf_vz6kNiu4ItFxRA8Y9HKlWIoQMq3TsdaQqKekQ2YuxVk"
+
 # Funnels excluded from meeting booked/shown counts
 EXCLUDED_FUNNELS = {"LTF - Quiz Funnel"}
 
@@ -433,10 +436,15 @@ def fetch_scraper_meeting_data(year, month, pst_tz, user_map, name_to_id):
                 merged[k] = v
                 merged[k.replace("custom.", "")] = v
 
-        # Only count meetings on leads with Funnel = "Reactivation Scrapers"
-        # (matches MTD methodology — closers' own "Next Steps" follow-ups are not scrapers)
+        # Only count meetings on scraper leads — identified by EITHER:
+        # 1. Funnel = "Reactivation Scrapers", OR
+        # 2. Lead has a Reactivation Setter Name field set
+        # (matches MTD methodology — some leads get setter assigned before funnel is updated)
         funnel = get_custom_value(merged, CF_FUNNEL_NAME_DEAL_ID, "Funnel Name DEAL (Opp)")
-        if str(funnel).strip() != "Reactivation Scrapers":
+        setter_name = get_custom_value(merged, CF_SETTER_NAME_ID, "Reactivation - Setter Name")
+        is_scraper = (str(funnel).strip() == "Reactivation Scrapers" or
+                      bool(str(setter_name).strip()))
+        if not is_scraper:
             excluded_non_scraper += 1
             continue
 
