@@ -606,7 +606,7 @@
     app.innerHTML = topBar + quotaStrip + `<div class="boards">${board1}${board2}${board3}</div>` + footer;
   }
 
-  function downloadCSV() {
+  window.downloadCSV = function() {
     if (!window._dashData) return;
     const D = window._dashData;
     const rows = [['Rep','Revenue','Deals','Quota','% to Quota','Booked','Shown','Close Rate','Show Rate']];
