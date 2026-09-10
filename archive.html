@@ -270,6 +270,21 @@
   .footer {
     text-align: center; color: var(--text-dim); font-size: 10px; margin-top: 12px;
   }
+  .dl-btn {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 2px 10px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--dim);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background .15s;
+  }
+  .dl-btn:hover { background: var(--bg); }
 
   @media (max-width: 900px) {
     .top-bar { grid-template-columns: 1fr; justify-items: center; }
@@ -294,7 +309,7 @@
   </div>
 
   <div class="footer">
-    Sales Dashboard Monthly Archives · Data from Close CRM
+    Sales Dashboard Monthly Archives &middot; Data from Close CRM &middot; <a class="dl-btn" onclick="downloadCSV()">⬇ Download CSV</a>
   </div>
 
 </div>
@@ -352,6 +367,7 @@
 
   // ─── Render dashboard from data.json ───
   function renderDashboard(D) {
+    window._dashData = D;
     const el = document.getElementById('dashboard');
     const reps = D.reps || [];
 
@@ -511,6 +527,46 @@
   }
 
   init();
+
+  function downloadCSV() {
+    if (!window._dashData) return;
+    const D = window._dashData;
+    const rows = [['Rep','Revenue','Deals','Quota','% to Quota','Booked','Shown','Close Rate','Show Rate']];
+    const reps = (D.reps || []).slice().sort((a,b) => b.revenue - a.revenue);
+    for (const r of reps) {
+      rows.push([
+        r.name + (r.is_manager ? ' (mgr)' : ''),
+        r.revenue.toFixed(2),
+        r.deals,
+        r.quota || '',
+        r.quota ? r.pct_to_quota + '%' : 'N/A',
+        r.exclude_meetings ? 'N/A' : r.booked,
+        r.exclude_meetings ? 'N/A' : r.shown,
+        r.exclude_meetings ? 'N/A' : r.close_rate + '%',
+        r.exclude_meetings ? 'N/A' : r.show_rate + '%',
+      ]);
+    }
+    rows.push([
+      'TEAM TOTAL',
+      D.total_revenue.toFixed(2),
+      D.total_deals,
+      D.team_quota || '',
+      D.pct_team_quota + '%',
+      D.total_booked,
+      D.total_shown,
+      D.team_close_rate + '%',
+      D.team_show_rate + '%',
+    ]);
+    const csv = rows.map(r => r.map(v => `"${v}"`).join(',')).join('\n');
+    const blob = new Blob([csv], {type: 'text/csv'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const month = (D.month_label || 'archive').toLowerCase().replace(/\s+/g, '-');
+    a.href = url;
+    a.download = `rep-dashboard-${month}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 </script>
 </body>
 </html>
