@@ -315,12 +315,10 @@ def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
         owner_raw = get_custom_value(merged, CF_LEAD_OWNER_ID, CF_LEAD_OWNER_NAME)
         rep_name = resolve_owner_to_name(owner_raw, user_map, name_to_id)
 
-        if rep_name in EXCLUDE_USERS:
-            continue
-
-        # Setters: skip from meeting counts (their revenue still counts via opp processing)
-        if rep_name in SETTER_USERS:
-            continue
+        # Leads owned by excluded users or setters still count toward team totals
+        # but are bucketed under a neutral name so no rep row is created
+        if rep_name in EXCLUDE_USERS or rep_name in SETTER_USERS:
+            rep_name = "Other"
 
         rep_booked[rep_name] = rep_booked.get(rep_name, 0) + 1
 
