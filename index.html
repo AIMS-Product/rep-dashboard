@@ -1,599 +1,653 @@
-#!/usr/bin/env python3
-"""
-Fetch sales data from Close CRM and generate data.json for the GitHub Pages dashboard.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales Performance Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --white: #ffffff;
+    --text: #1a1d23;
+    --text-secondary: #5f6b7a;
+    --text-muted: #8c95a4;
+    --text-faint: #b0b8c6;
+    --border: #e5e7ec;
+    --border-light: #eef0f3;
+    --row-hover: #f8f9fb;
+    --th-bg: #fafbfc;
+    --green: #10b981;
+    --green-bg: #ecfdf5;
+    --teal: #0d9488;
+    --blue: #3b82f6;
+    --amber: #f59e0b;
+    --amber-bg: #fffbeb;
+    --red: #ef4444;
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --mono: 'JetBrains Mono', 'SF Mono', monospace;
+  }
 
-Data collected:
-  1. Closed/Won opportunities (MTD + today) -> revenue & deal counts per rep
-  2. Leads with "First Sales Call Booked Date" in current month -> meetings booked per rep
-  3. Lead-level "First Call Show Up (Opp)" = "Yes" -> meetings shown per rep
-  4. Close rate = deals closed / meetings booked
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-Meeting methodology:
-  - Queries leads by "First Sales Call Booked Date" custom field (1st of month through today)
-  - This field is populated by a separate updater script using title classification
-  - One lead = one booked count (field is per-lead, no dedup needed)
-  - Excludes leads in "Canceled (by Lead)" or "Outside the US" status
-  - Attribution via Lead Owner custom field
-"""
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
 
-import json
-import os
-import sys
-import time
-from datetime import datetime, timezone, date, timedelta
-from urllib.request import Request, urlopen
-from urllib.parse import urlencode
-from urllib.error import HTTPError
-from base64 import b64encode
-from calendar import monthrange
+  .wrap {
+    max-width: 1520px;
+    margin: 0 auto;
+    padding: 28px 28px 48px;
+  }
 
-# --- Configuration ---
+  /* ─── Top Bar (info table | month title | KPI cards) ─── */
+  .top-bar {
+    display: flex;
+    align-items: stretch;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
 
-CLOSE_API_KEY = os.environ.get("CLOSE_API_KEY", "")
-BASE_URL = "https://api.close.com/api/v1"
+  /* Info table (left) */
+  .info-table {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .info-table table { border-collapse: collapse; }
+  .info-table td {
+    padding: 9px 16px;
+    font-size: 12px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .info-table tr:last-child td { border-bottom: none; }
+  .info-table td:first-child {
+    color: var(--text-muted);
+    font-weight: 600;
+    border-right: 1px solid var(--border-light);
+    white-space: nowrap;
+  }
+  .info-table td:last-child {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--text);
+    text-align: right;
+  }
 
-PIPELINE_ID = "pipe_78hyBUVS7IKikGEmstObu1"
-CLOSED_WON_STATUS_ID = "stat_WnFc0uhjcjV0cc3bVzdFVqDz7av6rbsOmOvHUsO6s03"
+  /* Month title (center) */
+  .month-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+  .month-center h1 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+  }
+  .month-center .meta {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
 
-# Lead statuses to EXCLUDE from meeting counts (rep can't control these)
-EXCLUDED_LEAD_STATUSES = {
-    "stat_hWIGHjzyNpl4YjIFSFz3VK4fp2ny10SFJLKAihmo4KT",  # Canceled (by Lead)
-    "stat_YV4ZngDB4IGjLjlOf0YTFEWuKZJ6fhNxVkzQkvKYfdB",  # Outside the US
-}
+  /* KPI cards (right) */
+  .kpi-cards {
+    display: flex;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  .kpi {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 22px;
+    min-width: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .kpi-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .kpi-val {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    line-height: 1.1;
+  }
+  .kpi-sub {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+  .kpi-closers {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    min-width: 200px;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .kpi-closers .kpi-label { margin-bottom: 8px; }
+  .closers-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2px 12px;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .closer-name { font-weight: 600; color: var(--text); white-space: nowrap; }
+  .closer-val { font-weight: 700; color: var(--green); text-align: right; white-space: nowrap; }
+  .closer-count { font-weight: 400; color: var(--text-muted); font-size: 10px; }
 
-# Custom field IDs (lead object)
-CF_FIRST_SALES_CALL_BOOKED_ID   = "cf_LFdYEQ6bsgp49YjZzefypDmdVx8iwuakWDSLPLpVrBq"
-CF_FIRST_SALES_CALL_BOOKED_NAME = "First Sales Call Booked Date"
+  /* ─── Quota Strip ─── */
+  .quota-strip {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 20px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .qs-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .qs-track {
+    flex: 1;
+    height: 8px;
+    background: var(--border-light);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .qs-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--green), var(--teal));
+    transition: width 0.6s ease;
+  }
+  .qs-pct {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--teal);
+    white-space: nowrap;
+  }
+  .qs-detail {
+    font-size: 11px;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
 
-CF_FIRST_CALL_SHOW_ID   = "cf_OPyvpU45RdvjLqfm8V1VWwNxrGKogEH2IBJmfCj0Uhq"
-CF_FIRST_CALL_SHOW_NAME = "First Call Show Up (Opp)"
+  /* ─── Three Board Grid ─── */
+  .boards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .board {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .board-head {
+    padding: 14px 18px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .board-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 1px;
+  }
+  .board-sub {
+    font-size: 10px;
+    color: var(--text-muted);
+  }
 
-CF_LEAD_OWNER_ID         = "cf_gOfS9pFwext58oberEegLyix8hZzeHrxhCZOVh3P3rd"
-CF_LEAD_OWNER_NAME       = "Lead Owner"
+  .board table { width: 100%; border-collapse: collapse; }
+  .board thead th {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: var(--text-muted);
+    text-align: right;
+    padding: 9px 14px;
+    background: var(--th-bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .board thead th:first-child { text-align: left; padding-left: 18px; }
+  .board thead th:last-child { padding-right: 18px; }
 
-CF_BTC_BUSINESS_LINE_ID  = "cf_aJlNlilQZIgLLuhcymNN8fiOzewnFxrbWjLZFPmsucO"
+  .board tbody td {
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    text-align: right;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .board tbody td:first-child { text-align: left; padding-left: 18px; white-space: nowrap; }
+  .board tbody td:last-child { padding-right: 18px; }
+  .board tbody tr:hover { background: var(--row-hover); }
+  .board tbody tr:last-child td { border-bottom: none; }
 
-# Allowed BTC Business Line values for REVENUE_ONLY_USERS (blank also allowed)
-ALLOWED_BUSINESS_LINES = {"Vendingpreneurs (VP)", ""}
+  .board tfoot td {
+    padding: 11px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    border-top: 2px solid var(--border);
+    background: var(--th-bg);
+    text-align: right;
+    color: var(--text);
+  }
+  .board tfoot td:first-child {
+    text-align: left; padding-left: 18px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+  }
+  .board tfoot td:last-child { padding-right: 18px; }
 
-# Funnel field for meeting exclusions
-CF_FUNNEL_NAME_DEAL_ID  = "cf_xqDQE8fkPsWa0RNEve7hcaxKblCe6489XeZGRDzyPdX"
+  /* Rank numbers */
+  .rk {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 19px; height: 19px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 800;
+    margin-right: 7px;
+    font-family: var(--mono);
+    background: var(--border-light);
+    color: var(--text-muted);
+    vertical-align: middle;
+  }
+  .rk-1 { background: #dbeafe; color: var(--blue); }
+  .rk-2, .rk-3 { background: var(--green-bg); color: var(--green); }
 
-# Reactivation Setter Name field — used to identify scraper meetings
-CF_SETTER_NAME_ID = "cf_vz6kNiu4ItFxRA8Y9HKlWIoQMq3TsdaQqKekQ2YuxVk"
+  .rep-name { font-weight: 600; vertical-align: middle; }
+  .mgr-tag { font-size: 9px; font-weight: 600; color: var(--text-muted); margin-left: 4px; vertical-align: middle; }
 
-# Funnels excluded from meeting booked/shown counts
-EXCLUDED_FUNNELS = {"LTF - Quiz Funnel"}
+  /* Goal badge */
+  .goal-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 5px;
+    background: var(--green-bg);
+    color: var(--green);
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .goal-badge::before { content: '✓'; font-size: 8px; }
 
-# Team quota by month (year, month) -> amount
-TEAM_QUOTAS = {
-    (2026, 3):  906_000,
-    (2026, 4):  1_006_000,
-    (2026, 5):  1_000_000,
-    (2026, 6):  670_000,
-    (2026, 7):  750_000,
-    (2026, 8):  750_000,
-    (2026, 9):  750_000,
-    (2026, 10): 750_000,
-    (2026, 11): 750_000,
-    (2026, 12): 750_000,
-}
-DEFAULT_TEAM_QUOTA = 750_000  # fallback for months not listed
+  /* Quota mini bar in revenue board */
+  .q-cell {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+  .q-bar {
+    width: 56px; height: 5px;
+    background: var(--border-light);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .q-bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+  .bg-green { background: var(--green); }
+  .bg-teal { background: var(--teal); }
+  .bg-amber { background: var(--amber); }
+  .bg-red { background: var(--red); }
 
-REP_QUOTAS = {
-    "Christian Hartwell": 100_000,
-    "Scott Seymour": 100_000,
-    "Robin Perkins": 100_000,
-    "Eric Piccione": 100_000,
-    "Joe Vaughan": 100_000,
-    "Shreya Bechra": 100_000,
-    "Luke Herman": 100_000,
-    "Ariella Irvine": 100_000,
-    "Oscar Pugh": 100_000,
-}
+  .pv {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    min-width: 40px;
+    text-align: right;
+  }
+  .t-green { color: var(--green); }
+  .t-teal { color: var(--teal); }
+  .t-amber { color: var(--amber); }
+  .t-red { color: var(--red); }
 
-# Lane 2 reps: shown on board individually but their booked/shown/deals
-# are excluded from team totals (so they don't affect team show/close rates)
-LANE_2_REPS = set()  # currently empty — all Lane 2 reps moved to REVENUE_ONLY
+  /* Rate values */
+  .rv { font-weight: 600; }
+  .rv-g { color: var(--green); }
+  .rv-a { color: var(--amber); }
+  .rv-r { color: var(--red); }
 
-# Fully excluded from all dashboard data (revenue, deals, meetings)
-EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "Spencer Reynolds"}
+  /* ─── Footer ─── */
+  .footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 11px;
+    color: var(--text-faint);
+  }
+  .dl-btn {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 2px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background .15s;
+  }
+  .dl-btn:hover { background: var(--bg); }
 
-# Only appear on dashboard if they have closed deals that month
-# Meeting data N/A'd out — only show on Revenue Closed and Opps Closed
-DEALS_ONLY_USERS = {"Kristin Nelson", "Joe Dysert"}
+  /* ─── Loading ─── */
+  .loading {
+    text-align: center;
+    padding: 100px 24px;
+    color: var(--text-secondary);
+  }
+  .spinner {
+    width: 28px; height: 28px;
+    border: 3px solid var(--border);
+    border-top-color: var(--green);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin: 0 auto 14px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-# Revenue and meeting counts toward team totals but rep never appears as a row
-REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni", "Ategeka Musinguzi", "Ryan Jones", "Vince Bartolini", "Erick Aguero", "Steven Starnes", "Chris Wanke", "Bryan Barcus", "John Kirk", "Cameron Caswell", "Elvis Ellis", "Jacob Hepner", "Jake Skinner", "Lyle Hubbard", "Luis Galarza", "Juan Cajina", "William Nowak", "Kelly Schrader", "Dubem Adindu", "Jason Aaron", "Pearl Sathekge", "Zac Clover", "Adam Wolfe", "Jacob Herbig", "Danny Santolaya"}
+  .fade { opacity: 0; transform: translateY(6px); animation: up 0.35s ease forwards; }
+  .d1 { animation-delay: 0.04s; }
+  .d2 { animation-delay: 0.1s; }
+  @keyframes up { to { opacity: 1; transform: none; } }
 
-# Setters: revenue counts in team totals if any, but call counts (booked/shown) excluded
-# No row on board (also in REVENUE_ONLY behavior but meetings skipped)
-SETTER_USERS = {"August Young", "Charlie Ingram", "Connor George", "Cassie Caraballo"}
+  /* ─── Responsive ─── */
+  @media (max-width: 1200px) {
+    .boards { grid-template-columns: 1fr; }
+    .top-bar { flex-direction: column; align-items: stretch; }
+    .kpi-cards { justify-content: center; }
+    .month-center { padding: 12px 0; }
+  }
+  @media (max-width: 600px) {
+    .wrap { padding: 16px 10px 32px; }
+    .kpi-cards { flex-direction: column; }
+    .kpi { min-width: auto; }
+    .month-center h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
 
-# Managers: no quota, show "(mgr)" label, no "Ramping" badge
-MANAGER_USERS = {"Joe Dysert"}
+<div class="wrap" id="app">
+  <div class="loading"><div class="spinner"></div>Loading dashboard&hellip;</div>
+</div>
 
-# Team leads: show "(lead)" label
-LEAD_USERS = set()  # currently unused
+<script>
+(async function() {
+  const app = document.getElementById('app');
+  try {
+    const r = await fetch('data.json?' + Date.now());
+    if (!r.ok) throw new Error('data.json not found');
+    const D = await r.json();
+    app.innerHTML = '';
+    render(D);
+  } catch (e) {
+    app.innerHTML = `<div class="loading" style="color:var(--red)">Failed to load: ${e.message}</div>`;
+  }
 
+  function fmt$(n) {
+    if (Math.abs(n) >= 1000) return '$' + (n/1000).toFixed(1).replace(/\.0$/,'') + 'K';
+    return '$' + n.toLocaleString('en-US',{maximumFractionDigits:0});
+  }
+  function fmtBig$(n) {
+    if (n >= 1000000) return '$' + (n/1e6).toFixed(2) + 'M';
+    if (n >= 1000) return '$' + (n/1000).toFixed(1) + 'K';
+    return '$' + n.toFixed(0);
+  }
 
-# --- API helpers (with rate limiting + 429 retry) ---
+  function toPST(s) {
+    const cleaned = s.replace(' PST','-08:00').replace(' PDT','-07:00').replace(' UTC','Z').replace(' ','T');
+    const d = new Date(cleaned);
+    if (isNaN(d)) return s;
+    return d.toLocaleString('en-US', {
+      timeZone:'America/Los_Angeles',
+      weekday:'long', year:'numeric', month:'long', day:'numeric',
+      hour:'numeric', minute:'2-digit', hour12:true,
+      timeZoneName:'short'
+    });
+  }
 
-_last_api_call = 0.0
-API_THROTTLE = 0.5  # seconds between API calls
+  function qCol(p) {
+    if (p >= 100) return ['bg-green','t-green'];
+    if (p >= 70)  return ['bg-teal','t-teal'];
+    if (p >= 40)  return ['bg-amber','t-amber'];
+    return ['bg-red','t-red'];
+  }
+  function rc(v,g,o) {
+    if (v >= g) return 'rv rv-g';
+    if (v >= o) return 'rv rv-a';
+    return 'rv rv-r';
+  }
+  function rkC(i) {
+    if (i===0) return 'rk rk-1';
+    if (i<3) return 'rk rk-'+( i+1);
+    return 'rk';
+  }
+  function repLabel(r) {
+    const tag = r.is_manager ? '<span class="mgr-tag">(mgr)</span>' : r.is_lead ? '<span class="mgr-tag">(lead)</span>' : '';
+    return `<span class="rep-name">${r.name}</span>${tag}`;
+  }
 
+  function render(D) {
+    window._dashData = D;
+    const reps = D.reps || [];
+    const remaining = Math.max(0, D.team_quota - D.total_revenue);
+    const daysLeft = D.days_in_month - D.day_of_month;
+    const qPct = Math.min(D.pct_team_quota, 100);
 
-def api_get(endpoint, params=None):
-    """Authenticated GET with rate limiting and 429 backoff."""
-    global _last_api_call
-    elapsed = time.time() - _last_api_call
-    if elapsed < API_THROTTLE:
-        time.sleep(API_THROTTLE - elapsed)
+    // ── TOP BAR
+    const topBar = `
+      <div class="top-bar fade">
+        <div class="info-table">
+          <table>
+            <tr><td>Day in the month</td><td>${D.day_of_month} / ${D.days_in_month}</td></tr>
+            <tr><td>Working days</td><td>${D.working_days_elapsed} / ${D.working_days_total}</td></tr>
+            <tr><td>% of month passed</td><td>${D.pct_month_passed}%</td></tr>
+          </table>
+        </div>
+        <div class="month-center">
+          <h1>${D.month_label}</h1>
+          <div class="meta">${toPST(D.updated_at)}</div>
+        </div>
+        <div class="kpi-cards">
+          <div class="kpi">
+            <div class="kpi-label">Today&rsquo;s Revenue</div>
+            <div class="kpi-val">${fmtBig$(D.today_revenue)}</div>
+            <div class="kpi-sub">${D.today_deals} deal${D.today_deals!==1?'s':''} today</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">MTD Revenue</div>
+            <div class="kpi-val">${fmtBig$(D.total_revenue)}</div>
+            <div class="kpi-sub">${daysLeft} days left</div>
+          </div>
+          ${(D.today_closers && D.today_closers.length) ? `
+          <div class="kpi-closers">
+            <div class="kpi-label">Today&rsquo;s Closers</div>
+            <div class="closers-grid">
+              ${D.today_closers.map(c => `
+                <div class="closer-name">${c.name}${c.deals > 1 ? ' <span class="closer-count">x '+c.deals+'</span>' : ''}</div>
+                <div class="closer-val">$${c.total.toLocaleString('en-US',{maximumFractionDigits:0})}</div>
+              `).join('')}
+            </div>
+          </div>` : ''}
+        </div>
+      </div>`;
 
-    url = f"{BASE_URL}{endpoint}"
-    if params:
-        url = f"{url}?{urlencode(params)}"
+    // ── QUOTA STRIP
+    const quotaStrip = `
+      <div class="quota-strip fade d1">
+        <span class="qs-label">Team Quota</span>
+        <div class="qs-track"><div class="qs-fill" style="width:${qPct}%"></div></div>
+        <span class="qs-pct">${D.pct_team_quota}%</span>
+        <span class="qs-detail">${fmtBig$(D.total_revenue)} / ${fmtBig$(D.team_quota)}</span>
+      </div>`;
 
-    auth = b64encode(f"{CLOSE_API_KEY}:".encode()).decode()
-    headers = {
-        "Authorization": f"Basic {auth}",
-        "Accept": "application/json",
-    }
-
-    max_retries = 3
-    for attempt in range(max_retries):
-        try:
-            _last_api_call = time.time()
-            req = Request(url, headers=headers)
-            with urlopen(req) as resp:
-                return json.loads(resp.read().decode())
-        except HTTPError as e:
-            if e.code == 429 and attempt < max_retries - 1:
-                wait = 2 ** (attempt + 1)
-                print(f"  Rate limited (429), waiting {wait}s...", flush=True)
-                time.sleep(wait)
-                continue
-            body = e.read().decode() if e.fp else ""
-            print(f"API error {e.code} for {url}: {body}", file=sys.stderr, flush=True)
-            raise
-
-
-def fetch_org_users():
-    """Fetch all org users -> dict of user_id: full_name."""
-    users = {}
-    skip = 0
-    limit = 100
-
-    while True:
-        params = {"_skip": str(skip), "_limit": str(limit)}
-        data = api_get("/user/", params)
-        for u in data.get("data", []):
-            first = u.get("first_name", "")
-            last = u.get("last_name", "")
-            full = f"{first} {last}".strip()
-            users[u["id"]] = full
-        if not data.get("has_more", False):
-            break
-        skip += limit
-
-    return users
-
-
-# --- Opportunity data (revenue + deals) ---
-
-def fetch_closed_won_opportunities(year, month):
-    """Fetch all Closed/Won opps in the given month from Sales Pipeline."""
-    _, last_day = monthrange(year, month)
-    date_gte = f"{year}-{month:02d}-01"
-    date_lte = f"{year}-{month:02d}-{last_day:02d}"
-
-    all_opps = []
-    skip = 0
-    limit = 100
-
-    while True:
-        params = {
-            "status_id": CLOSED_WON_STATUS_ID,
-            "date_won__gte": date_gte,
-            "date_won__lte": date_lte,
-            "_skip": str(skip),
-            "_limit": str(limit),
+    // ── BOARD 1: Revenue Closed
+    const revSorted = [...reps].sort((a,b) => b.revenue - a.revenue);
+    const b1Rows = revSorted.map((r,i) => {
+      let qH;
+      if (!r.quota) {
+        if (r.deals > 0) {
+          qH = `<div class="q-cell"><div class="q-bar"><div class="q-bar-fill bg-green" style="width:100%"></div></div><span class="pv t-green">N/A</span></div>`;
+        } else if (r.is_manager) {
+          qH = `<span class="pv" style="color:var(--text-faint)">N/A</span>`;
+        } else {
+          qH = `<span class="pv" style="color:var(--amber)">● Ramping</span>`;
         }
-        data = api_get("/opportunity/", params)
-        opps = data.get("data", [])
-        all_opps.extend(opps)
-        if not data.get("has_more", False):
-            break
-        skip += limit
+      } else {
+        const [bg,tc] = qCol(r.pct_to_quota);
+        const bw = Math.min(r.pct_to_quota, 100);
+        qH = `<div class="q-cell"><div class="q-bar"><div class="q-bar-fill ${bg}" style="width:${bw}%"></div></div><span class="pv ${tc}">${r.pct_to_quota}%</span></div>`;
+      }
+      const badge = (r.quota && r.pct_to_quota >= 100) ? '<span class="goal-badge">At Goal</span>' : '';
+      return `<tr>
+        <td><span class="${rkC(i)}">${i+1}</span>${repLabel(r)}${badge}</td>
+        <td>${fmt$(r.revenue)}</td>
+        <td>${qH}</td>
+      </tr>`;
+    }).join('');
+    const [,tqTc] = qCol(D.pct_team_quota);
+    const board1 = `
+      <div class="board fade d2">
+        <div class="board-head"><div class="board-title">Revenue Closed</div><div class="board-sub">Per rep &middot; % to quota</div></div>
+        <table>
+          <thead><tr><th>Rep</th><th>Revenue</th><th>% Quota</th></tr></thead>
+          <tbody>${b1Rows}</tbody>
+          <tfoot><tr><td>Team Total</td><td>${fmt$(D.total_revenue)}</td><td><span class="pv ${tqTc}">${D.pct_team_quota}%</span></td></tr></tfoot>
+        </table>
+      </div>`;
 
-    return [o for o in all_opps if o.get("pipeline_id") == PIPELINE_ID]
+    // ── BOARD 2: Opps Closed
+    const dealSorted = [...reps].sort((a,b) => b.deals - a.deals);
+    const b2Rows = dealSorted.map((r,i) => `<tr>
+      <td><span class="${rkC(i)}">${i+1}</span>${repLabel(r)}</td>
+      <td>${r.deals}</td>
+      <td>${r.exclude_meetings ? '<span style="color:var(--text-faint)">N/A</span>' : `<span class="${rc(r.close_rate,20,10)}">${r.close_rate}%</span>`}</td>
+    </tr>`).join('');
+    const board2 = `
+      <div class="board fade d2">
+        <div class="board-head"><div class="board-title">Opps Closed</div><div class="board-sub">Deals closed &middot; close rate</div></div>
+        <table>
+          <thead><tr><th>Rep</th><th>Deals</th><th>Close %</th></tr></thead>
+          <tbody>${b2Rows}</tbody>
+          <tfoot><tr><td>Team Total</td><td>${D.total_deals}</td><td><span class="${rc(D.team_close_rate||0,20,10)}">${D.team_close_rate||0}%</span></td></tr></tfoot>
+        </table>
+      </div>`;
 
+    // ── BOARD 3: Meetings Booked / Shown
+    const mtgSorted = [...reps].sort((a,b) => b.booked - a.booked);
+    const na = '<span style="color:var(--text-faint)">N/A</span>';
+    const b3Rows = mtgSorted.map((r,i) => `<tr>
+      <td><span class="${rkC(i)}">${i+1}</span>${repLabel(r)}</td>
+      <td>${r.exclude_meetings ? na : r.booked}</td>
+      <td>${r.exclude_meetings ? na : r.shown}</td>
+      <td>${r.exclude_meetings ? na : `<span class="${rc(r.show_rate,65,45)}">${r.show_rate}%</span>`}</td>
+    </tr>`).join('');
+    const board3 = `
+      <div class="board fade d2">
+        <div class="board-head"><div class="board-title">Meetings Booked / Shown</div><div class="board-sub">New meetings &middot; show rate</div></div>
+        <table>
+          <thead><tr><th>Rep</th><th>Booked</th><th>Shown</th><th>Show %</th></tr></thead>
+          <tbody>${b3Rows}</tbody>
+          <tfoot><tr><td>Team Total</td><td>${D.total_booked}</td><td>${D.total_shown}</td><td><span class="${rc(D.team_show_rate||0,65,45)}">${D.team_show_rate||0}%</span></td></tr></tfoot>
+        </table>
+      </div>`;
 
-# --- Meeting data (field-based: "First Sales Call Booked Date") ---
+    const footer = `<div class="footer fade d2">Data from Close CRM &middot; Auto-updates every 15 minutes Mon&ndash;Fri 7 AM &ndash; 5 PM PST &middot; <a href="archive.html" style="color:var(--text-muted);text-decoration:underline">Monthly Archives</a> &middot; <a class="dl-btn" onclick="downloadCSV()">⬇ Download CSV</a></div>`;
+    app.innerHTML = topBar + quotaStrip + `<div class="boards">${board1}${board2}${board3}</div>` + footer;
+  }
 
-def get_custom_value(custom_dict, field_id, field_name):
-    """Try multiple key formats to get a custom field value from a lead."""
-    val = custom_dict.get(field_name)
-    if val is not None:
-        return val
-    val = custom_dict.get(field_id)
-    if val is not None:
-        return val
-    val = custom_dict.get(f"custom.{field_id}")
-    if val is not None:
-        return val
-    return ""
-
-
-def resolve_owner_to_name(owner_raw, user_map, name_to_id):
-    """Resolve a Lead Owner value (user_id, name, or dict) to a rep name."""
-    if not owner_raw:
-        return "Unknown"
-
-    if isinstance(owner_raw, dict):
-        uid = owner_raw.get("id", "")
-        if uid in user_map:
-            return user_map[uid]
-        return owner_raw.get("name", "Unknown")
-
-    owner_str = str(owner_raw).strip()
-    if owner_str in user_map:
-        return user_map[owner_str]
-    if owner_str in name_to_id:
-        return owner_str
-    for rep_name in REP_QUOTAS:
-        if owner_str == rep_name:
-            return rep_name
-    return owner_str if owner_str else "Unknown"
-
-
-def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
-    """Source 1: Query leads by "First Sales Call Booked Date" field.
-
-    Covers all funnels. Per-rep attribution via Lead Owner field.
-    Team totals come from the MTD dashboard instead.
-    One lead = one booked count. Full month window (matches MTD Funnel dashboard).
-    Returns (rep_booked, rep_shown) dicts.
-    """
-    _, last_day = monthrange(year, month)
-    date_gte = f"{year}-{month:02d}-01"
-    date_lte = f"{year}-{month:02d}-{last_day:02d}"  # full month
-
-    query_str = (
-        f'"First Sales Call Booked Date" >= "{date_gte}" '
-        f'"First Sales Call Booked Date" <= "{date_lte}"'
-    )
-
-    # Paginate lead query
-    all_leads = []
-    skip = 0
-    limit = 200
-
-    while True:
-        params = {
-            "query": query_str,
-            "_skip": str(skip),
-            "_limit": str(limit),
-        }
-        data = api_get("/lead/", params)
-        leads = data.get("data", [])
-        all_leads.extend(leads)
-        if not data.get("has_more", False):
-            break
-        skip += limit
-
-    print(f"  Found {len(all_leads)} leads with First Sales Call Booked Date in range.", flush=True)
-
-    # Attribute and count
-    rep_booked = {}
-    rep_shown = {}
-    excluded_status = 0
-    excluded_funnel = 0
-
-    for lead in all_leads:
-        # Exclude by lead status
-        if lead.get("status_id", "") in EXCLUDED_LEAD_STATUSES:
-            excluded_status += 1
-            continue
-
-        custom = lead.get("custom", {})
-        merged = dict(custom)
-        for k, v in lead.items():
-            if k.startswith("custom."):
-                merged[k] = v
-                merged[k.replace("custom.", "")] = v
-
-        # Exclude by funnel (e.g., LTF - Quiz Funnel)
-        funnel = get_custom_value(merged, CF_FUNNEL_NAME_DEAL_ID, "Funnel Name DEAL (Opp)")
-        funnel_str = str(funnel).strip()
-        if funnel_str in EXCLUDED_FUNNELS:
-            excluded_funnel += 1
-            continue
-
-        owner_raw = get_custom_value(merged, CF_LEAD_OWNER_ID, CF_LEAD_OWNER_NAME)
-        rep_name = resolve_owner_to_name(owner_raw, user_map, name_to_id)
-
-        # Leads owned by excluded users or setters still count toward team totals
-        # but are bucketed under a neutral name so no rep row is created
-        if rep_name in EXCLUDE_USERS or rep_name in SETTER_USERS:
-            rep_name = "Other"
-
-        rep_booked[rep_name] = rep_booked.get(rep_name, 0) + 1
-
-        # Shown
-        show_up = get_custom_value(merged, CF_FIRST_CALL_SHOW_ID, CF_FIRST_CALL_SHOW_NAME)
-        if str(show_up).strip().lower() == "yes":
-            rep_shown[rep_name] = rep_shown.get(rep_name, 0) + 1
-
-    print(f"  Source 1: {sum(rep_booked.values())} booked, {sum(rep_shown.values())} shown", flush=True)
-    print(f"  Excluded: {excluded_status} status, {excluded_funnel} funnel", flush=True)
-
-    return rep_booked, rep_shown
-
-
-def fetch_mtd_totals(year, month):
-    """Fetch team booked/shown totals from the MTD Funnel Dashboard.
-
-    The MTD dashboard is the source of truth for total booked/shown counts.
-    Using its published data guarantees the rep dashboard matches exactly.
-    Returns (total_booked, total_shown) or (None, None) if unavailable.
-    """
-    url = f"https://aims-product.github.io/mtd-funnel-dashboard/archives/data-{year}-{month:02d}.json"
-    print(f"  Fetching MTD totals from: {url}", flush=True)
-
-    try:
-        req = Request(url, headers={"Accept": "application/json"})
-        with urlopen(req, timeout=10) as resp:
-            data = json.loads(resp.read().decode())
-
-        grand = data.get("grand", {})
-        booked = grand.get("booked", 0)
-        shown = grand.get("showed", 0)
-        print(f"  MTD totals: {booked} booked, {shown} shown", flush=True)
-        return booked, shown
-    except Exception as e:
-        print(f"  Warning: could not fetch MTD data ({e}) — using local totals as fallback", flush=True)
-        return None, None
-
-# --- Working days ---
-
-def count_working_days(year, month, up_to_day=None):
-    _, last_day = monthrange(year, month)
-    end_day = min(up_to_day, last_day) if up_to_day else last_day
-    count = 0
-    for d in range(1, end_day + 1):
-        if date(year, month, d).weekday() < 5:
-            count += 1
-    return count
-
-
-# --- Main ---
-
-def build_dashboard_data():
-    if not CLOSE_API_KEY:
-        print("ERROR: CLOSE_API_KEY environment variable not set.", file=sys.stderr)
-        sys.exit(1)
-
-    now_utc = datetime.now(timezone.utc)
-    try:
-        from zoneinfo import ZoneInfo
-        pst = ZoneInfo("America/Los_Angeles")
-    except ImportError:
-        pst = timezone(timedelta(hours=-8))
-    now = now_utc.astimezone(pst)
-
-    year, month, today_day = now.year, now.month, now.day
-    today_str = now.strftime("%Y-%m-%d")
-    _, last_day = monthrange(year, month)
-
-    print(f"Fetching data for {year}-{month:02d} (day {today_day}, {now.strftime('%Z')})...", flush=True)
-
-    # Step 1: User map
-    print("  Fetching org users...", flush=True)
-    user_map = fetch_org_users()
-    name_to_id = {v: k for k, v in user_map.items()}
-    print(f"  Found {len(user_map)} users.", flush=True)
-
-    # Step 2: Closed/Won opportunities
-    print("  Fetching Closed/Won opportunities...", flush=True)
-    opps = fetch_closed_won_opportunities(year, month)
-    print(f"  Found {len(opps)} Closed/Won opportunities.", flush=True)
-
-    rep_revenue = {}
-    rep_deals = {}
-    today_revenue = 0.0
-    today_deals = 0
-    today_closers = {}  # rep_name -> list of deal values (for daily closers display)
-    seen_leads = set()
-    lead_bl_cache = {}  # cache lead business line lookups
-    bl_excluded = 0
-
-    for opp in opps:
-        user_id = opp.get("user_id")
-        rep_name = user_map.get(user_id, "Unknown")
-        if rep_name in EXCLUDE_USERS:
-            continue
-
-        # For REVENUE_ONLY users, check BTC Business Line on the lead
-        # Only count VP or blank — skip BK, AOC, etc.
-        if rep_name in REVENUE_ONLY_USERS:
-            lead_id = opp.get("lead_id", "")
-            if lead_id and lead_id not in lead_bl_cache:
-                try:
-                    lead_data = api_get(f"/lead/{lead_id}")
-                    custom = lead_data.get("custom", {})
-                    bl_val = custom.get("BTC Business Line", custom.get(CF_BTC_BUSINESS_LINE_ID, ""))
-                    lead_bl_cache[lead_id] = str(bl_val).strip() if bl_val else ""
-                except Exception:
-                    lead_bl_cache[lead_id] = ""  # default to blank (allowed)
-
-            bl = lead_bl_cache.get(lead_id, "")
-            if bl not in ALLOWED_BUSINESS_LINES:
-                bl_excluded += 1
-                continue
-
-        value_dollars = (opp.get("value", 0) or 0) / 100
-        lead_id = opp.get("lead_id", "")
-        date_won = opp.get("date_won", "")
-
-        rep_revenue[rep_name] = rep_revenue.get(rep_name, 0) + value_dollars
-
-        lead_key = f"{rep_name}:{lead_id}"
-        if lead_key not in seen_leads:
-            rep_deals[rep_name] = rep_deals.get(rep_name, 0) + 1
-            seen_leads.add(lead_key)
-
-        if date_won == today_str:
-            today_revenue += value_dollars
-            today_deals += 1
-            if rep_name not in today_closers:
-                today_closers[rep_name] = []
-            today_closers[rep_name].append(value_dollars)
-
-    if bl_excluded:
-        print(f"  Excluded {bl_excluded} opps from REVENUE_ONLY users (non-VP business line)", flush=True)
-
-    # Step 3: Meetings
-    # Per-rep breakdowns from FSCBD field (all funnels — no scraper exclusion needed)
-    print("  === Fetching per-rep meeting data (FSCBD field) ===", flush=True)
-    rep_booked, rep_shown = fetch_meeting_data(year, month, today_str, user_map, name_to_id)
-
-    # Team totals from MTD Funnel Dashboard (single source of truth)
-    print("  === Fetching team totals from MTD dashboard ===", flush=True)
-    mtd_booked, mtd_shown = fetch_mtd_totals(year, month)
-
-    # Step 4: Build per-rep data (WHITELIST — only approved closers get rows)
-    # Only reps in REP_QUOTAS or DEALS_ONLY_USERS can appear on the board.
-    # Everyone else's data still counts in team totals via raw dicts.
-    approved = set(REP_QUOTAS.keys()) | DEALS_ONLY_USERS
-
-    reps = []
-    for name in approved:
-        revenue = rep_revenue.get(name, 0)
-        deals = rep_deals.get(name, 0)
-        quota = REP_QUOTAS.get(name, 0)
-
-        is_deals_only = name in DEALS_ONLY_USERS
-        if is_deals_only and deals == 0:
-            continue
-
-        booked = 0 if is_deals_only else rep_booked.get(name, 0)
-        shown = 0 if is_deals_only else rep_shown.get(name, 0)
-
-        pct_quota = round(revenue / quota * 100, 1) if quota > 0 else 0
-        close_rate = round(deals / booked * 100, 1) if booked > 0 else 0
-        show_rate = round(shown / booked * 100, 1) if booked > 0 else 0
-
-        reps.append({
-            "name": name,
-            "revenue": round(revenue, 2),
-            "deals": deals,
-            "quota": quota,
-            "pct_to_quota": pct_quota,
-            "booked": booked,
-            "shown": shown,
-            "close_rate": close_rate,
-            "show_rate": show_rate,
-            "is_manager": name in MANAGER_USERS,
-            "is_lead": name in LEAD_USERS,
-            "exclude_meetings": is_deals_only,
-        })
-
-    # Step 5: Team totals
-    # Revenue/deals from raw dicts; booked/shown from MTD dashboard (source of truth)
-    all_counted = set(rep_revenue.keys()) | set(rep_deals.keys())
-    all_counted -= EXCLUDE_USERS
-    total_revenue = round(sum(rep_revenue.get(n, 0) for n in all_counted), 2)
-    total_deals = sum(rep_deals.get(n, 0) for n in all_counted)
-
-    # Use MTD totals if available, otherwise fall back to local FSCBD counts
-    if mtd_booked is not None:
-        total_booked = mtd_booked
-        total_shown = mtd_shown
-        print(f"  Team totals: using MTD dashboard ({total_booked} booked, {total_shown} shown)", flush=True)
-    else:
-        total_booked = sum(rep_booked.values())
-        total_shown = sum(rep_shown.values())
-        print(f"  Team totals: using local FSCBD fallback ({total_booked} booked, {total_shown} shown)", flush=True)
-
-    team_close_rate = round(total_deals / total_booked * 100, 1) if total_booked > 0 else 0
-    team_show_rate = round(total_shown / total_booked * 100, 1) if total_booked > 0 else 0
-
-    # Step 6: Time context
-    team_quota = TEAM_QUOTAS.get((year, month), DEFAULT_TEAM_QUOTA)
-    working_days_total = count_working_days(year, month)
-    working_days_elapsed = count_working_days(year, month, today_day)
-    pct_month_passed = round(working_days_elapsed / working_days_total * 100, 1) if working_days_total > 0 else 0
-    pct_team_quota = round(total_revenue / team_quota * 100, 1) if team_quota > 0 else 0
-
-    reps.sort(key=lambda r: r["revenue"], reverse=True)
-
-    return {
-        "updated_at": now.strftime("%Y-%m-%d %H:%M:%S %Z"),
-        "month_label": now.strftime("%B %Y"),
-        "day_of_month": today_day,
-        "days_in_month": last_day,
-        "working_days_total": working_days_total,
-        "working_days_elapsed": working_days_elapsed,
-        "pct_month_passed": pct_month_passed,
-        "team_quota": team_quota,
-        "pct_team_quota": pct_team_quota,
-        "total_revenue": round(total_revenue, 2),
-        "total_deals": total_deals,
-        "total_booked": total_booked,
-        "total_shown": total_shown,
-        "team_close_rate": team_close_rate,
-        "team_show_rate": team_show_rate,
-        "today_revenue": round(today_revenue, 2),
-        "today_deals": today_deals,
-        "today_closers": [
-            {"name": name, "deals": len(vals), "total": round(sum(vals), 2)}
-            for name, vals in sorted(today_closers.items(), key=lambda x: -sum(x[1]))
-        ],
-        "reps": reps,
+  window.downloadCSV = function() {
+    if (!window._dashData) return;
+    const D = window._dashData;
+    const rows = [['Rep','Revenue','Deals','Quota','% to Quota','Booked','Shown','Close Rate','Show Rate']];
+    const reps = (D.reps || []).slice().sort((a,b) => b.revenue - a.revenue);
+    for (const r of reps) {
+      rows.push([
+        r.name + (r.is_manager ? ' (mgr)' : ''),
+        r.revenue.toFixed(2),
+        r.deals,
+        r.quota || '',
+        r.quota ? r.pct_to_quota + '%' : 'N/A',
+        r.exclude_meetings ? 'N/A' : r.booked,
+        r.exclude_meetings ? 'N/A' : r.shown,
+        r.exclude_meetings ? 'N/A' : r.close_rate + '%',
+        r.exclude_meetings ? 'N/A' : r.show_rate + '%',
+      ]);
     }
+    rows.push([
+      'TEAM TOTAL',
+      D.total_revenue.toFixed(2),
+      D.total_deals,
+      D.team_quota || '',
+      D.pct_team_quota + '%',
+      D.total_booked,
+      D.total_shown,
+      D.team_close_rate + '%',
+      D.team_show_rate + '%',
+    ]);
+    const csv = rows.map(r => r.map(v => `"${v}"`).join(',')).join('\n');
+    const blob = new Blob([csv], {type: 'text/csv'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const month = (D.month_label || 'data').toLowerCase().replace(/\s+/g, '-');
+    a.href = url;
+    a.download = `rep-dashboard-${month}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 
-
-if __name__ == "__main__":
-    data = build_dashboard_data()
-
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    repo_root = os.path.dirname(script_dir)
-    output_path = os.path.join(repo_root, "data.json")
-
-    with open(output_path, "w") as f:
-        json.dump(data, f, indent=2)
-
-    # Auto-archive
-    archive_dir = os.path.join(repo_root, "archives")
-    os.makedirs(archive_dir, exist_ok=True)
-    from zoneinfo import ZoneInfo
-    pst_now = datetime.now(ZoneInfo("America/Los_Angeles"))
-    archive_name = f"data_{pst_now.strftime('%Y-%m')}.json"
-    archive_path = os.path.join(archive_dir, archive_name)
-    with open(archive_path, "w") as f:
-        json.dump(data, f, indent=2)
-    print(f"   Archive saved: archives/{archive_name}", flush=True)
-
-    # Update archive index
-    index_path = os.path.join(archive_dir, "index.json")
-    archive_files = sorted(
-        [f for f in os.listdir(archive_dir) if f.startswith("data_") and f.endswith(".json")],
-        reverse=True,
-    )
-    months = []
-    for af in archive_files:
-        ym = af.replace("data_", "").replace(".json", "")
-        months.append({"file": af, "key": ym})
-    with open(index_path, "w") as f:
-        json.dump({"months": months}, f, indent=2)
-    print(f"   Archive index updated: {len(months)} month(s)", flush=True)
-
-    print(f"\n=== Dashboard data written to {output_path} ===", flush=True)
-    print(f"   Month: {data['month_label']} (day {data['day_of_month']})")
-    print(f"   Total Revenue: ${data['total_revenue']:,.2f}")
-    print(f"   Today Revenue: ${data['today_revenue']:,.2f}")
-    print(f"   Total Deals: {data['total_deals']}")
-    print(f"   Meetings Booked: {data['total_booked']} (from MTD dashboard)")
-    print(f"   Meetings Shown: {data['total_shown']}")
-    print(f"   Reps tracked: {len(data['reps'])}")
+  setInterval(() => location.reload(), 5 * 60 * 1000);
+})();
+</script>
+</body>
+</html>
