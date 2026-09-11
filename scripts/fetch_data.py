@@ -250,7 +250,8 @@ def resolve_owner_to_name(owner_raw, user_map, name_to_id):
 def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
     """Source 1: Query leads by "First Sales Call Booked Date" field.
 
-    Covers all funnels EXCEPT Reactivation Scrapers (those use Source 2).
+    Covers all funnels. Per-rep attribution via Lead Owner field.
+    Team totals come from the MTD dashboard instead.
     One lead = one booked count. Full month window (matches MTD Funnel dashboard).
     Returns (rep_booked, rep_shown) dicts.
     """
@@ -288,7 +289,6 @@ def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
     rep_shown = {}
     excluded_status = 0
     excluded_funnel = 0
-    excluded_scraper = 0
 
     for lead in all_leads:
         # Exclude by lead status
@@ -310,11 +310,6 @@ def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
             excluded_funnel += 1
             continue
 
-        # Skip Reactivation Scrapers — counted via Source 2 (title detection)
-        if funnel_str == "Reactivation Scrapers":
-            excluded_scraper += 1
-            continue
-
         owner_raw = get_custom_value(merged, CF_LEAD_OWNER_ID, CF_LEAD_OWNER_NAME)
         rep_name = resolve_owner_to_name(owner_raw, user_map, name_to_id)
 
@@ -331,137 +326,34 @@ def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
             rep_shown[rep_name] = rep_shown.get(rep_name, 0) + 1
 
     print(f"  Source 1: {sum(rep_booked.values())} booked, {sum(rep_shown.values())} shown", flush=True)
-    print(f"  Excluded: {excluded_status} status, {excluded_funnel} funnel, {excluded_scraper} scrapers (→ Source 2)", flush=True)
+    print(f"  Excluded: {excluded_status} status, {excluded_funnel} funnel", flush=True)
 
     return rep_booked, rep_shown
 
 
-def fetch_scraper_meeting_data(year, month, pst_tz, user_map, name_to_id):
-    """Source 2: Count Reactivation Scraper meetings by title detection.
+def fetch_mtd_totals(year, month):
+    """Fetch team booked/shown totals from the MTD Funnel Dashboard.
 
-    Paginates all meeting activities and counts every meeting where title
-    contains 'next steps' (case-insensitive) within the full month window.
-    Unlike Source 1, this counts per-meeting, not per-lead — so a lead
-    with 3 'Next Steps' meetings = 3 booked counts.
-    Returns (rep_booked, rep_shown) dicts.
+    The MTD dashboard is the source of truth for total booked/shown counts.
+    Using its published data guarantees the rep dashboard matches exactly.
+    Returns (total_booked, total_shown) or (None, None) if unavailable.
     """
-    print("  Paginating all meeting activities for scraper detection...", flush=True)
+    url = f"https://aims-product.github.io/mtd-funnel-dashboard/archives/data-{year}-{month:02d}.json"
+    print(f"  Fetching MTD totals from: {url}", flush=True)
 
-    # Paginate all meetings
-    all_meetings = []
-    skip = 0
-    limit = 100
-    page = 0
+    try:
+        req = Request(url, headers={"Accept": "application/json"})
+        with urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read().decode())
 
-    while True:
-        page += 1
-        params = {"_skip": str(skip), "_limit": str(limit)}
-        data = api_get("/activity/meeting/", params)
-        meetings = data.get("data", [])
-        all_meetings.extend(meetings)
-        if page % 25 == 0:
-            print(f"    ... {len(all_meetings)} meetings ({page} pages)", flush=True)
-        if not data.get("has_more", False):
-            break
-        skip += limit
-
-    print(f"  Fetched {len(all_meetings)} total meetings.", flush=True)
-
-    # Filter: title contains "next steps" + date in full month range
-    _, last_day = monthrange(year, month)
-    date_start = f"{year}-{month:02d}-01"
-    date_end = f"{year}-{month:02d}-{last_day:02d}"
-    qualifying = []
-
-    for m in all_meetings:
-        title = m.get("title", "") or ""
-        if "next steps" not in title.lower():
-            continue
-
-        starts_at = m.get("starts_at", "")
-        if not starts_at:
-            continue
-        try:
-            dt_utc = datetime.fromisoformat(starts_at.replace("Z", "+00:00"))
-            dt_pst = dt_utc.astimezone(pst_tz)
-            meeting_date = dt_pst.strftime("%Y-%m-%d")
-        except (ValueError, TypeError):
-            continue
-
-        if meeting_date < date_start or meeting_date > date_end:
-            continue
-
-        qualifying.append({
-            "lead_id": m.get("lead_id", ""),
-            "date": meeting_date,
-        })
-
-    print(f"  Found {len(qualifying)} 'Next Steps' meetings in date range.", flush=True)
-
-    # Fetch unique leads
-    unique_lead_ids = set(q["lead_id"] for q in qualifying if q["lead_id"])
-    print(f"  Fetching {len(unique_lead_ids)} unique leads...", flush=True)
-
-    lead_cache = {}
-    fetched = 0
-    for lid in unique_lead_ids:
-        try:
-            lead_cache[lid] = api_get(f"/lead/{lid}")
-            fetched += 1
-            if fetched % 25 == 0:
-                print(f"    ... {fetched}/{len(unique_lead_ids)} leads", flush=True)
-        except Exception as e:
-            print(f"  Warning: could not fetch lead {lid}: {e}", flush=True)
-
-    # Attribute per meeting (not per lead — scraper counts every meeting)
-    rep_booked = {}
-    rep_shown = {}
-    excluded_status = 0
-
-    for q in qualifying:
-        lid = q["lead_id"]
-        lead = lead_cache.get(lid)
-        if not lead:
-            continue
-
-        if lead.get("status_id", "") in EXCLUDED_LEAD_STATUSES:
-            excluded_status += 1
-            continue
-
-        custom = lead.get("custom", {})
-        merged = dict(custom)
-        for k, v in lead.items():
-            if k.startswith("custom."):
-                merged[k] = v
-                merged[k.replace("custom.", "")] = v
-
-        # Count all "next steps" meetings — matches MTD methodology
-        # The MTD's title map and setter attribution effectively counts all
-        # meetings with "next steps" in the title; lead-level funnel/setter
-        # checks are too restrictive and miss meetings where those fields
-        # haven't been updated yet
-
-        owner_raw = get_custom_value(merged, CF_LEAD_OWNER_ID, CF_LEAD_OWNER_NAME)
-        rep_name = resolve_owner_to_name(owner_raw, user_map, name_to_id)
-
-        # RS meetings on setter/excluded-user leads still count toward team total
-        # but are bucketed under a neutral name so no rep row is created for them
-        if rep_name in EXCLUDE_USERS or rep_name in SETTER_USERS:
-            rep_name = "Reactivation Scrapers"
-
-        rep_booked[rep_name] = rep_booked.get(rep_name, 0) + 1
-
-        # Shown: if lead showed, all meetings on that lead count as shown
-        show_up = get_custom_value(merged, CF_FIRST_CALL_SHOW_ID, CF_FIRST_CALL_SHOW_NAME)
-        if str(show_up).strip().lower() == "yes":
-            rep_shown[rep_name] = rep_shown.get(rep_name, 0) + 1
-
-    print(f"  Source 2: {sum(rep_booked.values())} booked, {sum(rep_shown.values())} shown", flush=True)
-    if excluded_status:
-        print(f"  Excluded {excluded_status} meetings (Canceled/Outside US lead status)", flush=True)
-
-    return rep_booked, rep_shown
-
+        grand = data.get("grand", {})
+        booked = grand.get("booked", 0)
+        shown = grand.get("showed", 0)
+        print(f"  MTD totals: {booked} booked, {shown} shown", flush=True)
+        return booked, shown
+    except Exception as e:
+        print(f"  Warning: could not fetch MTD data ({e}) — using local totals as fallback", flush=True)
+        return None, None
 
 # --- Working days ---
 
@@ -561,23 +453,14 @@ def build_dashboard_data():
     if bl_excluded:
         print(f"  Excluded {bl_excluded} opps from REVENUE_ONLY users (non-VP business line)", flush=True)
 
-    # Step 3: Meetings — two sources combined
-    # Source 1: FSCBD field (all funnels except Reactivation Scrapers)
-    print("  === Source 1: First Sales Call Booked Date field ===", flush=True)
+    # Step 3: Meetings
+    # Per-rep breakdowns from FSCBD field (all funnels — no scraper exclusion needed)
+    print("  === Fetching per-rep meeting data (FSCBD field) ===", flush=True)
     rep_booked, rep_shown = fetch_meeting_data(year, month, today_str, user_map, name_to_id)
 
-    # Source 2: Title detection for Reactivation Scrapers ("next steps" meetings)
-    print("  === Source 2: Reactivation Scraper title detection ===", flush=True)
-    scraper_booked, scraper_shown = fetch_scraper_meeting_data(year, month, pst, user_map, name_to_id)
-
-    # Combine both sources
-    for name, count in scraper_booked.items():
-        rep_booked[name] = rep_booked.get(name, 0) + count
-    for name, count in scraper_shown.items():
-        rep_shown[name] = rep_shown.get(name, 0) + count
-
-    print(f"  Combined: {sum(rep_booked.values())} booked, {sum(rep_shown.values())} shown "
-          f"({len(rep_booked)} reps)", flush=True)
+    # Team totals from MTD Funnel Dashboard (single source of truth)
+    print("  === Fetching team totals from MTD dashboard ===", flush=True)
+    mtd_booked, mtd_shown = fetch_mtd_totals(year, month)
 
     # Step 4: Build per-rep data (WHITELIST — only approved closers get rows)
     # Only reps in REP_QUOTAS or DEALS_ONLY_USERS can appear on the board.
@@ -616,15 +499,23 @@ def build_dashboard_data():
             "exclude_meetings": is_deals_only,
         })
 
-    # Step 5: Team totals (computed from raw dicts, includes REVENUE_ONLY_USERS)
-    # Revenue includes everyone; booked/shown/deals exclude LANE_2_REPS and SETTER_USERS
-    all_counted = set(rep_revenue.keys()) | set(rep_deals.keys()) | set(rep_booked.keys()) | set(rep_shown.keys())
+    # Step 5: Team totals
+    # Revenue/deals from raw dicts; booked/shown from MTD dashboard (source of truth)
+    all_counted = set(rep_revenue.keys()) | set(rep_deals.keys())
     all_counted -= EXCLUDE_USERS
-    meetings_counted = all_counted - LANE_2_REPS - SETTER_USERS
     total_revenue = round(sum(rep_revenue.get(n, 0) for n in all_counted), 2)
-    total_deals = sum(rep_deals.get(n, 0) for n in meetings_counted)
-    total_booked = sum(rep_booked.get(n, 0) for n in meetings_counted)
-    total_shown = sum(rep_shown.get(n, 0) for n in meetings_counted)
+    total_deals = sum(rep_deals.get(n, 0) for n in all_counted)
+
+    # Use MTD totals if available, otherwise fall back to local FSCBD counts
+    if mtd_booked is not None:
+        total_booked = mtd_booked
+        total_shown = mtd_shown
+        print(f"  Team totals: using MTD dashboard ({total_booked} booked, {total_shown} shown)", flush=True)
+    else:
+        total_booked = sum(rep_booked.values())
+        total_shown = sum(rep_shown.values())
+        print(f"  Team totals: using local FSCBD fallback ({total_booked} booked, {total_shown} shown)", flush=True)
+
     team_close_rate = round(total_deals / total_booked * 100, 1) if total_booked > 0 else 0
     team_show_rate = round(total_shown / total_booked * 100, 1) if total_booked > 0 else 0
 
@@ -703,6 +594,6 @@ if __name__ == "__main__":
     print(f"   Total Revenue: ${data['total_revenue']:,.2f}")
     print(f"   Today Revenue: ${data['today_revenue']:,.2f}")
     print(f"   Total Deals: {data['total_deals']}")
-    print(f"   Meetings Booked: {data['total_booked']} (First Sales Call Booked Date field)")
+    print(f"   Meetings Booked: {data['total_booked']} (from MTD dashboard)")
     print(f"   Meetings Shown: {data['total_shown']}")
     print(f"   Reps tracked: {len(data['reps'])}")
