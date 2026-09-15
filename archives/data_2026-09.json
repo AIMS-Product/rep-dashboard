@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-15 06:30:19 PDT",
+  "updated_at": "2026-09-15 06:45:12 PDT",
   "month_label": "September 2026",
   "day_of_month": 15,
   "days_in_month": 30,
@@ -7,16 +7,22 @@
   "working_days_elapsed": 11,
   "pct_month_passed": 50.0,
   "team_quota": 750000,
-  "pct_team_quota": 23.7,
-  "total_revenue": 177960.0,
-  "total_deals": 25,
-  "total_booked": 464,
-  "total_shown": 231,
-  "team_close_rate": 5.4,
-  "team_show_rate": 49.8,
-  "today_revenue": 0.0,
-  "today_deals": 0,
-  "today_closers": [],
+  "pct_team_quota": 24.5,
+  "total_revenue": 183957.0,
+  "total_deals": 26,
+  "total_booked": 466,
+  "total_shown": 233,
+  "team_close_rate": 5.6,
+  "team_show_rate": 50.0,
+  "today_revenue": 5997.0,
+  "today_deals": 1,
+  "today_closers": [
+    {
+      "name": "Eric Piccione",
+      "deals": 1,
+      "total": 5997.0
+    }
+  ],
   "reps": [
     {
       "name": "Luke Herman",
@@ -42,6 +48,20 @@
       "shown": 19,
       "close_rate": 10.2,
       "show_rate": 38.8,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Eric Piccione",
+      "revenue": 27891.0,
+      "deals": 3,
+      "quota": 100000,
+      "pct_to_quota": 27.9,
+      "booked": 41,
+      "shown": 15,
+      "close_rate": 7.3,
+      "show_rate": 36.6,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
@@ -75,20 +95,6 @@
       "exclude_meetings": true
     },
     {
-      "name": "Eric Piccione",
-      "revenue": 21894.0,
-      "deals": 2,
-      "quota": 100000,
-      "pct_to_quota": 21.9,
-      "booked": 41,
-      "shown": 15,
-      "close_rate": 4.9,
-      "show_rate": 36.6,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Christian Hartwell",
       "revenue": 13182.0,
       "deals": 3,
@@ -117,20 +123,6 @@
       "exclude_meetings": false
     },
     {
-      "name": "Ariella Irvine",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 29,
-      "shown": 16,
-      "close_rate": 0.0,
-      "show_rate": 55.2,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
       "name": "Scott Seymour",
       "revenue": 0,
       "deals": 0,
@@ -140,6 +132,20 @@
       "shown": 2,
       "close_rate": 0.0,
       "show_rate": 25.0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
+    {
+      "name": "Ariella Irvine",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 100000,
+      "pct_to_quota": 0.0,
+      "booked": 29,
+      "shown": 16,
+      "close_rate": 0.0,
+      "show_rate": 55.2,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
