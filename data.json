@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18 16:30:18 PDT",
+  "updated_at": "2026-09-18 16:45:24 PDT",
   "month_label": "September 2026",
   "day_of_month": 18,
   "days_in_month": 30,
@@ -7,16 +7,21 @@
   "working_days_elapsed": 14,
   "pct_month_passed": 63.6,
   "team_quota": 750000,
-  "pct_team_quota": 32.9,
-  "total_revenue": 246824.0,
-  "total_deals": 35,
-  "total_booked": 603,
-  "total_shown": 329,
-  "team_close_rate": 5.8,
+  "pct_team_quota": 33.8,
+  "total_revenue": 253721.0,
+  "total_deals": 36,
+  "total_booked": 604,
+  "total_shown": 330,
+  "team_close_rate": 6.0,
   "team_show_rate": 54.6,
-  "today_revenue": 5997.0,
-  "today_deals": 1,
+  "today_revenue": 12894.0,
+  "today_deals": 2,
   "today_closers": [
+    {
+      "name": "Luke Herman",
+      "deals": 1,
+      "total": 6897.0
+    },
     {
       "name": "Oscar Pugh",
       "deals": 1,
@@ -24,6 +29,20 @@
     }
   ],
   "reps": [
+    {
+      "name": "Luke Herman",
+      "revenue": 54576.0,
+      "deals": 8,
+      "quota": 100000,
+      "pct_to_quota": 54.6,
+      "booked": 91,
+      "shown": 46,
+      "close_rate": 8.8,
+      "show_rate": 50.5,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false
+    },
     {
       "name": "Eric Piccione",
       "revenue": 49885.0,
@@ -34,20 +53,6 @@
       "shown": 24,
       "close_rate": 8.9,
       "show_rate": 42.9,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false
-    },
-    {
-      "name": "Luke Herman",
-      "revenue": 47679.0,
-      "deals": 7,
-      "quota": 100000,
-      "pct_to_quota": 47.7,
-      "booked": 91,
-      "shown": 46,
-      "close_rate": 7.7,
-      "show_rate": 50.5,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false
