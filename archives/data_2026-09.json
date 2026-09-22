@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-22 15:15:13 PDT",
+  "updated_at": "2026-09-22 15:30:17 PDT",
   "month_label": "September 2026",
   "day_of_month": 22,
   "days_in_month": 30,
@@ -10,10 +10,10 @@
   "pct_team_quota": 39.1,
   "total_revenue": 293603.0,
   "total_deals": 42,
-  "total_booked": 675,
-  "total_shown": 375,
+  "total_booked": 672,
+  "total_shown": 372,
   "team_close_rate": 6.2,
-  "team_show_rate": 55.6,
+  "team_show_rate": 55.4,
   "today_revenue": 5997.0,
   "today_deals": 1,
   "today_closers": [
@@ -101,22 +101,22 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 32,
-            "eligible": 53,
-            "pct": 60
+            "done": 33,
+            "eligible": 54,
+            "pct": 61
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 44,
-            "eligible": 53,
+            "done": 45,
+            "eligible": 54,
             "pct": 83
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
             "done": 12,
-            "eligible": 50,
+            "eligible": 51,
             "pct": 24
           },
           "followup_completed": {
@@ -143,9 +143,9 @@
       "quota": 100000,
       "pct_to_quota": 44.2,
       "booked": 65,
-      "shown": 26,
+      "shown": 25,
       "close_rate": 9.2,
-      "show_rate": 40.0,
+      "show_rate": 38.5,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -158,36 +158,36 @@
             "label": "Pre-Call Loom",
             "phase": "pre_call",
             "done": 35,
-            "eligible": 55,
-            "pct": 64
+            "eligible": 54,
+            "pct": 65
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 51,
-            "eligible": 55,
+            "done": 50,
+            "eligible": 54,
             "pct": 93
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 18,
-            "eligible": 48,
-            "pct": 38
+            "done": 17,
+            "eligible": 47,
+            "pct": 36
           },
           "followup_completed": {
             "label": "Next steps completed",
             "phase": "post_call",
-            "done": 10,
-            "eligible": 23,
+            "done": 9,
+            "eligible": 21,
             "pct": 43
           },
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 18,
-            "eligible": 23,
-            "pct": 78
+            "done": 17,
+            "eligible": 21,
+            "pct": 81
           }
         }
       }
@@ -310,52 +310,52 @@
       "deals": 6,
       "quota": 100000,
       "pct_to_quota": 25.7,
-      "booked": 93,
-      "shown": 51,
-      "close_rate": 6.5,
-      "show_rate": 54.8,
+      "booked": 94,
+      "shown": 52,
+      "close_rate": 6.4,
+      "show_rate": 55.3,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
       "rep_owner_id": "user_wHm1vcLde4RExd3vv9UOjnms5Oz8ssXg8600mQuxMPb",
       "adherence": {
         "pre_call_pct": 78,
-        "post_call_pct": 65,
+        "post_call_pct": 64,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 47,
-            "eligible": 72,
+            "done": 46,
+            "eligible": 71,
             "pct": 65
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 65,
-            "eligible": 72,
+            "done": 64,
+            "eligible": 71,
             "pct": 90
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 33,
+            "done": 34,
             "eligible": 71,
-            "pct": 46
+            "pct": 48
           },
           "followup_completed": {
             "label": "Next steps completed",
             "phase": "post_call",
             "done": 24,
-            "eligible": 44,
-            "pct": 55
+            "eligible": 45,
+            "pct": 53
           },
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
             "done": 41,
-            "eligible": 44,
-            "pct": 93
+            "eligible": 45,
+            "pct": 91
           }
         }
       }
@@ -588,7 +588,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-22T15:18:41.135826-07:00",
+    "generated_at": "2026-09-22T15:33:10.091470-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -596,18 +596,18 @@
     },
     "cohort": {
       "raw": 542,
-      "included": 418,
-      "excluded": 124,
+      "included": 417,
+      "excluded": 125,
       "exclusion_counts": {
+        "canceled_by_lead": 31,
+        "lost": 76,
         "do_not_contact": 7,
-        "canceled_by_lead": 32,
-        "lost": 74,
         "outside_us": 2,
         "not_visible_rep": 8,
         "disqualified": 1
       }
     },
-    "api_requests": 575,
+    "api_requests": 577,
     "preview_only": false
   }
 }
