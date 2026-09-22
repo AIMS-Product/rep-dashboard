@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-22 11:15:18 PDT",
+  "updated_at": "2026-09-22 11:30:20 PDT",
   "month_label": "September 2026",
   "day_of_month": 22,
   "days_in_month": 30,
@@ -7,16 +7,22 @@
   "working_days_elapsed": 16,
   "pct_month_passed": 72.7,
   "team_quota": 750000,
-  "pct_team_quota": 38.3,
-  "total_revenue": 287606.0,
-  "total_deals": 41,
+  "pct_team_quota": 39.1,
+  "total_revenue": 293603.0,
+  "total_deals": 42,
   "total_booked": 673,
   "total_shown": 368,
-  "team_close_rate": 6.1,
+  "team_close_rate": 6.2,
   "team_show_rate": 54.7,
-  "today_revenue": 0.0,
-  "today_deals": 0,
-  "today_closers": [],
+  "today_revenue": 5997.0,
+  "today_deals": 1,
+  "today_closers": [
+    {
+      "name": "Joe Dysert",
+      "deals": 1,
+      "total": 5997.0
+    }
+  ],
   "reps": [
     {
       "name": "Luke Herman",
@@ -137,16 +143,16 @@
       "quota": 100000,
       "pct_to_quota": 44.2,
       "booked": 65,
-      "shown": 27,
+      "shown": 26,
       "close_rate": 9.2,
-      "show_rate": 41.5,
+      "show_rate": 40.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
       "rep_owner_id": "user_7HSxi55O8q5jO11khvrTcAGoL2nlcoa3kZ6loAY6i78",
       "adherence": {
         "pre_call_pct": 80,
-        "post_call_pct": 53,
+        "post_call_pct": 54,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -173,15 +179,15 @@
             "label": "Next steps completed",
             "phase": "post_call",
             "done": 9,
-            "eligible": 22,
-            "pct": 41
+            "eligible": 21,
+            "pct": 43
           },
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 18,
-            "eligible": 22,
-            "pct": 82
+            "done": 17,
+            "eligible": 21,
+            "pct": 81
           }
         }
       }
@@ -192,10 +198,10 @@
       "deals": 5,
       "quota": 100000,
       "pct_to_quota": 31.8,
-      "booked": 68,
+      "booked": 67,
       "shown": 42,
-      "close_rate": 7.4,
-      "show_rate": 61.8,
+      "close_rate": 7.5,
+      "show_rate": 62.7,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -238,6 +244,62 @@
             "done": 27,
             "eligible": 30,
             "pct": 90
+          }
+        }
+      }
+    },
+    {
+      "name": "Joe Dysert",
+      "revenue": 28179.0,
+      "deals": 4,
+      "quota": 0,
+      "pct_to_quota": 0,
+      "booked": 0,
+      "shown": 0,
+      "close_rate": 0,
+      "show_rate": 0,
+      "is_manager": true,
+      "is_lead": false,
+      "exclude_meetings": true,
+      "rep_owner_id": "user_lUjlATIIgFg8mELa0GFzZUj0lG4Cs7PwQsxbi34I6Su",
+      "adherence": {
+        "pre_call_pct": null,
+        "post_call_pct": null,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
           }
         }
       }
@@ -350,62 +412,6 @@
             "done": 11,
             "eligible": 11,
             "pct": 100
-          }
-        }
-      }
-    },
-    {
-      "name": "Joe Dysert",
-      "revenue": 22182.0,
-      "deals": 3,
-      "quota": 0,
-      "pct_to_quota": 0,
-      "booked": 0,
-      "shown": 0,
-      "close_rate": 0,
-      "show_rate": 0,
-      "is_manager": true,
-      "is_lead": false,
-      "exclude_meetings": true,
-      "rep_owner_id": "user_lUjlATIIgFg8mELa0GFzZUj0lG4Cs7PwQsxbi34I6Su",
-      "adherence": {
-        "pre_call_pct": null,
-        "post_call_pct": null,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
-          },
-          "followup_task": {
-            "label": "Next steps set",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
-          },
-          "followup_completed": {
-            "label": "Next steps completed",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
-          },
-          "recap_email": {
-            "label": "Post-call follow-up",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
           }
         }
       }
@@ -582,7 +588,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-22T11:18:01.408411-07:00",
+    "generated_at": "2026-09-22T11:33:46.791212-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -590,18 +596,18 @@
     },
     "cohort": {
       "raw": 535,
-      "included": 418,
-      "excluded": 117,
+      "included": 417,
+      "excluded": 118,
       "exclusion_counts": {
-        "lost": 68,
-        "do_not_contact": 5,
-        "canceled_by_lead": 33,
+        "lost": 67,
+        "canceled_by_lead": 34,
+        "do_not_contact": 6,
         "outside_us": 2,
         "not_visible_rep": 8,
         "disqualified": 1
       }
     },
-    "api_requests": 576,
+    "api_requests": 577,
     "preview_only": false
   }
 }
