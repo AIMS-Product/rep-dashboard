@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-22 11:30:20 PDT",
+  "updated_at": "2026-09-22 11:45:16 PDT",
   "month_label": "September 2026",
   "day_of_month": 22,
   "days_in_month": 30,
@@ -10,10 +10,10 @@
   "pct_team_quota": 39.1,
   "total_revenue": 293603.0,
   "total_deals": 42,
-  "total_booked": 673,
-  "total_shown": 368,
+  "total_booked": 675,
+  "total_shown": 367,
   "team_close_rate": 6.2,
-  "team_show_rate": 54.7,
+  "team_show_rate": 54.4,
   "today_revenue": 5997.0,
   "today_deals": 1,
   "today_closers": [
@@ -30,10 +30,10 @@
       "deals": 8,
       "quota": 100000,
       "pct_to_quota": 54.6,
-      "booked": 95,
+      "booked": 96,
       "shown": 53,
-      "close_rate": 8.4,
-      "show_rate": 55.8,
+      "close_rate": 8.3,
+      "show_rate": 55.2,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -422,10 +422,10 @@
       "deals": 3,
       "quota": 100000,
       "pct_to_quota": 18.0,
-      "booked": 31,
+      "booked": 32,
       "shown": 10,
-      "close_rate": 9.7,
-      "show_rate": 32.3,
+      "close_rate": 9.4,
+      "show_rate": 31.2,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -588,15 +588,15 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-22T11:33:46.791212-07:00",
+    "generated_at": "2026-09-22T11:50:32.199561-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
       "basis": "first_sales_call_booked_date"
     },
     "cohort": {
-      "raw": 535,
-      "included": 417,
+      "raw": 537,
+      "included": 419,
       "excluded": 118,
       "exclusion_counts": {
         "lost": 67,
@@ -607,7 +607,7 @@
         "disqualified": 1
       }
     },
-    "api_requests": 577,
+    "api_requests": 576,
     "preview_only": false
   }
 }
