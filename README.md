@@ -70,13 +70,40 @@ GitHub Pages (serves index.html)
 
 **Schedule**: Runs every hour Mon–Fri, 7 AM – 5 PM PST. Also runs on manual trigger.
 
+## Process Adherence
+
+The production refresh adds aggregate process-adherence metrics to `data.json` before writing the
+dashboard file and monthly archive. The adapter reads Close without modifying it and evaluates only
+first calls scheduled in the dashboard month. The normal dashboard URL renders the adherence table.
+
+For an isolated local verification artifact, run:
+
+From this directory:
+
+```bash
+python3 scripts/build_adherence_preview.py
+python3 -m http.server 8765 --bind 127.0.0.1
+```
+
+Then open:
+
+```text
+http://127.0.0.1:8765/index.html?preview=adherence
+```
+
+The ordinary dashboard URL loads production `data.json`; the query parameter loads the separately
+generated `data.preview.json` artifact.
+
 ## Files
 
 | File | Purpose |
 |------|---------|
 | `index.html` | Dashboard UI (loads `data.json` client-side) |
 | `data.json` | Latest dashboard data (auto-updated by GitHub Actions) |
-| `scripts/fetch_data.py` | Fetches data from Close API, writes `data.json` |
+| `scripts/fetch_data.py` | Fetches Close metrics, adds adherence, then writes and archives `data.json` |
+| `scripts/adherence_rules.py` | Pure, unit-tested adherence calculation rules |
+| `scripts/build_adherence_preview.py` | Read-only adherence adapter used by production and the local preview |
+| `tests/test_adherence_rules.py` | Boundary tests for eligibility, OR rules, timing, and averaging |
 | `.github/workflows/update-dashboard.yml` | Hourly automation schedule |
 
 ## Customization

@@ -356,6 +356,211 @@
   .rv-a { color: var(--amber); }
   .rv-r { color: var(--red); }
 
+  /* ─── Process Adherence ─── */
+  .adherence-board { grid-column: 1 / -1; }
+  .adherence-board .board-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .preview-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border: 1px solid #bfdbfe;
+    border-radius: 999px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .preview-pill::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #3b82f6;
+  }
+  .adherence-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-width: 62px;
+    padding: 5px 7px;
+    border: 1px solid var(--border-light);
+    border-radius: 7px;
+    background: var(--white);
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background .15s ease, border-color .15s ease, transform .15s ease;
+  }
+  .adherence-btn::after { content: '›'; font-family: var(--font); font-size: 16px; line-height: 1; }
+  .adherence-btn:hover { background: var(--row-hover); border-color: var(--border); transform: translateY(-1px); }
+  .adherence-btn:focus-visible,
+  .drawer-close:focus-visible {
+    outline: 3px solid rgba(59, 130, 246, .35);
+    outline-offset: 2px;
+  }
+  .adherence-btn[disabled] {
+    color: var(--text-faint);
+    cursor: default;
+  }
+  .adherence-btn[disabled]::after { content: ''; }
+  .adherence-btn[disabled]:hover { background: var(--white); border-color: var(--border-light); transform: none; }
+  .adherence-table-wrap { overflow-x: auto; }
+  .adherence-board table { min-width: 1040px; table-layout: fixed; }
+  .adherence-board thead .adherence-group-row th {
+    padding-top: 10px;
+    padding-bottom: 8px;
+    color: var(--text-secondary);
+    font-size: 10px;
+    text-align: center;
+  }
+  .adherence-board thead .adherence-group-row .adherence-rep-head {
+    padding-left: 18px;
+    text-align: left;
+    vertical-align: middle;
+  }
+  .adherence-board thead .adherence-column-row th {
+    padding: 7px 10px 9px;
+    color: var(--text-muted);
+    font-size: 8px;
+    line-height: 1.25;
+    text-align: center;
+    white-space: normal;
+  }
+  .adherence-board .adherence-post-group,
+  .adherence-board .adherence-post-start {
+    border-left: 2px solid var(--border);
+  }
+  .adherence-board tbody td {
+    padding: 9px 10px;
+    text-align: center;
+  }
+  .adherence-board tbody td:first-child { padding-left: 18px; text-align: left; }
+  .adherence-average-cell { background: #fbfcfe; }
+  .adherence-step-value {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 800;
+  }
+  .score-high { color: var(--green); }
+  .score-mid { color: var(--teal); }
+  .score-watch { color: var(--amber); }
+  .score-low { color: var(--red); }
+
+  .drawer-shell {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-end;
+    background: rgba(15, 23, 42, 0);
+    transition: background .2s ease;
+  }
+  .drawer-shell[hidden] { display: none; }
+  .drawer-shell.is-open { background: rgba(15, 23, 42, .32); }
+  .drawer-panel {
+    width: min(480px, 94vw);
+    height: 100%;
+    overflow-y: auto;
+    background: var(--white);
+    border-left: 1px solid var(--border);
+    box-shadow: -20px 0 60px rgba(15, 23, 42, .12);
+    transform: translateX(100%);
+    transition: transform .24s cubic-bezier(.22, 1, .36, 1);
+  }
+  .drawer-shell.is-open .drawer-panel { transform: translateX(0); }
+  .drawer-head {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 24px 24px 18px;
+    background: rgba(255,255,255,.96);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+  }
+  .drawer-eyebrow {
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+  }
+  .drawer-title { margin-top: 4px; font-size: 20px; font-weight: 800; letter-spacing: -.3px; }
+  .drawer-close {
+    display: inline-grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    flex: 0 0 auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--white);
+    color: var(--text-secondary);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .drawer-close:hover { background: var(--row-hover); color: var(--text); }
+  .drawer-body { padding: 24px; }
+  .drawer-score {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 18px;
+    padding: 18px;
+    margin-bottom: 18px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--th-bg);
+  }
+  .drawer-score-value { font-family: var(--mono); font-size: 36px; font-weight: 800; letter-spacing: -1.5px; }
+  .drawer-score-label { font-size: 12px; font-weight: 700; color: var(--text-secondary); }
+  .drawer-score-note { margin-top: 3px; color: var(--text-muted); font-size: 10px; line-height: 1.45; }
+  .step-list { display: grid; gap: 12px; }
+  .step-card { padding: 16px; border: 1px solid var(--border); border-radius: 10px; }
+  .step-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .step-name { font-size: 13px; font-weight: 750; }
+  .step-pct { font-family: var(--mono); font-size: 18px; font-weight: 800; }
+  .step-track { height: 6px; margin: 12px 0 9px; overflow: hidden; border-radius: 99px; background: var(--border-light); }
+  .step-fill { height: 100%; border-radius: 99px; background: currentColor; }
+  .step-meta { display: flex; justify-content: space-between; gap: 14px; color: var(--text-muted); font-size: 10px; }
+  .step-count { color: var(--text-secondary); font-family: var(--mono); font-weight: 700; white-space: nowrap; }
+  .drawer-rule-note {
+    margin-top: 18px;
+    padding: 12px 14px;
+    border-left: 3px solid #93c5fd;
+    background: #eff6ff;
+    color: #475569;
+    font-size: 10px;
+    line-height: 1.55;
+  }
+  body.drawer-open { overflow: hidden; }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
   /* ─── Footer ─── */
   .footer {
     text-align: center;
@@ -412,6 +617,17 @@
     .kpi-cards { flex-direction: column; }
     .kpi { min-width: auto; }
     .month-center h1 { font-size: 22px; }
+    .drawer-panel { width: 100%; }
+    .drawer-head, .drawer-body { padding-left: 18px; padding-right: 18px; }
+    .adherence-board .board-head { align-items: flex-start; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      scroll-behavior: auto !important;
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important;
+    }
   }
 </style>
 </head>
@@ -421,12 +637,28 @@
   <div class="loading"><div class="spinner"></div>Loading dashboard&hellip;</div>
 </div>
 
+<div class="drawer-shell" id="adherenceDrawer" hidden>
+  <section class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" aria-describedby="drawerDescription">
+    <header class="drawer-head">
+      <div>
+        <div class="drawer-eyebrow" id="drawerEyebrow">Process adherence</div>
+        <h2 class="drawer-title" id="drawerTitle">Details</h2>
+      </div>
+      <button class="drawer-close" id="drawerClose" type="button" aria-label="Close adherence details">&times;</button>
+    </header>
+    <div class="drawer-body" id="drawerContent"></div>
+  </section>
+</div>
+
 <script>
 (async function() {
   const app = document.getElementById('app');
+  const query = new URLSearchParams(window.location.search);
+  const previewMode = query.get('preview') === 'adherence';
+  const dataFile = previewMode ? 'data.preview.json' : 'data.json';
   try {
-    const r = await fetch('data.json?' + Date.now());
-    if (!r.ok) throw new Error('data.json not found');
+    const r = await fetch(dataFile + '?' + Date.now());
+    if (!r.ok) throw new Error(dataFile + ' not found');
     const D = await r.json();
     app.innerHTML = '';
     render(D);
@@ -475,6 +707,30 @@
   function repLabel(r) {
     const tag = r.is_manager ? '<span class="mgr-tag">(mgr)</span>' : r.is_lead ? '<span class="mgr-tag">(lead)</span>' : '';
     return `<span class="rep-name">${r.name}</span>${tag}`;
+  }
+  function pctText(value) { return value == null ? '—' : value + '%'; }
+  function scoreTone(value) {
+    if (value == null) return '';
+    if (value >= 90) return 'score-high';
+    if (value >= 75) return 'score-mid';
+    if (value >= 60) return 'score-watch';
+    return 'score-low';
+  }
+  function adherenceButton(r, phase, repIndex) {
+    const key = phase === 'pre_call' ? 'pre_call_pct' : 'post_call_pct';
+    const label = phase === 'pre_call' ? 'pre-call' : 'post-call';
+    const value = r.adherence && r.adherence[key];
+    if (value == null) {
+      return `<button class="adherence-btn" type="button" disabled aria-label="No ${label} adherence data for ${r.name}">—</button>`;
+    }
+    return `<button class="adherence-btn ${scoreTone(value)}" type="button" data-adherence-rep="${repIndex}" data-adherence-phase="${phase}" aria-label="Open ${label} adherence details for ${r.name}, ${value} percent">${value}%</button>`;
+  }
+
+  function adherenceStepValue(r, key) {
+    const cell = r.adherence && r.adherence.steps && r.adherence.steps[key];
+    const value = cell && cell.pct;
+    const label = cell ? cell.label : key;
+    return `<span class="adherence-step-value ${scoreTone(value)}" aria-label="${label}: ${value == null ? 'no data' : value + ' percent'}">${pctText(value)}</span>`;
   }
 
   function render(D) {
@@ -602,14 +858,165 @@
         </table>
       </div>`;
 
-    const footer = `<div class="footer fade d2">Data from Close CRM &middot; Auto-updates every 15 minutes Mon&ndash;Fri 7 AM &ndash; 5 PM PST &middot; <a href="archive.html" style="color:var(--text-muted);text-decoration:underline">Monthly Archives</a> &middot; <a class="dl-btn" onclick="downloadCSV()">⬇ Download CSV</a></div>`;
-    app.innerHTML = topBar + quotaStrip + `<div class="boards">${board1}${board2}${board3}</div>` + footer;
+    // ── BOARD 4: Process Adherence (shown when aggregate adherence is present)
+    let adherenceBoard = '';
+    if (D.adherence_meta && reps.some(r => r.adherence)) {
+      const adherenceSorted = reps
+        .filter(r => !r.exclude_meetings && r.adherence)
+        .sort((a,b) => b.revenue - a.revenue);
+      const adherenceRows = adherenceSorted.map((r,i) => {
+        const sourceIndex = reps.indexOf(r);
+        return `<tr>
+          <td>${repLabel(r)}</td>
+          <td class="adherence-average-cell">${adherenceButton(r, 'pre_call', sourceIndex)}</td>
+          <td>${adherenceStepValue(r, 'loom_usage')}</td>
+          <td>${adherenceStepValue(r, 'precall_text')}</td>
+          <td class="adherence-average-cell adherence-post-start">${adherenceButton(r, 'post_call', sourceIndex)}</td>
+          <td>${adherenceStepValue(r, 'followup_task')}</td>
+          <td>${adherenceStepValue(r, 'followup_completed')}</td>
+          <td>${adherenceStepValue(r, 'recap_email')}</td>
+        </tr>`;
+      }).join('');
+      const cohort = D.adherence_meta.cohort || {};
+      adherenceBoard = `
+        <div class="board adherence-board fade d2">
+          <div class="board-head">
+            <div><div class="board-title">Process Adherence</div><div class="board-sub">Equal-weight step averages &middot; click a percentage for the breakdown</div></div>
+          </div>
+          <div class="adherence-table-wrap">
+            <table>
+              <colgroup>
+                <col style="width:18%"><col style="width:9%"><col style="width:13%"><col style="width:13%">
+                <col style="width:9%"><col style="width:12.67%"><col style="width:12.66%"><col style="width:12.67%">
+              </colgroup>
+              <thead>
+                <tr class="adherence-group-row">
+                  <th class="adherence-rep-head" scope="col" rowspan="2">Rep</th>
+                  <th scope="colgroup" colspan="3">Pre-call</th>
+                  <th class="adherence-post-group" scope="colgroup" colspan="4">Post-call</th>
+                </tr>
+                <tr class="adherence-column-row">
+                  <th scope="col">Average</th>
+                  <th scope="col">Pre-Call Loom</th>
+                  <th scope="col">Pre-call text</th>
+                  <th class="adherence-post-start" scope="col">Average</th>
+                  <th scope="col">Next steps set</th>
+                  <th scope="col">Next steps completed</th>
+                  <th scope="col">Post-call follow-up</th>
+                </tr>
+              </thead>
+              <tbody>${adherenceRows}</tbody>
+              <tfoot><tr><td>Scored cohort</td><td colspan="7">${cohort.included || 0} first calls &middot; ${D.adherence_meta.period.month}</td></tr></tfoot>
+            </table>
+          </div>
+        </div>`;
+    }
+
+    const footerSource = D.adherence_meta && D.adherence_meta.preview_only
+      ? 'Local preview from Close CRM'
+      : 'Data from Close CRM';
+    const footer = `<div class="footer fade d2">${footerSource} &middot; Auto-updates every 15 minutes Mon&ndash;Fri 7 AM &ndash; 5 PM PST &middot; <a href="archive.html" style="color:var(--text-muted);text-decoration:underline">Monthly Archives</a> &middot; <a class="dl-btn" onclick="downloadCSV()">⬇ Download CSV</a></div>`;
+    app.innerHTML = topBar + quotaStrip + `<div class="boards">${board1}${board2}${board3}${adherenceBoard}</div>` + footer;
+    wireAdherenceButtons(D);
   }
+
+  const drawer = document.getElementById('adherenceDrawer');
+  const drawerClose = document.getElementById('drawerClose');
+  const drawerContent = document.getElementById('drawerContent');
+  const drawerTitle = document.getElementById('drawerTitle');
+  const drawerEyebrow = document.getElementById('drawerEyebrow');
+  let drawerTrigger = null;
+  let closeTimer = null;
+  const stepHelp = {
+    loom_usage: 'Loom link recorded at or before the first-call deadline.',
+    precall_text: 'Non-empty outbound SMS recorded at or before the first-call deadline.',
+    followup_task: 'A dated task or a later non-canceled meeting is set.',
+    followup_completed: 'A qualifying task is completed or a later meeting is marked completed.',
+    recap_email: 'Outbound email or SMS is sent within 24 hours of the held first call.'
+  };
+
+  function wireAdherenceButtons(D) {
+    document.querySelectorAll('[data-adherence-rep]').forEach(button => {
+      button.addEventListener('click', () => {
+        const rep = (D.reps || [])[Number(button.dataset.adherenceRep)];
+        openAdherenceDrawer(rep, button.dataset.adherencePhase, button);
+      });
+    });
+  }
+
+  function openAdherenceDrawer(rep, phase, trigger) {
+    if (!rep || !rep.adherence) return;
+    if (closeTimer) clearTimeout(closeTimer);
+    drawerTrigger = trigger;
+    const isPre = phase === 'pre_call';
+    const phaseLabel = isPre ? 'Pre-call adherence' : 'Post-call adherence';
+    const phaseValue = rep.adherence[isPre ? 'pre_call_pct' : 'post_call_pct'];
+    const keys = isPre
+      ? ['loom_usage', 'precall_text']
+      : ['followup_task', 'followup_completed', 'recap_email'];
+    const cards = keys.map(key => {
+      const cell = rep.adherence.steps[key];
+      const pct = cell.pct;
+      return `<article class="step-card">
+        <div class="step-top"><div class="step-name">${cell.label}</div><div class="step-pct ${scoreTone(pct)}">${pctText(pct)}</div></div>
+        <div class="step-track" aria-hidden="true"><div class="step-fill ${scoreTone(pct)}" style="width:${pct == null ? 0 : pct}%"></div></div>
+        <div class="step-meta"><span>${stepHelp[key]}</span><span class="step-count">${cell.done} / ${cell.eligible}</span></div>
+      </article>`;
+    }).join('');
+    drawerEyebrow.textContent = phaseLabel;
+    drawerTitle.textContent = rep.name;
+    drawerContent.innerHTML = `
+      <div class="drawer-score">
+        <div class="drawer-score-value ${scoreTone(phaseValue)}">${pctText(phaseValue)}</div>
+        <div><div class="drawer-score-label">${phaseLabel}</div><p class="drawer-score-note" id="drawerDescription">Equal average of the available step percentages below. Neutral steps are excluded.</p></div>
+      </div>
+      <div class="step-list">${cards}</div>
+      <p class="drawer-rule-note">This calculation uses first calls scheduled in the dashboard month. A no-show requires only Next steps set; the other post-call steps remain neutral.</p>`;
+    drawer.hidden = false;
+    document.body.classList.add('drawer-open');
+    app.inert = true;
+    requestAnimationFrame(() => {
+      drawer.classList.add('is-open');
+      drawerClose.focus();
+    });
+  }
+
+  function closeAdherenceDrawer() {
+    if (drawer.hidden) return;
+    drawer.classList.remove('is-open');
+    document.body.classList.remove('drawer-open');
+    app.inert = false;
+    closeTimer = setTimeout(() => { drawer.hidden = true; }, 240);
+    if (drawerTrigger) drawerTrigger.focus();
+  }
+
+  drawerClose.addEventListener('click', closeAdherenceDrawer);
+  drawer.addEventListener('click', event => {
+    if (event.target === drawer) closeAdherenceDrawer();
+  });
+  document.addEventListener('keydown', event => {
+    if (drawer.hidden) return;
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeAdherenceDrawer();
+      return;
+    }
+    if (event.key !== 'Tab') return;
+    const focusable = [...drawer.querySelectorAll('button:not([disabled]), [href], [tabindex]:not([tabindex="-1"])')];
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault(); last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault(); first.focus();
+    }
+  });
 
   window.downloadCSV = function() {
     if (!window._dashData) return;
     const D = window._dashData;
-    const rows = [['Rep','Revenue','Deals','Quota','% to Quota','Booked','Shown','Close Rate','Show Rate']];
+    const rows = [['Rep','Revenue','Deals','Quota','% to Quota','Booked','Shown','Close Rate','Show Rate','Pre-call Adherence','Post-call Adherence']];
     const reps = (D.reps || []).slice().sort((a,b) => b.revenue - a.revenue);
     for (const r of reps) {
       rows.push([
@@ -622,6 +1029,8 @@
         r.exclude_meetings ? 'N/A' : r.shown,
         r.exclude_meetings ? 'N/A' : r.close_rate + '%',
         r.exclude_meetings ? 'N/A' : r.show_rate + '%',
+        r.adherence ? pctText(r.adherence.pre_call_pct) : 'N/A',
+        r.adherence ? pctText(r.adherence.post_call_pct) : 'N/A',
       ]);
     }
     rows.push([
@@ -634,6 +1043,8 @@
       D.total_shown,
       D.team_close_rate + '%',
       D.team_show_rate + '%',
+      '',
+      '',
     ]);
     const csv = rows.map(r => r.map(v => `"${v}"`).join(',')).join('\n');
     const blob = new Blob([csv], {type: 'text/csv'});

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-22 10:30:18 PDT",
+  "updated_at": "2026-09-22 10:38:03 PDT",
   "month_label": "September 2026",
   "day_of_month": 22,
   "days_in_month": 30,
@@ -24,13 +24,55 @@
       "deals": 8,
       "quota": 100000,
       "pct_to_quota": 54.6,
-      "booked": 93,
+      "booked": 94,
       "shown": 53,
-      "close_rate": 8.6,
-      "show_rate": 57.0,
+      "close_rate": 8.5,
+      "show_rate": 56.4,
       "is_manager": false,
       "is_lead": false,
-      "exclude_meetings": false
+      "exclude_meetings": false,
+      "rep_owner_id": "user_6kp6k4OcqKqFNrxGjgMUncedjiCYC6JHU8EI28F7etV",
+      "adherence": {
+        "pre_call_pct": 99,
+        "post_call_pct": 81,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 62,
+            "eligible": 62,
+            "pct": 100
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 61,
+            "eligible": 62,
+            "pct": 98
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 49,
+            "eligible": 60,
+            "pct": 82
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 28,
+            "eligible": 40,
+            "pct": 70
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 36,
+            "eligible": 40,
+            "pct": 90
+          }
+        }
+      }
     },
     {
       "name": "Eric Piccione",
@@ -44,7 +86,49 @@
       "show_rate": 42.9,
       "is_manager": false,
       "is_lead": false,
-      "exclude_meetings": false
+      "exclude_meetings": false,
+      "rep_owner_id": "user_wF5aATmDljO6g6AHqehRPVmfCmH5j9VszbO6Q6Pjzm4",
+      "adherence": {
+        "pre_call_pct": 72,
+        "post_call_pct": 44,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 33,
+            "eligible": 54,
+            "pct": 61
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 45,
+            "eligible": 54,
+            "pct": 83
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 12,
+            "eligible": 51,
+            "pct": 24
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 5,
+            "eligible": 23,
+            "pct": 22
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 20,
+            "eligible": 23,
+            "pct": 87
+          }
+        }
+      }
     },
     {
       "name": "Joe Vaughan",
@@ -52,13 +136,55 @@
       "deals": 6,
       "quota": 100000,
       "pct_to_quota": 44.2,
-      "booked": 63,
+      "booked": 64,
       "shown": 26,
-      "close_rate": 9.5,
-      "show_rate": 41.3,
+      "close_rate": 9.4,
+      "show_rate": 40.6,
       "is_manager": false,
       "is_lead": false,
-      "exclude_meetings": false
+      "exclude_meetings": false,
+      "rep_owner_id": "user_7HSxi55O8q5jO11khvrTcAGoL2nlcoa3kZ6loAY6i78",
+      "adherence": {
+        "pre_call_pct": 79,
+        "post_call_pct": 53,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 35,
+            "eligible": 53,
+            "pct": 66
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 48,
+            "eligible": 53,
+            "pct": 91
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 17,
+            "eligible": 46,
+            "pct": 37
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 9,
+            "eligible": 22,
+            "pct": 41
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 18,
+            "eligible": 22,
+            "pct": 82
+          }
+        }
+      }
     },
     {
       "name": "Shreya Bechra",
@@ -72,7 +198,49 @@
       "show_rate": 61.8,
       "is_manager": false,
       "is_lead": false,
-      "exclude_meetings": false
+      "exclude_meetings": false,
+      "rep_owner_id": "user_1TKtkacQ7ZMKkcqnmCERikTYWwGltp5XUjEE9Hshple",
+      "adherence": {
+        "pre_call_pct": 94,
+        "post_call_pct": 56,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 46,
+            "eligible": 49,
+            "pct": 94
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 46,
+            "eligible": 49,
+            "pct": 94
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 22,
+            "eligible": 49,
+            "pct": 45
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 10,
+            "eligible": 30,
+            "pct": 33
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 27,
+            "eligible": 30,
+            "pct": 90
+          }
+        }
+      }
     },
     {
       "name": "Christian Hartwell",
@@ -80,13 +248,55 @@
       "deals": 6,
       "quota": 100000,
       "pct_to_quota": 25.7,
-      "booked": 91,
+      "booked": 92,
       "shown": 51,
-      "close_rate": 6.6,
-      "show_rate": 56.0,
+      "close_rate": 6.5,
+      "show_rate": 55.4,
       "is_manager": false,
       "is_lead": false,
-      "exclude_meetings": false
+      "exclude_meetings": false,
+      "rep_owner_id": "user_wHm1vcLde4RExd3vv9UOjnms5Oz8ssXg8600mQuxMPb",
+      "adherence": {
+        "pre_call_pct": 77,
+        "post_call_pct": 65,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 47,
+            "eligible": 72,
+            "pct": 65
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 63,
+            "eligible": 72,
+            "pct": 88
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 33,
+            "eligible": 72,
+            "pct": 46
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 24,
+            "eligible": 44,
+            "pct": 55
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 41,
+            "eligible": 44,
+            "pct": 93
+          }
+        }
+      }
     },
     {
       "name": "Robin Perkins",
@@ -100,7 +310,49 @@
       "show_rate": 44.8,
       "is_manager": false,
       "is_lead": false,
-      "exclude_meetings": false
+      "exclude_meetings": false,
+      "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
+      "adherence": {
+        "pre_call_pct": 98,
+        "post_call_pct": 67,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 22,
+            "eligible": 23,
+            "pct": 96
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 23,
+            "eligible": 23,
+            "pct": 100
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 13,
+            "eligible": 23,
+            "pct": 57
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 5,
+            "eligible": 11,
+            "pct": 45
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 11,
+            "eligible": 11,
+            "pct": 100
+          }
+        }
+      }
     },
     {
       "name": "Joe Dysert",
@@ -114,7 +366,49 @@
       "show_rate": 0,
       "is_manager": true,
       "is_lead": false,
-      "exclude_meetings": true
+      "exclude_meetings": true,
+      "rep_owner_id": "user_lUjlATIIgFg8mELa0GFzZUj0lG4Cs7PwQsxbi34I6Su",
+      "adherence": {
+        "pre_call_pct": null,
+        "post_call_pct": null,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          }
+        }
+      }
     },
     {
       "name": "Oscar Pugh",
@@ -128,7 +422,49 @@
       "show_rate": 32.3,
       "is_manager": false,
       "is_lead": false,
-      "exclude_meetings": false
+      "exclude_meetings": false,
+      "rep_owner_id": "user_rJngzi4LOFXzpNb0bLi1ZtKRlRkga2fYuf4QrYpAmIc",
+      "adherence": {
+        "pre_call_pct": 79,
+        "post_call_pct": 59,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 18,
+            "eligible": 28,
+            "pct": 64
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 26,
+            "eligible": 28,
+            "pct": 93
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 7,
+            "eligible": 15,
+            "pct": 47
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 3,
+            "eligible": 10,
+            "pct": 30
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 10,
+            "eligible": 10,
+            "pct": 100
+          }
+        }
+      }
     },
     {
       "name": "Scott Seymour",
@@ -142,7 +478,49 @@
       "show_rate": 80.0,
       "is_manager": false,
       "is_lead": false,
-      "exclude_meetings": false
+      "exclude_meetings": false,
+      "rep_owner_id": "user_F0VeLnOQlWpkDncNW8rBl1V2QJ08fnDt6DcUjNATUJK",
+      "adherence": {
+        "pre_call_pct": 100,
+        "post_call_pct": 75,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 9,
+            "eligible": 9,
+            "pct": 100
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 9,
+            "eligible": 9,
+            "pct": 100
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 6,
+            "eligible": 9,
+            "pct": 67
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 4,
+            "eligible": 7,
+            "pct": 57
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 7,
+            "eligible": 7,
+            "pct": 100
+          }
+        }
+      }
     },
     {
       "name": "Ariella Irvine",
@@ -156,7 +534,74 @@
       "show_rate": 57.9,
       "is_manager": false,
       "is_lead": false,
-      "exclude_meetings": false
+      "exclude_meetings": false,
+      "rep_owner_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
+      "adherence": {
+        "pre_call_pct": 61,
+        "post_call_pct": 66,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 7,
+            "eligible": 28,
+            "pct": 25
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 27,
+            "eligible": 28,
+            "pct": 96
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 15,
+            "eligible": 26,
+            "pct": 58
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 7,
+            "eligible": 18,
+            "pct": 39
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 18,
+            "eligible": 18,
+            "pct": 100
+          }
+        }
+      }
     }
-  ]
+  ],
+  "adherence_meta": {
+    "schema_version": 1,
+    "source": "close_crm",
+    "generated_at": "2026-09-22T10:41:57.337013-07:00",
+    "period": {
+      "month": "2026-09",
+      "timezone": "America/Los_Angeles",
+      "basis": "first_sales_call_booked_date"
+    },
+    "cohort": {
+      "raw": 533,
+      "included": 419,
+      "excluded": 114,
+      "exclusion_counts": {
+        "lost": 65,
+        "do_not_contact": 5,
+        "outside_us": 2,
+        "canceled_by_lead": 33,
+        "not_visible_rep": 8,
+        "disqualified": 1
+      }
+    },
+    "api_requests": 581,
+    "preview_only": false
+  }
 }

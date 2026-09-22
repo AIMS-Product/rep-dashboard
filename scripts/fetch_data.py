@@ -27,6 +27,8 @@ from urllib.error import HTTPError
 from base64 import b64encode
 from calendar import monthrange
 
+from build_adherence_preview import add_adherence_to_dashboard
+
 # --- Configuration ---
 
 CLOSE_API_KEY = os.environ.get("CLOSE_API_KEY", "")
@@ -554,8 +556,18 @@ def build_dashboard_data():
     }
 
 
+def build_live_dashboard_data():
+    """Build the complete production payload before it is written or archived."""
+    dashboard = build_dashboard_data()
+    return add_adherence_to_dashboard(
+        dashboard,
+        source="close_crm",
+        preview_only=False,
+    )
+
+
 if __name__ == "__main__":
-    data = build_dashboard_data()
+    data = build_live_dashboard_data()
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     repo_root = os.path.dirname(script_dir)
