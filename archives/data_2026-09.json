@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-23 15:15:14 PDT",
+  "updated_at": "2026-09-23 15:30:20 PDT",
   "month_label": "September 2026",
   "day_of_month": 23,
   "days_in_month": 30,
@@ -10,10 +10,10 @@
   "pct_team_quota": 41.8,
   "total_revenue": 313394.0,
   "total_deals": 45,
-  "total_booked": 733,
+  "total_booked": 734,
   "total_shown": 398,
   "team_close_rate": 6.1,
-  "team_show_rate": 54.3,
+  "team_show_rate": 54.2,
   "today_revenue": 12894.0,
   "today_deals": 2,
   "today_closers": [
@@ -157,7 +157,7 @@
       "rep_owner_id": "user_7HSxi55O8q5jO11khvrTcAGoL2nlcoa3kZ6loAY6i78",
       "adherence": {
         "pre_call_pct": 78,
-        "post_call_pct": 54,
+        "post_call_pct": 55,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -176,9 +176,9 @@
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 19,
-            "eligible": 52,
-            "pct": 37
+            "done": 20,
+            "eligible": 53,
+            "pct": 38
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -372,9 +372,9 @@
       "quota": 100000,
       "pct_to_quota": 25.7,
       "booked": 104,
-      "shown": 53,
+      "shown": 54,
       "close_rate": 5.8,
-      "show_rate": 51.0,
+      "show_rate": 51.9,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -408,15 +408,15 @@
             "label": "Next steps completed",
             "phase": "post_call",
             "done": 24,
-            "eligible": 46,
-            "pct": 52
+            "eligible": 47,
+            "pct": 51
           },
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 43,
-            "eligible": 46,
-            "pct": 93
+            "done": 44,
+            "eligible": 47,
+            "pct": 94
           }
         }
       }
@@ -593,7 +593,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-23T15:19:11.563588-07:00",
+    "generated_at": "2026-09-23T15:34:26.719923-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -604,15 +604,15 @@
       "included": 472,
       "excluded": 131,
       "exclusion_counts": {
+        "canceled_by_lead": 29,
         "disqualified": 2,
         "lost": 83,
-        "canceled_by_lead": 29,
         "do_not_contact": 7,
         "outside_us": 2,
         "not_visible_rep": 8
       }
     },
-    "api_requests": 648,
+    "api_requests": 650,
     "preview_only": false
   }
 }
