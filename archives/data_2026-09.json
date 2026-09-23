@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-22 19:30:16 PDT",
+  "updated_at": "2026-09-22 19:45:14 PDT",
   "month_label": "September 2026",
   "day_of_month": 22,
   "days_in_month": 30,
@@ -147,10 +147,10 @@
       "deals": 6,
       "quota": 100000,
       "pct_to_quota": 44.2,
-      "booked": 67,
+      "booked": 68,
       "shown": 25,
-      "close_rate": 9.0,
-      "show_rate": 37.3,
+      "close_rate": 8.8,
+      "show_rate": 36.8,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -162,23 +162,23 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 35,
-            "eligible": 54,
+            "done": 36,
+            "eligible": 55,
             "pct": 65
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 50,
-            "eligible": 54,
+            "done": 51,
+            "eligible": 55,
             "pct": 93
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
             "done": 18,
-            "eligible": 48,
-            "pct": 38
+            "eligible": 49,
+            "pct": 37
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -593,7 +593,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-22T19:35:11.954787-07:00",
+    "generated_at": "2026-09-22T19:50:05.507236-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -601,18 +601,18 @@
     },
     "cohort": {
       "raw": 581,
-      "included": 454,
-      "excluded": 127,
+      "included": 455,
+      "excluded": 126,
       "exclusion_counts": {
         "not_visible_rep": 10,
         "lost": 77,
-        "canceled_by_lead": 30,
+        "canceled_by_lead": 29,
         "do_not_contact": 7,
         "outside_us": 2,
         "disqualified": 1
       }
     },
-    "api_requests": 625,
+    "api_requests": 628,
     "preview_only": false
   }
 }
