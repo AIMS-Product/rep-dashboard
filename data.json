@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-22 17:00:23 PDT",
+  "updated_at": "2026-09-22 17:15:12 PDT",
   "month_label": "September 2026",
   "day_of_month": 22,
   "days_in_month": 30,
@@ -10,10 +10,10 @@
   "pct_team_quota": 40.1,
   "total_revenue": 300500.0,
   "total_deals": 43,
-  "total_booked": 670,
-  "total_shown": 377,
+  "total_booked": 668,
+  "total_shown": 374,
   "team_close_rate": 6.4,
-  "team_show_rate": 56.3,
+  "team_show_rate": 56.0,
   "today_revenue": 12894.0,
   "today_deals": 2,
   "today_closers": [
@@ -259,10 +259,10 @@
       "deals": 4,
       "quota": 100000,
       "pct_to_quota": 29.7,
-      "booked": 29,
+      "booked": 30,
       "shown": 14,
-      "close_rate": 13.8,
-      "show_rate": 48.3,
+      "close_rate": 13.3,
+      "show_rate": 46.7,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -371,10 +371,10 @@
       "deals": 6,
       "quota": 100000,
       "pct_to_quota": 25.7,
-      "booked": 94,
+      "booked": 95,
       "shown": 52,
-      "close_rate": 6.4,
-      "show_rate": 55.3,
+      "close_rate": 6.3,
+      "show_rate": 54.7,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -593,26 +593,26 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-22T17:05:15.270944-07:00",
+    "generated_at": "2026-09-22T17:20:01.252463-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
       "basis": "first_sales_call_booked_date"
     },
     "cohort": {
-      "raw": 546,
-      "included": 422,
-      "excluded": 124,
+      "raw": 549,
+      "included": 424,
+      "excluded": 125,
       "exclusion_counts": {
-        "canceled_by_lead": 30,
         "lost": 76,
+        "not_visible_rep": 9,
+        "canceled_by_lead": 30,
         "do_not_contact": 7,
         "outside_us": 2,
-        "not_visible_rep": 8,
         "disqualified": 1
       }
     },
-    "api_requests": 583,
+    "api_requests": 585,
     "preview_only": false
   }
 }
