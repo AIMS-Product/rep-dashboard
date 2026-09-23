@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-22 17:30:19 PDT",
+  "updated_at": "2026-09-22 17:45:12 PDT",
   "month_label": "September 2026",
   "day_of_month": 22,
   "days_in_month": 30,
@@ -11,9 +11,9 @@
   "total_revenue": 300500.0,
   "total_deals": 43,
   "total_booked": 669,
-  "total_shown": 374,
+  "total_shown": 375,
   "team_close_rate": 6.4,
-  "team_show_rate": 55.9,
+  "team_show_rate": 56.1,
   "today_revenue": 12894.0,
   "today_deals": 2,
   "today_closers": [
@@ -274,23 +274,23 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 23,
-            "eligible": 24,
+            "done": 22,
+            "eligible": 23,
             "pct": 96
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 24,
-            "eligible": 24,
+            "done": 23,
+            "eligible": 23,
             "pct": 100
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 13,
-            "eligible": 24,
-            "pct": 54
+            "done": 12,
+            "eligible": 23,
+            "pct": 52
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -593,7 +593,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-22T17:34:04.320574-07:00",
+    "generated_at": "2026-09-22T17:49:25.484805-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -601,10 +601,10 @@
     },
     "cohort": {
       "raw": 549,
-      "included": 424,
-      "excluded": 125,
+      "included": 423,
+      "excluded": 126,
       "exclusion_counts": {
-        "lost": 76,
+        "lost": 77,
         "not_visible_rep": 9,
         "canceled_by_lead": 30,
         "do_not_contact": 7,
@@ -612,7 +612,7 @@
         "disqualified": 1
       }
     },
-    "api_requests": 583,
+    "api_requests": 581,
     "preview_only": false
   }
 }
