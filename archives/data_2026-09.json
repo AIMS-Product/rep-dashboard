@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-23 08:30:18 PDT",
+  "updated_at": "2026-09-23 08:45:15 PDT",
   "month_label": "September 2026",
   "day_of_month": 23,
   "days_in_month": 30,
@@ -7,16 +7,22 @@
   "working_days_elapsed": 17,
   "pct_month_passed": 77.3,
   "team_quota": 750000,
-  "pct_team_quota": 40.1,
-  "total_revenue": 300500.0,
-  "total_deals": 43,
+  "pct_team_quota": 41.0,
+  "total_revenue": 307397.0,
+  "total_deals": 44,
   "total_booked": 744,
   "total_shown": 396,
-  "team_close_rate": 5.8,
+  "team_close_rate": 5.9,
   "team_show_rate": 53.2,
-  "today_revenue": 0.0,
-  "today_deals": 0,
-  "today_closers": [],
+  "today_revenue": 6897.0,
+  "today_deals": 1,
+  "today_closers": [
+    {
+      "name": "Joe Vaughan",
+      "deals": 1,
+      "total": 6897.0
+    }
+  ],
   "reps": [
     {
       "name": "Luke Herman",
@@ -70,6 +76,62 @@
             "done": 37,
             "eligible": 41,
             "pct": 90
+          }
+        }
+      }
+    },
+    {
+      "name": "Joe Vaughan",
+      "revenue": 51132.0,
+      "deals": 7,
+      "quota": 100000,
+      "pct_to_quota": 51.1,
+      "booked": 71,
+      "shown": 27,
+      "close_rate": 9.9,
+      "show_rate": 38.0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "rep_owner_id": "user_7HSxi55O8q5jO11khvrTcAGoL2nlcoa3kZ6loAY6i78",
+      "adherence": {
+        "pre_call_pct": 79,
+        "post_call_pct": 53,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 36,
+            "eligible": 56,
+            "pct": 64
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 52,
+            "eligible": 56,
+            "pct": 93
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 18,
+            "eligible": 50,
+            "pct": 36
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 9,
+            "eligible": 22,
+            "pct": 41
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 18,
+            "eligible": 22,
+            "pct": 82
           }
         }
       }
@@ -131,62 +193,6 @@
       }
     },
     {
-      "name": "Joe Vaughan",
-      "revenue": 44235.0,
-      "deals": 6,
-      "quota": 100000,
-      "pct_to_quota": 44.2,
-      "booked": 71,
-      "shown": 26,
-      "close_rate": 8.5,
-      "show_rate": 36.6,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "rep_owner_id": "user_7HSxi55O8q5jO11khvrTcAGoL2nlcoa3kZ6loAY6i78",
-      "adherence": {
-        "pre_call_pct": 79,
-        "post_call_pct": 54,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 36,
-            "eligible": 56,
-            "pct": 64
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 52,
-            "eligible": 56,
-            "pct": 93
-          },
-          "followup_task": {
-            "label": "Next steps set",
-            "phase": "post_call",
-            "done": 18,
-            "eligible": 49,
-            "pct": 37
-          },
-          "followup_completed": {
-            "label": "Next steps completed",
-            "phase": "post_call",
-            "done": 9,
-            "eligible": 21,
-            "pct": 43
-          },
-          "recap_email": {
-            "label": "Post-call follow-up",
-            "phase": "post_call",
-            "done": 17,
-            "eligible": 21,
-            "pct": 81
-          }
-        }
-      }
-    },
-    {
       "name": "Shreya Bechra",
       "revenue": 31785.0,
       "deals": 5,
@@ -207,15 +213,15 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 44,
-            "eligible": 47,
+            "done": 45,
+            "eligible": 48,
             "pct": 94
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 44,
-            "eligible": 47,
+            "done": 45,
+            "eligible": 48,
             "pct": 94
           },
           "followup_task": {
@@ -582,7 +588,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-23T08:34:35.474967-07:00",
+    "generated_at": "2026-09-23T08:48:48.441762-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -593,8 +599,8 @@
       "included": 459,
       "excluded": 129,
       "exclusion_counts": {
-        "lost": 78,
         "canceled_by_lead": 31,
+        "lost": 78,
         "not_visible_rep": 10,
         "do_not_contact": 7,
         "outside_us": 2,
