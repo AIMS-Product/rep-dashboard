@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-22 18:00:21 PDT",
+  "updated_at": "2026-09-22 18:15:13 PDT",
   "month_label": "September 2026",
   "day_of_month": 22,
   "days_in_month": 30,
@@ -11,9 +11,9 @@
   "total_revenue": 300500.0,
   "total_deals": 43,
   "total_booked": 668,
-  "total_shown": 375,
+  "total_shown": 372,
   "team_close_rate": 6.4,
-  "team_show_rate": 56.1,
+  "team_show_rate": 55.7,
   "today_revenue": 12894.0,
   "today_deals": 2,
   "today_closers": [
@@ -35,10 +35,10 @@
       "deals": 8,
       "quota": 100000,
       "pct_to_quota": 54.6,
-      "booked": 100,
+      "booked": 101,
       "shown": 55,
-      "close_rate": 8.0,
-      "show_rate": 55.0,
+      "close_rate": 7.9,
+      "show_rate": 54.5,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -203,10 +203,10 @@
       "deals": 5,
       "quota": 100000,
       "pct_to_quota": 31.8,
-      "booked": 68,
+      "booked": 69,
       "shown": 42,
-      "close_rate": 7.4,
-      "show_rate": 61.8,
+      "close_rate": 7.2,
+      "show_rate": 60.9,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -427,10 +427,10 @@
       "deals": 3,
       "quota": 100000,
       "pct_to_quota": 18.0,
-      "booked": 35,
+      "booked": 36,
       "shown": 12,
-      "close_rate": 8.6,
-      "show_rate": 34.3,
+      "close_rate": 8.3,
+      "show_rate": 33.3,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -593,15 +593,15 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-22T18:05:14.769159-07:00",
+    "generated_at": "2026-09-22T18:20:03.582979-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
       "basis": "first_sales_call_booked_date"
     },
     "cohort": {
-      "raw": 549,
-      "included": 423,
+      "raw": 552,
+      "included": 426,
       "excluded": 126,
       "exclusion_counts": {
         "lost": 77,
@@ -612,7 +612,7 @@
         "disqualified": 1
       }
     },
-    "api_requests": 581,
+    "api_requests": 591,
     "preview_only": false
   }
 }
