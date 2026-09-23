@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-09-22 23:45:15 PDT",
+  "updated_at": "2026-09-23 00:00:22 PDT",
   "month_label": "September 2026",
-  "day_of_month": 22,
+  "day_of_month": 23,
   "days_in_month": 30,
   "working_days_total": 22,
-  "working_days_elapsed": 16,
-  "pct_month_passed": 72.7,
+  "working_days_elapsed": 17,
+  "pct_month_passed": 77.3,
   "team_quota": 750000,
   "pct_team_quota": 40.1,
   "total_revenue": 300500.0,
@@ -14,20 +14,9 @@
   "total_shown": 370,
   "team_close_rate": 6.4,
   "team_show_rate": 55.5,
-  "today_revenue": 12894.0,
-  "today_deals": 2,
-  "today_closers": [
-    {
-      "name": "Robin Perkins",
-      "deals": 1,
-      "total": 6897.0
-    },
-    {
-      "name": "Joe Dysert",
-      "deals": 1,
-      "total": 5997.0
-    }
-  ],
+  "today_revenue": 0.0,
+  "today_deals": 0,
+  "today_closers": [],
   "reps": [
     {
       "name": "Luke Herman",
@@ -101,28 +90,28 @@
       "rep_owner_id": "user_wF5aATmDljO6g6AHqehRPVmfCmH5j9VszbO6Q6Pjzm4",
       "adherence": {
         "pre_call_pct": 72,
-        "post_call_pct": 44,
+        "post_call_pct": 45,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
             "done": 33,
-            "eligible": 54,
-            "pct": 61
+            "eligible": 55,
+            "pct": 60
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 45,
-            "eligible": 54,
-            "pct": 83
+            "done": 46,
+            "eligible": 55,
+            "pct": 84
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 12,
-            "eligible": 51,
-            "pct": 24
+            "done": 13,
+            "eligible": 52,
+            "pct": 25
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -593,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-22T23:48:20.020447-07:00",
+    "generated_at": "2026-09-23T00:04:22.828013-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
