@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-24 04:45:16 PDT",
+  "updated_at": "2026-09-24 05:00:22 PDT",
   "month_label": "September 2026",
   "day_of_month": 24,
   "days_in_month": 30,
@@ -425,22 +425,22 @@
       "exclude_meetings": false,
       "rep_owner_id": "user_rJngzi4LOFXzpNb0bLi1ZtKRlRkga2fYuf4QrYpAmIc",
       "adherence": {
-        "pre_call_pct": 80,
+        "pre_call_pct": 81,
         "post_call_pct": 56,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 20,
-            "eligible": 30,
-            "pct": 67
+            "done": 21,
+            "eligible": 31,
+            "pct": 68
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 28,
-            "eligible": 30,
-            "pct": 93
+            "done": 29,
+            "eligible": 31,
+            "pct": 94
           },
           "followup_task": {
             "label": "Next steps set",
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-24T04:47:54.489452-07:00",
+    "generated_at": "2026-09-24T05:05:55.615730-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -601,7 +601,7 @@
         "not_visible_rep": 8
       }
     },
-    "api_requests": 645,
+    "api_requests": 646,
     "preview_only": false
   }
 }
