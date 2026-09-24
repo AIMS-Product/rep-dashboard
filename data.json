@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-24 07:30:19 PDT",
+  "updated_at": "2026-09-24 07:45:15 PDT",
   "month_label": "September 2026",
   "day_of_month": 24,
   "days_in_month": 30,
@@ -34,7 +34,7 @@
       "rep_owner_id": "user_wF5aATmDljO6g6AHqehRPVmfCmH5j9VszbO6Q6Pjzm4",
       "adherence": {
         "pre_call_pct": 71,
-        "post_call_pct": 47,
+        "post_call_pct": 48,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -53,9 +53,9 @@
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 13,
+            "done": 15,
             "eligible": 52,
-            "pct": 25
+            "pct": 29
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-24T07:34:22.169550-07:00",
+    "generated_at": "2026-09-24T07:51:22.840003-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -593,9 +593,9 @@
       "included": 467,
       "excluded": 140,
       "exclusion_counts": {
+        "lost": 94,
         "not_visible_rep": 9,
         "canceled_by_lead": 26,
-        "lost": 94,
         "do_not_contact": 7,
         "disqualified": 2,
         "outside_us": 2
