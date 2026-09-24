@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-24 04:15:14 PDT",
+  "updated_at": "2026-09-24 04:30:17 PDT",
   "month_label": "September 2026",
   "day_of_month": 24,
   "days_in_month": 30,
@@ -10,10 +10,10 @@
   "pct_team_quota": 41.8,
   "total_revenue": 313394.0,
   "total_deals": 45,
-  "total_booked": 769,
+  "total_booked": 770,
   "total_shown": 408,
-  "team_close_rate": 5.9,
-  "team_show_rate": 53.1,
+  "team_close_rate": 5.8,
+  "team_show_rate": 53.0,
   "today_revenue": 0.0,
   "today_deals": 0,
   "today_closers": [],
@@ -80,10 +80,10 @@
       "deals": 8,
       "quota": 100000,
       "pct_to_quota": 54.6,
-      "booked": 111,
+      "booked": 110,
       "shown": 56,
-      "close_rate": 7.2,
-      "show_rate": 50.5,
+      "close_rate": 7.3,
+      "show_rate": 50.9,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-24T04:20:22.861802-07:00",
+    "generated_at": "2026-09-24T04:35:31.967087-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -590,18 +590,18 @@
     },
     "cohort": {
       "raw": 607,
-      "included": 470,
-      "excluded": 137,
+      "included": 469,
+      "excluded": 138,
       "exclusion_counts": {
+        "canceled_by_lead": 29,
         "lost": 90,
-        "canceled_by_lead": 28,
         "do_not_contact": 7,
         "disqualified": 2,
         "outside_us": 2,
         "not_visible_rep": 8
       }
     },
-    "api_requests": 647,
+    "api_requests": 646,
     "preview_only": false
   }
 }
