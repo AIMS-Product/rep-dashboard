@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-24 13:30:18 PDT",
+  "updated_at": "2026-09-24 13:45:14 PDT",
   "month_label": "September 2026",
   "day_of_month": 24,
   "days_in_month": 30,
@@ -7,16 +7,22 @@
   "working_days_elapsed": 18,
   "pct_month_passed": 81.8,
   "team_quota": 750000,
-  "pct_team_quota": 41.8,
-  "total_revenue": 313394.0,
-  "total_deals": 45,
-  "total_booked": 773,
+  "pct_team_quota": 42.6,
+  "total_revenue": 319391.0,
+  "total_deals": 46,
+  "total_booked": 771,
   "total_shown": 417,
-  "team_close_rate": 5.8,
-  "team_show_rate": 53.9,
-  "today_revenue": 0.0,
-  "today_deals": 0,
-  "today_closers": [],
+  "team_close_rate": 6.0,
+  "team_show_rate": 54.1,
+  "today_revenue": 5997.0,
+  "today_deals": 1,
+  "today_closers": [
+    {
+      "name": "Ariella Irvine",
+      "deals": 1,
+      "total": 5997.0
+    }
+  ],
   "reps": [
     {
       "name": "Eric Piccione",
@@ -467,6 +473,62 @@
       }
     },
     {
+      "name": "Ariella Irvine",
+      "revenue": 14994.0,
+      "deals": 2,
+      "quota": 100000,
+      "pct_to_quota": 15.0,
+      "booked": 48,
+      "shown": 24,
+      "close_rate": 4.2,
+      "show_rate": 50.0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "rep_owner_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
+      "adherence": {
+        "pre_call_pct": 60,
+        "post_call_pct": 69,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 7,
+            "eligible": 31,
+            "pct": 23
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 30,
+            "eligible": 31,
+            "pct": 97
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 19,
+            "eligible": 29,
+            "pct": 66
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 8,
+            "eligible": 19,
+            "pct": 42
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 19,
+            "eligible": 19,
+            "pct": 100
+          }
+        }
+      }
+    },
+    {
       "name": "Scott Seymour",
       "revenue": 9497.0,
       "deals": 1,
@@ -521,87 +583,31 @@
           }
         }
       }
-    },
-    {
-      "name": "Ariella Irvine",
-      "revenue": 8997.0,
-      "deals": 1,
-      "quota": 100000,
-      "pct_to_quota": 9.0,
-      "booked": 48,
-      "shown": 24,
-      "close_rate": 2.1,
-      "show_rate": 50.0,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "rep_owner_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
-      "adherence": {
-        "pre_call_pct": 60,
-        "post_call_pct": 69,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 7,
-            "eligible": 31,
-            "pct": 23
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 30,
-            "eligible": 31,
-            "pct": 97
-          },
-          "followup_task": {
-            "label": "Next steps set",
-            "phase": "post_call",
-            "done": 19,
-            "eligible": 29,
-            "pct": 66
-          },
-          "followup_completed": {
-            "label": "Next steps completed",
-            "phase": "post_call",
-            "done": 8,
-            "eligible": 19,
-            "pct": 42
-          },
-          "recap_email": {
-            "label": "Post-call follow-up",
-            "phase": "post_call",
-            "done": 19,
-            "eligible": 19,
-            "pct": 100
-          }
-        }
-      }
     }
   ],
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-24T13:33:58.415184-07:00",
+    "generated_at": "2026-09-24T13:48:50.034562-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
       "basis": "first_sales_call_booked_date"
     },
     "cohort": {
-      "raw": 612,
+      "raw": 613,
       "included": 465,
-      "excluded": 147,
+      "excluded": 148,
       "exclusion_counts": {
+        "not_visible_rep": 10,
         "lost": 96,
         "canceled_by_lead": 31,
-        "not_visible_rep": 9,
         "do_not_contact": 7,
         "disqualified": 2,
         "outside_us": 2
       }
     },
-    "api_requests": 642,
+    "api_requests": 641,
     "preview_only": false
   }
 }
