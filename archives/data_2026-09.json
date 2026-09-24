@@ -1,33 +1,22 @@
 {
-  "updated_at": "2026-09-23 23:45:16 PDT",
+  "updated_at": "2026-09-24 00:00:20 PDT",
   "month_label": "September 2026",
-  "day_of_month": 23,
+  "day_of_month": 24,
   "days_in_month": 30,
   "working_days_total": 22,
-  "working_days_elapsed": 17,
-  "pct_month_passed": 77.3,
+  "working_days_elapsed": 18,
+  "pct_month_passed": 81.8,
   "team_quota": 750000,
   "pct_team_quota": 41.8,
   "total_revenue": 313394.0,
   "total_deals": 45,
-  "total_booked": 744,
-  "total_shown": 417,
-  "team_close_rate": 6.0,
+  "total_booked": 743,
+  "total_shown": 416,
+  "team_close_rate": 6.1,
   "team_show_rate": 56.0,
-  "today_revenue": 12894.0,
-  "today_deals": 2,
-  "today_closers": [
-    {
-      "name": "Joe Vaughan",
-      "deals": 1,
-      "total": 6897.0
-    },
-    {
-      "name": "Eric Piccione",
-      "deals": 1,
-      "total": 5997.0
-    }
-  ],
+  "today_revenue": 0.0,
+  "today_deals": 0,
+  "today_closers": [],
   "reps": [
     {
       "name": "Eric Piccione",
@@ -106,22 +95,22 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 62,
-            "eligible": 62,
+            "done": 63,
+            "eligible": 63,
             "pct": 100
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 61,
-            "eligible": 62,
+            "done": 62,
+            "eligible": 63,
             "pct": 98
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 49,
-            "eligible": 60,
+            "done": 50,
+            "eligible": 61,
             "pct": 82
           },
           "followup_completed": {
@@ -593,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-23T23:49:45.809507-07:00",
+    "generated_at": "2026-09-24T00:05:53.931965-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -612,7 +601,7 @@
         "not_visible_rep": 8
       }
     },
-    "api_requests": 647,
+    "api_requests": 646,
     "preview_only": false
   }
 }
