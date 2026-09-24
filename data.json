@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-24 03:30:17 PDT",
+  "updated_at": "2026-09-24 03:45:13 PDT",
   "month_label": "September 2026",
   "day_of_month": 24,
   "days_in_month": 30,
@@ -33,29 +33,29 @@
       "exclude_meetings": false,
       "rep_owner_id": "user_wF5aATmDljO6g6AHqehRPVmfCmH5j9VszbO6Q6Pjzm4",
       "adherence": {
-        "pre_call_pct": 70,
+        "pre_call_pct": 71,
         "post_call_pct": 46,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 31,
-            "eligible": 54,
-            "pct": 57
+            "done": 32,
+            "eligible": 55,
+            "pct": 58
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 45,
-            "eligible": 54,
-            "pct": 83
+            "done": 46,
+            "eligible": 55,
+            "pct": 84
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
             "done": 13,
-            "eligible": 50,
-            "pct": 26
+            "eligible": 51,
+            "pct": 25
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -80,10 +80,10 @@
       "deals": 8,
       "quota": 100000,
       "pct_to_quota": 54.6,
-      "booked": 110,
+      "booked": 111,
       "shown": 56,
-      "close_rate": 7.3,
-      "show_rate": 50.9,
+      "close_rate": 7.2,
+      "show_rate": 50.5,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -582,15 +582,15 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-24T03:35:23.444202-07:00",
+    "generated_at": "2026-09-24T03:50:19.504180-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
       "basis": "first_sales_call_booked_date"
     },
     "cohort": {
-      "raw": 606,
-      "included": 469,
+      "raw": 607,
+      "included": 470,
       "excluded": 137,
       "exclusion_counts": {
         "lost": 90,
@@ -601,7 +601,7 @@
         "not_visible_rep": 8
       }
     },
-    "api_requests": 644,
+    "api_requests": 647,
     "preview_only": false
   }
 }
