@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25 00:45:19 PDT",
+  "updated_at": "2026-09-25 01:00:23 PDT",
   "month_label": "September 2026",
   "day_of_month": 25,
   "days_in_month": 30,
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-25T00:48:46.486826-07:00",
+    "generated_at": "2026-09-25T01:04:48.190850-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -593,15 +593,15 @@
       "included": 466,
       "excluded": 149,
       "exclusion_counts": {
+        "canceled_by_lead": 28,
         "outside_us": 2,
         "not_visible_rep": 10,
         "lost": 100,
-        "canceled_by_lead": 28,
         "do_not_contact": 7,
         "disqualified": 2
       }
     },
-    "api_requests": 643,
+    "api_requests": 646,
     "preview_only": false
   }
 }
