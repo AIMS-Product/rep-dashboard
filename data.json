@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25 12:15:13 PDT",
+  "updated_at": "2026-09-25 12:30:17 PDT",
   "month_label": "September 2026",
   "day_of_month": 25,
   "days_in_month": 30,
@@ -441,21 +441,21 @@
       "exclude_meetings": false,
       "rep_owner_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
       "adherence": {
-        "pre_call_pct": 60,
-        "post_call_pct": 70,
+        "pre_call_pct": 59,
+        "post_call_pct": 72,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
             "done": 7,
-            "eligible": 32,
-            "pct": 22
+            "eligible": 33,
+            "pct": 21
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 31,
-            "eligible": 32,
+            "done": 32,
+            "eligible": 33,
             "pct": 97
           },
           "followup_task": {
@@ -468,9 +468,9 @@
           "followup_completed": {
             "label": "Next steps completed",
             "phase": "post_call",
-            "done": 8,
+            "done": 9,
             "eligible": 19,
-            "pct": 42
+            "pct": 47
           },
           "recap_email": {
             "label": "Post-call follow-up",
@@ -598,7 +598,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-25T12:20:28.097547-07:00",
+    "generated_at": "2026-09-25T12:33:32.302194-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -609,8 +609,8 @@
       "included": 448,
       "excluded": 170,
       "exclusion_counts": {
-        "canceled_by_lead": 35,
         "lost": 115,
+        "canceled_by_lead": 35,
         "not_visible_rep": 10,
         "outside_us": 2,
         "do_not_contact": 6,
