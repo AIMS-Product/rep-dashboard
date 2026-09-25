@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25 09:15:14 PDT",
+  "updated_at": "2026-09-25 09:30:19 PDT",
   "month_label": "September 2026",
   "day_of_month": 25,
   "days_in_month": 30,
@@ -106,22 +106,22 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 60,
-            "eligible": 60,
+            "done": 59,
+            "eligible": 59,
             "pct": 100
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 59,
-            "eligible": 60,
+            "done": 58,
+            "eligible": 59,
             "pct": 98
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 47,
-            "eligible": 58,
+            "done": 46,
+            "eligible": 57,
             "pct": 81
           },
           "followup_completed": {
@@ -593,7 +593,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-25T09:18:32.716082-07:00",
+    "generated_at": "2026-09-25T09:35:44.434621-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -601,10 +601,10 @@
     },
     "cohort": {
       "raw": 614,
-      "included": 455,
-      "excluded": 159,
+      "included": 454,
+      "excluded": 160,
       "exclusion_counts": {
-        "lost": 108,
+        "lost": 109,
         "canceled_by_lead": 31,
         "not_visible_rep": 10,
         "outside_us": 2,
@@ -612,7 +612,7 @@
         "disqualified": 2
       }
     },
-    "api_requests": 635,
+    "api_requests": 637,
     "preview_only": false
   }
 }
