@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25 16:00:21 PDT",
+  "updated_at": "2026-09-25 16:15:14 PDT",
   "month_label": "September 2026",
   "day_of_month": 25,
   "days_in_month": 30,
@@ -50,10 +50,10 @@
       "deals": 8,
       "quota": 100000,
       "pct_to_quota": 57.1,
-      "booked": 75,
+      "booked": 76,
       "shown": 31,
-      "close_rate": 10.7,
-      "show_rate": 41.3,
+      "close_rate": 10.5,
+      "show_rate": 40.8,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -340,7 +340,7 @@
       "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
       "adherence": {
         "pre_call_pct": 94,
-        "post_call_pct": 61,
+        "post_call_pct": 63,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -359,9 +359,9 @@
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 14,
+            "done": 15,
             "eligible": 29,
-            "pct": 48
+            "pct": 52
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -514,14 +514,14 @@
             "label": "Pre-Call Loom",
             "phase": "pre_call",
             "done": 7,
-            "eligible": 34,
-            "pct": 21
+            "eligible": 35,
+            "pct": 20
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 33,
-            "eligible": 34,
+            "done": 34,
+            "eligible": 35,
             "pct": 97
           },
           "followup_task": {
@@ -608,15 +608,15 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-25T16:04:14.077914-07:00",
+    "generated_at": "2026-09-25T16:19:26.935951-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
       "basis": "first_sales_call_booked_date"
     },
     "cohort": {
-      "raw": 618,
-      "included": 445,
+      "raw": 619,
+      "included": 446,
       "excluded": 173,
       "exclusion_counts": {
         "disqualified": 3,
@@ -627,7 +627,7 @@
         "outside_us": 2
       }
     },
-    "api_requests": 623,
+    "api_requests": 624,
     "preview_only": false
   }
 }
