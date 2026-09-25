@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-24 17:45:14 PDT",
+  "updated_at": "2026-09-24 18:00:19 PDT",
   "month_label": "September 2026",
   "day_of_month": 24,
   "days_in_month": 30,
@@ -172,8 +172,8 @@
             "label": "Next steps set",
             "phase": "post_call",
             "done": 22,
-            "eligible": 55,
-            "pct": 40
+            "eligible": 56,
+            "pct": 39
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -588,7 +588,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-24T17:49:19.652926-07:00",
+    "generated_at": "2026-09-24T18:05:47.106523-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -599,15 +599,15 @@
       "included": 464,
       "excluded": 149,
       "exclusion_counts": {
+        "not_visible_rep": 10,
         "lost": 100,
         "canceled_by_lead": 28,
-        "not_visible_rep": 10,
         "do_not_contact": 7,
         "disqualified": 2,
         "outside_us": 2
       }
     },
-    "api_requests": 645,
+    "api_requests": 646,
     "preview_only": false
   }
 }
