@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25 12:00:26 PDT",
+  "updated_at": "2026-09-25 12:15:13 PDT",
   "month_label": "September 2026",
   "day_of_month": 25,
   "days_in_month": 30,
@@ -208,10 +208,10 @@
       "deals": 6,
       "quota": 100000,
       "pct_to_quota": 38.7,
-      "booked": 69,
+      "booked": 70,
       "shown": 47,
-      "close_rate": 8.7,
-      "show_rate": 68.1,
+      "close_rate": 8.6,
+      "show_rate": 67.1,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -432,10 +432,10 @@
       "deals": 3,
       "quota": 100000,
       "pct_to_quota": 23.1,
-      "booked": 47,
+      "booked": 48,
       "shown": 24,
-      "close_rate": 6.4,
-      "show_rate": 51.1,
+      "close_rate": 6.2,
+      "show_rate": 50.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -488,10 +488,10 @@
       "deals": 4,
       "quota": 100000,
       "pct_to_quota": 18.0,
-      "booked": 42,
+      "booked": 41,
       "shown": 20,
-      "close_rate": 9.5,
-      "show_rate": 47.6,
+      "close_rate": 9.8,
+      "show_rate": 48.8,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -598,26 +598,26 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-25T12:04:27.807988-07:00",
+    "generated_at": "2026-09-25T12:20:28.097547-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
       "basis": "first_sales_call_booked_date"
     },
     "cohort": {
-      "raw": 616,
-      "included": 447,
-      "excluded": 169,
+      "raw": 618,
+      "included": 448,
+      "excluded": 170,
       "exclusion_counts": {
+        "canceled_by_lead": 35,
         "lost": 115,
-        "canceled_by_lead": 34,
         "not_visible_rep": 10,
         "outside_us": 2,
         "do_not_contact": 6,
         "disqualified": 2
       }
     },
-    "api_requests": 623,
+    "api_requests": 626,
     "preview_only": false
   }
 }
