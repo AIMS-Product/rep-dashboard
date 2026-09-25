@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25 06:15:13 PDT",
+  "updated_at": "2026-09-25 06:30:19 PDT",
   "month_label": "September 2026",
   "day_of_month": 25,
   "days_in_month": 30,
@@ -10,10 +10,10 @@
   "pct_team_quota": 42.6,
   "total_revenue": 319391.0,
   "total_deals": 46,
-  "total_booked": 815,
-  "total_shown": 428,
+  "total_booked": 819,
+  "total_shown": 432,
   "team_close_rate": 5.6,
-  "team_show_rate": 52.5,
+  "team_show_rate": 52.7,
   "today_revenue": 0.0,
   "today_deals": 0,
   "today_closers": [],
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-25T06:21:55.345637-07:00",
+    "generated_at": "2026-09-25T06:34:35.477729-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -593,15 +593,15 @@
       "included": 462,
       "excluded": 152,
       "exclusion_counts": {
+        "not_visible_rep": 10,
         "lost": 102,
         "canceled_by_lead": 29,
-        "not_visible_rep": 10,
         "do_not_contact": 7,
         "outside_us": 2,
         "disqualified": 2
       }
     },
-    "api_requests": 644,
+    "api_requests": 645,
     "preview_only": false
   }
 }
