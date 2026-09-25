@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25 15:00:23 PDT",
+  "updated_at": "2026-09-25 15:15:14 PDT",
   "month_label": "September 2026",
   "day_of_month": 25,
   "days_in_month": 30,
@@ -7,21 +7,16 @@
   "working_days_elapsed": 19,
   "pct_month_passed": 86.4,
   "team_quota": 750000,
-  "pct_team_quota": 47.9,
-  "total_revenue": 359382.0,
+  "pct_team_quota": 47.0,
+  "total_revenue": 352382.0,
   "total_deals": 51,
-  "total_booked": 809,
-  "total_shown": 433,
+  "total_booked": 808,
+  "total_shown": 436,
   "team_close_rate": 6.3,
-  "team_show_rate": 53.5,
-  "today_revenue": 39991.0,
+  "team_show_rate": 54.0,
+  "today_revenue": 32991.0,
   "today_deals": 5,
   "today_closers": [
-    {
-      "name": "Joe Dysert",
-      "deals": 1,
-      "total": 12997.0
-    },
     {
       "name": "Ariella Irvine",
       "deals": 1,
@@ -39,6 +34,11 @@
     },
     {
       "name": "Joe Vaughan",
+      "deals": 1,
+      "total": 5997.0
+    },
+    {
+      "name": "Joe Dysert",
       "deals": 1,
       "total": 5997.0
     }
@@ -191,9 +191,9 @@
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 45,
-            "eligible": 56,
-            "pct": 80
+            "done": 46,
+            "eligible": 57,
+            "pct": 81
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -208,62 +208,6 @@
             "done": 36,
             "eligible": 39,
             "pct": 92
-          }
-        }
-      }
-    },
-    {
-      "name": "Joe Dysert",
-      "revenue": 41176.0,
-      "deals": 5,
-      "quota": 0,
-      "pct_to_quota": 0,
-      "booked": 0,
-      "shown": 0,
-      "close_rate": 0,
-      "show_rate": 0,
-      "is_manager": true,
-      "is_lead": false,
-      "exclude_meetings": true,
-      "rep_owner_id": "user_lUjlATIIgFg8mELa0GFzZUj0lG4Cs7PwQsxbi34I6Su",
-      "adherence": {
-        "pre_call_pct": null,
-        "post_call_pct": null,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
-          },
-          "followup_task": {
-            "label": "Next steps set",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
-          },
-          "followup_completed": {
-            "label": "Next steps completed",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
-          },
-          "recap_email": {
-            "label": "Post-call follow-up",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
           }
         }
       }
@@ -325,15 +269,71 @@
       }
     },
     {
+      "name": "Joe Dysert",
+      "revenue": 34176.0,
+      "deals": 5,
+      "quota": 0,
+      "pct_to_quota": 0,
+      "booked": 0,
+      "shown": 0,
+      "close_rate": 0,
+      "show_rate": 0,
+      "is_manager": true,
+      "is_lead": false,
+      "exclude_meetings": true,
+      "rep_owner_id": "user_lUjlATIIgFg8mELa0GFzZUj0lG4Cs7PwQsxbi34I6Su",
+      "adherence": {
+        "pre_call_pct": null,
+        "post_call_pct": null,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          }
+        }
+      }
+    },
+    {
       "name": "Robin Perkins",
       "revenue": 29688.0,
       "deals": 4,
       "quota": 100000,
       "pct_to_quota": 29.7,
-      "booked": 43,
+      "booked": 42,
       "shown": 17,
-      "close_rate": 9.3,
-      "show_rate": 39.5,
+      "close_rate": 9.5,
+      "show_rate": 40.5,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -608,7 +608,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-25T15:03:14.106725-07:00",
+    "generated_at": "2026-09-25T15:17:50.428679-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -616,12 +616,12 @@
     },
     "cohort": {
       "raw": 619,
-      "included": 446,
-      "excluded": 173,
+      "included": 445,
+      "excluded": 174,
       "exclusion_counts": {
+        "canceled_by_lead": 36,
         "disqualified": 3,
         "lost": 116,
-        "canceled_by_lead": 35,
         "not_visible_rep": 11,
         "do_not_contact": 6,
         "outside_us": 2
