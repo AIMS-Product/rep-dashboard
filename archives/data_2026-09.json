@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25 16:30:18 PDT",
+  "updated_at": "2026-09-25 16:45:14 PDT",
   "month_label": "September 2026",
   "day_of_month": 25,
   "days_in_month": 30,
@@ -7,15 +7,15 @@
   "working_days_elapsed": 19,
   "pct_month_passed": 86.4,
   "team_quota": 750000,
-  "pct_team_quota": 48.1,
-  "total_revenue": 360570.0,
-  "total_deals": 52,
-  "total_booked": 806,
-  "total_shown": 435,
-  "team_close_rate": 6.5,
-  "team_show_rate": 54.0,
-  "today_revenue": 41179.0,
-  "today_deals": 6,
+  "pct_team_quota": 49.0,
+  "total_revenue": 367467.0,
+  "total_deals": 53,
+  "total_booked": 809,
+  "total_shown": 439,
+  "team_close_rate": 6.6,
+  "team_show_rate": 54.3,
+  "today_revenue": 48076.0,
+  "today_deals": 7,
   "today_closers": [
     {
       "name": "Luke Herman",
@@ -26,6 +26,11 @@
       "name": "Ariella Irvine",
       "deals": 1,
       "total": 8100.0
+    },
+    {
+      "name": "Robin Perkins",
+      "deals": 1,
+      "total": 6897.0
     },
     {
       "name": "Shreya Bechra",
@@ -70,22 +75,22 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 59,
-            "eligible": 59,
+            "done": 60,
+            "eligible": 60,
             "pct": 100
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 58,
-            "eligible": 59,
+            "done": 59,
+            "eligible": 60,
             "pct": 98
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 46,
-            "eligible": 57,
+            "done": 47,
+            "eligible": 58,
             "pct": 81
           },
           "followup_completed": {
@@ -274,6 +279,62 @@
       }
     },
     {
+      "name": "Robin Perkins",
+      "revenue": 36585.0,
+      "deals": 5,
+      "quota": 100000,
+      "pct_to_quota": 36.6,
+      "booked": 42,
+      "shown": 17,
+      "close_rate": 11.9,
+      "show_rate": 40.5,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
+      "adherence": {
+        "pre_call_pct": 94,
+        "post_call_pct": 63,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 29,
+            "eligible": 31,
+            "pct": 94
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 29,
+            "eligible": 31,
+            "pct": 94
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 16,
+            "eligible": 30,
+            "pct": 53
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 5,
+            "eligible": 14,
+            "pct": 36
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 14,
+            "eligible": 14,
+            "pct": 100
+          }
+        }
+      }
+    },
+    {
       "name": "Joe Dysert",
       "revenue": 34176.0,
       "deals": 5,
@@ -330,71 +391,15 @@
       }
     },
     {
-      "name": "Robin Perkins",
-      "revenue": 29688.0,
-      "deals": 4,
-      "quota": 100000,
-      "pct_to_quota": 29.7,
-      "booked": 42,
-      "shown": 17,
-      "close_rate": 9.5,
-      "show_rate": 40.5,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
-      "adherence": {
-        "pre_call_pct": 94,
-        "post_call_pct": 63,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 29,
-            "eligible": 31,
-            "pct": 94
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 29,
-            "eligible": 31,
-            "pct": 94
-          },
-          "followup_task": {
-            "label": "Next steps set",
-            "phase": "post_call",
-            "done": 16,
-            "eligible": 30,
-            "pct": 53
-          },
-          "followup_completed": {
-            "label": "Next steps completed",
-            "phase": "post_call",
-            "done": 5,
-            "eligible": 14,
-            "pct": 36
-          },
-          "recap_email": {
-            "label": "Post-call follow-up",
-            "phase": "post_call",
-            "done": 14,
-            "eligible": 14,
-            "pct": 100
-          }
-        }
-      }
-    },
-    {
       "name": "Christian Hartwell",
       "revenue": 25667.0,
       "deals": 6,
       "quota": 100000,
       "pct_to_quota": 25.7,
-      "booked": 99,
+      "booked": 98,
       "shown": 55,
       "close_rate": 6.1,
-      "show_rate": 55.6,
+      "show_rate": 56.1,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -407,22 +412,22 @@
             "label": "Pre-Call Loom",
             "phase": "pre_call",
             "done": 51,
-            "eligible": 78,
-            "pct": 65
+            "eligible": 77,
+            "pct": 66
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 70,
-            "eligible": 78,
+            "done": 69,
+            "eligible": 77,
             "pct": 90
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 39,
-            "eligible": 78,
-            "pct": 50
+            "done": 38,
+            "eligible": 77,
+            "pct": 49
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -503,38 +508,38 @@
       "deals": 3,
       "quota": 100000,
       "pct_to_quota": 23.1,
-      "booked": 48,
+      "booked": 49,
       "shown": 25,
-      "close_rate": 6.2,
-      "show_rate": 52.1,
+      "close_rate": 6.1,
+      "show_rate": 51.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
       "rep_owner_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
       "adherence": {
-        "pre_call_pct": 59,
-        "post_call_pct": 70,
+        "pre_call_pct": 58,
+        "post_call_pct": 71,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
             "done": 7,
-            "eligible": 35,
-            "pct": 20
+            "eligible": 36,
+            "pct": 19
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 34,
-            "eligible": 35,
+            "done": 35,
+            "eligible": 36,
             "pct": 97
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 22,
-            "eligible": 31,
-            "pct": 71
+            "done": 23,
+            "eligible": 32,
+            "pct": 72
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -613,7 +618,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-25T16:34:06.657798-07:00",
+    "generated_at": "2026-09-25T16:49:34.220572-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -621,18 +626,18 @@
     },
     "cohort": {
       "raw": 619,
-      "included": 446,
-      "excluded": 173,
+      "included": 447,
+      "excluded": 172,
       "exclusion_counts": {
         "canceled_by_lead": 35,
-        "lost": 116,
         "disqualified": 3,
+        "lost": 115,
         "not_visible_rep": 11,
         "do_not_contact": 6,
         "outside_us": 2
       }
     },
-    "api_requests": 623,
+    "api_requests": 624,
     "preview_only": false
   }
 }
