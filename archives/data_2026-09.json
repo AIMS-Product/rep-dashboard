@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25 06:45:15 PDT",
+  "updated_at": "2026-09-25 07:00:22 PDT",
   "month_label": "September 2026",
   "day_of_month": 25,
   "days_in_month": 30,
@@ -11,9 +11,9 @@
   "total_revenue": 319391.0,
   "total_deals": 46,
   "total_booked": 819,
-  "total_shown": 432,
+  "total_shown": 431,
   "team_close_rate": 5.6,
-  "team_show_rate": 52.7,
+  "team_show_rate": 52.6,
   "today_revenue": 0.0,
   "today_deals": 0,
   "today_closers": [],
@@ -39,16 +39,16 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 34,
-            "eligible": 55,
-            "pct": 62
+            "done": 35,
+            "eligible": 56,
+            "pct": 63
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
             "done": 45,
-            "eligible": 55,
-            "pct": 82
+            "eligible": 56,
+            "pct": 80
           },
           "followup_task": {
             "label": "Next steps set",
@@ -426,7 +426,7 @@
       "rep_owner_id": "user_rJngzi4LOFXzpNb0bLi1ZtKRlRkga2fYuf4QrYpAmIc",
       "adherence": {
         "pre_call_pct": 80,
-        "post_call_pct": 58,
+        "post_call_pct": 60,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -459,9 +459,9 @@
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 16,
+            "done": 17,
             "eligible": 17,
-            "pct": 94
+            "pct": 100
           }
         }
       }
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-25T06:51:34.662730-07:00",
+    "generated_at": "2026-09-25T07:04:40.382278-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -593,10 +593,10 @@
       "included": 461,
       "excluded": 153,
       "exclusion_counts": {
+        "canceled_by_lead": 29,
         "disqualified": 3,
         "not_visible_rep": 10,
         "lost": 102,
-        "canceled_by_lead": 29,
         "do_not_contact": 7,
         "outside_us": 2
       }
