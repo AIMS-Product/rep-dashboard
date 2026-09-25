@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25 12:45:15 PDT",
+  "updated_at": "2026-09-25 13:00:22 PDT",
   "month_label": "September 2026",
   "day_of_month": 25,
   "days_in_month": 30,
@@ -7,14 +7,14 @@
   "working_days_elapsed": 19,
   "pct_month_passed": 86.4,
   "team_quota": 750000,
-  "pct_team_quota": 44.6,
-  "total_revenue": 334388.0,
+  "pct_team_quota": 45.4,
+  "total_revenue": 340388.0,
   "total_deals": 49,
   "total_booked": 813,
   "total_shown": 434,
   "team_close_rate": 6.0,
   "team_show_rate": 53.4,
-  "today_revenue": 14997.0,
+  "today_revenue": 20997.0,
   "today_deals": 3,
   "today_closers": [
     {
@@ -30,7 +30,7 @@
     {
       "name": "Oscar Pugh",
       "deals": 1,
-      "total": 0.0
+      "total": 6000.0
     }
   ],
   "reps": [
@@ -153,9 +153,9 @@
       "quota": 100000,
       "pct_to_quota": 51.1,
       "booked": 75,
-      "shown": 30,
+      "shown": 31,
       "close_rate": 9.3,
-      "show_rate": 40.0,
+      "show_rate": 41.3,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -168,36 +168,36 @@
             "label": "Pre-Call Loom",
             "phase": "pre_call",
             "done": 40,
-            "eligible": 64,
+            "eligible": 63,
             "pct": 63
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 59,
-            "eligible": 64,
+            "done": 58,
+            "eligible": 63,
             "pct": 92
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
             "done": 23,
-            "eligible": 57,
-            "pct": 40
+            "eligible": 56,
+            "pct": 41
           },
           "followup_completed": {
             "label": "Next steps completed",
             "phase": "post_call",
             "done": 11,
-            "eligible": 25,
-            "pct": 44
+            "eligible": 26,
+            "pct": 42
           },
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 21,
-            "eligible": 25,
-            "pct": 84
+            "done": 22,
+            "eligible": 26,
+            "pct": 85
           }
         }
       }
@@ -427,67 +427,11 @@
       }
     },
     {
-      "name": "Ariella Irvine",
-      "revenue": 23094.0,
-      "deals": 3,
-      "quota": 100000,
-      "pct_to_quota": 23.1,
-      "booked": 48,
-      "shown": 24,
-      "close_rate": 6.2,
-      "show_rate": 50.0,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "rep_owner_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
-      "adherence": {
-        "pre_call_pct": 59,
-        "post_call_pct": 72,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 7,
-            "eligible": 33,
-            "pct": 21
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 32,
-            "eligible": 33,
-            "pct": 97
-          },
-          "followup_task": {
-            "label": "Next steps set",
-            "phase": "post_call",
-            "done": 20,
-            "eligible": 29,
-            "pct": 69
-          },
-          "followup_completed": {
-            "label": "Next steps completed",
-            "phase": "post_call",
-            "done": 9,
-            "eligible": 19,
-            "pct": 47
-          },
-          "recap_email": {
-            "label": "Post-call follow-up",
-            "phase": "post_call",
-            "done": 19,
-            "eligible": 19,
-            "pct": 100
-          }
-        }
-      }
-    },
-    {
       "name": "Oscar Pugh",
-      "revenue": 17991.0,
+      "revenue": 23991.0,
       "deals": 4,
       "quota": 100000,
-      "pct_to_quota": 18.0,
+      "pct_to_quota": 24.0,
       "booked": 41,
       "shown": 20,
       "close_rate": 9.8,
@@ -534,6 +478,62 @@
             "done": 17,
             "eligible": 17,
             "pct": 100
+          }
+        }
+      }
+    },
+    {
+      "name": "Ariella Irvine",
+      "revenue": 23094.0,
+      "deals": 3,
+      "quota": 100000,
+      "pct_to_quota": 23.1,
+      "booked": 48,
+      "shown": 25,
+      "close_rate": 6.2,
+      "show_rate": 52.1,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "rep_owner_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
+      "adherence": {
+        "pre_call_pct": 59,
+        "post_call_pct": 70,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 7,
+            "eligible": 33,
+            "pct": 21
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 32,
+            "eligible": 33,
+            "pct": 97
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 21,
+            "eligible": 30,
+            "pct": 70
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 9,
+            "eligible": 20,
+            "pct": 45
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 19,
+            "eligible": 20,
+            "pct": 95
           }
         }
       }
@@ -598,7 +598,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-25T12:48:23.366792-07:00",
+    "generated_at": "2026-09-25T13:03:20.971813-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -606,18 +606,18 @@
     },
     "cohort": {
       "raw": 618,
-      "included": 448,
-      "excluded": 170,
+      "included": 447,
+      "excluded": 171,
       "exclusion_counts": {
-        "lost": 115,
         "canceled_by_lead": 35,
         "not_visible_rep": 10,
-        "outside_us": 2,
         "do_not_contact": 6,
-        "disqualified": 2
+        "disqualified": 3,
+        "lost": 115,
+        "outside_us": 2
       }
     },
-    "api_requests": 626,
+    "api_requests": 622,
     "preview_only": false
   }
 }
