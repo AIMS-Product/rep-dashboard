@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25 15:30:19 PDT",
+  "updated_at": "2026-09-25 15:45:15 PDT",
   "month_label": "September 2026",
   "day_of_month": 25,
   "days_in_month": 30,
@@ -340,7 +340,7 @@
       "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
       "adherence": {
         "pre_call_pct": 94,
-        "post_call_pct": 57,
+        "post_call_pct": 61,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -366,16 +366,16 @@
           "followup_completed": {
             "label": "Next steps completed",
             "phase": "post_call",
-            "done": 4,
+            "done": 5,
             "eligible": 14,
-            "pct": 29
+            "pct": 36
           },
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 13,
+            "done": 14,
             "eligible": 14,
-            "pct": 93
+            "pct": 100
           }
         }
       }
@@ -608,7 +608,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-25T15:34:04.454017-07:00",
+    "generated_at": "2026-09-25T15:50:17.836731-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
