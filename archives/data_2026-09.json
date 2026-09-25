@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25 11:00:20 PDT",
+  "updated_at": "2026-09-25 11:15:15 PDT",
   "month_label": "September 2026",
   "day_of_month": 25,
   "days_in_month": 30,
@@ -9,13 +9,13 @@
   "team_quota": 750000,
   "pct_team_quota": 44.6,
   "total_revenue": 334388.0,
-  "total_deals": 48,
-  "total_booked": 809,
-  "total_shown": 431,
-  "team_close_rate": 5.9,
+  "total_deals": 49,
+  "total_booked": 814,
+  "total_shown": 434,
+  "team_close_rate": 6.0,
   "team_show_rate": 53.3,
   "today_revenue": 14997.0,
-  "today_deals": 2,
+  "today_deals": 3,
   "today_closers": [
     {
       "name": "Ariella Irvine",
@@ -26,6 +26,11 @@
       "name": "Shreya Bechra",
       "deals": 1,
       "total": 6897.0
+    },
+    {
+      "name": "Oscar Pugh",
+      "deals": 1,
+      "total": 0.0
     }
   ],
   "reps": [
@@ -35,38 +40,38 @@
       "deals": 6,
       "quota": 100000,
       "pct_to_quota": 55.9,
-      "booked": 67,
+      "booked": 68,
       "shown": 32,
-      "close_rate": 9.0,
-      "show_rate": 47.8,
+      "close_rate": 8.8,
+      "show_rate": 47.1,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
       "rep_owner_id": "user_wF5aATmDljO6g6AHqehRPVmfCmH5j9VszbO6Q6Pjzm4",
       "adherence": {
-        "pre_call_pct": 71,
-        "post_call_pct": 50,
+        "pre_call_pct": 72,
+        "post_call_pct": 49,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 34,
-            "eligible": 55,
-            "pct": 62
+            "done": 35,
+            "eligible": 56,
+            "pct": 63
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 44,
-            "eligible": 55,
+            "done": 45,
+            "eligible": 56,
             "pct": 80
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
             "done": 15,
-            "eligible": 52,
-            "pct": 29
+            "eligible": 53,
+            "pct": 28
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -91,10 +96,10 @@
       "deals": 8,
       "quota": 100000,
       "pct_to_quota": 54.6,
-      "booked": 115,
+      "booked": 116,
       "shown": 59,
-      "close_rate": 7.0,
-      "show_rate": 51.3,
+      "close_rate": 6.9,
+      "show_rate": 50.9,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -106,15 +111,15 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 59,
-            "eligible": 59,
+            "done": 60,
+            "eligible": 60,
             "pct": 100
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 58,
-            "eligible": 59,
+            "done": 59,
+            "eligible": 60,
             "pct": 98
           },
           "followup_task": {
@@ -147,10 +152,10 @@
       "deals": 7,
       "quota": 100000,
       "pct_to_quota": 51.1,
-      "booked": 76,
+      "booked": 75,
       "shown": 30,
-      "close_rate": 9.2,
-      "show_rate": 39.5,
+      "close_rate": 9.3,
+      "show_rate": 40.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -233,8 +238,8 @@
             "label": "Next steps set",
             "phase": "post_call",
             "done": 24,
-            "eligible": 49,
-            "pct": 49
+            "eligible": 50,
+            "pct": 48
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -259,10 +264,10 @@
       "deals": 4,
       "quota": 100000,
       "pct_to_quota": 29.7,
-      "booked": 42,
+      "booked": 43,
       "shown": 16,
-      "close_rate": 9.5,
-      "show_rate": 38.1,
+      "close_rate": 9.3,
+      "show_rate": 37.2,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -480,12 +485,12 @@
     {
       "name": "Oscar Pugh",
       "revenue": 17991.0,
-      "deals": 3,
+      "deals": 4,
       "quota": 100000,
       "pct_to_quota": 18.0,
       "booked": 42,
       "shown": 20,
-      "close_rate": 7.1,
+      "close_rate": 9.5,
       "show_rate": 47.6,
       "is_manager": false,
       "is_lead": false,
@@ -593,15 +598,15 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-25T11:05:29.339983-07:00",
+    "generated_at": "2026-09-25T11:17:56.984914-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
       "basis": "first_sales_call_booked_date"
     },
     "cohort": {
-      "raw": 614,
-      "included": 446,
+      "raw": 616,
+      "included": 448,
       "excluded": 168,
       "exclusion_counts": {
         "canceled_by_lead": 34,
@@ -612,7 +617,7 @@
         "disqualified": 2
       }
     },
-    "api_requests": 621,
+    "api_requests": 626,
     "preview_only": false
   }
 }
