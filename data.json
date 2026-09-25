@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25 07:00:22 PDT",
+  "updated_at": "2026-09-25 07:15:14 PDT",
   "month_label": "September 2026",
   "day_of_month": 25,
   "days_in_month": 30,
@@ -25,16 +25,16 @@
       "quota": 100000,
       "pct_to_quota": 55.9,
       "booked": 68,
-      "shown": 31,
+      "shown": 32,
       "close_rate": 8.8,
-      "show_rate": 45.6,
+      "show_rate": 47.1,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
       "rep_owner_id": "user_wF5aATmDljO6g6AHqehRPVmfCmH5j9VszbO6Q6Pjzm4",
       "adherence": {
         "pre_call_pct": 72,
-        "post_call_pct": 50,
+        "post_call_pct": 48,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -54,22 +54,22 @@
             "label": "Next steps set",
             "phase": "post_call",
             "done": 15,
-            "eligible": 52,
-            "pct": 29
+            "eligible": 53,
+            "pct": 28
           },
           "followup_completed": {
             "label": "Next steps completed",
             "phase": "post_call",
             "done": 9,
-            "eligible": 25,
-            "pct": 36
+            "eligible": 26,
+            "pct": 35
           },
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
             "done": 21,
-            "eligible": 25,
-            "pct": 84
+            "eligible": 26,
+            "pct": 81
           }
         }
       }
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-25T07:04:40.382278-07:00",
+    "generated_at": "2026-09-25T07:20:13.641692-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -593,15 +593,15 @@
       "included": 461,
       "excluded": 153,
       "exclusion_counts": {
-        "canceled_by_lead": 29,
         "disqualified": 3,
+        "canceled_by_lead": 29,
         "not_visible_rep": 10,
         "lost": 102,
         "do_not_contact": 7,
         "outside_us": 2
       }
     },
-    "api_requests": 643,
+    "api_requests": 641,
     "preview_only": false
   }
 }
