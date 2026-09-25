@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25 06:30:19 PDT",
+  "updated_at": "2026-09-25 06:45:15 PDT",
   "month_label": "September 2026",
   "day_of_month": 25,
   "days_in_month": 30,
@@ -426,28 +426,28 @@
       "rep_owner_id": "user_rJngzi4LOFXzpNb0bLi1ZtKRlRkga2fYuf4QrYpAmIc",
       "adherence": {
         "pre_call_pct": 80,
-        "post_call_pct": 56,
+        "post_call_pct": 58,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 24,
-            "eligible": 35,
-            "pct": 69
+            "done": 23,
+            "eligible": 34,
+            "pct": 68
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 32,
-            "eligible": 35,
+            "done": 31,
+            "eligible": 34,
             "pct": 91
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 10,
+            "done": 11,
             "eligible": 22,
-            "pct": 45
+            "pct": 50
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-25T06:34:35.477729-07:00",
+    "generated_at": "2026-09-25T06:51:34.662730-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -590,18 +590,18 @@
     },
     "cohort": {
       "raw": 614,
-      "included": 462,
-      "excluded": 152,
+      "included": 461,
+      "excluded": 153,
       "exclusion_counts": {
+        "disqualified": 3,
         "not_visible_rep": 10,
         "lost": 102,
         "canceled_by_lead": 29,
         "do_not_contact": 7,
-        "outside_us": 2,
-        "disqualified": 2
+        "outside_us": 2
       }
     },
-    "api_requests": 645,
+    "api_requests": 643,
     "preview_only": false
   }
 }
