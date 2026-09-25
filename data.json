@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25 16:15:14 PDT",
+  "updated_at": "2026-09-25 16:30:18 PDT",
   "month_label": "September 2026",
   "day_of_month": 25,
   "days_in_month": 30,
@@ -7,16 +7,21 @@
   "working_days_elapsed": 19,
   "pct_month_passed": 86.4,
   "team_quota": 750000,
-  "pct_team_quota": 47.0,
-  "total_revenue": 352382.0,
-  "total_deals": 51,
+  "pct_team_quota": 48.1,
+  "total_revenue": 360570.0,
+  "total_deals": 52,
   "total_booked": 806,
   "total_shown": 435,
-  "team_close_rate": 6.3,
+  "team_close_rate": 6.5,
   "team_show_rate": 54.0,
-  "today_revenue": 32991.0,
-  "today_deals": 5,
+  "today_revenue": 41179.0,
+  "today_deals": 6,
   "today_closers": [
+    {
+      "name": "Luke Herman",
+      "deals": 1,
+      "total": 8188.0
+    },
     {
       "name": "Ariella Irvine",
       "deals": 1,
@@ -44,6 +49,62 @@
     }
   ],
   "reps": [
+    {
+      "name": "Luke Herman",
+      "revenue": 62764.0,
+      "deals": 9,
+      "quota": 100000,
+      "pct_to_quota": 62.8,
+      "booked": 117,
+      "shown": 60,
+      "close_rate": 7.7,
+      "show_rate": 51.3,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "rep_owner_id": "user_6kp6k4OcqKqFNrxGjgMUncedjiCYC6JHU8EI28F7etV",
+      "adherence": {
+        "pre_call_pct": 99,
+        "post_call_pct": 79,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 59,
+            "eligible": 59,
+            "pct": 100
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 58,
+            "eligible": 59,
+            "pct": 98
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 46,
+            "eligible": 57,
+            "pct": 81
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 25,
+            "eligible": 39,
+            "pct": 64
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 36,
+            "eligible": 39,
+            "pct": 92
+          }
+        }
+      }
+    },
     {
       "name": "Joe Vaughan",
       "revenue": 57129.0,
@@ -152,62 +213,6 @@
             "done": 21,
             "eligible": 25,
             "pct": 84
-          }
-        }
-      }
-    },
-    {
-      "name": "Luke Herman",
-      "revenue": 54576.0,
-      "deals": 8,
-      "quota": 100000,
-      "pct_to_quota": 54.6,
-      "booked": 117,
-      "shown": 60,
-      "close_rate": 6.8,
-      "show_rate": 51.3,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "rep_owner_id": "user_6kp6k4OcqKqFNrxGjgMUncedjiCYC6JHU8EI28F7etV",
-      "adherence": {
-        "pre_call_pct": 99,
-        "post_call_pct": 79,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 59,
-            "eligible": 59,
-            "pct": 100
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 58,
-            "eligible": 59,
-            "pct": 98
-          },
-          "followup_task": {
-            "label": "Next steps set",
-            "phase": "post_call",
-            "done": 46,
-            "eligible": 57,
-            "pct": 81
-          },
-          "followup_completed": {
-            "label": "Next steps completed",
-            "phase": "post_call",
-            "done": 25,
-            "eligible": 39,
-            "pct": 64
-          },
-          "recap_email": {
-            "label": "Post-call follow-up",
-            "phase": "post_call",
-            "done": 36,
-            "eligible": 39,
-            "pct": 92
           }
         }
       }
@@ -359,9 +364,9 @@
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 15,
-            "eligible": 29,
-            "pct": 52
+            "done": 16,
+            "eligible": 30,
+            "pct": 53
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -608,7 +613,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-25T16:19:26.935951-07:00",
+    "generated_at": "2026-09-25T16:34:06.657798-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -619,15 +624,15 @@
       "included": 446,
       "excluded": 173,
       "exclusion_counts": {
-        "disqualified": 3,
-        "lost": 116,
         "canceled_by_lead": 35,
+        "lost": 116,
+        "disqualified": 3,
         "not_visible_rep": 11,
         "do_not_contact": 6,
         "outside_us": 2
       }
     },
-    "api_requests": 624,
+    "api_requests": 623,
     "preview_only": false
   }
 }
