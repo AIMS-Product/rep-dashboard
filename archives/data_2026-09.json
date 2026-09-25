@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25 07:15:14 PDT",
+  "updated_at": "2026-09-25 07:30:19 PDT",
   "month_label": "September 2026",
   "day_of_month": 25,
   "days_in_month": 30,
@@ -7,16 +7,22 @@
   "working_days_elapsed": 19,
   "pct_month_passed": 86.4,
   "team_quota": 750000,
-  "pct_team_quota": 42.6,
-  "total_revenue": 319391.0,
-  "total_deals": 46,
+  "pct_team_quota": 43.5,
+  "total_revenue": 326288.0,
+  "total_deals": 47,
   "total_booked": 819,
-  "total_shown": 431,
-  "team_close_rate": 5.6,
-  "team_show_rate": 52.6,
-  "today_revenue": 0.0,
-  "today_deals": 0,
-  "today_closers": [],
+  "total_shown": 433,
+  "team_close_rate": 5.7,
+  "team_show_rate": 52.9,
+  "today_revenue": 6897.0,
+  "today_deals": 1,
+  "today_closers": [
+    {
+      "name": "Shreya Bechra",
+      "deals": 1,
+      "total": 6897.0
+    }
+  ],
   "reps": [
     {
       "name": "Eric Piccione",
@@ -90,28 +96,28 @@
       "rep_owner_id": "user_6kp6k4OcqKqFNrxGjgMUncedjiCYC6JHU8EI28F7etV",
       "adherence": {
         "pre_call_pct": 99,
-        "post_call_pct": 79,
+        "post_call_pct": 78,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 62,
-            "eligible": 62,
+            "done": 61,
+            "eligible": 61,
             "pct": 100
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 61,
-            "eligible": 62,
+            "done": 60,
+            "eligible": 61,
             "pct": 98
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 49,
-            "eligible": 60,
-            "pct": 82
+            "done": 48,
+            "eligible": 59,
+            "pct": 81
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -188,14 +194,14 @@
     },
     {
       "name": "Shreya Bechra",
-      "revenue": 31785.0,
-      "deals": 5,
+      "revenue": 38682.0,
+      "deals": 6,
       "quota": 100000,
-      "pct_to_quota": 31.8,
-      "booked": 70,
+      "pct_to_quota": 38.7,
+      "booked": 71,
       "shown": 47,
-      "close_rate": 7.1,
-      "show_rate": 67.1,
+      "close_rate": 8.5,
+      "show_rate": 66.2,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -207,23 +213,23 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 45,
-            "eligible": 48,
+            "done": 46,
+            "eligible": 49,
             "pct": 94
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 44,
-            "eligible": 48,
+            "done": 45,
+            "eligible": 49,
             "pct": 92
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 24,
-            "eligible": 48,
-            "pct": 50
+            "done": 25,
+            "eligible": 49,
+            "pct": 51
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -431,15 +437,15 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 23,
-            "eligible": 34,
-            "pct": 68
+            "done": 24,
+            "eligible": 35,
+            "pct": 69
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 31,
-            "eligible": 34,
+            "done": 32,
+            "eligible": 35,
             "pct": 91
           },
           "followup_task": {
@@ -582,7 +588,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-25T07:20:13.641692-07:00",
+    "generated_at": "2026-09-25T07:36:07.003668-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -590,18 +596,18 @@
     },
     "cohort": {
       "raw": 614,
-      "included": 461,
-      "excluded": 153,
+      "included": 462,
+      "excluded": 152,
       "exclusion_counts": {
-        "disqualified": 3,
-        "canceled_by_lead": 29,
+        "lost": 103,
+        "canceled_by_lead": 28,
         "not_visible_rep": 10,
-        "lost": 102,
         "do_not_contact": 7,
-        "outside_us": 2
+        "outside_us": 2,
+        "disqualified": 2
       }
     },
-    "api_requests": 641,
+    "api_requests": 645,
     "preview_only": false
   }
 }
