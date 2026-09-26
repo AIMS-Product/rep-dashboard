@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-26 06:45:13 PDT",
+  "updated_at": "2026-09-26 07:00:21 PDT",
   "month_label": "September 2026",
   "day_of_month": 26,
   "days_in_month": 30,
@@ -10,10 +10,10 @@
   "pct_team_quota": 49.0,
   "total_revenue": 367467.0,
   "total_deals": 53,
-  "total_booked": 815,
-  "total_shown": 445,
+  "total_booked": 814,
+  "total_shown": 444,
   "team_close_rate": 6.5,
-  "team_show_rate": 54.6,
+  "team_show_rate": 54.5,
   "today_revenue": 0.0,
   "today_deals": 0,
   "today_closers": [],
@@ -24,10 +24,10 @@
       "deals": 9,
       "quota": 100000,
       "pct_to_quota": 62.8,
-      "booked": 117,
+      "booked": 116,
       "shown": 60,
-      "close_rate": 7.7,
-      "show_rate": 51.3,
+      "close_rate": 7.8,
+      "show_rate": 51.7,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -39,15 +39,15 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 62,
-            "eligible": 62,
+            "done": 63,
+            "eligible": 63,
             "pct": 100
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 61,
-            "eligible": 62,
+            "done": 62,
+            "eligible": 63,
             "pct": 98
           },
           "followup_task": {
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-26T06:48:03.851471-07:00",
+    "generated_at": "2026-09-26T07:04:50.299392-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -590,18 +590,18 @@
     },
     "cohort": {
       "raw": 624,
-      "included": 452,
-      "excluded": 172,
+      "included": 451,
+      "excluded": 173,
       "exclusion_counts": {
+        "canceled_by_lead": 36,
         "not_visible_rep": 11,
         "lost": 115,
-        "canceled_by_lead": 35,
         "disqualified": 3,
         "do_not_contact": 6,
         "outside_us": 2
       }
     },
-    "api_requests": 631,
+    "api_requests": 632,
     "preview_only": false
   }
 }
