@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-26 09:00:20 PDT",
+  "updated_at": "2026-09-26 09:15:14 PDT",
   "month_label": "September 2026",
   "day_of_month": 26,
   "days_in_month": 30,
@@ -24,10 +24,10 @@
       "deals": 9,
       "quota": 100000,
       "pct_to_quota": 62.8,
-      "booked": 116,
+      "booked": 117,
       "shown": 60,
-      "close_rate": 7.8,
-      "show_rate": 51.7,
+      "close_rate": 7.7,
+      "show_rate": 51.3,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -60,15 +60,15 @@
           "followup_completed": {
             "label": "Next steps completed",
             "phase": "post_call",
-            "done": 26,
-            "eligible": 39,
-            "pct": 67
+            "done": 25,
+            "eligible": 38,
+            "pct": 66
           },
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 36,
-            "eligible": 39,
+            "done": 35,
+            "eligible": 38,
             "pct": 92
           }
         }
@@ -80,10 +80,10 @@
       "deals": 8,
       "quota": 100000,
       "pct_to_quota": 57.1,
-      "booked": 80,
+      "booked": 81,
       "shown": 30,
-      "close_rate": 10.0,
-      "show_rate": 37.5,
+      "close_rate": 9.9,
+      "show_rate": 37.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -582,26 +582,26 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-26T09:05:44.797255-07:00",
+    "generated_at": "2026-09-26T09:19:56.831939-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
       "basis": "first_sales_call_booked_date"
     },
     "cohort": {
-      "raw": 626,
+      "raw": 627,
       "included": 452,
-      "excluded": 174,
+      "excluded": 175,
       "exclusion_counts": {
+        "lost": 117,
+        "canceled_by_lead": 35,
         "not_visible_rep": 12,
-        "canceled_by_lead": 36,
-        "lost": 115,
         "disqualified": 3,
         "do_not_contact": 6,
         "outside_us": 2
       }
     },
-    "api_requests": 633,
+    "api_requests": 634,
     "preview_only": false
   }
 }
