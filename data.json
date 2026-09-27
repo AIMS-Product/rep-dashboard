@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-27 14:45:14 PDT",
+  "updated_at": "2026-09-27 15:00:22 PDT",
   "month_label": "September 2026",
   "day_of_month": 27,
   "days_in_month": 30,
@@ -81,9 +81,9 @@
       "quota": 100000,
       "pct_to_quota": 57.1,
       "booked": 83,
-      "shown": 37,
+      "shown": 38,
       "close_rate": 9.6,
-      "show_rate": 44.6,
+      "show_rate": 45.8,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -109,22 +109,22 @@
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 26,
-            "eligible": 60,
-            "pct": 43
+            "done": 27,
+            "eligible": 61,
+            "pct": 44
           },
           "followup_completed": {
             "label": "Next steps completed",
             "phase": "post_call",
             "done": 13,
-            "eligible": 29,
-            "pct": 45
+            "eligible": 30,
+            "pct": 43
           },
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 24,
-            "eligible": 29,
+            "done": 25,
+            "eligible": 30,
             "pct": 83
           }
         }
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-27T14:49:23.071851-07:00",
+    "generated_at": "2026-09-27T15:03:26.896364-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
