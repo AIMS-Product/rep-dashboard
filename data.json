@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-27 13:45:14 PDT",
+  "updated_at": "2026-09-27 14:00:22 PDT",
   "month_label": "September 2026",
   "day_of_month": 27,
   "days_in_month": 30,
@@ -81,51 +81,51 @@
       "quota": 100000,
       "pct_to_quota": 57.1,
       "booked": 83,
-      "shown": 36,
+      "shown": 37,
       "close_rate": 9.6,
-      "show_rate": 43.4,
+      "show_rate": 44.6,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
       "rep_owner_id": "user_7HSxi55O8q5jO11khvrTcAGoL2nlcoa3kZ6loAY6i78",
       "adherence": {
-        "pre_call_pct": 80,
+        "pre_call_pct": 79,
         "post_call_pct": 57,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
             "done": 44,
-            "eligible": 67,
-            "pct": 66
+            "eligible": 68,
+            "pct": 65
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 62,
-            "eligible": 67,
+            "done": 63,
+            "eligible": 68,
             "pct": 93
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 25,
-            "eligible": 59,
-            "pct": 42
+            "done": 26,
+            "eligible": 60,
+            "pct": 43
           },
           "followup_completed": {
             "label": "Next steps completed",
             "phase": "post_call",
             "done": 13,
-            "eligible": 28,
-            "pct": 46
+            "eligible": 29,
+            "pct": 45
           },
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 23,
-            "eligible": 28,
-            "pct": 82
+            "done": 24,
+            "eligible": 29,
+            "pct": 83
           }
         }
       }
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-27T13:49:10.429039-07:00",
+    "generated_at": "2026-09-27T14:03:56.003547-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
