@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-28 10:30:22 PDT",
+  "updated_at": "2026-09-28 10:45:15 PDT",
   "month_label": "September 2026",
   "day_of_month": 28,
   "days_in_month": 30,
@@ -10,10 +10,10 @@
   "pct_team_quota": 49.0,
   "total_revenue": 367467.0,
   "total_deals": 53,
-  "total_booked": 895,
-  "total_shown": 476,
+  "total_booked": 894,
+  "total_shown": 473,
   "team_close_rate": 5.9,
-  "team_show_rate": 53.2,
+  "team_show_rate": 52.9,
   "today_revenue": 0.0,
   "today_deals": 0,
   "today_closers": [],
@@ -24,10 +24,10 @@
       "deals": 9,
       "quota": 100000,
       "pct_to_quota": 62.8,
-      "booked": 120,
+      "booked": 121,
       "shown": 62,
-      "close_rate": 7.5,
-      "show_rate": 51.7,
+      "close_rate": 7.4,
+      "show_rate": 51.2,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -80,17 +80,17 @@
       "deals": 8,
       "quota": 100000,
       "pct_to_quota": 57.1,
-      "booked": 85,
+      "booked": 87,
       "shown": 37,
-      "close_rate": 9.4,
-      "show_rate": 43.5,
+      "close_rate": 9.2,
+      "show_rate": 42.5,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
       "rep_owner_id": "user_7HSxi55O8q5jO11khvrTcAGoL2nlcoa3kZ6loAY6i78",
       "adherence": {
         "pre_call_pct": 78,
-        "post_call_pct": 54,
+        "post_call_pct": 55,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -110,7 +110,7 @@
             "label": "Next steps set",
             "phase": "post_call",
             "done": 26,
-            "eligible": 63,
+            "eligible": 64,
             "pct": 41
           },
           "followup_completed": {
@@ -123,9 +123,9 @@
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 23,
+            "done": 24,
             "eligible": 30,
-            "pct": 77
+            "pct": 80
           }
         }
       }
@@ -258,7 +258,7 @@
       "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
       "adherence": {
         "pre_call_pct": 93,
-        "post_call_pct": 64,
+        "post_call_pct": 66,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -284,9 +284,9 @@
           "followup_completed": {
             "label": "Next steps completed",
             "phase": "post_call",
-            "done": 5,
+            "done": 6,
             "eligible": 14,
-            "pct": 36
+            "pct": 43
           },
           "recap_email": {
             "label": "Post-call follow-up",
@@ -472,10 +472,10 @@
       "deals": 3,
       "quota": 100000,
       "pct_to_quota": 23.1,
-      "booked": 52,
+      "booked": 54,
       "shown": 30,
-      "close_rate": 5.8,
-      "show_rate": 57.7,
+      "close_rate": 5.6,
+      "show_rate": 55.6,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -528,10 +528,10 @@
       "deals": 1,
       "quota": 100000,
       "pct_to_quota": 9.5,
-      "booked": 12,
+      "booked": 13,
       "shown": 8,
-      "close_rate": 8.3,
-      "show_rate": 66.7,
+      "close_rate": 7.7,
+      "show_rate": 61.5,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -582,26 +582,26 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-28T10:36:15.770154-07:00",
+    "generated_at": "2026-09-28T10:49:15.639230-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
       "basis": "first_sales_call_booked_date"
     },
     "cohort": {
-      "raw": 642,
-      "included": 451,
+      "raw": 648,
+      "included": 457,
       "excluded": 191,
       "exclusion_counts": {
-        "canceled_by_lead": 31,
         "lost": 129,
+        "canceled_by_lead": 31,
         "not_visible_rep": 16,
         "do_not_contact": 10,
         "disqualified": 3,
         "outside_us": 2
       }
     },
-    "api_requests": 634,
+    "api_requests": 641,
     "preview_only": false
   }
 }
