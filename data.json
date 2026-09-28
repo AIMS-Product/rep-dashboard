@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-28 15:45:18 PDT",
+  "updated_at": "2026-09-28 16:00:19 PDT",
   "month_label": "September 2026",
   "day_of_month": 28,
   "days_in_month": 30,
@@ -10,8 +10,8 @@
   "pct_team_quota": 49.0,
   "total_revenue": 367467.0,
   "total_deals": 53,
-  "total_booked": 885,
-  "total_shown": 472,
+  "total_booked": 884,
+  "total_shown": 471,
   "team_close_rate": 6.0,
   "team_show_rate": 53.3,
   "today_revenue": 0.0,
@@ -360,10 +360,10 @@
       "deals": 6,
       "quota": 100000,
       "pct_to_quota": 25.7,
-      "booked": 98,
+      "booked": 97,
       "shown": 56,
-      "close_rate": 6.1,
-      "show_rate": 57.1,
+      "close_rate": 6.2,
+      "show_rate": 57.7,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -488,14 +488,14 @@
             "label": "Pre-Call Loom",
             "phase": "pre_call",
             "done": 7,
-            "eligible": 43,
+            "eligible": 44,
             "pct": 16
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 43,
-            "eligible": 43,
+            "done": 44,
+            "eligible": 44,
             "pct": 100
           },
           "followup_task": {
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-09-28T15:49:22.515504-07:00",
+    "generated_at": "2026-09-28T16:05:48.959424-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -590,10 +590,10 @@
     },
     "cohort": {
       "raw": 657,
-      "included": 602,
-      "excluded": 55,
+      "included": 601,
+      "excluded": 56,
       "exclusion_counts": {
-        "canceled_by_lead": 31,
+        "canceled_by_lead": 32,
         "do_not_contact": 10,
         "disqualified": 3,
         "outside_us": 2,
@@ -601,7 +601,7 @@
         "not_visible_rep": 1
       },
       "attribution_counts": {
-        "meeting_rep": 565,
+        "meeting_rep": 564,
         "owner_fallback": 37
       },
       "includes_lost": true
