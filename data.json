@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-28 08:30:17 PDT",
+  "updated_at": "2026-09-28 08:45:13 PDT",
   "month_label": "September 2026",
   "day_of_month": 28,
   "days_in_month": 30,
@@ -11,9 +11,9 @@
   "total_revenue": 367467.0,
   "total_deals": 53,
   "total_booked": 891,
-  "total_shown": 484,
+  "total_shown": 479,
   "team_close_rate": 5.9,
-  "team_show_rate": 54.3,
+  "team_show_rate": 53.8,
   "today_revenue": 0.0,
   "today_deals": 0,
   "today_closers": [],
@@ -80,17 +80,17 @@
       "deals": 8,
       "quota": 100000,
       "pct_to_quota": 57.1,
-      "booked": 83,
+      "booked": 84,
       "shown": 37,
-      "close_rate": 9.6,
-      "show_rate": 44.6,
+      "close_rate": 9.5,
+      "show_rate": 44.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
       "rep_owner_id": "user_7HSxi55O8q5jO11khvrTcAGoL2nlcoa3kZ6loAY6i78",
       "adherence": {
         "pre_call_pct": 78,
-        "post_call_pct": 56,
+        "post_call_pct": 55,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -110,8 +110,8 @@
             "label": "Next steps set",
             "phase": "post_call",
             "done": 26,
-            "eligible": 61,
-            "pct": 43
+            "eligible": 62,
+            "pct": 42
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -248,10 +248,10 @@
       "deals": 5,
       "quota": 100000,
       "pct_to_quota": 36.6,
-      "booked": 43,
+      "booked": 44,
       "shown": 18,
-      "close_rate": 11.6,
-      "show_rate": 41.9,
+      "close_rate": 11.4,
+      "show_rate": 40.9,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -582,15 +582,15 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-28T08:36:02.893436-07:00",
+    "generated_at": "2026-09-28T08:51:12.024251-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
       "basis": "first_sales_call_booked_date"
     },
     "cohort": {
-      "raw": 637,
-      "included": 448,
+      "raw": 639,
+      "included": 450,
       "excluded": 189,
       "exclusion_counts": {
         "lost": 128,
@@ -601,7 +601,7 @@
         "outside_us": 2
       }
     },
-    "api_requests": 624,
+    "api_requests": 627,
     "preview_only": false
   }
 }
