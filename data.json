@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-28 05:30:20 PDT",
+  "updated_at": "2026-09-28 05:45:13 PDT",
   "month_label": "September 2026",
   "day_of_month": 28,
   "days_in_month": 30,
@@ -10,10 +10,10 @@
   "pct_team_quota": 49.0,
   "total_revenue": 367467.0,
   "total_deals": 53,
-  "total_booked": 883,
+  "total_booked": 884,
   "total_shown": 488,
   "team_close_rate": 6.0,
-  "team_show_rate": 55.3,
+  "team_show_rate": 55.2,
   "today_revenue": 0.0,
   "today_deals": 0,
   "today_closers": [],
@@ -24,10 +24,10 @@
       "deals": 9,
       "quota": 100000,
       "pct_to_quota": 62.8,
-      "booked": 119,
+      "booked": 118,
       "shown": 62,
       "close_rate": 7.6,
-      "show_rate": 52.1,
+      "show_rate": 52.5,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -39,23 +39,23 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 65,
-            "eligible": 65,
+            "done": 64,
+            "eligible": 64,
             "pct": 100
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 64,
-            "eligible": 65,
+            "done": 63,
+            "eligible": 64,
             "pct": 98
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
             "done": 53,
-            "eligible": 63,
-            "pct": 84
+            "eligible": 62,
+            "pct": 85
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-28T05:35:03.182090-07:00",
+    "generated_at": "2026-09-28T05:50:20.576248-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -590,18 +590,18 @@
     },
     "cohort": {
       "raw": 636,
-      "included": 449,
-      "excluded": 187,
+      "included": 448,
+      "excluded": 188,
       "exclusion_counts": {
-        "canceled_by_lead": 33,
         "lost": 127,
-        "not_visible_rep": 13,
+        "not_visible_rep": 14,
+        "canceled_by_lead": 33,
         "disqualified": 3,
         "do_not_contact": 9,
         "outside_us": 2
       }
     },
-    "api_requests": 625,
+    "api_requests": 623,
     "preview_only": false
   }
 }
