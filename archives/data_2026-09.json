@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-28 11:00:21 PDT",
+  "updated_at": "2026-09-28 11:15:18 PDT",
   "month_label": "September 2026",
   "day_of_month": 28,
   "days_in_month": 30,
@@ -248,10 +248,10 @@
       "deals": 5,
       "quota": 100000,
       "pct_to_quota": 36.6,
-      "booked": 44,
+      "booked": 46,
       "shown": 18,
-      "close_rate": 11.4,
-      "show_rate": 40.9,
+      "close_rate": 10.9,
+      "show_rate": 39.1,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -582,26 +582,26 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-28T11:06:12.155294-07:00",
+    "generated_at": "2026-09-28T11:18:23.384141-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
       "basis": "first_sales_call_booked_date"
     },
     "cohort": {
-      "raw": 648,
-      "included": 456,
+      "raw": 650,
+      "included": 458,
       "excluded": 192,
       "exclusion_counts": {
         "lost": 130,
-        "canceled_by_lead": 31,
         "not_visible_rep": 16,
+        "canceled_by_lead": 31,
         "do_not_contact": 10,
         "disqualified": 3,
         "outside_us": 2
       }
     },
-    "api_requests": 638,
+    "api_requests": 640,
     "preview_only": false
   }
 }
