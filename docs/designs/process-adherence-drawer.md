@@ -21,17 +21,19 @@ database without changing the UI.
 
 ## Cohort and attribution
 
-The cohort is the same calendar-month meeting cohort already used by the rep dashboard:
+The cohort uses the rep dashboard's calendar-month First Sales Call Booked Date field:
 
 ```text
 month_start <= First Sales Call Booked Date < next_month_start
 ```
 
 - Bounds are interpreted in `America/Los_Angeles`.
-- Exclude leads currently marked Canceled by Lead, Lost, Disqualified, Outside US/Canada, or Do Not
-  Contact, plus the same excluded funnels as the existing dashboard.
+- Exclude leads currently marked Canceled by Lead, Disqualified, Outside US/Canada, or Do Not
+  Contact, plus the same excluded funnels as the existing dashboard. Include Lost leads so a
+  call's process record remains in the cohort after its outcome changes.
 - One lead is one first-call opportunity.
-- Attribute the lead to its current Lead Owner.
+- Attribute a lead to the rep assigned to its first same-day meeting when Close identifies one;
+  use current Lead Owner only when no meeting rep can be identified.
 - Upcoming steps are neutral until their deadline or outcome is knowable.
 
 ## Signal contract
@@ -43,14 +45,18 @@ require a UI migration.
 | --- | --- | --- | --- |
 | Pre-call | `loom_usage` | Pre-Call Loom | Any non-empty Close note, email, or SMS content containing `loom.com` at or before the first-call deadline. No lower time bound or sender restriction. |
 | Pre-call | `precall_text` | Pre-call text | A non-empty outbound SMS at or before the first-call deadline. |
-| Post-call | `followup_task` | Next steps set | A dated Close task assigned to the current owner (or unassigned), open or complete; **or** a later meeting assigned to the owner (or unassigned) that is not canceled or declined. |
-| Post-call | `followup_completed` | Next steps completed | A qualifying task completed after the held first-call anchor; **or** a later meeting whose Close status is `completed`. |
-| Post-call | `recap_email` | Post-call follow-up | A sent outbound email **or outbound SMS** from the held first-call anchor through 24 hours after it. |
+| Post-call | `followup_task` | Next steps set | A dated Close task assigned to the credited rep (or unassigned), open or complete, whose due date is at or after the call or which was created after the call; **or** a later meeting assigned to the credited rep (or unassigned) that is not canceled or declined. |
+| Post-call | `followup_completed` | Next steps completed | A qualifying task completed after the held first-call anchor; **or** a later meeting whose Close status is `completed`. An incomplete next step stays neutral until its task due date or meeting end. When no next step exists, this step is neutral and `followup_task` records the miss. |
+| Post-call | `recap_email` | Post-call follow-up | A sent outbound email **or outbound SMS** from the held first-call anchor through 24 hours after it. A missing message stays neutral until the 24-hour window closes. |
 
 The first-call deadline is the earliest non-canceled meeting on the recorded booked date, falling
 back to 11:59:59 PM Pacific on the recorded date. The existing `First Call Show Up (Opp)` field
 determines the first-call outcome. A no-show is eligible only for `followup_task`; the other two
 post-call steps are neutral.
+
+For sent email and SMS evidence, `date_sent` is the timestamp used when Close provides it;
+`activity_at` is the fallback. Old overdue tasks that existed before the first call do not satisfy
+the post-call next-step signals.
 
 For each rep and step:
 
@@ -84,10 +90,11 @@ still write `data.preview.json` for local verification:
 ```json
 {
   "adherence_meta": {
-    "schema_version": 1,
+    "schema_version": 2,
     "source": "close_crm",
     "period": { "month": "2026-09", "basis": "first_sales_call_booked_date" },
-    "cohort": { "included": 0, "excluded": 0 }
+    "cohort": { "included": 0, "excluded": 0, "includes_lost": true,
+      "attribution_counts": { "meeting_rep": 0, "owner_fallback": 0 } }
   },
   "reps": [
     {
@@ -111,6 +118,8 @@ still write `data.preview.json` for local verification:
 
 Only aggregate rep-level data enters the dashboard or preview JSON. Lead IDs, names, message
 bodies, task text, and evidence rows remain in memory and are never written to the public artifact.
+`rep_owner_id` identifies the displayed rep row; individual lead scores follow meeting attribution
+when available.
 
 ## UI behavior
 

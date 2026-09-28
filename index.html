@@ -906,7 +906,7 @@
                 </tr>
               </thead>
               <tbody>${adherenceRows}</tbody>
-              <tfoot><tr><td>Scored cohort</td><td colspan="7">${cohort.included || 0} first calls &middot; ${D.adherence_meta.period.month}</td></tr></tfoot>
+              <tfoot><tr><td>Scored cohort</td><td colspan="7">${cohort.included || 0} first calls${cohort.includes_lost ? ', including Lost leads' : ''} &middot; ${D.adherence_meta.period.month}</td></tr></tfoot>
             </table>
           </div>
         </div>`;

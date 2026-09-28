@@ -67,6 +67,15 @@ def activity_time(activity: dict[str, Any]) -> datetime | None:
     return None
 
 
+def message_time(activity: dict[str, Any]) -> datetime | None:
+    """Use the actual send time when Close provides one for a sent message."""
+    if is_sent_activity(activity):
+        sent = parse_datetime(activity.get("date_sent"))
+        if sent:
+            return sent
+    return activity_time(activity)
+
+
 def activity_body(activity: dict[str, Any]) -> str:
     """Normalize only message/note bodies; subjects and titles are not process evidence."""
     fields = ("body_text", "text", "note", "body_html", "note_html")
@@ -132,7 +141,14 @@ def first_call_deadline(
     return booked, None
 
 
-def _qualifying_tasks(tasks: Iterable[dict[str, Any]], owner_id: str | None) -> list[dict[str, Any]]:
+def _qualifying_tasks(
+    tasks: Iterable[dict[str, Any]], owner_id: str | None, anchor: datetime
+) -> list[dict[str, Any]]:
+    def is_next_step(task: dict[str, Any]) -> bool:
+        due = parse_datetime(task.get("date"), date_at_end_of_day=True)
+        created = parse_datetime(task.get("date_created"))
+        return bool((due and due >= anchor) or (created and created >= anchor))
+
     return [
         task
         for task in tasks
@@ -140,6 +156,7 @@ def _qualifying_tasks(tasks: Iterable[dict[str, Any]], owner_id: str | None) -> 
         and task.get("date")
         and task_is_assigned_to(task, owner_id)
         and str(task.get("_type") or "lead") == "lead"
+        and is_next_step(task)
     ]
 
 
@@ -162,6 +179,9 @@ def score_lead(
 ) -> dict[str, dict[str, bool]]:
     """Score one monthly-cohort lead against the five adherence signals."""
     now = (now or datetime.now(PACIFIC)).astimezone(PACIFIC)
+    emails = list(emails)
+    sms = list(sms)
+    notes = list(notes)
     meetings = list(meetings)
     deadline, first_meeting = first_call_deadline(booked_date, meetings)
     result = {key: {"eligible": False, "done": False} for key in STEP_META}
@@ -169,16 +189,19 @@ def score_lead(
         return result
 
     pre_eligible = deadline <= now
-    comms = [*emails, *sms, *notes]
+    comms = (
+        [(activity, message_time) for activity in emails + sms]
+        + [(activity, activity_time) for activity in notes]
+    )
     loom_done = any(
-        (stamp := activity_time(activity)) is not None
+        (stamp := timestamp(activity)) is not None
         and stamp <= deadline
         and is_active_activity(activity)
         and bool(LOOM_PATTERN.search(activity_body(activity)))
-        for activity in comms
+        for activity, timestamp in comms
     )
     precall_text_done = any(
-        (stamp := activity_time(message)) is not None
+        (stamp := message_time(message)) is not None
         and stamp <= deadline
         and is_outbound(message)
         and is_sent_activity(message)
@@ -199,7 +222,7 @@ def score_lead(
         anchor = parse_datetime(first_meeting.get("starts_at") or first_meeting.get("activity_at")) or deadline
 
     set_eligible = outcome_known and anchor <= now
-    qualified_tasks = _qualifying_tasks(tasks, owner_id)
+    qualified_tasks = _qualifying_tasks(tasks, owner_id, anchor)
     later_meetings = []
     for meeting in meetings:
         starts_at = parse_datetime(meeting.get("starts_at") or meeting.get("activity_at"))
@@ -216,7 +239,7 @@ def score_lead(
         "done": set_eligible and bool(qualified_tasks or later_meetings),
     }
 
-    completion_eligible = shown and anchor <= now
+    shown_eligible = shown and anchor <= now
     qualifying_task_ids = {task.get("id") for task in qualified_tasks if task.get("id")}
     completed_task = any(
         completion.get("task_id") in qualifying_task_ids
@@ -228,6 +251,19 @@ def score_lead(
         str(meeting.get("status") or "").lower() == "completed"
         for meeting in later_meetings
     )
+    task_due = any(
+        (due := parse_datetime(task.get("date"), date_at_end_of_day=True)) is not None
+        and due <= now
+        for task in qualified_tasks
+    )
+    meeting_due = any(
+        (due := parse_datetime(meeting.get("ends_at") or meeting.get("starts_at"))) is not None
+        and due <= now
+        for meeting in later_meetings
+    )
+    completion_eligible = shown_eligible and (
+        completed_task or completed_meeting or task_due or meeting_due
+    )
     result["followup_completed"] = {
         "eligible": completion_eligible,
         "done": completion_eligible and (completed_task or completed_meeting),
@@ -235,15 +271,15 @@ def score_lead(
 
     window_end = anchor + timedelta(hours=24)
     post_call_message = any(
-        (stamp := activity_time(message)) is not None
-        and anchor <= stamp <= window_end
+        (stamp := message_time(message)) is not None
+        and anchor <= stamp <= min(window_end, now)
         and is_outbound(message)
         and is_sent_activity(message)
         for message in [*emails, *sms]
     )
     result["recap_email"] = {
-        "eligible": completion_eligible,
-        "done": completion_eligible and post_call_message,
+        "eligible": shown_eligible and (window_end <= now or post_call_message),
+        "done": shown_eligible and post_call_message,
     }
     return result
 

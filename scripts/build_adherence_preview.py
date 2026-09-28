@@ -25,7 +25,7 @@ from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
-from adherence_rules import aggregate_rep_scores, score_lead, validate_aggregate
+from adherence_rules import aggregate_rep_scores, first_call_deadline, score_lead, validate_aggregate
 
 
 BASE_URL = "https://api.close.com/api/v1"
@@ -41,7 +41,6 @@ CF_FUNNEL_NAME_DEAL_ID = "cf_xqDQE8fkPsWa0RNEve7hcaxKblCe6489XeZGRDzyPdX"
 
 EXCLUDED_LEAD_STATUSES = {
     "stat_hWIGHjzyNpl4YjIFSFz3VK4fp2ny10SFJLKAihmo4KT": "canceled_by_lead",
-    "stat_aR2jBa8YnTNZmHAnPsnlQuinBdaXpSBCkZGP3UvoBlV": "lost",
     "stat_p3oblSTnbsyDAw4rWqZDePGYMOlKBgV2FjbqIMDrfvF": "disqualified",
     "stat_YV4ZngDB4IGjLjlOf0YTFEWuKZJ6fhNxVkzQkvKYfdB": "outside_us",
     "stat_U9MI7pqsvIjceTv3pCU7b1EghO8Q83h1HUcL6fGVyi6": "do_not_contact",
@@ -143,6 +142,29 @@ def resolve_owner(
     return value or "Unknown", None
 
 
+def scoring_rep_for_meeting(
+    first_meeting: dict[str, Any] | None,
+    current_owner_id: str | None,
+    visible_rep_ids: set[str],
+) -> tuple[str | None, str]:
+    """Choose the meeting's rep, falling back to current owner only without a known rep."""
+    if first_meeting:
+        primary = str(first_meeting.get("user_id") or "")
+        assigned = {str(value) for value in first_meeting.get("users") or [] if value}
+        if primary:
+            assigned.add(primary)
+        if primary in visible_rep_ids:
+            return primary, "meeting_rep"
+        visible_assigned = assigned & visible_rep_ids
+        if len(visible_assigned) == 1:
+            return next(iter(visible_assigned)), "meeting_rep"
+        if assigned:
+            return None, "meeting_rep_not_visible" if not visible_assigned else "ambiguous_meeting_rep"
+    if current_owner_id in visible_rep_ids:
+        return current_owner_id, "owner_fallback"
+    return None, "not_visible_rep"
+
+
 def chunks(values: list[str], size: int = 25):
     for offset in range(0, len(values), size):
         yield values[offset : offset + size]
@@ -167,10 +189,13 @@ def fetch_cohort(client: CloseClient, year: int, month: int) -> list[dict[str, A
 def fetch_activities(
     client: CloseClient,
     lead_ids: list[str],
+    *,
+    kinds: Iterable[str] | None = None,
 ) -> dict[str, dict[str, list[dict[str, Any]]]]:
     by_kind: dict[str, dict[str, list[dict[str, Any]]]] = {}
     total_batches = max(1, (len(lead_ids) + 24) // 25)
-    for kind, endpoint in ACTIVITY_ENDPOINTS.items():
+    for kind in ACTIVITY_ENDPOINTS if kinds is None else kinds:
+        endpoint = ACTIVITY_ENDPOINTS[kind]
         grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
         total = 0
         for index, batch in enumerate(chunks(lead_ids), start=1):
@@ -238,8 +263,9 @@ def add_adherence_to_dashboard(
         for row in dashboard.get("reps") or []
         if not row.get("exclude_meetings")
     }
+    visible_rep_ids = {user_id for user_id, name in users_by_id.items() if name in dashboard_reps}
 
-    included = []
+    candidates = []
     exclusion_counts = defaultdict(int)
     for lead in raw_cohort:
         status_exclusion = EXCLUDED_LEAD_STATUSES.get(lead.get("status_id"))
@@ -250,34 +276,56 @@ def add_adherence_to_dashboard(
         if funnel in EXCLUDED_FUNNELS:
             exclusion_counts["funnel"] += 1
             continue
-        owner_name, owner_id = resolve_owner(
+        _, owner_id = resolve_owner(
             custom_value(lead, CF_LEAD_OWNER_ID, CF_LEAD_OWNER_NAME),
             users_by_id,
             ids_by_name,
         )
-        if owner_name not in dashboard_reps or not owner_id:
-            exclusion_counts["not_visible_rep"] += 1
-            continue
         booked_date = str(custom_value(lead, CF_FIRST_SALES_CALL_BOOKED_ID, CF_FIRST_SALES_CALL_BOOKED_NAME) or "")[:10]
         if not booked_date:
             exclusion_counts["missing_booked_date"] += 1
             continue
-        included.append({
+        candidates.append({
             "id": lead["id"],
-            "owner_id": owner_id,
-            "owner_name": owner_name,
+            "current_owner_id": owner_id,
             "booked_date": booked_date,
             "show_state": str(custom_value(lead, CF_FIRST_CALL_SHOW_ID, CF_FIRST_CALL_SHOW_NAME) or ""),
         })
 
+    print("  Fetching candidate first-call meetings", flush=True)
+    meetings_by_lead = fetch_activities(
+        client, [lead["id"] for lead in candidates], kinds=("meetings",)
+    )["meetings"]
+    included = []
+    for lead in candidates:
+        _, first_meeting = first_call_deadline(
+            lead["booked_date"], meetings_by_lead.get(lead["id"], [])
+        )
+        rep_id, reason = scoring_rep_for_meeting(
+            first_meeting, lead["current_owner_id"], visible_rep_ids
+        )
+        if not rep_id:
+            exclusion_counts[reason] += 1
+            continue
+        lead["attribution"] = reason
+        lead["rep_id"] = rep_id
+        included.append(lead)
+
     if limit_leads:
+        exclusion_counts["preview_limit"] += max(0, len(included) - limit_leads)
         included = included[:limit_leads]
+    attribution_counts = defaultdict(int)
+    for lead in included:
+        attribution_counts[lead["attribution"]] += 1
     lead_ids = [lead["id"] for lead in included]
     print(f"  Cohort: {len(raw_cohort):,} raw, {len(included):,} included", flush=True)
     print(f"  Exclusions: {dict(exclusion_counts)}", flush=True)
 
     print("  Fetching cohort activities in lead-ID batches", flush=True)
-    activity = fetch_activities(client, lead_ids)
+    activity = fetch_activities(
+        client, lead_ids, kinds=("emails", "sms", "notes", "task_completions")
+    )
+    activity["meetings"] = meetings_by_lead
     print("  Fetching cohort tasks", flush=True)
     tasks_by_lead = fetch_tasks_by_lead(client, lead_ids)
 
@@ -285,10 +333,10 @@ def add_adherence_to_dashboard(
     evidence_by_rep: dict[str, list[dict[str, dict[str, bool]]]] = defaultdict(list)
     for lead in included:
         lead_id = lead["id"]
-        evidence_by_rep[lead["owner_id"]].append(score_lead(
+        evidence_by_rep[lead["rep_id"]].append(score_lead(
             booked_date=lead["booked_date"],
             show_state=lead["show_state"],
-            owner_id=lead["owner_id"],
+            owner_id=lead["rep_id"],
             emails=activity["emails"].get(lead_id, []),
             sms=activity["sms"].get(lead_id, []),
             notes=activity["notes"].get(lead_id, []),
@@ -313,7 +361,7 @@ def add_adherence_to_dashboard(
         })
 
     dashboard["adherence_meta"] = {
-        "schema_version": 1,
+        "schema_version": 2,
         "source": source,
         "generated_at": now.isoformat(),
         "period": {
@@ -326,6 +374,8 @@ def add_adherence_to_dashboard(
             "included": len(included),
             "excluded": sum(exclusion_counts.values()),
             "exclusion_counts": dict(exclusion_counts),
+            "attribution_counts": dict(attribution_counts),
+            "includes_lost": True,
         },
         "api_requests": client.request_count,
         "preview_only": preview_only,

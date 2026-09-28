@@ -75,6 +75,10 @@ GitHub Pages (serves index.html)
 The production refresh adds aggregate process-adherence metrics to `data.json` before writing the
 dashboard file and monthly archive. The adapter reads Close without modifying it and evaluates only
 first calls scheduled in the dashboard month. The normal dashboard URL renders the adherence table.
+The adherence cohort includes leads later marked Lost. Scores follow the rep assigned to the
+first same-day meeting, with current Lead Owner used when Close has no identifiable meeting rep;
+these attribution counts are included in `adherence_meta.cohort`.
+Its scored-cohort count can therefore differ from the Booked / Shown board's count.
 
 For an isolated local verification artifact, run:
 

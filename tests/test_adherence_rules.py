@@ -82,6 +82,36 @@ class AdherenceRulesTests(unittest.TestCase):
         self.assertTrue(via_meeting["followup_task"]["done"])
         self.assertTrue(via_task["followup_task"]["done"])
 
+    def test_old_overdue_task_is_not_a_post_call_next_step(self):
+        result = score_lead(
+            booked_date="2026-09-10",
+            show_state="Yes",
+            owner_id=OWNER,
+            meetings=[meeting("2026-09-10T17:00:00Z")],
+            tasks=[{
+                "id": "old_task", "lead_id": "lead_1", "assigned_to": OWNER,
+                "date": "2026-09-08", "date_created": "2026-09-07T17:00:00Z",
+            }],
+            task_completions=[{"task_id": "old_task", "activity_at": "2026-09-12T17:00:00Z"}],
+            now=NOW,
+        )
+        self.assertEqual(result["followup_task"], {"eligible": True, "done": False})
+        self.assertEqual(result["followup_completed"], {"eligible": False, "done": False})
+
+    def test_task_created_after_call_can_set_a_next_step(self):
+        result = score_lead(
+            booked_date="2026-09-10",
+            show_state="Yes",
+            owner_id=OWNER,
+            meetings=[meeting("2026-09-10T17:00:00Z")],
+            tasks=[{
+                "id": "new_task", "lead_id": "lead_1", "assigned_to": OWNER,
+                "date": "2026-09-09", "date_created": "2026-09-10T18:00:00Z",
+            }],
+            now=NOW,
+        )
+        self.assertTrue(result["followup_task"]["done"])
+
     def test_next_steps_completed_accepts_showed_meeting_or_completed_task(self):
         base = [meeting("2026-09-10T17:00:00Z")]
         via_meeting = score_lead(
@@ -102,6 +132,35 @@ class AdherenceRulesTests(unittest.TestCase):
         )
         self.assertTrue(via_meeting["followup_completed"]["done"])
         self.assertTrue(via_task["followup_completed"]["done"])
+
+    def test_next_step_completion_is_neutral_until_due(self):
+        call = [meeting("2026-09-21T17:00:00Z")]
+        now = datetime(2026, 9, 21, 19, 0, tzinfo=timezone.utc)
+        upcoming = score_lead(
+            booked_date="2026-09-21", show_state="Yes", owner_id=OWNER,
+            meetings=call,
+            tasks=[{"id": "future", "lead_id": "lead_1", "assigned_to": OWNER,
+                    "date": "2026-09-25"}],
+            now=now,
+        )
+        self.assertEqual(upcoming["followup_completed"], {"eligible": False, "done": False})
+        overdue = score_lead(
+            booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
+            meetings=[meeting("2026-09-10T17:00:00Z")],
+            tasks=[{"id": "overdue", "lead_id": "lead_1", "assigned_to": OWNER,
+                    "date": "2026-09-15"}],
+            now=NOW,
+        )
+        self.assertEqual(overdue["followup_completed"], {"eligible": True, "done": False})
+
+    def test_no_next_step_does_not_count_as_uncompleted_next_step(self):
+        result = score_lead(
+            booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
+            meetings=[meeting("2026-09-10T17:00:00Z")], now=NOW,
+        )
+        self.assertEqual(result["followup_task"], {"eligible": True, "done": False})
+        self.assertEqual(result["followup_completed"], {"eligible": False, "done": False})
+        self.assertTrue(result["recap_email"]["eligible"])
 
     def test_post_call_followup_accepts_email_or_sms_through_24_hours(self):
         base = [meeting("2026-09-10T17:00:00Z")]
@@ -135,6 +194,36 @@ class AdherenceRulesTests(unittest.TestCase):
         )
         self.assertTrue(result["recap_email"]["eligible"])
         self.assertFalse(result["recap_email"]["done"])
+
+    def test_followup_window_is_neutral_until_it_closes(self):
+        call = [meeting("2026-09-21T17:00:00Z")]
+        pending = score_lead(
+            booked_date="2026-09-21", show_state="Yes", owner_id=OWNER,
+            meetings=call, now=datetime(2026, 9, 21, 19, 0, tzinfo=timezone.utc),
+        )
+        self.assertEqual(pending["recap_email"], {"eligible": False, "done": False})
+        sent = score_lead(
+            booked_date="2026-09-21", show_state="Yes", owner_id=OWNER,
+            meetings=call,
+            sms=[{"activity_at": "2026-09-21T18:00:00Z", "direction": "outbound", "status": "sent", "text": "Recap"}],
+            now=datetime(2026, 9, 21, 19, 0, tzinfo=timezone.utc),
+        )
+        self.assertEqual(sent["recap_email"], {"eligible": True, "done": True})
+
+    def test_sent_timestamp_overrides_earlier_activity_timestamp(self):
+        result = score_lead(
+            booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
+            meetings=[meeting("2026-09-10T17:00:00Z")],
+            sms=[{
+                "activity_at": "2026-09-10T16:00:00Z",
+                "date_sent": "2026-09-10T18:00:00Z",
+                "direction": "outbound", "status": "sent", "text": "See https://loom.com/demo",
+            }],
+            now=NOW,
+        )
+        self.assertFalse(result["loom_usage"]["done"])
+        self.assertFalse(result["precall_text"]["done"])
+        self.assertTrue(result["recap_email"]["done"])
 
     def test_deleted_and_unsent_communications_do_not_pass(self):
         result = score_lead(
