@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-28 04:30:18 PDT",
+  "updated_at": "2026-09-28 04:45:17 PDT",
   "month_label": "September 2026",
   "day_of_month": 28,
   "days_in_month": 30,
@@ -80,10 +80,10 @@
       "deals": 8,
       "quota": 100000,
       "pct_to_quota": 57.1,
-      "booked": 84,
+      "booked": 83,
       "shown": 36,
-      "close_rate": 9.5,
-      "show_rate": 42.9,
+      "close_rate": 9.6,
+      "show_rate": 43.4,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -95,23 +95,23 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 44,
-            "eligible": 68,
-            "pct": 65
+            "done": 43,
+            "eligible": 67,
+            "pct": 64
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 63,
-            "eligible": 68,
+            "done": 62,
+            "eligible": 67,
             "pct": 93
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 27,
-            "eligible": 61,
-            "pct": 44
+            "done": 26,
+            "eligible": 60,
+            "pct": 43
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-28T04:33:18.582712-07:00",
+    "generated_at": "2026-09-28T04:48:26.138422-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -590,14 +590,14 @@
     },
     "cohort": {
       "raw": 636,
-      "included": 449,
-      "excluded": 187,
+      "included": 448,
+      "excluded": 188,
       "exclusion_counts": {
+        "not_visible_rep": 13,
         "lost": 127,
         "canceled_by_lead": 34,
         "disqualified": 3,
         "do_not_contact": 9,
-        "not_visible_rep": 12,
         "outside_us": 2
       }
     },
