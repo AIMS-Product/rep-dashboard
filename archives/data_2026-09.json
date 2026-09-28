@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-27 18:00:21 PDT",
+  "updated_at": "2026-09-27 18:15:14 PDT",
   "month_label": "September 2026",
   "day_of_month": 27,
   "days_in_month": 30,
@@ -11,9 +11,9 @@
   "total_revenue": 367467.0,
   "total_deals": 53,
   "total_booked": 868,
-  "total_shown": 492,
+  "total_shown": 493,
   "team_close_rate": 6.1,
-  "team_show_rate": 56.7,
+  "team_show_rate": 56.8,
   "today_revenue": 0.0,
   "today_deals": 0,
   "today_closers": [],
@@ -81,9 +81,9 @@
       "quota": 100000,
       "pct_to_quota": 57.1,
       "booked": 83,
-      "shown": 38,
+      "shown": 36,
       "close_rate": 9.6,
-      "show_rate": 45.8,
+      "show_rate": 43.4,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -117,15 +117,15 @@
             "label": "Next steps completed",
             "phase": "post_call",
             "done": 13,
-            "eligible": 30,
-            "pct": 43
+            "eligible": 28,
+            "pct": 46
           },
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 25,
-            "eligible": 30,
-            "pct": 83
+            "done": 23,
+            "eligible": 28,
+            "pct": 82
           }
         }
       }
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 1,
     "source": "close_crm",
-    "generated_at": "2026-09-27T18:04:40.603163-07:00",
+    "generated_at": "2026-09-27T18:17:57.429490-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -601,7 +601,7 @@
         "outside_us": 2
       }
     },
-    "api_requests": 624,
+    "api_requests": 623,
     "preview_only": false
   }
 }
