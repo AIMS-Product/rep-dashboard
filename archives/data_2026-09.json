@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-29 16:00:19 PDT",
+  "updated_at": "2026-09-29 16:15:16 PDT",
   "month_label": "September 2026",
   "day_of_month": 29,
   "days_in_month": 30,
@@ -479,9 +479,9 @@
       "quota": 100000,
       "pct_to_quota": 23.1,
       "booked": 53,
-      "shown": 32,
+      "shown": 33,
       "close_rate": 5.7,
-      "show_rate": 60.4,
+      "show_rate": 62.3,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -508,8 +508,8 @@
             "label": "Next steps set",
             "phase": "post_call",
             "done": 24,
-            "eligible": 44,
-            "pct": 55
+            "eligible": 45,
+            "pct": 53
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -521,8 +521,8 @@
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 30,
-            "eligible": 31,
+            "done": 31,
+            "eligible": 32,
             "pct": 97
           }
         }
@@ -588,7 +588,7 @@
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-09-29T16:07:14.357453-07:00",
+    "generated_at": "2026-09-29T16:19:42.997380-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -612,7 +612,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 869,
+    "api_requests": 868,
     "preview_only": false
   }
 }
