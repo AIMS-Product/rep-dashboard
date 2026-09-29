@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-29 12:30:18 PDT",
+  "updated_at": "2026-09-29 12:45:14 PDT",
   "month_label": "September 2026",
   "day_of_month": 29,
   "days_in_month": 30,
@@ -7,26 +7,32 @@
   "working_days_elapsed": 21,
   "pct_month_passed": 95.5,
   "team_quota": 750000,
-  "pct_team_quota": 49.0,
-  "total_revenue": 367467.0,
-  "total_deals": 53,
-  "total_booked": 932,
-  "total_shown": 495,
-  "team_close_rate": 5.7,
+  "pct_team_quota": 50.2,
+  "total_revenue": 376464.0,
+  "total_deals": 54,
+  "total_booked": 930,
+  "total_shown": 494,
+  "team_close_rate": 5.8,
   "team_show_rate": 53.1,
-  "today_revenue": 0.0,
-  "today_deals": 0,
-  "today_closers": [],
+  "today_revenue": 8997.0,
+  "today_deals": 1,
+  "today_closers": [
+    {
+      "name": "Luke Herman",
+      "deals": 1,
+      "total": 8997.0
+    }
+  ],
   "reps": [
     {
       "name": "Luke Herman",
-      "revenue": 62764.0,
-      "deals": 9,
+      "revenue": 71761.0,
+      "deals": 10,
       "quota": 100000,
-      "pct_to_quota": 62.8,
+      "pct_to_quota": 71.8,
       "booked": 122,
       "shown": 66,
-      "close_rate": 7.4,
+      "close_rate": 8.2,
       "show_rate": 54.1,
       "is_manager": false,
       "is_lead": false,
@@ -54,8 +60,8 @@
             "label": "Next steps set",
             "phase": "post_call",
             "done": 77,
-            "eligible": 119,
-            "pct": 65
+            "eligible": 120,
+            "pct": 64
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -67,8 +73,8 @@
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 56,
-            "eligible": 64,
+            "done": 57,
+            "eligible": 65,
             "pct": 88
           }
         }
@@ -416,10 +422,10 @@
       "deals": 4,
       "quota": 100000,
       "pct_to_quota": 24.0,
-      "booked": 51,
+      "booked": 50,
       "shown": 21,
-      "close_rate": 7.8,
-      "show_rate": 41.2,
+      "close_rate": 8.0,
+      "show_rate": 42.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -582,7 +588,7 @@
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-09-29T12:34:28.680262-07:00",
+    "generated_at": "2026-09-29T12:52:40.578257-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -606,7 +612,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 867,
+    "api_requests": 868,
     "preview_only": false
   }
 }
