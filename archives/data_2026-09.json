@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-29 07:30:21 PDT",
+  "updated_at": "2026-09-29 07:45:14 PDT",
   "month_label": "September 2026",
   "day_of_month": 29,
   "days_in_month": 30,
@@ -80,10 +80,10 @@
       "deals": 8,
       "quota": 100000,
       "pct_to_quota": 57.1,
-      "booked": 88,
+      "booked": 89,
       "shown": 37,
-      "close_rate": 9.1,
-      "show_rate": 42.0,
+      "close_rate": 9.0,
+      "show_rate": 41.6,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -482,7 +482,7 @@
       "rep_owner_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
       "adherence": {
         "pre_call_pct": 58,
-        "post_call_pct": 79,
+        "post_call_pct": 82,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -508,9 +508,9 @@
           "followup_completed": {
             "label": "Next steps completed",
             "phase": "post_call",
-            "done": 11,
+            "done": 12,
             "eligible": 13,
-            "pct": 85
+            "pct": 92
           },
           "recap_email": {
             "label": "Post-call follow-up",
@@ -582,15 +582,15 @@
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-09-29T07:35:38.188523-07:00",
+    "generated_at": "2026-09-29T07:54:18.703093-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
       "basis": "first_sales_call_booked_date"
     },
     "cohort": {
-      "raw": 662,
-      "included": 612,
+      "raw": 663,
+      "included": 613,
       "excluded": 50,
       "exclusion_counts": {
         "canceled_by_lead": 26,
@@ -601,12 +601,12 @@
         "not_visible_rep": 1
       },
       "attribution_counts": {
-        "meeting_rep": 573,
+        "meeting_rep": 574,
         "owner_fallback": 39
       },
       "includes_lost": true
     },
-    "api_requests": 855,
+    "api_requests": 857,
     "preview_only": false
   }
 }
