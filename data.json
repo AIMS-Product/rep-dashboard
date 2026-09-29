@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-29 02:15:14 PDT",
+  "updated_at": "2026-09-29 02:30:17 PDT",
   "month_label": "September 2026",
   "day_of_month": 29,
   "days_in_month": 30,
@@ -426,7 +426,7 @@
       "rep_owner_id": "user_rJngzi4LOFXzpNb0bLi1ZtKRlRkga2fYuf4QrYpAmIc",
       "adherence": {
         "pre_call_pct": 78,
-        "post_call_pct": 75,
+        "post_call_pct": 77,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -445,9 +445,9 @@
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 12,
+            "done": 14,
             "eligible": 40,
-            "pct": 30
+            "pct": 35
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-09-29T02:21:07.324886-07:00",
+    "generated_at": "2026-09-29T02:34:30.624220-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -601,8 +601,8 @@
         "not_visible_rep": 1
       },
       "attribution_counts": {
-        "meeting_rep": 567,
-        "owner_fallback": 40
+        "owner_fallback": 40,
+        "meeting_rep": 567
       },
       "includes_lost": true
     },
