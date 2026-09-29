@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-28 16:45:14 PDT",
+  "updated_at": "2026-09-28 17:00:22 PDT",
   "month_label": "September 2026",
   "day_of_month": 28,
   "days_in_month": 30,
@@ -10,10 +10,10 @@
   "pct_team_quota": 49.0,
   "total_revenue": 367467.0,
   "total_deals": 53,
-  "total_booked": 885,
+  "total_booked": 884,
   "total_shown": 477,
   "team_close_rate": 6.0,
-  "team_show_rate": 53.9,
+  "team_show_rate": 54.0,
   "today_revenue": 0.0,
   "today_deals": 0,
   "today_closers": [],
@@ -60,8 +60,8 @@
           "followup_completed": {
             "label": "Next steps completed",
             "phase": "post_call",
-            "done": 40,
-            "eligible": 42,
+            "done": 41,
+            "eligible": 43,
             "pct": 95
           },
           "recap_email": {
@@ -488,14 +488,14 @@
             "label": "Pre-Call Loom",
             "phase": "pre_call",
             "done": 7,
-            "eligible": 44,
+            "eligible": 45,
             "pct": 16
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 44,
-            "eligible": 44,
+            "done": 45,
+            "eligible": 45,
             "pct": 100
           },
           "followup_task": {
@@ -515,9 +515,9 @@
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 27,
-            "eligible": 28,
-            "pct": 96
+            "done": 28,
+            "eligible": 29,
+            "pct": 97
           }
         }
       }
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-09-28T16:50:55.776668-07:00",
+    "generated_at": "2026-09-28T17:04:46.862700-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -606,7 +606,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 845,
+    "api_requests": 844,
     "preview_only": false
   }
 }
