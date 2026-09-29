@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-29 06:00:22 PDT",
+  "updated_at": "2026-09-29 06:15:14 PDT",
   "month_label": "September 2026",
   "day_of_month": 29,
   "days_in_month": 30,
@@ -61,8 +61,8 @@
             "label": "Next steps completed",
             "phase": "post_call",
             "done": 41,
-            "eligible": 42,
-            "pct": 98
+            "eligible": 41,
+            "pct": 100
           },
           "recap_email": {
             "label": "Post-call follow-up",
@@ -137,9 +137,9 @@
       "quota": 100000,
       "pct_to_quota": 55.9,
       "booked": 69,
-      "shown": 32,
+      "shown": 33,
       "close_rate": 8.7,
-      "show_rate": 46.4,
+      "show_rate": 47.8,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -151,15 +151,15 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 40,
-            "eligible": 67,
+            "done": 41,
+            "eligible": 68,
             "pct": 60
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 55,
-            "eligible": 67,
+            "done": 56,
+            "eligible": 68,
             "pct": 82
           },
           "followup_task": {
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-09-29T06:06:04.688577-07:00",
+    "generated_at": "2026-09-29T06:22:25.744262-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -606,7 +606,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 846,
+    "api_requests": 847,
     "preview_only": false
   }
 }
