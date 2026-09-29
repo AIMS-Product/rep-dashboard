@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-29 08:15:16 PDT",
+  "updated_at": "2026-09-29 08:30:19 PDT",
   "month_label": "September 2026",
   "day_of_month": 29,
   "days_in_month": 30,
@@ -360,10 +360,10 @@
       "deals": 6,
       "quota": 100000,
       "pct_to_quota": 25.7,
-      "booked": 98,
+      "booked": 97,
       "shown": 56,
-      "close_rate": 6.1,
-      "show_rate": 57.1,
+      "close_rate": 6.2,
+      "show_rate": 57.7,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -431,15 +431,15 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 29,
-            "eligible": 44,
-            "pct": 66
+            "done": 30,
+            "eligible": 45,
+            "pct": 67
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 39,
-            "eligible": 44,
+            "done": 40,
+            "eligible": 45,
             "pct": 89
           },
           "followup_task": {
@@ -543,15 +543,15 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 10,
-            "eligible": 10,
+            "done": 11,
+            "eligible": 11,
             "pct": 100
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 10,
-            "eligible": 10,
+            "done": 11,
+            "eligible": 11,
             "pct": 100
           },
           "followup_task": {
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-09-29T08:19:19.860706-07:00",
+    "generated_at": "2026-09-29T08:35:50.724551-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -590,10 +590,10 @@
     },
     "cohort": {
       "raw": 666,
-      "included": 616,
-      "excluded": 50,
+      "included": 615,
+      "excluded": 51,
       "exclusion_counts": {
-        "canceled_by_lead": 26,
+        "canceled_by_lead": 27,
         "do_not_contact": 10,
         "disqualified": 3,
         "outside_us": 2,
@@ -602,7 +602,7 @@
       },
       "attribution_counts": {
         "meeting_rep": 576,
-        "owner_fallback": 40
+        "owner_fallback": 39
       },
       "includes_lost": true
     },
