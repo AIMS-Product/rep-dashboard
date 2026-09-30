@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-29 18:45:13 PDT",
+  "updated_at": "2026-09-29 19:00:22 PDT",
   "month_label": "September 2026",
   "day_of_month": 29,
   "days_in_month": 30,
@@ -10,10 +10,10 @@
   "pct_team_quota": 51.8,
   "total_revenue": 388458.0,
   "total_deals": 56,
-  "total_booked": 925,
+  "total_booked": 926,
   "total_shown": 500,
-  "team_close_rate": 6.1,
-  "team_show_rate": 54.1,
+  "team_close_rate": 6.0,
+  "team_show_rate": 54.0,
   "today_revenue": 20991.0,
   "today_deals": 3,
   "today_closers": [
@@ -96,10 +96,10 @@
       "deals": 7,
       "quota": 100000,
       "pct_to_quota": 61.9,
-      "booked": 72,
+      "booked": 74,
       "shown": 34,
-      "close_rate": 9.7,
-      "show_rate": 47.2,
+      "close_rate": 9.5,
+      "show_rate": 45.9,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -432,10 +432,10 @@
       "deals": 4,
       "quota": 100000,
       "pct_to_quota": 24.0,
-      "booked": 50,
+      "booked": 53,
       "shown": 22,
-      "close_rate": 8.0,
-      "show_rate": 44.0,
+      "close_rate": 7.5,
+      "show_rate": 41.5,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -488,10 +488,10 @@
       "deals": 3,
       "quota": 100000,
       "pct_to_quota": 23.1,
-      "booked": 53,
+      "booked": 55,
       "shown": 33,
-      "close_rate": 5.7,
-      "show_rate": 62.3,
+      "close_rate": 5.5,
+      "show_rate": 60.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -598,15 +598,15 @@
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-09-29T18:50:54.693201-07:00",
+    "generated_at": "2026-09-29T19:04:13.179478-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
       "basis": "first_sales_call_booked_date"
     },
     "cohort": {
-      "raw": 674,
-      "included": 622,
+      "raw": 681,
+      "included": 629,
       "excluded": 52,
       "exclusion_counts": {
         "canceled_by_lead": 28,
@@ -617,12 +617,12 @@
         "not_visible_rep": 1
       },
       "attribution_counts": {
-        "meeting_rep": 583,
+        "meeting_rep": 590,
         "owner_fallback": 39
       },
       "includes_lost": true
     },
-    "api_requests": 869,
+    "api_requests": 881,
     "preview_only": false
   }
 }
