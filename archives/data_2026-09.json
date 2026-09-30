@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-30 15:45:13 PDT",
+  "updated_at": "2026-09-30 16:00:19 PDT",
   "month_label": "September 2026",
   "day_of_month": 30,
   "days_in_month": 30,
@@ -10,8 +10,8 @@
   "pct_team_quota": 59.6,
   "total_revenue": 446843.0,
   "total_deals": 62,
-  "total_booked": 969,
-  "total_shown": 526,
+  "total_booked": 966,
+  "total_shown": 525,
   "team_close_rate": 6.4,
   "team_show_rate": 54.3,
   "today_revenue": 58385.0,
@@ -50,28 +50,28 @@
       "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
       "adherence": {
         "pre_call_pct": 97,
-        "post_call_pct": 87,
+        "post_call_pct": 86,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 44,
-            "eligible": 46,
+            "done": 45,
+            "eligible": 47,
             "pct": 96
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 45,
-            "eligible": 46,
+            "done": 46,
+            "eligible": 47,
             "pct": 98
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
             "done": 27,
-            "eligible": 45,
-            "pct": 60
+            "eligible": 46,
+            "pct": 59
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -598,7 +598,7 @@
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-09-30T15:50:35.940944-07:00",
+    "generated_at": "2026-09-30T16:07:16.241948-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -617,12 +617,12 @@
         "meeting_rep_not_visible": 8
       },
       "attribution_counts": {
-        "meeting_rep": 588,
-        "owner_fallback": 40
+        "owner_fallback": 40,
+        "meeting_rep": 588
       },
       "includes_lost": true
     },
-    "api_requests": 881,
+    "api_requests": 882,
     "preview_only": false
   }
 }
