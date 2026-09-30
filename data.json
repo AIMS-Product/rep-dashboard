@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-30 10:15:15 PDT",
+  "updated_at": "2026-09-30 10:30:18 PDT",
   "month_label": "September 2026",
   "day_of_month": 30,
   "days_in_month": 30,
@@ -10,10 +10,10 @@
   "pct_team_quota": 51.8,
   "total_revenue": 388458.0,
   "total_deals": 56,
-  "total_booked": 964,
-  "total_shown": 511,
+  "total_booked": 969,
+  "total_shown": 509,
   "team_close_rate": 5.8,
-  "team_show_rate": 53.0,
+  "team_show_rate": 52.5,
   "today_revenue": 0.0,
   "today_deals": 0,
   "today_closers": [],
@@ -39,23 +39,23 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 126,
-            "eligible": 129,
+            "done": 125,
+            "eligible": 128,
             "pct": 98
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 125,
-            "eligible": 129,
+            "done": 124,
+            "eligible": 128,
             "pct": 97
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 80,
-            "eligible": 124,
-            "pct": 65
+            "done": 79,
+            "eligible": 123,
+            "pct": 64
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -481,21 +481,21 @@
       "exclude_meetings": false,
       "rep_owner_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
       "adherence": {
-        "pre_call_pct": 58,
+        "pre_call_pct": 57,
         "post_call_pct": 82,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
             "done": 7,
-            "eligible": 48,
-            "pct": 15
+            "eligible": 49,
+            "pct": 14
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 48,
-            "eligible": 48,
+            "done": 49,
+            "eligible": 49,
             "pct": 100
           },
           "followup_task": {
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-09-30T10:22:52.848388-07:00",
+    "generated_at": "2026-09-30T10:35:22.474283-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -601,8 +601,8 @@
         "not_visible_rep": 1
       },
       "attribution_counts": {
-        "meeting_rep": 590,
-        "owner_fallback": 40
+        "meeting_rep": 591,
+        "owner_fallback": 39
       },
       "includes_lost": true
     },
