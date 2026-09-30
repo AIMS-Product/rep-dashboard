@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-30 11:30:19 PDT",
+  "updated_at": "2026-09-30 11:45:16 PDT",
   "month_label": "September 2026",
   "day_of_month": 30,
   "days_in_month": 30,
@@ -7,16 +7,21 @@
   "working_days_elapsed": 22,
   "pct_month_passed": 100.0,
   "team_quota": 750000,
-  "pct_team_quota": 52.6,
-  "total_revenue": 394455.0,
-  "total_deals": 57,
+  "pct_team_quota": 53.8,
+  "total_revenue": 403452.0,
+  "total_deals": 58,
   "total_booked": 966,
   "total_shown": 511,
-  "team_close_rate": 5.9,
+  "team_close_rate": 6.0,
   "team_show_rate": 52.9,
-  "today_revenue": 5997.0,
-  "today_deals": 1,
+  "today_revenue": 14994.0,
+  "today_deals": 2,
   "today_closers": [
+    {
+      "name": "Robin Perkins",
+      "deals": 1,
+      "total": 8997.0
+    },
     {
       "name": "Eric Piccione",
       "deals": 1,
@@ -193,6 +198,62 @@
       }
     },
     {
+      "name": "Robin Perkins",
+      "revenue": 45582.0,
+      "deals": 6,
+      "quota": 100000,
+      "pct_to_quota": 45.6,
+      "booked": 48,
+      "shown": 21,
+      "close_rate": 12.5,
+      "show_rate": 43.8,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
+      "adherence": {
+        "pre_call_pct": 97,
+        "post_call_pct": 88,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 41,
+            "eligible": 43,
+            "pct": 95
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 42,
+            "eligible": 43,
+            "pct": 98
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 27,
+            "eligible": 42,
+            "pct": 64
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 11,
+            "eligible": 11,
+            "pct": 100
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 20,
+            "eligible": 20,
+            "pct": 100
+          }
+        }
+      }
+    },
+    {
       "name": "Shreya Bechra",
       "revenue": 38682.0,
       "deals": 6,
@@ -244,62 +305,6 @@
             "done": 44,
             "eligible": 47,
             "pct": 94
-          }
-        }
-      }
-    },
-    {
-      "name": "Robin Perkins",
-      "revenue": 36585.0,
-      "deals": 5,
-      "quota": 100000,
-      "pct_to_quota": 36.6,
-      "booked": 48,
-      "shown": 20,
-      "close_rate": 10.4,
-      "show_rate": 41.7,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
-      "adherence": {
-        "pre_call_pct": 97,
-        "post_call_pct": 89,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 41,
-            "eligible": 43,
-            "pct": 95
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 42,
-            "eligible": 43,
-            "pct": 98
-          },
-          "followup_task": {
-            "label": "Next steps set",
-            "phase": "post_call",
-            "done": 27,
-            "eligible": 41,
-            "pct": 66
-          },
-          "followup_completed": {
-            "label": "Next steps completed",
-            "phase": "post_call",
-            "done": 11,
-            "eligible": 11,
-            "pct": 100
-          },
-          "recap_email": {
-            "label": "Post-call follow-up",
-            "phase": "post_call",
-            "done": 19,
-            "eligible": 19,
-            "pct": 100
           }
         }
       }
@@ -367,9 +372,9 @@
       "quota": 100000,
       "pct_to_quota": 31.7,
       "booked": 99,
-      "shown": 58,
+      "shown": 59,
       "close_rate": 7.1,
-      "show_rate": 58.6,
+      "show_rate": 59.6,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -395,9 +400,9 @@
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 51,
-            "eligible": 99,
-            "pct": 52
+            "done": 52,
+            "eligible": 101,
+            "pct": 51
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -409,8 +414,8 @@
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 55,
-            "eligible": 58,
+            "done": 56,
+            "eligible": 59,
             "pct": 95
           }
         }
@@ -544,7 +549,7 @@
       "rep_owner_id": "user_F0VeLnOQlWpkDncNW8rBl1V2QJ08fnDt6DcUjNATUJK",
       "adherence": {
         "pre_call_pct": 100,
-        "post_call_pct": 88,
+        "post_call_pct": 90,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -563,9 +568,9 @@
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 9,
+            "done": 10,
             "eligible": 14,
-            "pct": 64
+            "pct": 71
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -588,7 +593,7 @@
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-09-30T11:38:11.628281-07:00",
+    "generated_at": "2026-09-30T11:51:05.720968-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -612,7 +617,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 884,
+    "api_requests": 883,
     "preview_only": false
   }
 }
