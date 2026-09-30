@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-30 14:15:16 PDT",
+  "updated_at": "2026-09-30 14:30:19 PDT",
   "month_label": "September 2026",
   "day_of_month": 30,
   "days_in_month": 30,
@@ -11,9 +11,9 @@
   "total_revenue": 437846.0,
   "total_deals": 61,
   "total_booked": 968,
-  "total_shown": 517,
+  "total_shown": 521,
   "team_close_rate": 6.3,
-  "team_show_rate": 53.4,
+  "team_show_rate": 53.8,
   "today_revenue": 49388.0,
   "today_deals": 5,
   "today_closers": [
@@ -41,9 +41,9 @@
       "quota": 100000,
       "pct_to_quota": 77.2,
       "booked": 123,
-      "shown": 67,
+      "shown": 68,
       "close_rate": 8.9,
-      "show_rate": 54.5,
+      "show_rate": 55.3,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -69,8 +69,8 @@
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 79,
-            "eligible": 124,
+            "done": 80,
+            "eligible": 125,
             "pct": 64
           },
           "followup_completed": {
@@ -84,8 +84,8 @@
             "label": "Post-call follow-up",
             "phase": "post_call",
             "done": 58,
-            "eligible": 66,
-            "pct": 88
+            "eligible": 67,
+            "pct": 87
           }
         }
       }
@@ -162,7 +162,7 @@
       "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
       "adherence": {
         "pre_call_pct": 97,
-        "post_call_pct": 88,
+        "post_call_pct": 87,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -182,8 +182,8 @@
             "label": "Next steps set",
             "phase": "post_call",
             "done": 27,
-            "eligible": 43,
-            "pct": 63
+            "eligible": 44,
+            "pct": 61
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -195,8 +195,8 @@
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 20,
-            "eligible": 20,
+            "done": 21,
+            "eligible": 21,
             "pct": 100
           }
         }
@@ -238,8 +238,8 @@
             "label": "Next steps set",
             "phase": "post_call",
             "done": 28,
-            "eligible": 83,
-            "pct": 34
+            "eligible": 84,
+            "pct": 33
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -376,10 +376,10 @@
       "deals": 7,
       "quota": 100000,
       "pct_to_quota": 31.7,
-      "booked": 98,
+      "booked": 97,
       "shown": 59,
-      "close_rate": 7.1,
-      "show_rate": 60.2,
+      "close_rate": 7.2,
+      "show_rate": 60.8,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -405,7 +405,7 @@
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 50,
+            "done": 51,
             "eligible": 101,
             "pct": 50
           },
@@ -598,31 +598,31 @@
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-09-30T14:19:44.404349-07:00",
+    "generated_at": "2026-09-30T14:34:32.905879-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
       "basis": "first_sales_call_booked_date"
     },
     "cohort": {
-      "raw": 683,
-      "included": 629,
+      "raw": 682,
+      "included": 628,
       "excluded": 54,
       "exclusion_counts": {
-        "outside_us": 3,
         "canceled_by_lead": 28,
+        "outside_us": 3,
         "disqualified": 4,
         "do_not_contact": 10,
         "not_visible_rep": 1,
         "meeting_rep_not_visible": 8
       },
       "attribution_counts": {
-        "meeting_rep": 589,
+        "meeting_rep": 588,
         "owner_fallback": 40
       },
       "includes_lost": true
     },
-    "api_requests": 882,
+    "api_requests": 881,
     "preview_only": false
   }
 }
