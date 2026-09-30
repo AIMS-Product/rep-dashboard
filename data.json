@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-30 12:00:23 PDT",
+  "updated_at": "2026-09-30 12:15:13 PDT",
   "month_label": "September 2026",
   "day_of_month": 30,
   "days_in_month": 30,
@@ -7,25 +7,25 @@
   "working_days_elapsed": 22,
   "pct_month_passed": 100.0,
   "team_quota": 750000,
-  "pct_team_quota": 54.6,
-  "total_revenue": 409449.0,
-  "total_deals": 59,
+  "pct_team_quota": 57.7,
+  "total_revenue": 432446.0,
+  "total_deals": 60,
   "total_booked": 967,
   "total_shown": 512,
-  "team_close_rate": 6.1,
+  "team_close_rate": 6.2,
   "team_show_rate": 52.9,
-  "today_revenue": 20991.0,
-  "today_deals": 3,
+  "today_revenue": 43988.0,
+  "today_deals": 4,
   "today_closers": [
+    {
+      "name": "Robin Perkins",
+      "deals": 2,
+      "total": 31994.0
+    },
     {
       "name": "Eric Piccione",
       "deals": 2,
       "total": 11994.0
-    },
-    {
-      "name": "Robin Perkins",
-      "deals": 1,
-      "total": 8997.0
     }
   ],
   "reps": [
@@ -142,6 +142,62 @@
       }
     },
     {
+      "name": "Robin Perkins",
+      "revenue": 68579.0,
+      "deals": 7,
+      "quota": 100000,
+      "pct_to_quota": 68.6,
+      "booked": 48,
+      "shown": 21,
+      "close_rate": 14.6,
+      "show_rate": 43.8,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
+      "adherence": {
+        "pre_call_pct": 97,
+        "post_call_pct": 88,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 42,
+            "eligible": 44,
+            "pct": 95
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 43,
+            "eligible": 44,
+            "pct": 98
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 27,
+            "eligible": 42,
+            "pct": 64
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 11,
+            "eligible": 11,
+            "pct": 100
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 20,
+            "eligible": 20,
+            "pct": 100
+          }
+        }
+      }
+    },
+    {
       "name": "Joe Vaughan",
       "revenue": 57129.0,
       "deals": 8,
@@ -193,62 +249,6 @@
             "done": 34,
             "eligible": 41,
             "pct": 83
-          }
-        }
-      }
-    },
-    {
-      "name": "Robin Perkins",
-      "revenue": 45582.0,
-      "deals": 6,
-      "quota": 100000,
-      "pct_to_quota": 45.6,
-      "booked": 48,
-      "shown": 21,
-      "close_rate": 12.5,
-      "show_rate": 43.8,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
-      "adherence": {
-        "pre_call_pct": 97,
-        "post_call_pct": 88,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 42,
-            "eligible": 44,
-            "pct": 95
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 43,
-            "eligible": 44,
-            "pct": 98
-          },
-          "followup_task": {
-            "label": "Next steps set",
-            "phase": "post_call",
-            "done": 27,
-            "eligible": 42,
-            "pct": 64
-          },
-          "followup_completed": {
-            "label": "Next steps completed",
-            "phase": "post_call",
-            "done": 11,
-            "eligible": 11,
-            "pct": 100
-          },
-          "recap_email": {
-            "label": "Post-call follow-up",
-            "phase": "post_call",
-            "done": 20,
-            "eligible": 20,
-            "pct": 100
           }
         }
       }
@@ -593,7 +593,7 @@
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-09-30T12:06:56.973079-07:00",
+    "generated_at": "2026-09-30T12:22:37.565309-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -617,7 +617,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 882,
+    "api_requests": 884,
     "preview_only": false
   }
 }
