@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-29 18:00:22 PDT",
+  "updated_at": "2026-09-29 18:15:13 PDT",
   "month_label": "September 2026",
   "day_of_month": 29,
   "days_in_month": 30,
@@ -10,10 +10,10 @@
   "pct_team_quota": 51.0,
   "total_revenue": 382461.0,
   "total_deals": 55,
-  "total_booked": 929,
-  "total_shown": 503,
+  "total_booked": 927,
+  "total_shown": 500,
   "team_close_rate": 5.9,
-  "team_show_rate": 54.1,
+  "team_show_rate": 53.9,
   "today_revenue": 14994.0,
   "today_deals": 2,
   "today_closers": [
@@ -91,10 +91,10 @@
       "deals": 8,
       "quota": 100000,
       "pct_to_quota": 57.1,
-      "booked": 92,
+      "booked": 93,
       "shown": 38,
-      "close_rate": 8.7,
-      "show_rate": 41.3,
+      "close_rate": 8.6,
+      "show_rate": 40.9,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -372,9 +372,9 @@
       "quota": 100000,
       "pct_to_quota": 31.7,
       "booked": 97,
-      "shown": 57,
+      "shown": 56,
       "close_rate": 7.2,
-      "show_rate": 58.8,
+      "show_rate": 57.7,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -407,15 +407,15 @@
           "followup_completed": {
             "label": "Next steps completed",
             "phase": "post_call",
-            "done": 32,
-            "eligible": 32,
+            "done": 31,
+            "eligible": 31,
             "pct": 100
           },
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 53,
-            "eligible": 56,
+            "done": 52,
+            "eligible": 55,
             "pct": 95
           }
         }
@@ -512,9 +512,9 @@
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 24,
-            "eligible": 45,
-            "pct": 53
+            "done": 25,
+            "eligible": 46,
+            "pct": 54
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -593,15 +593,15 @@
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-09-29T18:04:24.678546-07:00",
+    "generated_at": "2026-09-29T18:22:11.384942-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
       "basis": "first_sales_call_booked_date"
     },
     "cohort": {
-      "raw": 673,
-      "included": 621,
+      "raw": 674,
+      "included": 622,
       "excluded": 52,
       "exclusion_counts": {
         "canceled_by_lead": 28,
@@ -612,7 +612,7 @@
         "not_visible_rep": 1
       },
       "attribution_counts": {
-        "meeting_rep": 582,
+        "meeting_rep": 583,
         "owner_fallback": 39
       },
       "includes_lost": true
