@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-30 06:15:17 PDT",
+  "updated_at": "2026-09-30 06:30:20 PDT",
   "month_label": "September 2026",
   "day_of_month": 30,
   "days_in_month": 30,
@@ -10,10 +10,10 @@
   "pct_team_quota": 51.8,
   "total_revenue": 388458.0,
   "total_deals": 56,
-  "total_booked": 954,
-  "total_shown": 504,
+  "total_booked": 955,
+  "total_shown": 511,
   "team_close_rate": 5.9,
-  "team_show_rate": 52.8,
+  "team_show_rate": 53.5,
   "today_revenue": 0.0,
   "today_deals": 0,
   "today_closers": [],
@@ -137,9 +137,9 @@
       "quota": 100000,
       "pct_to_quota": 57.1,
       "booked": 93,
-      "shown": 38,
+      "shown": 39,
       "close_rate": 8.6,
-      "show_rate": 40.9,
+      "show_rate": 41.9,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -151,15 +151,15 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 56,
-            "eligible": 87,
+            "done": 55,
+            "eligible": 86,
             "pct": 64
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 81,
-            "eligible": 87,
+            "done": 80,
+            "eligible": 86,
             "pct": 93
           },
           "followup_task": {
@@ -582,7 +582,7 @@
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-09-30T06:20:08.798284-07:00",
+    "generated_at": "2026-09-30T06:34:26.995630-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -590,18 +590,18 @@
     },
     "cohort": {
       "raw": 682,
-      "included": 630,
-      "excluded": 52,
+      "included": 629,
+      "excluded": 53,
       "exclusion_counts": {
         "canceled_by_lead": 28,
+        "disqualified": 4,
         "do_not_contact": 10,
-        "disqualified": 3,
         "outside_us": 2,
         "meeting_rep_not_visible": 8,
         "not_visible_rep": 1
       },
       "attribution_counts": {
-        "meeting_rep": 591,
+        "meeting_rep": 590,
         "owner_fallback": 39
       },
       "includes_lost": true
