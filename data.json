@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-30 11:45:16 PDT",
+  "updated_at": "2026-09-30 12:00:23 PDT",
   "month_label": "September 2026",
   "day_of_month": 30,
   "days_in_month": 30,
@@ -7,28 +7,84 @@
   "working_days_elapsed": 22,
   "pct_month_passed": 100.0,
   "team_quota": 750000,
-  "pct_team_quota": 53.8,
-  "total_revenue": 403452.0,
-  "total_deals": 58,
-  "total_booked": 966,
-  "total_shown": 511,
-  "team_close_rate": 6.0,
+  "pct_team_quota": 54.6,
+  "total_revenue": 409449.0,
+  "total_deals": 59,
+  "total_booked": 967,
+  "total_shown": 512,
+  "team_close_rate": 6.1,
   "team_show_rate": 52.9,
-  "today_revenue": 14994.0,
-  "today_deals": 2,
+  "today_revenue": 20991.0,
+  "today_deals": 3,
   "today_closers": [
+    {
+      "name": "Eric Piccione",
+      "deals": 2,
+      "total": 11994.0
+    },
     {
       "name": "Robin Perkins",
       "deals": 1,
       "total": 8997.0
-    },
-    {
-      "name": "Eric Piccione",
-      "deals": 1,
-      "total": 5997.0
     }
   ],
   "reps": [
+    {
+      "name": "Eric Piccione",
+      "revenue": 73873.0,
+      "deals": 9,
+      "quota": 100000,
+      "pct_to_quota": 73.9,
+      "booked": 74,
+      "shown": 36,
+      "close_rate": 12.2,
+      "show_rate": 48.6,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "rep_owner_id": "user_wF5aATmDljO6g6AHqehRPVmfCmH5j9VszbO6Q6Pjzm4",
+      "adherence": {
+        "pre_call_pct": 73,
+        "post_call_pct": 69,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 45,
+            "eligible": 72,
+            "pct": 63
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 60,
+            "eligible": 72,
+            "pct": 83
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 15,
+            "eligible": 70,
+            "pct": 21
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 12,
+            "eligible": 12,
+            "pct": 100
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 30,
+            "eligible": 35,
+            "pct": 86
+          }
+        }
+      }
+    },
     {
       "name": "Luke Herman",
       "revenue": 71761.0,
@@ -86,62 +142,6 @@
       }
     },
     {
-      "name": "Eric Piccione",
-      "revenue": 67876.0,
-      "deals": 8,
-      "quota": 100000,
-      "pct_to_quota": 67.9,
-      "booked": 74,
-      "shown": 36,
-      "close_rate": 10.8,
-      "show_rate": 48.6,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "rep_owner_id": "user_wF5aATmDljO6g6AHqehRPVmfCmH5j9VszbO6Q6Pjzm4",
-      "adherence": {
-        "pre_call_pct": 73,
-        "post_call_pct": 69,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 45,
-            "eligible": 72,
-            "pct": 63
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 60,
-            "eligible": 72,
-            "pct": 83
-          },
-          "followup_task": {
-            "label": "Next steps set",
-            "phase": "post_call",
-            "done": 15,
-            "eligible": 70,
-            "pct": 21
-          },
-          "followup_completed": {
-            "label": "Next steps completed",
-            "phase": "post_call",
-            "done": 12,
-            "eligible": 12,
-            "pct": 100
-          },
-          "recap_email": {
-            "label": "Post-call follow-up",
-            "phase": "post_call",
-            "done": 30,
-            "eligible": 35,
-            "pct": 86
-          }
-        }
-      }
-    },
-    {
       "name": "Joe Vaughan",
       "revenue": 57129.0,
       "deals": 8,
@@ -163,14 +163,14 @@
             "label": "Pre-Call Loom",
             "phase": "pre_call",
             "done": 58,
-            "eligible": 89,
-            "pct": 65
+            "eligible": 90,
+            "pct": 64
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 83,
-            "eligible": 89,
+            "done": 84,
+            "eligible": 90,
             "pct": 93
           },
           "followup_task": {
@@ -218,15 +218,15 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 41,
-            "eligible": 43,
+            "done": 42,
+            "eligible": 44,
             "pct": 95
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 42,
-            "eligible": 43,
+            "done": 43,
+            "eligible": 44,
             "pct": 98
           },
           "followup_task": {
@@ -443,14 +443,14 @@
             "label": "Pre-Call Loom",
             "phase": "pre_call",
             "done": 33,
-            "eligible": 50,
-            "pct": 66
+            "eligible": 51,
+            "pct": 65
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 44,
-            "eligible": 50,
+            "done": 45,
+            "eligible": 51,
             "pct": 88
           },
           "followup_task": {
@@ -593,7 +593,7 @@
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-09-30T11:51:05.720968-07:00",
+    "generated_at": "2026-09-30T12:06:56.973079-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
@@ -617,7 +617,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 883,
+    "api_requests": 882,
     "preview_only": false
   }
 }
