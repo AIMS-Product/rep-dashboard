@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-30 18:30:18 PDT",
+  "updated_at": "2026-09-30 18:45:12 PDT",
   "month_label": "September 2026",
   "day_of_month": 30,
   "days_in_month": 30,
@@ -7,20 +7,25 @@
   "working_days_elapsed": 22,
   "pct_month_passed": 100.0,
   "team_quota": 750000,
-  "pct_team_quota": 61.6,
-  "total_revenue": 461840.0,
-  "total_deals": 63,
-  "total_booked": 963,
-  "total_shown": 526,
-  "team_close_rate": 6.5,
+  "pct_team_quota": 63.6,
+  "total_revenue": 476837.0,
+  "total_deals": 64,
+  "total_booked": 965,
+  "total_shown": 527,
+  "team_close_rate": 6.6,
   "team_show_rate": 54.6,
-  "today_revenue": 73382.0,
-  "today_deals": 7,
+  "today_revenue": 88379.0,
+  "today_deals": 8,
   "today_closers": [
     {
       "name": "Robin Perkins",
       "deals": 3,
       "total": 40991.0
+    },
+    {
+      "name": "Ariella Irvine",
+      "deals": 1,
+      "total": 14997.0
     },
     {
       "name": "Joe Vaughan",
@@ -320,6 +325,62 @@
       }
     },
     {
+      "name": "Ariella Irvine",
+      "revenue": 38091.0,
+      "deals": 4,
+      "quota": 100000,
+      "pct_to_quota": 38.1,
+      "booked": 55,
+      "shown": 35,
+      "close_rate": 7.3,
+      "show_rate": 63.6,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "rep_owner_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
+      "adherence": {
+        "pre_call_pct": 58,
+        "post_call_pct": 82,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 8,
+            "eligible": 51,
+            "pct": 16
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 51,
+            "eligible": 51,
+            "pct": 100
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 27,
+            "eligible": 47,
+            "pct": 57
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 13,
+            "eligible": 14,
+            "pct": 93
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 33,
+            "eligible": 34,
+            "pct": 97
+          }
+        }
+      }
+    },
+    {
       "name": "Joe Dysert",
       "revenue": 34176.0,
       "deals": 5,
@@ -488,62 +549,6 @@
       }
     },
     {
-      "name": "Ariella Irvine",
-      "revenue": 23094.0,
-      "deals": 3,
-      "quota": 100000,
-      "pct_to_quota": 23.1,
-      "booked": 55,
-      "shown": 34,
-      "close_rate": 5.5,
-      "show_rate": 61.8,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "rep_owner_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
-      "adherence": {
-        "pre_call_pct": 58,
-        "post_call_pct": 82,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 8,
-            "eligible": 51,
-            "pct": 16
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 51,
-            "eligible": 51,
-            "pct": 100
-          },
-          "followup_task": {
-            "label": "Next steps set",
-            "phase": "post_call",
-            "done": 27,
-            "eligible": 47,
-            "pct": 57
-          },
-          "followup_completed": {
-            "label": "Next steps completed",
-            "phase": "post_call",
-            "done": 12,
-            "eligible": 13,
-            "pct": 92
-          },
-          "recap_email": {
-            "label": "Post-call follow-up",
-            "phase": "post_call",
-            "done": 32,
-            "eligible": 33,
-            "pct": 97
-          }
-        }
-      }
-    },
-    {
       "name": "Scott Seymour",
       "revenue": 9497.0,
       "deals": 1,
@@ -603,7 +608,7 @@
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-09-30T18:35:35.718757-07:00",
+    "generated_at": "2026-09-30T18:52:06.441130-07:00",
     "period": {
       "month": "2026-09",
       "timezone": "America/Los_Angeles",
