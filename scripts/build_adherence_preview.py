@@ -261,7 +261,7 @@ def add_adherence_to_dashboard(
     dashboard_reps = {
         row["name"]: row
         for row in dashboard.get("reps") or []
-        if not row.get("exclude_meetings")
+        if not row.get("exclude_meetings") and not row.get("is_manager")
     }
     visible_rep_ids = {user_id for user_id, name in users_by_id.items() if name in dashboard_reps}
 

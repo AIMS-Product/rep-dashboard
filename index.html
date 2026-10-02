@@ -827,7 +827,7 @@
     const b2Rows = dealSorted.map((r,i) => `<tr>
       <td><span class="${rkC(i)}">${i+1}</span>${repLabel(r)}</td>
       <td>${r.deals}</td>
-      <td>${r.exclude_meetings ? '<span style="color:var(--text-faint)">N/A</span>' : `<span class="${rc(r.close_rate,20,10)}">${r.close_rate}%</span>`}</td>
+      <td>${r.exclude_meetings || !r.booked ? '<span style="color:var(--text-faint)">N/A</span>' : `<span class="${rc(r.close_rate,20,10)}">${r.close_rate}%</span>`}</td>
     </tr>`).join('');
     const board2 = `
       <div class="board fade d2">
@@ -846,7 +846,7 @@
       <td><span class="${rkC(i)}">${i+1}</span>${repLabel(r)}</td>
       <td>${r.exclude_meetings ? na : r.booked}</td>
       <td>${r.exclude_meetings ? na : r.shown}</td>
-      <td>${r.exclude_meetings ? na : `<span class="${rc(r.show_rate,65,45)}">${r.show_rate}%</span>`}</td>
+      <td>${r.exclude_meetings || !r.booked ? na : `<span class="${rc(r.show_rate,65,45)}">${r.show_rate}%</span>`}</td>
     </tr>`).join('');
     const board3 = `
       <div class="board fade d2">
@@ -862,7 +862,7 @@
     let adherenceBoard = '';
     if (D.adherence_meta && reps.some(r => r.adherence)) {
       const adherenceSorted = reps
-        .filter(r => !r.exclude_meetings && r.adherence)
+        .filter(r => !r.exclude_meetings && !r.is_manager && r.adherence)
         .sort((a,b) => b.revenue - a.revenue);
       const adherenceRows = adherenceSorted.map((r,i) => {
         const sourceIndex = reps.indexOf(r);
@@ -1027,8 +1027,8 @@
         r.quota ? r.pct_to_quota + '%' : 'N/A',
         r.exclude_meetings ? 'N/A' : r.booked,
         r.exclude_meetings ? 'N/A' : r.shown,
-        r.exclude_meetings ? 'N/A' : r.close_rate + '%',
-        r.exclude_meetings ? 'N/A' : r.show_rate + '%',
+        r.exclude_meetings || !r.booked ? 'N/A' : r.close_rate + '%',
+        r.exclude_meetings || !r.booked ? 'N/A' : r.show_rate + '%',
         r.adherence ? pctText(r.adherence.pre_call_pct) : 'N/A',
         r.adherence ? pctText(r.adherence.post_call_pct) : 'N/A',
       ]);

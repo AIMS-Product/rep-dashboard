@@ -101,9 +101,9 @@ LANE_2_REPS = set()  # currently empty — all Lane 2 reps moved to REVENUE_ONLY
 # Fully excluded from all dashboard data (revenue, deals, meetings)
 EXCLUDE_USERS = {"Mallory Kent", "Unknown", "Ahmad Bukhari", "Stephen Olivas", "Spencer Reynolds"}
 
-# Only appear on dashboard if they have closed deals that month
-# Meeting data N/A'd out — only show on Revenue Closed and Opps Closed
-DEALS_ONLY_USERS = {"Kristin Nelson", "Joe Dysert"}
+# Only appear on dashboard if they have closed deals that month.
+# Meeting data is N/A'd out for these users.
+DEALS_ONLY_USERS = {"Kristin Nelson"}
 
 # Revenue and meeting counts toward team totals but rep never appears as a row
 REVENUE_ONLY_USERS = {"William Chase", "Jordan Humphrey", "Andrea Shoop", "Julia Scaroni", "Ategeka Musinguzi", "Ryan Jones", "Vince Bartolini", "Erick Aguero", "Steven Starnes", "Chris Wanke", "Bryan Barcus", "John Kirk", "Cameron Caswell", "Elvis Ellis", "Jacob Hepner", "Jake Skinner", "Lyle Hubbard", "Luis Galarza", "Juan Cajina", "William Nowak", "Kelly Schrader", "Dubem Adindu", "Jason Aaron", "Pearl Sathekge", "Zac Clover", "Adam Wolfe", "Jacob Herbig", "Danny Santolaya"}
@@ -465,9 +465,9 @@ def build_dashboard_data():
     mtd_booked, mtd_shown = fetch_mtd_totals(year, month)
 
     # Step 4: Build per-rep data (WHITELIST — only approved closers get rows)
-    # Only reps in REP_QUOTAS or DEALS_ONLY_USERS can appear on the board.
+    # Reps with quotas, managers, and deals-only users can appear on the board.
     # Everyone else's data still counts in team totals via raw dicts.
-    approved = set(REP_QUOTAS.keys()) | DEALS_ONLY_USERS
+    approved = set(REP_QUOTAS.keys()) | MANAGER_USERS | DEALS_ONLY_USERS
 
     reps = []
     for name in approved:
