@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-03 04:00:19 PDT",
+  "updated_at": "2026-10-03 04:15:14 PDT",
   "month_label": "October 2026",
   "day_of_month": 3,
   "days_in_month": 31,
@@ -131,43 +131,43 @@
       }
     },
     {
-      "name": "Luke Herman",
+      "name": "Oscar Pugh",
       "revenue": 0,
       "deals": 0,
       "quota": 100000,
       "pct_to_quota": 0.0,
-      "booked": 20,
+      "booked": 11,
       "shown": 4,
       "close_rate": 0.0,
-      "show_rate": 20.0,
+      "show_rate": 36.4,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
-      "rep_owner_id": "user_6kp6k4OcqKqFNrxGjgMUncedjiCYC6JHU8EI28F7etV",
+      "rep_owner_id": "user_rJngzi4LOFXzpNb0bLi1ZtKRlRkga2fYuf4QrYpAmIc",
       "adherence": {
         "pre_call_pct": 100,
-        "post_call_pct": 75,
+        "post_call_pct": 38,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 10,
-            "eligible": 10,
+            "done": 4,
+            "eligible": 4,
             "pct": 100
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 10,
-            "eligible": 10,
+            "done": 4,
+            "eligible": 4,
             "pct": 100
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 5,
-            "eligible": 10,
-            "pct": 50
+            "done": 0,
+            "eligible": 4,
+            "pct": 0
           },
           "followup_completed": {
             "label": "Next steps completed",
@@ -179,9 +179,9 @@
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 4,
+            "done": 3,
             "eligible": 4,
-            "pct": 100
+            "pct": 75
           }
         }
       }
@@ -299,62 +299,6 @@
       }
     },
     {
-      "name": "Oscar Pugh",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 11,
-      "shown": 4,
-      "close_rate": 0.0,
-      "show_rate": 36.4,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "rep_owner_id": "user_rJngzi4LOFXzpNb0bLi1ZtKRlRkga2fYuf4QrYpAmIc",
-      "adherence": {
-        "pre_call_pct": 100,
-        "post_call_pct": 38,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 4,
-            "eligible": 4,
-            "pct": 100
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 4,
-            "eligible": 4,
-            "pct": 100
-          },
-          "followup_task": {
-            "label": "Next steps set",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 4,
-            "pct": 0
-          },
-          "followup_completed": {
-            "label": "Next steps completed",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
-          },
-          "recap_email": {
-            "label": "Post-call follow-up",
-            "phase": "post_call",
-            "done": 3,
-            "eligible": 4,
-            "pct": 75
-          }
-        }
-      }
-    },
-    {
       "name": "Robin Perkins",
       "revenue": 0,
       "deals": 0,
@@ -467,56 +411,56 @@
       }
     },
     {
-      "name": "Christian Hartwell",
+      "name": "Luke Herman",
       "revenue": 0,
       "deals": 0,
       "quota": 100000,
       "pct_to_quota": 0.0,
-      "booked": 4,
-      "shown": 3,
+      "booked": 20,
+      "shown": 4,
       "close_rate": 0.0,
-      "show_rate": 75.0,
+      "show_rate": 20.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
-      "rep_owner_id": "user_wHm1vcLde4RExd3vv9UOjnms5Oz8ssXg8600mQuxMPb",
+      "rep_owner_id": "user_6kp6k4OcqKqFNrxGjgMUncedjiCYC6JHU8EI28F7etV",
       "adherence": {
-        "pre_call_pct": 50,
-        "post_call_pct": 89,
+        "pre_call_pct": 100,
+        "post_call_pct": 75,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 1,
-            "eligible": 3,
-            "pct": 33
+            "done": 10,
+            "eligible": 10,
+            "pct": 100
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 2,
-            "eligible": 3,
-            "pct": 67
+            "done": 10,
+            "eligible": 10,
+            "pct": 100
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 2,
-            "eligible": 3,
-            "pct": 67
+            "done": 5,
+            "eligible": 10,
+            "pct": 50
           },
           "followup_completed": {
             "label": "Next steps completed",
             "phase": "post_call",
-            "done": 1,
-            "eligible": 1,
-            "pct": 100
+            "done": 0,
+            "eligible": 0,
+            "pct": null
           },
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 3,
-            "eligible": 3,
+            "done": 4,
+            "eligible": 4,
             "pct": 100
           }
         }
@@ -577,12 +521,68 @@
           }
         }
       }
+    },
+    {
+      "name": "Christian Hartwell",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 100000,
+      "pct_to_quota": 0.0,
+      "booked": 4,
+      "shown": 3,
+      "close_rate": 0.0,
+      "show_rate": 75.0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "rep_owner_id": "user_wHm1vcLde4RExd3vv9UOjnms5Oz8ssXg8600mQuxMPb",
+      "adherence": {
+        "pre_call_pct": 50,
+        "post_call_pct": 89,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 1,
+            "eligible": 3,
+            "pct": 33
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 2,
+            "eligible": 3,
+            "pct": 67
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 2,
+            "eligible": 3,
+            "pct": 67
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 1,
+            "eligible": 1,
+            "pct": 100
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 3,
+            "eligible": 3,
+            "pct": 100
+          }
+        }
+      }
     }
   ],
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-10-03T04:01:21.184846-07:00",
+    "generated_at": "2026-10-03T04:15:56.284020-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
