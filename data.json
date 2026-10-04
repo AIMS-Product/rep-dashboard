@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-04 12:45:17 PDT",
+  "updated_at": "2026-10-04 13:00:21 PDT",
   "month_label": "October 2026",
   "day_of_month": 4,
   "days_in_month": 31,
@@ -95,15 +95,15 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 16,
-            "eligible": 16,
+            "done": 17,
+            "eligible": 17,
             "pct": 100
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 16,
-            "eligible": 16,
+            "done": 17,
+            "eligible": 17,
             "pct": 100
           },
           "followup_task": {
@@ -131,57 +131,57 @@
       }
     },
     {
-      "name": "Scott Seymour",
+      "name": "Robin Perkins",
       "revenue": 0,
       "deals": 0,
       "quota": 100000,
       "pct_to_quota": 0.0,
-      "booked": 8,
-      "shown": 0,
+      "booked": 15,
+      "shown": 6,
       "close_rate": 0.0,
-      "show_rate": 0.0,
+      "show_rate": 40.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
-      "rep_owner_id": "user_F0VeLnOQlWpkDncNW8rBl1V2QJ08fnDt6DcUjNATUJK",
+      "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
       "adherence": {
-        "pre_call_pct": null,
-        "post_call_pct": null,
+        "pre_call_pct": 84,
+        "post_call_pct": 85,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
+            "done": 9,
+            "eligible": 9,
+            "pct": 100
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
+            "done": 6,
+            "eligible": 9,
+            "pct": 67
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
+            "done": 5,
+            "eligible": 9,
+            "pct": 56
           },
           "followup_completed": {
             "label": "Next steps completed",
             "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
+            "done": 1,
+            "eligible": 1,
+            "pct": 100
           },
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
+            "done": 6,
+            "eligible": 6,
+            "pct": 100
           }
         }
       }
@@ -355,62 +355,6 @@
       }
     },
     {
-      "name": "Robin Perkins",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 15,
-      "shown": 6,
-      "close_rate": 0.0,
-      "show_rate": 40.0,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
-      "adherence": {
-        "pre_call_pct": 84,
-        "post_call_pct": 85,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 9,
-            "eligible": 9,
-            "pct": 100
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 6,
-            "eligible": 9,
-            "pct": 67
-          },
-          "followup_task": {
-            "label": "Next steps set",
-            "phase": "post_call",
-            "done": 5,
-            "eligible": 9,
-            "pct": 56
-          },
-          "followup_completed": {
-            "label": "Next steps completed",
-            "phase": "post_call",
-            "done": 1,
-            "eligible": 1,
-            "pct": 100
-          },
-          "recap_email": {
-            "label": "Post-call follow-up",
-            "phase": "post_call",
-            "done": 6,
-            "eligible": 6,
-            "pct": 100
-          }
-        }
-      }
-    },
-    {
       "name": "Ariella Irvine",
       "revenue": 0,
       "deals": 0,
@@ -577,12 +521,68 @@
           }
         }
       }
+    },
+    {
+      "name": "Scott Seymour",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 100000,
+      "pct_to_quota": 0.0,
+      "booked": 8,
+      "shown": 0,
+      "close_rate": 0.0,
+      "show_rate": 0.0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "rep_owner_id": "user_F0VeLnOQlWpkDncNW8rBl1V2QJ08fnDt6DcUjNATUJK",
+      "adherence": {
+        "pre_call_pct": null,
+        "post_call_pct": null,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          }
+        }
+      }
     }
   ],
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-10-04T12:45:53.012501-07:00",
+    "generated_at": "2026-10-04T13:01:04.206003-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
@@ -601,7 +601,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 130,
+    "api_requests": 129,
     "preview_only": false
   }
 }
