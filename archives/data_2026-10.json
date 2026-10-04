@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-03 19:45:13 PDT",
+  "updated_at": "2026-10-03 20:00:20 PDT",
   "month_label": "October 2026",
   "day_of_month": 3,
   "days_in_month": 31,
@@ -137,57 +137,113 @@
       }
     },
     {
-      "name": "Scott Seymour",
+      "name": "Robin Perkins",
       "revenue": 0,
       "deals": 0,
       "quota": 100000,
       "pct_to_quota": 0.0,
-      "booked": 7,
-      "shown": 0,
+      "booked": 14,
+      "shown": 6,
       "close_rate": 0.0,
-      "show_rate": 0.0,
+      "show_rate": 42.9,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
-      "rep_owner_id": "user_F0VeLnOQlWpkDncNW8rBl1V2QJ08fnDt6DcUjNATUJK",
+      "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
       "adherence": {
-        "pre_call_pct": null,
-        "post_call_pct": null,
+        "pre_call_pct": 84,
+        "post_call_pct": 85,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
+            "done": 9,
+            "eligible": 9,
+            "pct": 100
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
+            "done": 6,
+            "eligible": 9,
+            "pct": 67
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
+            "done": 5,
+            "eligible": 9,
+            "pct": 56
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 1,
+            "eligible": 1,
+            "pct": 100
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 6,
+            "eligible": 6,
+            "pct": 100
+          }
+        }
+      }
+    },
+    {
+      "name": "Eric Piccione",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 100000,
+      "pct_to_quota": 0.0,
+      "booked": 13,
+      "shown": 5,
+      "close_rate": 0.0,
+      "show_rate": 38.5,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "rep_owner_id": "user_wF5aATmDljO6g6AHqehRPVmfCmH5j9VszbO6Q6Pjzm4",
+      "adherence": {
+        "pre_call_pct": 93,
+        "post_call_pct": 38,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 7,
+            "eligible": 7,
+            "pct": 100
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 6,
+            "eligible": 7,
+            "pct": 86
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 1,
+            "eligible": 7,
+            "pct": 14
           },
           "followup_completed": {
             "label": "Next steps completed",
             "phase": "post_call",
             "done": 0,
-            "eligible": 0,
-            "pct": null
+            "eligible": 1,
+            "pct": 0
           },
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
+            "done": 5,
+            "eligible": 5,
+            "pct": 100
           }
         }
       }
@@ -249,113 +305,57 @@
       }
     },
     {
-      "name": "Robin Perkins",
+      "name": "Scott Seymour",
       "revenue": 0,
       "deals": 0,
       "quota": 100000,
       "pct_to_quota": 0.0,
-      "booked": 14,
-      "shown": 6,
+      "booked": 7,
+      "shown": 0,
       "close_rate": 0.0,
-      "show_rate": 42.9,
+      "show_rate": 0.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
-      "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
+      "rep_owner_id": "user_F0VeLnOQlWpkDncNW8rBl1V2QJ08fnDt6DcUjNATUJK",
       "adherence": {
-        "pre_call_pct": 84,
-        "post_call_pct": 85,
+        "pre_call_pct": null,
+        "post_call_pct": null,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 9,
-            "eligible": 9,
-            "pct": 100
+            "done": 0,
+            "eligible": 0,
+            "pct": null
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 6,
-            "eligible": 9,
-            "pct": 67
+            "done": 0,
+            "eligible": 0,
+            "pct": null
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 5,
-            "eligible": 9,
-            "pct": 56
+            "done": 0,
+            "eligible": 0,
+            "pct": null
           },
           "followup_completed": {
             "label": "Next steps completed",
             "phase": "post_call",
-            "done": 1,
-            "eligible": 1,
-            "pct": 100
+            "done": 0,
+            "eligible": 0,
+            "pct": null
           },
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 6,
-            "eligible": 6,
-            "pct": 100
-          }
-        }
-      }
-    },
-    {
-      "name": "Christian Hartwell",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 5,
-      "shown": 3,
-      "close_rate": 0.0,
-      "show_rate": 60.0,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "rep_owner_id": "user_wHm1vcLde4RExd3vv9UOjnms5Oz8ssXg8600mQuxMPb",
-      "adherence": {
-        "pre_call_pct": 50,
-        "post_call_pct": 89,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 1,
-            "eligible": 3,
-            "pct": 33
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 2,
-            "eligible": 3,
-            "pct": 67
-          },
-          "followup_task": {
-            "label": "Next steps set",
-            "phase": "post_call",
-            "done": 2,
-            "eligible": 3,
-            "pct": 67
-          },
-          "followup_completed": {
-            "label": "Next steps completed",
-            "phase": "post_call",
-            "done": 1,
-            "eligible": 1,
-            "pct": 100
-          },
-          "recap_email": {
-            "label": "Post-call follow-up",
-            "phase": "post_call",
-            "done": 3,
-            "eligible": 3,
-            "pct": 100
+            "done": 0,
+            "eligible": 0,
+            "pct": null
           }
         }
       }
@@ -529,56 +529,56 @@
       }
     },
     {
-      "name": "Eric Piccione",
+      "name": "Christian Hartwell",
       "revenue": 0,
       "deals": 0,
       "quota": 100000,
       "pct_to_quota": 0.0,
-      "booked": 13,
-      "shown": 5,
+      "booked": 5,
+      "shown": 3,
       "close_rate": 0.0,
-      "show_rate": 38.5,
+      "show_rate": 60.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
-      "rep_owner_id": "user_wF5aATmDljO6g6AHqehRPVmfCmH5j9VszbO6Q6Pjzm4",
+      "rep_owner_id": "user_wHm1vcLde4RExd3vv9UOjnms5Oz8ssXg8600mQuxMPb",
       "adherence": {
-        "pre_call_pct": 93,
-        "post_call_pct": 38,
+        "pre_call_pct": 50,
+        "post_call_pct": 89,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 7,
-            "eligible": 7,
-            "pct": 100
+            "done": 1,
+            "eligible": 3,
+            "pct": 33
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 6,
-            "eligible": 7,
-            "pct": 86
+            "done": 2,
+            "eligible": 3,
+            "pct": 67
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 1,
-            "eligible": 7,
-            "pct": 14
+            "done": 2,
+            "eligible": 3,
+            "pct": 67
           },
           "followup_completed": {
             "label": "Next steps completed",
             "phase": "post_call",
-            "done": 0,
+            "done": 1,
             "eligible": 1,
-            "pct": 0
+            "pct": 100
           },
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 5,
-            "eligible": 5,
+            "done": 3,
+            "eligible": 3,
             "pct": 100
           }
         }
@@ -588,7 +588,7 @@
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-10-03T19:45:44.808936-07:00",
+    "generated_at": "2026-10-03T20:01:06.589721-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
