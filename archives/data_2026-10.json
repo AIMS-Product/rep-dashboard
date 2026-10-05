@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-05 11:45:50 PDT",
+  "updated_at": "2026-10-05 12:00:26 PDT",
   "month_label": "October 2026",
   "day_of_month": 5,
   "days_in_month": 31,
@@ -39,22 +39,22 @@
       "exclude_meetings": false,
       "rep_owner_id": "user_rJngzi4LOFXzpNb0bLi1ZtKRlRkga2fYuf4QrYpAmIc",
       "adherence": {
-        "pre_call_pct": 60,
+        "pre_call_pct": 59,
         "post_call_pct": 67,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
             "done": 6,
-            "eligible": 11,
-            "pct": 55
+            "eligible": 12,
+            "pct": 50
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 7,
-            "eligible": 11,
-            "pct": 64
+            "done": 8,
+            "eligible": 12,
+            "pct": 67
           },
           "followup_task": {
             "label": "Next steps set",
@@ -305,62 +305,6 @@
       }
     },
     {
-      "name": "Eric Piccione",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 16,
-      "shown": 6,
-      "close_rate": 0.0,
-      "show_rate": 37.5,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "rep_owner_id": "user_wF5aATmDljO6g6AHqehRPVmfCmH5j9VszbO6Q6Pjzm4",
-      "adherence": {
-        "pre_call_pct": 90,
-        "post_call_pct": 73,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 10,
-            "eligible": 10,
-            "pct": 100
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 8,
-            "eligible": 10,
-            "pct": 80
-          },
-          "followup_task": {
-            "label": "Next steps set",
-            "phase": "post_call",
-            "done": 2,
-            "eligible": 10,
-            "pct": 20
-          },
-          "followup_completed": {
-            "label": "Next steps completed",
-            "phase": "post_call",
-            "done": 1,
-            "eligible": 1,
-            "pct": 100
-          },
-          "recap_email": {
-            "label": "Post-call follow-up",
-            "phase": "post_call",
-            "done": 6,
-            "eligible": 6,
-            "pct": 100
-          }
-        }
-      }
-    },
-    {
       "name": "Ariella Irvine",
       "revenue": 0,
       "deals": 0,
@@ -412,6 +356,62 @@
             "done": 3,
             "eligible": 3,
             "pct": 100
+          }
+        }
+      }
+    },
+    {
+      "name": "Shreya Bechra",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 100000,
+      "pct_to_quota": 0.0,
+      "booked": 0,
+      "shown": 0,
+      "close_rate": 0,
+      "show_rate": 0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "rep_owner_id": "user_1TKtkacQ7ZMKkcqnmCERikTYWwGltp5XUjEE9Hshple",
+      "adherence": {
+        "pre_call_pct": null,
+        "post_call_pct": null,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
           }
         }
       }
@@ -529,57 +529,57 @@
       }
     },
     {
-      "name": "Shreya Bechra",
+      "name": "Eric Piccione",
       "revenue": 0,
       "deals": 0,
       "quota": 100000,
       "pct_to_quota": 0.0,
-      "booked": 0,
-      "shown": 0,
-      "close_rate": 0,
-      "show_rate": 0,
+      "booked": 16,
+      "shown": 6,
+      "close_rate": 0.0,
+      "show_rate": 37.5,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
-      "rep_owner_id": "user_1TKtkacQ7ZMKkcqnmCERikTYWwGltp5XUjEE9Hshple",
+      "rep_owner_id": "user_wF5aATmDljO6g6AHqehRPVmfCmH5j9VszbO6Q6Pjzm4",
       "adherence": {
-        "pre_call_pct": null,
-        "post_call_pct": null,
+        "pre_call_pct": 90,
+        "post_call_pct": 73,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
+            "done": 10,
+            "eligible": 10,
+            "pct": 100
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
+            "done": 8,
+            "eligible": 10,
+            "pct": 80
           },
           "followup_task": {
             "label": "Next steps set",
             "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
+            "done": 2,
+            "eligible": 10,
+            "pct": 20
           },
           "followup_completed": {
             "label": "Next steps completed",
             "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
+            "done": 1,
+            "eligible": 1,
+            "pct": 100
           },
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
+            "done": 6,
+            "eligible": 6,
+            "pct": 100
           }
         }
       }
@@ -588,7 +588,7 @@
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-10-05T11:46:37.555312-07:00",
+    "generated_at": "2026-10-05T12:01:44.568048-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
