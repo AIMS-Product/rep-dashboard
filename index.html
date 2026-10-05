@@ -553,6 +553,17 @@
   .step-fill { height: 100%; border-radius: 99px; background: currentColor; }
   .step-meta { display: flex; justify-content: space-between; gap: 14px; color: var(--text-muted); font-size: 10px; }
   .step-count { color: var(--text-secondary); font-family: var(--mono); font-weight: 700; white-space: nowrap; }
+  .step-cohorts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+  .step-cohort { min-width: 0; border: 1px solid var(--border-light); border-radius: 8px; background: #fbfcfe; }
+  .step-cohort summary { padding: 9px 10px; cursor: pointer; color: var(--text-secondary); font-size: 11px; font-weight: 700; }
+  .step-cohort summary:hover, .step-cohort summary:focus-visible { background: var(--row-hover); }
+  .step-cohort ul { max-height: 220px; overflow-y: auto; margin: 0; padding: 0 10px 8px; list-style: none; }
+  .step-cohort li { display: grid; gap: 2px; padding: 7px 0; border-top: 1px solid var(--border-light); }
+  .step-lead-name { overflow-wrap: anywhere; color: var(--text); font-size: 11px; font-weight: 650; }
+  a.step-lead-name { color: var(--teal); text-decoration: none; }
+  a.step-lead-name:hover, a.step-lead-name:focus-visible { text-decoration: underline; }
+  .step-lead-meta { overflow-wrap: anywhere; color: var(--text-muted); font-size: 10px; }
+  .step-empty { padding: 0 10px 10px; color: var(--text-muted); font-size: 10px; }
   .drawer-rule-note {
     margin-top: 18px;
     padding: 12px 14px;
@@ -965,6 +976,24 @@
     recap_email: 'Outbound email or SMS is sent within 24 hours of the held first call.'
   };
 
+  function escapeHtml(value) {
+    return String(value == null ? '' : value).replace(/[&<>"']/g, char => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[char]);
+  }
+
+  function renderStepCohort(label, leads) {
+    const items = leads.map(lead => `<li>
+      ${lead.url && /^https:\/\/app\.close\.com\/lead\/lead_[A-Za-z0-9]+\/?$/.test(lead.url)
+        ? `<a class="step-lead-name" href="${escapeHtml(lead.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(lead.name)} ↗</a>`
+        : `<span class="step-lead-name">${escapeHtml(lead.name)}</span>`}
+      <span class="step-lead-meta">${escapeHtml(lead.booked_date)}</span>
+    </li>`).join('');
+    return `<details class="step-cohort"><summary>${label} (${leads.length})</summary>
+      ${leads.length ? `<ul>${items}</ul>` : '<div class="step-empty">No leads</div>'}
+    </details>`;
+  }
+
   function wireAdherenceButtons(D) {
     document.querySelectorAll('[data-adherence-rep]').forEach(button => {
       button.addEventListener('click', () => {
@@ -990,10 +1019,16 @@
         pct: null, done: 0, eligible: 0
       };
       const pct = cell.pct;
+      const cohorts = rep.adherence.lead_cohorts && rep.adherence.lead_cohorts[key];
+      const leadLists = cohorts ? `<div class="step-cohorts">
+        ${renderStepCohort('Completed', cohorts.completed || [])}
+        ${renderStepCohort('Missed', cohorts.missed || [])}
+      </div>` : '';
       return `<article class="step-card">
-        <div class="step-top"><div class="step-name">${cell.label}</div><div class="step-pct ${scoreTone(pct)}">${pctText(pct)}</div></div>
+        <div class="step-top"><div class="step-name">${escapeHtml(cell.label)}</div><div class="step-pct ${scoreTone(pct)}">${pctText(pct)}</div></div>
         <div class="step-track" aria-hidden="true"><div class="step-fill ${scoreTone(pct)}" style="width:${pct == null ? 0 : pct}%"></div></div>
         <div class="step-meta"><span>${stepHelp[key]}</span><span class="step-count">${cell.done} / ${cell.eligible}</span></div>
+        ${leadLists}
       </article>`;
     }).join('');
     drawerEyebrow.textContent = phaseLabel;
@@ -1004,7 +1039,7 @@
         <div><div class="drawer-score-label">${phaseLabel}</div><p class="drawer-score-note" id="drawerDescription">Equal average of the available step percentages below. Neutral steps are excluded.</p></div>
       </div>
       <div class="step-list">${cards}</div>
-      <p class="drawer-rule-note">This calculation uses first calls scheduled in the dashboard month. A no-show requires only Next steps set; the other post-call steps remain neutral.</p>`;
+      <p class="drawer-rule-note">This calculation uses first calls scheduled in the dashboard month. A no-show requires only Next steps set; the other post-call steps remain neutral.${rep.adherence.lead_cohorts ? ' Lead lists include only eligible calls and are available in this local preview.' : ''}</p>`;
     drawer.hidden = false;
     document.body.classList.add('drawer-open');
     app.inert = true;
