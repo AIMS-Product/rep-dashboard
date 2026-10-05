@@ -24,6 +24,7 @@ LOOM_PATTERN = re.compile(r"(^|[^a-z])loom\.com", re.IGNORECASE)
 STEP_META = {
     "loom_usage": {"phase": "pre_call", "label": "Pre-Call Loom"},
     "precall_text": {"phase": "pre_call", "label": "Pre-call text"},
+    "day_of_confirmation_text": {"phase": "pre_call", "label": "Day-of confirmation text"},
     "followup_task": {"phase": "post_call", "label": "Next steps set"},
     "followup_completed": {"phase": "post_call", "label": "Next steps completed"},
     "recap_email": {"phase": "post_call", "label": "Post-call follow-up"},
@@ -169,6 +170,7 @@ def score_lead(
     booked_date: str,
     show_state: str,
     owner_id: str | None,
+    lead_owner_id: str | None = None,
     emails: Iterable[dict[str, Any]] = (),
     sms: Iterable[dict[str, Any]] = (),
     notes: Iterable[dict[str, Any]] = (),
@@ -177,7 +179,7 @@ def score_lead(
     task_completions: Iterable[dict[str, Any]] = (),
     now: datetime | None = None,
 ) -> dict[str, dict[str, bool]]:
-    """Score one monthly-cohort lead against the five adherence signals."""
+    """Score one monthly-cohort lead against the adherence signals."""
     now = (now or datetime.now(PACIFIC)).astimezone(PACIFIC)
     emails = list(emails)
     sms = list(sms)
@@ -212,6 +214,21 @@ def score_lead(
     result["precall_text"] = {
         "eligible": pre_eligible,
         "done": pre_eligible and precall_text_done,
+    }
+    confirmation_eligible = bool(first_meeting and lead_owner_id and pre_eligible)
+    confirmation_done = any(
+        (stamp := message_time(message)) is not None
+        and stamp.date() == deadline.date()
+        and stamp <= deadline
+        and str(message.get("user_id") or "") == lead_owner_id
+        and is_outbound(message)
+        and is_sent_activity(message)
+        and bool(activity_body(message))
+        for message in sms
+    )
+    result["day_of_confirmation_text"] = {
+        "eligible": confirmation_eligible,
+        "done": confirmation_eligible and confirmation_done,
     }
 
     normalized_show = str(show_state or "").strip().lower()
@@ -324,7 +341,11 @@ def aggregate_rep_scores(
             }
         output[rep_id] = {
             "pre_call_pct": round_mean(
-                [steps["loom_usage"]["pct"], steps["precall_text"]["pct"]]
+                [
+                    steps["loom_usage"]["pct"],
+                    steps["precall_text"]["pct"],
+                    steps["day_of_confirmation_text"]["pct"],
+                ]
             ),
             "post_call_pct": round_mean(
                 [

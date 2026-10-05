@@ -88,6 +88,11 @@ of rep rows. On Revenue Closed, Rev / Lead is each rep's month-to-date revenue d
 booked leads; AOV is month-to-date revenue divided by closed deals. A zero denominator displays
 `N/A`. Team Rev / Lead is omitted because its booked denominator uses the separate MTD source.
 
+The local Process Adherence preview also includes a Day-of confirmation text pre-call step. It
+checks for a sent outbound SMS from the current Lead Owner on the meeting's Pacific date before
+the meeting starts; the same SMS may count for the existing Pre-call text step. Missing meeting or
+owner evidence leaves this step unscored. This addition is local pending review.
+
 For an isolated local verification artifact, run:
 
 From this directory:

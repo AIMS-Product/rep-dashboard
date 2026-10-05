@@ -337,6 +337,7 @@ def add_adherence_to_dashboard(
             booked_date=lead["booked_date"],
             show_state=lead["show_state"],
             owner_id=lead["rep_id"],
+            lead_owner_id=lead["current_owner_id"],
             emails=activity["emails"].get(lead_id, []),
             sms=activity["sms"].get(lead_id, []),
             notes=activity["notes"].get(lead_id, []),
@@ -361,7 +362,7 @@ def add_adherence_to_dashboard(
         })
 
     dashboard["adherence_meta"] = {
-        "schema_version": 2,
+        "schema_version": 3,
         "source": source,
         "generated_at": now.isoformat(),
         "period": {
