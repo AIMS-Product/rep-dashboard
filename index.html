@@ -210,7 +210,7 @@
   /* ─── Performance boards ─── */
   .boards {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
   }
   .board {
@@ -222,9 +222,19 @@
     flex-direction: column;
   }
   .board-table-scroll { overflow-x: auto; }
-  .revenue-board { grid-column: 1 / -1; }
-  .revenue-board table { min-width: 570px; }
-  .meeting-board table { min-width: 440px; }
+  .board.performance-board table { min-width: 420px; table-layout: fixed; }
+  .board.performance-board thead th,
+  .board.performance-board tbody td,
+  .board.performance-board tfoot td { padding-left: 8px; padding-right: 8px; }
+  .board.performance-board thead th:first-child,
+  .board.performance-board tbody td:first-child,
+  .board.performance-board tfoot td:first-child { padding-left: 12px; }
+  .board.performance-board thead th:last-child,
+  .board.performance-board tbody td:last-child,
+  .board.performance-board tfoot td:last-child { padding-right: 12px; }
+  .board.performance-board tbody td { font-size: 12px; }
+  .revenue-board .q-bar { display: none; }
+  .revenue-board .q-cell { gap: 0; }
   .board-head {
     padding: 14px 18px 10px;
     border-bottom: 1px solid var(--border);
@@ -815,18 +825,18 @@
         <td>${fmt$(r.revenue)}</td>
         <td>${qH}</td>
         <td>${moneyOrNA(r.revenue_per_lead)}</td>
-        <td>${moneyOrNA(r.aov)}</td>
       </tr>`;
     }).join('');
     const [,tqTc] = qCol(D.pct_team_quota);
     const board1 = `
-      <div class="board revenue-board fade d2">
-        <div class="board-head"><div class="board-title">Revenue Closed</div><div class="board-sub">Rev / Lead = revenue ÷ booked leads &middot; AOV = revenue ÷ deals</div></div>
+      <div class="board performance-board revenue-board fade d2">
+        <div class="board-head"><div class="board-title">Revenue Closed</div><div class="board-sub">Rev / Lead = revenue ÷ booked leads</div></div>
         <div class="board-table-scroll">
         <table>
-          <thead><tr><th>Rep</th><th>Revenue</th><th>% Quota</th><th title="Month-to-date revenue divided by leads booked this month">Rev / Lead</th><th title="Month-to-date revenue divided by deals closed this month">AOV</th></tr></thead>
+          <colgroup><col style="width:44%"><col style="width:18%"><col style="width:16%"><col style="width:22%"></colgroup>
+          <thead><tr><th>Rep</th><th>Revenue</th><th>% Quota</th><th title="Month-to-date revenue divided by leads booked this month">Rev / Lead</th></tr></thead>
           <tbody>${b1Rows}</tbody>
-          <tfoot><tr><td>Team Total</td><td>${fmt$(D.total_revenue)}</td><td><span class="pv ${tqTc}">${D.pct_team_quota}%</span></td><td title="Per-rep only: team booked count comes from the separate MTD funnel source">N/A</td><td>${moneyOrNA(D.team_aov)}</td></tr></tfoot>
+          <tfoot><tr><td>Team Total</td><td>${fmt$(D.total_revenue)}</td><td><span class="pv ${tqTc}">${D.pct_team_quota}%</span></td><td title="Per-rep only: team booked count comes from the separate MTD funnel source">N/A</td></tr></tfoot>
         </table>
         </div>
       </div>`;
@@ -837,15 +847,19 @@
       <td><span class="${rkC(i)}">${i+1}</span>${repLabel(r)}</td>
       <td>${r.deals}</td>
       <td>${r.exclude_meetings || !r.booked ? '<span style="color:var(--text-faint)">N/A</span>' : `<span class="${rc(r.close_rate,20,10)}">${r.close_rate}%</span>`}</td>
+      <td>${moneyOrNA(r.aov)}</td>
     </tr>`).join('');
     const board2 = `
-      <div class="board fade d2">
-        <div class="board-head"><div class="board-title">Opps Closed</div><div class="board-sub">Deals closed &middot; close rate</div></div>
+      <div class="board performance-board fade d2">
+        <div class="board-head"><div class="board-title">Opps Closed</div><div class="board-sub">AOV = revenue ÷ closed deals</div></div>
+        <div class="board-table-scroll">
         <table>
-          <thead><tr><th>Rep</th><th>Deals</th><th>Close %</th></tr></thead>
+          <colgroup><col style="width:44%"><col style="width:14%"><col style="width:20%"><col style="width:22%"></colgroup>
+          <thead><tr><th>Rep</th><th>Deals</th><th>Close %</th><th title="Month-to-date revenue divided by deals closed this month">AOV</th></tr></thead>
           <tbody>${b2Rows}</tbody>
-          <tfoot><tr><td>Team Total</td><td>${D.total_deals}</td><td><span class="${rc(D.team_close_rate||0,20,10)}">${D.team_close_rate||0}%</span></td></tr></tfoot>
+          <tfoot><tr><td>Team Total</td><td>${D.total_deals}</td><td><span class="${rc(D.team_close_rate||0,20,10)}">${D.team_close_rate||0}%</span></td><td>${moneyOrNA(D.team_aov)}</td></tr></tfoot>
         </table>
+        </div>
       </div>`;
 
     // ── BOARD 3: Meetings Booked / Shown
@@ -859,11 +873,12 @@
       <td>${r.exclude_meetings || !r.booked ? na : `<span class="${rc(r.show_rate,65,45)}">${r.show_rate}%</span>`}</td>
     </tr>`).join('');
     const board3 = `
-      <div class="board meeting-board fade d2">
-        <div class="board-head"><div class="board-title">Booked / Shown / Qualified</div><div class="board-sub">Qualified = booked leads marked Yes in Close &middot; team totals from MTD Funnel</div></div>
+      <div class="board performance-board meeting-board fade d2">
+        <div class="board-head"><div class="board-title">Booked / Shown / Qualified</div><div class="board-sub">Qualified = Close field “Yes”</div></div>
         <div class="board-table-scroll">
         <table>
-          <thead><tr><th>Rep</th><th>Booked</th><th>Shown</th><th title="Booked leads with Qualified (Opp) set to Yes in Close">Qualified</th><th>Show %</th></tr></thead>
+          <colgroup><col style="width:40%"><col style="width:15%"><col style="width:13%"><col style="width:17%"><col style="width:15%"></colgroup>
+          <thead><tr><th>Rep</th><th>Booked</th><th>Shown</th><th title="Booked leads with Qualified (Opp) set to Yes in Close">Qual.</th><th>Show %</th></tr></thead>
           <tbody>${b3Rows}</tbody>
           <tfoot><tr><td>Team Total</td><td>${D.total_booked}</td><td>${D.total_shown}</td><td>${D.total_qualified ?? 'N/A'}</td><td><span class="${rc(D.team_show_rate||0,65,45)}">${D.team_show_rate||0}%</span></td></tr></tfoot>
         </table>
