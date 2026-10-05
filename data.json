@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-05 14:30:21 PDT",
+  "updated_at": "2026-10-05 14:45:16 PDT",
   "month_label": "October 2026",
   "day_of_month": 5,
   "days_in_month": 31,
@@ -11,9 +11,9 @@
   "total_revenue": 35444.0,
   "total_deals": 5,
   "total_booked": 76,
-  "total_shown": 37,
+  "total_shown": 38,
   "team_close_rate": 6.6,
-  "team_show_rate": 48.7,
+  "team_show_rate": 50.0,
   "today_revenue": 11347.0,
   "today_deals": 1,
   "today_closers": [
@@ -95,22 +95,22 @@
       "exclude_meetings": false,
       "rep_owner_id": "user_7HSxi55O8q5jO11khvrTcAGoL2nlcoa3kZ6loAY6i78",
       "adherence": {
-        "pre_call_pct": 84,
+        "pre_call_pct": 82,
         "post_call_pct": 30,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 9,
-            "eligible": 12,
-            "pct": 75
+            "done": 8,
+            "eligible": 11,
+            "pct": 73
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 11,
-            "eligible": 12,
-            "pct": 92
+            "done": 10,
+            "eligible": 11,
+            "pct": 91
           },
           "followup_task": {
             "label": "Next steps set",
@@ -249,62 +249,6 @@
       }
     },
     {
-      "name": "Shreya Bechra",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 0,
-      "shown": 0,
-      "close_rate": 0,
-      "show_rate": 0,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "rep_owner_id": "user_1TKtkacQ7ZMKkcqnmCERikTYWwGltp5XUjEE9Hshple",
-      "adherence": {
-        "pre_call_pct": null,
-        "post_call_pct": null,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
-          },
-          "followup_task": {
-            "label": "Next steps set",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
-          },
-          "followup_completed": {
-            "label": "Next steps completed",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
-          },
-          "recap_email": {
-            "label": "Post-call follow-up",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
-          }
-        }
-      }
-    },
-    {
       "name": "Eric Piccione",
       "revenue": 0,
       "deals": 0,
@@ -409,64 +353,8 @@
           "recap_email": {
             "label": "Post-call follow-up",
             "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "pct": null
-          }
-        }
-      }
-    },
-    {
-      "name": "Ariella Irvine",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 7,
-      "shown": 3,
-      "close_rate": 0.0,
-      "show_rate": 42.9,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "rep_owner_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
-      "adherence": {
-        "pre_call_pct": 63,
-        "post_call_pct": 92,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 1,
-            "eligible": 4,
-            "pct": 25
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 4,
-            "eligible": 4,
-            "pct": 100
-          },
-          "followup_task": {
-            "label": "Next steps set",
-            "phase": "post_call",
-            "done": 3,
-            "eligible": 4,
-            "pct": 75
-          },
-          "followup_completed": {
-            "label": "Next steps completed",
-            "phase": "post_call",
             "done": 1,
             "eligible": 1,
-            "pct": 100
-          },
-          "recap_email": {
-            "label": "Post-call follow-up",
-            "phase": "post_call",
-            "done": 3,
-            "eligible": 3,
             "pct": 100
           }
         }
@@ -583,12 +471,124 @@
           }
         }
       }
+    },
+    {
+      "name": "Ariella Irvine",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 100000,
+      "pct_to_quota": 0.0,
+      "booked": 7,
+      "shown": 3,
+      "close_rate": 0.0,
+      "show_rate": 42.9,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "rep_owner_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
+      "adherence": {
+        "pre_call_pct": 63,
+        "post_call_pct": 92,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 1,
+            "eligible": 4,
+            "pct": 25
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 4,
+            "eligible": 4,
+            "pct": 100
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 3,
+            "eligible": 4,
+            "pct": 75
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 1,
+            "eligible": 1,
+            "pct": 100
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 3,
+            "eligible": 3,
+            "pct": 100
+          }
+        }
+      }
+    },
+    {
+      "name": "Shreya Bechra",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 100000,
+      "pct_to_quota": 0.0,
+      "booked": 0,
+      "shown": 0,
+      "close_rate": 0,
+      "show_rate": 0,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "rep_owner_id": "user_1TKtkacQ7ZMKkcqnmCERikTYWwGltp5XUjEE9Hshple",
+      "adherence": {
+        "pre_call_pct": null,
+        "post_call_pct": null,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "followup_task": {
+            "label": "Next steps set",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "followup_completed": {
+            "label": "Next steps completed",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          },
+          "recap_email": {
+            "label": "Post-call follow-up",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "pct": null
+          }
+        }
+      }
     }
   ],
   "adherence_meta": {
     "schema_version": 2,
     "source": "close_crm",
-    "generated_at": "2026-10-05T14:31:20.917493-07:00",
+    "generated_at": "2026-10-05T14:46:17.982422-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
@@ -603,12 +603,12 @@
         "meeting_rep_not_visible": 1
       },
       "attribution_counts": {
-        "meeting_rep": 110,
-        "owner_fallback": 1
+        "meeting_rep": 109,
+        "owner_fallback": 2
       },
       "includes_lost": true
     },
-    "api_requests": 152,
+    "api_requests": 151,
     "preview_only": false
   }
 }
