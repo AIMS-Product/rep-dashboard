@@ -993,11 +993,22 @@
       ${lead.url && /^https:\/\/app\.close\.com\/lead\/lead_[A-Za-z0-9]+\/?$/.test(lead.url)
         ? `<a class="step-lead-name" href="${escapeHtml(lead.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(lead.name)} ↗</a>`
         : `<span class="step-lead-name">${escapeHtml(lead.name)}</span>`}
-      <span class="step-lead-meta">${escapeHtml(lead.booked_date)}</span>
+      <span class="step-lead-meta">${escapeHtml(scoredCallLabel(lead))}</span>
     </li>`).join('');
     return `<details class="step-cohort"><summary>${label} (${leads.length})</summary>
       ${leads.length ? `<ul>${items}</ul>` : '<div class="step-empty">No leads</div>'}
     </details>`;
+  }
+
+  function scoredCallLabel(lead) {
+    if (!lead.scored_call_at) return `Booked date: ${lead.booked_date}`;
+    const call = new Date(lead.scored_call_at);
+    if (Number.isNaN(call.getTime())) return `Booked date: ${lead.booked_date}`;
+    const formatted = new Intl.DateTimeFormat('en-US', {
+      year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit',
+      timeZone: 'America/Los_Angeles', timeZoneName: 'short'
+    }).format(call);
+    return `Scored first call: ${formatted}`;
   }
 
   function wireAdherenceButtons(D) {

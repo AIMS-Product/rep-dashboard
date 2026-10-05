@@ -258,6 +258,7 @@ def build_lead_cohorts(
             "id": lead["id"],
             "name": lead["name"],
             "booked_date": lead["booked_date"],
+            "scored_call_at": lead.get("scored_call_at") or "",
             "url": lead.get("url") or "",
         }
         for key in STEP_META:
@@ -345,7 +346,7 @@ def add_adherence_to_dashboard(
     )["meetings"]
     included = []
     for lead in candidates:
-        _, first_meeting = first_call_deadline(
+        first_call_at, first_meeting = first_call_deadline(
             lead["booked_date"], meetings_by_lead.get(lead["id"], [])
         )
         rep_id, reason = scoring_rep_for_meeting(
@@ -356,6 +357,7 @@ def add_adherence_to_dashboard(
             continue
         lead["attribution"] = reason
         lead["rep_id"] = rep_id
+        lead["scored_call_at"] = first_call_at.isoformat() if first_meeting and first_call_at else ""
         included.append(lead)
 
     if limit_leads:
