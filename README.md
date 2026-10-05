@@ -89,10 +89,10 @@ booked leads; AOV is month-to-date revenue divided by closed deals. A zero denom
 `N/A`. Team Rev / Lead is omitted because its booked denominator uses the separate MTD source.
 
 The local Process Adherence preview also includes a Day-of confirmation text pre-call step. It
-checks for a sent outbound SMS from the current Lead Owner at any time on the meeting's Pacific
-date; a pre-meeting SMS may also count for the existing Pre-call text step. A missing message stays
-neutral until the day ends. Missing meeting or owner evidence leaves this step unscored. This
-addition is local pending review.
+checks for a sent outbound SMS from the current Lead Owner on the meeting's Pacific date before
+the meeting begins; that SMS may also count for the existing Pre-call text step. A missing message
+becomes a miss when the meeting starts. Missing meeting or owner evidence leaves this step
+unscored. This addition is local pending review.
 
 For an isolated local verification artifact, run:
 

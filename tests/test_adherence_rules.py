@@ -59,7 +59,7 @@ class AdherenceRulesTests(unittest.TestCase):
         }])
         self.assertTrue(lead_owner_sent["day_of_confirmation_text"]["done"])
 
-    def test_day_of_text_uses_the_full_pacific_meeting_day(self):
+    def test_day_of_text_must_arrive_before_the_meeting_begins(self):
         base = dict(
             booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
             lead_owner_id=OWNER, meetings=[meeting("2026-09-10T17:00:00Z")], now=NOW,
@@ -77,27 +77,32 @@ class AdherenceRulesTests(unittest.TestCase):
         after_start = score_lead(**base, sms=sent("2026-09-10T17:00:01Z"))
         late_day = score_lead(**base, sms=sent("2026-09-11T06:59:59Z"))
         self.assertTrue(at_midnight["day_of_confirmation_text"]["done"])
-        self.assertTrue(at_start["day_of_confirmation_text"]["done"])
-        self.assertTrue(after_start["day_of_confirmation_text"]["done"])
-        self.assertTrue(late_day["day_of_confirmation_text"]["done"])
+        self.assertFalse(at_start["day_of_confirmation_text"]["done"])
+        self.assertFalse(after_start["day_of_confirmation_text"]["done"])
+        self.assertFalse(late_day["day_of_confirmation_text"]["done"])
 
-    def test_day_of_text_waits_until_day_end_before_scoring_a_miss(self):
+    def test_day_of_text_waits_until_meeting_start_before_scoring_a_miss(self):
         base = dict(
             booked_date="2026-09-21", show_state="Yes", owner_id=OWNER,
             lead_owner_id=OWNER, meetings=[meeting("2026-09-21T17:00:00Z")],
         )
-        during_day = datetime(2026, 9, 21, 19, 0, tzinfo=timezone.utc)
-        pending = score_lead(**base, now=during_day)
+        before_start = datetime(2026, 9, 21, 16, 0, tzinfo=timezone.utc)
+        pending = score_lead(**base, now=before_start)
         self.assertEqual(pending["day_of_confirmation_text"], {"eligible": False, "done": False})
-        sent = score_lead(**base, now=during_day, sms=[{
+        sent = score_lead(**base, now=before_start, sms=[{
+            "date_sent": "2026-09-21T15:00:00Z", "direction": "outbound",
+            "status": "sent", "user_id": OWNER, "text": "See you soon",
+        }])
+        self.assertEqual(sent["day_of_confirmation_text"], {"eligible": False, "done": False})
+        at_start = score_lead(
+            **base, now=datetime(2026, 9, 21, 17, 0, tzinfo=timezone.utc)
+        )
+        self.assertEqual(at_start["day_of_confirmation_text"], {"eligible": True, "done": False})
+        after_meeting = score_lead(**base, now=NOW, sms=[{
             "date_sent": "2026-09-21T18:00:00Z", "direction": "outbound",
             "status": "sent", "user_id": OWNER, "text": "Following up",
         }])
-        self.assertEqual(sent["day_of_confirmation_text"], {"eligible": True, "done": True})
-        after_day = score_lead(
-            **base, now=datetime(2026, 9, 22, 7, 0, tzinfo=timezone.utc)
-        )
-        self.assertEqual(after_day["day_of_confirmation_text"], {"eligible": True, "done": False})
+        self.assertEqual(after_meeting["day_of_confirmation_text"], {"eligible": True, "done": False})
 
     def test_day_of_text_uses_send_time_when_activity_time_is_earlier(self):
         result = score_lead(
@@ -141,6 +146,7 @@ class AdherenceRulesTests(unittest.TestCase):
             booked_date="2026-09-29",
             show_state="",
             owner_id=OWNER,
+            lead_owner_id=OWNER,
             meetings=[meeting("2026-09-29T17:00:00Z", status="upcoming")],
             now=NOW,
         )

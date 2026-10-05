@@ -45,7 +45,7 @@ day-of confirmation signal for local review. The new key requires a future sourc
 | --- | --- | --- | --- |
 | Pre-call | `loom_usage` | Pre-Call Loom | Any non-empty Close note, email, or SMS content containing `loom.com` at or before the first-call deadline. No lower time bound or sender restriction. |
 | Pre-call | `precall_text` | Pre-call text | A non-empty outbound SMS at or before the first-call deadline. |
-| Pre-call | `day_of_confirmation_text` | Day-of confirmation text | A non-empty sent outbound SMS whose Close `user_id` matches the lead's current Lead Owner, sent at any time on the first same-day meeting's Pacific calendar date. A pre-meeting SMS may also satisfy Pre-call text. |
+| Pre-call | `day_of_confirmation_text` | Day-of confirmation text | A non-empty sent outbound SMS whose Close `user_id` matches the lead's current Lead Owner, sent on the first same-day meeting's Pacific calendar date before the meeting start. The same SMS may also satisfy Pre-call text. |
 | Post-call | `followup_task` | Next steps set | A dated Close task assigned to the credited rep (or unassigned), open or complete, whose due date is at or after the call or which was created after the call; **or** a later meeting assigned to the credited rep (or unassigned) that is not canceled or declined. |
 | Post-call | `followup_completed` | Next steps completed | A qualifying task completed after the held first-call anchor; **or** a later meeting whose Close status is `completed`. An incomplete next step stays neutral until its task due date or meeting end. When no next step exists, this step is neutral and `followup_task` records the miss. |
 | Post-call | `recap_email` | Post-call follow-up | A sent outbound email **or outbound SMS** from the held first-call anchor through 24 hours after it. A missing message stays neutral until the 24-hour window closes. |
@@ -55,11 +55,10 @@ back to 11:59:59 PM Pacific on the recorded date. The existing `First Call Show 
 determines the first-call outcome. A no-show is eligible only for `followup_task`; the other two
 post-call steps are neutral.
 
-Day-of confirmation is eligible once a qualifying SMS is sent or, if none is sent, when the meeting
-day ends. It stays neutral when the first same-day meeting or owner is missing and while the day is
-still open without a qualifying text. Close supplies the sender in SMS `user_id`. Using the current
-owner means a later owner transfer can change how historical SMS is scored; this preview does not
-reconstruct ownership at the time of the meeting.
+Day-of confirmation is eligible once the meeting starts. It stays neutral when the first same-day
+meeting or owner is missing, and before the meeting begins. Close supplies the sender in SMS
+`user_id`. Using the current owner means a later owner transfer can change how historical SMS is
+scored; this preview does not reconstruct ownership at the time of the meeting.
 
 For sent email and SMS evidence, `date_sent` is the timestamp used when Close provides it;
 `activity_at` is the fallback. Old overdue tasks that existed before the first call do not satisfy
