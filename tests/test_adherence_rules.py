@@ -29,13 +29,82 @@ class AdherenceRulesTests(unittest.TestCase):
             booked_date="2026-09-10",
             show_state="Yes",
             owner_id=OWNER,
+            lead_owner_id=OWNER,
             meetings=[meeting("2026-09-10T17:00:00Z")],
             notes=[{"activity_at": "2026-09-09T17:00:00Z", "note": "Watch https://loom.com/a"}],
-            sms=[{"activity_at": "2026-09-10T16:59:00Z", "direction": "outbound", "status": "sent", "text": "See you soon"}],
+            sms=[{"activity_at": "2026-09-10T16:59:00Z", "direction": "outbound", "status": "sent", "user_id": OWNER, "text": "See you soon"}],
             now=NOW,
         )
         self.assertEqual(result["loom_usage"], {"eligible": True, "done": True})
         self.assertEqual(result["precall_text"], {"eligible": True, "done": True})
+        self.assertEqual(result["day_of_confirmation_text"], {"eligible": True, "done": True})
+
+    def test_day_of_text_uses_lead_owner_not_scoring_rep(self):
+        lead_owner = "user_lead_owner"
+        base = dict(
+            booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
+            lead_owner_id=lead_owner, meetings=[meeting("2026-09-10T17:00:00Z")], now=NOW,
+        )
+        wrong_sender = score_lead(**base, sms=[{
+            "activity_at": "2026-09-10T16:00:00Z", "direction": "outbound",
+            "status": "sent", "user_id": OWNER, "text": "See you soon",
+        }])
+        self.assertTrue(wrong_sender["precall_text"]["done"])
+        self.assertEqual(
+            wrong_sender["day_of_confirmation_text"], {"eligible": True, "done": False}
+        )
+        lead_owner_sent = score_lead(**base, sms=[{
+            "activity_at": "2026-09-10T16:00:00Z", "direction": "outbound",
+            "status": "sent", "user_id": lead_owner, "text": "See you soon",
+        }])
+        self.assertTrue(lead_owner_sent["day_of_confirmation_text"]["done"])
+
+    def test_day_of_text_requires_meeting_day_and_before_start(self):
+        base = dict(
+            booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
+            lead_owner_id=OWNER, meetings=[meeting("2026-09-10T17:00:00Z")], now=NOW,
+        )
+        def sent(at):
+            return [{"date_sent": at, "direction": "outbound", "status": "sent",
+                     "user_id": OWNER, "text": "Confirmation"}]
+
+        for timestamp in (
+            "2026-09-10T06:59:59Z",  # Previous day, 11:59:59 PM Pacific
+            "2026-09-10T17:00:01Z",  # After the meeting started
+            "2026-09-11T06:00:00Z",  # Later on the meeting's Pacific day
+        ):
+            with self.subTest(timestamp=timestamp):
+                result = score_lead(**base, sms=sent(timestamp))
+                self.assertEqual(
+                    result["day_of_confirmation_text"], {"eligible": True, "done": False}
+                )
+        at_midnight = score_lead(**base, sms=sent("2026-09-10T07:00:00Z"))
+        at_start = score_lead(**base, sms=sent("2026-09-10T17:00:00Z"))
+        self.assertTrue(at_midnight["day_of_confirmation_text"]["done"])
+        self.assertTrue(at_start["day_of_confirmation_text"]["done"])
+
+    def test_day_of_text_ignores_unsent_inbound_and_missing_owner(self):
+        base = dict(
+            booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
+            meetings=[meeting("2026-09-10T17:00:00Z")], now=NOW,
+        )
+        invalid = [
+            {"activity_at": "2026-09-10T16:00:00Z", "direction": "inbound", "status": "sent", "user_id": OWNER, "text": "Reply"},
+            {"activity_at": "2026-09-10T16:00:00Z", "direction": "outbound", "status": "draft", "user_id": OWNER, "text": "Draft"},
+            {"activity_at": "2026-09-10T16:00:00Z", "direction": "outbound", "status": "sent", "user_id": OWNER, "text": ""},
+        ]
+        result = score_lead(**base, lead_owner_id=OWNER, sms=invalid)
+        self.assertEqual(result["day_of_confirmation_text"], {"eligible": True, "done": False})
+        unknown_owner = score_lead(**base, sms=invalid)
+        self.assertEqual(unknown_owner["day_of_confirmation_text"], {"eligible": False, "done": False})
+
+    def test_day_of_text_is_neutral_without_same_day_meeting(self):
+        base = dict(booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
+                    lead_owner_id=OWNER, now=NOW)
+        without_meeting = score_lead(**base)
+        canceled_meeting = score_lead(**base, meetings=[meeting("2026-09-10T17:00:00Z", status="canceled")])
+        self.assertFalse(without_meeting["day_of_confirmation_text"]["eligible"])
+        self.assertFalse(canceled_meeting["day_of_confirmation_text"]["eligible"])
 
     def test_future_call_is_neutral(self):
         result = score_lead(
@@ -47,6 +116,7 @@ class AdherenceRulesTests(unittest.TestCase):
         )
         self.assertFalse(result["loom_usage"]["eligible"])
         self.assertFalse(result["precall_text"]["eligible"])
+        self.assertFalse(result["day_of_confirmation_text"]["eligible"])
         self.assertFalse(result["followup_task"]["eligible"])
 
     def test_no_show_only_requires_next_steps_set(self):
@@ -244,18 +314,21 @@ class AdherenceRulesTests(unittest.TestCase):
 
     def test_phase_is_equal_average_of_step_percentages(self):
         yes = {key: {"eligible": True, "done": True} for key in (
-            "loom_usage", "precall_text", "followup_task", "followup_completed", "recap_email"
+            "loom_usage", "precall_text", "day_of_confirmation_text",
+            "followup_task", "followup_completed", "recap_email"
         )}
         no = {key: {"eligible": True, "done": False} for key in yes}
         neutral_post = {
             "loom_usage": {"eligible": True, "done": True},
             "precall_text": {"eligible": True, "done": False},
+            "day_of_confirmation_text": {"eligible": True, "done": False},
             "followup_task": {"eligible": True, "done": True},
             "followup_completed": {"eligible": False, "done": False},
             "recap_email": {"eligible": False, "done": False},
         }
         agg = aggregate_rep_scores({OWNER: [yes, no, neutral_post]})[OWNER]
-        self.assertEqual(agg["pre_call_pct"], 50)
+        self.assertEqual(agg["steps"]["day_of_confirmation_text"]["pct"], 33)
+        self.assertEqual(agg["pre_call_pct"], 44)
         self.assertEqual(agg["steps"]["followup_task"]["pct"], 67)
         self.assertEqual(agg["steps"]["followup_completed"]["pct"], 50)
         self.assertEqual(agg["steps"]["recap_email"]["pct"], 50)
