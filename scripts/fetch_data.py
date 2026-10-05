@@ -253,6 +253,61 @@ def resolve_owner_to_name(owner_raw, user_map, name_to_id):
     return owner_str if owner_str else "Unknown"
 
 
+def aggregate_meeting_leads(all_leads, user_map, name_to_id):
+    """Apply the dashboard's existing booked, shown, and qualified rules."""
+    rep_booked = {}
+    rep_shown = {}
+    rep_qualified = {}
+    excluded_status = 0
+    excluded_funnel = 0
+
+    for row in meeting_lead_rows(all_leads, user_map, name_to_id):
+        if row["excluded"] == "status":
+            excluded_status += 1
+            continue
+        if row["excluded"] == "funnel":
+            excluded_funnel += 1
+            continue
+        rep_name = row["rep"]
+        rep_booked[rep_name] = rep_booked.get(rep_name, 0) + 1
+        if row["shown"]:
+            rep_shown[rep_name] = rep_shown.get(rep_name, 0) + 1
+        if row["qualified"]:
+            rep_qualified[rep_name] = rep_qualified.get(rep_name, 0) + 1
+    return rep_booked, rep_shown, rep_qualified, excluded_status, excluded_funnel
+
+
+def meeting_lead_rows(all_leads, user_map, name_to_id):
+    """Return per-lead detail using the same inclusion and attribution rules as aggregate_meeting_leads."""
+    rows = []
+    for lead in all_leads:
+        if lead.get("status_id", "") in EXCLUDED_LEAD_STATUSES:
+            rows.append({"lead": lead, "excluded": "status"})
+            continue
+        custom = lead.get("custom", {})
+        merged = dict(custom)
+        for key, value in lead.items():
+            if key.startswith("custom."):
+                merged[key] = value
+                merged[key.replace("custom.", "")] = value
+        funnel = get_custom_value(merged, CF_FUNNEL_NAME_DEAL_ID, "Funnel Name DEAL (Opp)")
+        if str(funnel).strip() in EXCLUDED_FUNNELS:
+            rows.append({"lead": lead, "excluded": "funnel"})
+            continue
+        owner_raw = get_custom_value(merged, CF_LEAD_OWNER_ID, CF_LEAD_OWNER_NAME)
+        rep_name = resolve_owner_to_name(owner_raw, user_map, name_to_id)
+        if rep_name in EXCLUDE_USERS or rep_name in SETTER_USERS:
+            rep_name = "Other"
+        rows.append({
+            "lead": lead,
+            "rep": rep_name,
+            "excluded": None,
+            "shown": str(get_custom_value(merged, CF_FIRST_CALL_SHOW_ID, CF_FIRST_CALL_SHOW_NAME)).strip().lower() == "yes",
+            "qualified": str(get_custom_value(merged, CF_QUALIFIED_ID, CF_QUALIFIED_NAME)).strip().lower() == "yes",
+        })
+    return rows
+
+
 def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
     """Source 1: Query leads by "First Sales Call Booked Date" field.
 
@@ -290,51 +345,9 @@ def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
 
     print(f"  Found {len(all_leads)} leads with First Sales Call Booked Date in range.", flush=True)
 
-    # Attribute and count
-    rep_booked = {}
-    rep_shown = {}
-    rep_qualified = {}
-    excluded_status = 0
-    excluded_funnel = 0
-
-    for lead in all_leads:
-        # Exclude by lead status
-        if lead.get("status_id", "") in EXCLUDED_LEAD_STATUSES:
-            excluded_status += 1
-            continue
-
-        custom = lead.get("custom", {})
-        merged = dict(custom)
-        for k, v in lead.items():
-            if k.startswith("custom."):
-                merged[k] = v
-                merged[k.replace("custom.", "")] = v
-
-        # Exclude by funnel (e.g., LTF - Quiz Funnel)
-        funnel = get_custom_value(merged, CF_FUNNEL_NAME_DEAL_ID, "Funnel Name DEAL (Opp)")
-        funnel_str = str(funnel).strip()
-        if funnel_str in EXCLUDED_FUNNELS:
-            excluded_funnel += 1
-            continue
-
-        owner_raw = get_custom_value(merged, CF_LEAD_OWNER_ID, CF_LEAD_OWNER_NAME)
-        rep_name = resolve_owner_to_name(owner_raw, user_map, name_to_id)
-
-        # Leads owned by excluded users or setters still count toward team totals
-        # but are bucketed under a neutral name so no rep row is created
-        if rep_name in EXCLUDE_USERS or rep_name in SETTER_USERS:
-            rep_name = "Other"
-
-        rep_booked[rep_name] = rep_booked.get(rep_name, 0) + 1
-
-        # Shown
-        show_up = get_custom_value(merged, CF_FIRST_CALL_SHOW_ID, CF_FIRST_CALL_SHOW_NAME)
-        if str(show_up).strip().lower() == "yes":
-            rep_shown[rep_name] = rep_shown.get(rep_name, 0) + 1
-
-        qualified = get_custom_value(merged, CF_QUALIFIED_ID, CF_QUALIFIED_NAME)
-        if str(qualified).strip().lower() == "yes":
-            rep_qualified[rep_name] = rep_qualified.get(rep_name, 0) + 1
+    rep_booked, rep_shown, rep_qualified, excluded_status, excluded_funnel = aggregate_meeting_leads(
+        all_leads, user_map, name_to_id
+    )
 
     print(f"  Source 1: {sum(rep_booked.values())} booked, {sum(rep_shown.values())} shown, {sum(rep_qualified.values())} qualified", flush=True)
     print(f"  Excluded: {excluded_status} status, {excluded_funnel} funnel", flush=True)

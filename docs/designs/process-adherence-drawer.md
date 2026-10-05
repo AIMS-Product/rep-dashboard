@@ -8,8 +8,7 @@ Related: SteelTrap `docs/reference/process-adherence-criteria.md`
 
 Add two scan-friendly adherence percentages to every sales-rep row:
 
-- Pre-call = the equal-weight average of Pre-Call Loom, Pre-call text, Afternoon-before text,
-  and Day-of confirmation text in the local preview.
+- Pre-call = the equal-weight average of Pre-Call Loom, Pre-call text, and Day-of confirmation text.
 - Post-call = the equal-weight average of Next steps set, Next steps completed, and Post-call follow-up.
 
 Clicking either percentage opens a right-side drawer with the percentage, completed count, and
@@ -36,31 +35,48 @@ month_start <= First Sales Call Booked Date < next_month_start
 - Attribute a lead to the rep assigned to its first same-day meeting when Close identifies one;
   use current Lead Owner only when no meeting rep can be identified.
 - Upcoming steps are neutral until their deadline or outcome is knowable.
+- Keep Closed/Won leads visible in the cohort, but mark both sales next-step cells (`followup_task`
+  and `followup_completed`) Exempt. Exempt cells do not count in step or phase percentages; pre-call
+  behavior and post-call recap remain scored.
+- Keep Lost leads visible, but mark both sales next-step cells Exempt. Pre-call behavior and post-call
+  recap remain scored.
 
 ## Signal contract
 
-The local payload keeps the five existing SteelTrap signal keys and adds two Close-specific
-timed text signals for local review. The new keys require future source mappings.
+The local payload keeps the five existing SteelTrap signal keys and adds one Close-specific
+timed text signal for local review. The new key requires a future source mapping.
 
 | Phase | Stable key | UI label | Local Close rule |
 | --- | --- | --- | --- |
-| Pre-call | `loom_usage` | Pre-Call Loom | Any non-empty Close note, email, or SMS content containing `loom.com` at or before the first-call deadline. No lower time bound or sender restriction. |
-| Pre-call | `precall_text` | Pre-call text | A non-empty outbound SMS at or before the first-call deadline. |
-| Pre-call | `afternoon_before_text` | Afternoon-before text | A sent outbound SMS from the current Lead Owner between noon and 6 PM Pacific on the calendar day before the first same-day meeting, and after that meeting was created in Close. If the meeting was created after 6 PM the prior day, or creation time is missing, the step is neutral. The same SMS may satisfy Pre-call text. |
-| Pre-call | `day_of_confirmation_text` | Day-of confirmation text | A non-empty sent outbound SMS whose Close `user_id` matches the lead's current Lead Owner, sent on the first same-day meeting's Pacific calendar date before the meeting start. The same SMS may also satisfy Pre-call text. |
-| Post-call | `followup_task` | Next steps set | A dated Close task assigned to the credited rep (or unassigned), open or complete, whose due date is at or after the call or which was created after the call; **or** a later meeting assigned to the credited rep (or unassigned) that is not canceled or declined. |
-| Post-call | `followup_completed` | Next steps completed | A qualifying task completed after the held first-call anchor; **or** a later meeting whose Close status is `completed`. An incomplete next step stays neutral until its task due date or meeting end. When no next step exists, this step is neutral and `followup_task` records the miss. |
-| Post-call | `recap_email` | Post-call follow-up | A sent outbound email **or outbound SMS** from the held first-call anchor through 24 hours after it. A missing message stays neutral until the 24-hour window closes. |
+| Pre-call | `loom_usage` | Pre-Call Loom | Any active Close note or email, or a Close SMS from the current Lead Owner, containing `loom.com` at or before the first-call deadline. No lower time bound or content-quality requirement. |
+| Pre-call | `precall_text` | Pre-call text | A non-empty sent outbound SMS from the current Lead Owner at or before the first-call deadline. |
+| Pre-call | `day_of_confirmation_text` | Day-of confirmation text | A non-empty sent outbound SMS whose Close `user_id` matches the lead's current Lead Owner, sent on the scored first call's Pacific calendar date before the meeting start. The same SMS may also satisfy Pre-call text. |
+| Post-call | `followup_task` | Next steps set | A dated Close task explicitly assigned to the credited closer, open or complete, whose due date is at or after the call or which was created after the call; **or** a later meeting for the lead that is not canceled or declined, regardless of its assigned user. |
+| Post-call | `followup_completed` | Next steps completed | A qualifying task completed after the held first-call anchor; **or** a later meeting whose Close status is `completed` and whose scheduled end has passed. A future meeting cannot count as completed just because Close already labels it `completed`. An incomplete next step stays neutral until its task due date or meeting end. When no next step exists, this step is neutral and `followup_task` records the miss. |
+| Post-call | `recap_email` | Post-call follow-up | A sent outbound email, or a sent outbound SMS from the current Lead Owner, from the held first-call anchor through 24 hours after it. A missing message stays neutral until the 24-hour window closes. |
 
-The first-call deadline is the earliest non-canceled meeting on the recorded booked date, falling
-back to 11:59:59 PM Pacific on the recorded date. The existing `First Call Show Up (Opp)` field
-determines the first-call outcome. A no-show is eligible only for `followup_task`; the other two
-post-call steps are neutral.
+For a lead currently in Close's Closed / Won or Lost status, sales next-step setting and completion
+are exempt from scoring even when Close has no applicable future sales task or meeting. The lead
+remains visible in the monthly and daily breakdown under **Exempt**. Exempt cells are not eligible,
+do not affect the step percentage, and are omitted from the phase's equal-weight average. Pre-call
+cells and recap follow-up remain scored as usual. This uses the lead's status in the fixed extract;
+Close does not provide the status-transition timestamp needed to reconstruct when it became Closed /
+Won or Lost.
 
-The two timed text steps are eligible once the meeting starts. They stay neutral when the first
-same-day meeting or owner is missing, and before the meeting begins. Close supplies the sender in SMS
-`user_id`. Using the current owner means a later owner transfer can change how historical SMS is
-scored; this preview does not reconstruct ownership at the time of the meeting.
+The first-call deadline is the earliest non-canceled meeting on the recorded booked date. When no
+such meeting exists and the show outcome is unknown, use the earliest later non-canceled meeting as
+the first-call anchor. When the outcome is Yes or No, or there is no later meeting, fall back to 11:59:59 PM
+Pacific on the recorded booked date. The existing `First Call Show Up (Opp)` field determines the
+first-call outcome. A no-show is eligible only for `followup_task`; the other two post-call steps are
+neutral unless the lead is Closed/Won or Lost, in which case both next-step checks are Exempt.
+
+For task-based next steps, the task must be explicitly assigned to the rep credited with the first call. A later meeting can be assigned to anyone and still counts, provided it is not canceled or declined. All SMS evidence used by these steps must match the lead's current Lead Owner in Close `user_id`.
+This applies to SMS used for Loom evidence, Pre-call text, day-of confirmation text, and post-call follow-up.
+Outbound text steps require a sent outbound SMS; Loom evidence only requires an active record.
+Email and note evidence keeps its existing sender rules. Day-of confirmation text is eligible once
+the meeting starts and stays neutral when the first same-day meeting or owner is missing, and before
+the meeting begins. Using the current owner means a later owner transfer can change how historical
+SMS is scored; this preview does not reconstruct ownership at the time of the meeting.
 
 For sent email and SMS evidence, `date_sent` is the timestamp used when Close provides it;
 `activity_at` is the fallback. Old overdue tasks that existed before the first call do not satisfy
@@ -76,7 +92,7 @@ When `eligible = 0`, the percentage is `null` and the UI displays `—`. Headlin
 are equal-weight averages of the available step percentages, not pooled-volume ratios:
 
 ```text
-pre_call_pct  = round(mean(loom_usage_pct, precall_text_pct, afternoon_before_text_pct, day_of_confirmation_text_pct))
+pre_call_pct  = round(mean(loom_usage_pct, precall_text_pct, day_of_confirmation_text_pct))
 post_call_pct = round(mean(followup_task_pct, followup_completed_pct, recap_email_pct))
 ```
 
@@ -98,7 +114,7 @@ still write `data.preview.json` for local verification:
 ```json
 {
   "adherence_meta": {
-    "schema_version": 5,
+    "schema_version": 7,
     "source": "close_crm",
     "period": { "month": "2026-09", "basis": "first_sales_call_booked_date" },
     "cohort": { "included": 0, "excluded": 0, "includes_lost": true,
@@ -114,7 +130,6 @@ still write `data.preview.json` for local verification:
         "steps": {
           "loom_usage": { "pct": 80, "done": 16, "eligible": 20 },
           "precall_text": { "pct": 90, "done": 18, "eligible": 20 },
-          "afternoon_before_text": { "pct": 80, "done": 16, "eligible": 20 },
           "day_of_confirmation_text": { "pct": 85, "done": 17, "eligible": 20 },
           "followup_task": { "pct": 90, "done": 18, "eligible": 20 },
           "followup_completed": { "pct": 70, "done": 7, "eligible": 10 },

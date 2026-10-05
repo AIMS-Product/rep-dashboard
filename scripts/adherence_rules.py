@@ -16,6 +16,8 @@ from zoneinfo import ZoneInfo
 
 
 PACIFIC = ZoneInfo("America/Los_Angeles")
+WON_STATUS_ID = "stat_WnFc0uhjcjV0cc3bVzdFVqDz7av6rbsOmOvHUsO6s03"
+LOST_STATUS_ID = "stat_aR2jBa8YnTNZmHAnPsnlQuinBdaXpSBCkZGP3UvoBlV"
 CANCELED_MEETING_STATUSES = {"canceled", "declined-by-lead", "declined-by-org"}
 OUTBOUND_DIRECTIONS = {"outbound", "outgoing"}
 SENT_ACTIVITY_WEBHOOK_ROLLOUT_AT = datetime(2026, 7, 23, 18, 42, 25, tzinfo=ZoneInfo("UTC"))
@@ -24,7 +26,6 @@ LOOM_PATTERN = re.compile(r"(^|[^a-z])loom\.com", re.IGNORECASE)
 STEP_META = {
     "loom_usage": {"phase": "pre_call", "label": "Pre-Call Loom"},
     "precall_text": {"phase": "pre_call", "label": "Pre-call text"},
-    "afternoon_before_text": {"phase": "pre_call", "label": "Afternoon-before text"},
     "day_of_confirmation_text": {"phase": "pre_call", "label": "Day-of confirmation text"},
     "followup_task": {"phase": "post_call", "label": "Next steps set"},
     "followup_completed": {"phase": "post_call", "label": "Next steps completed"},
@@ -108,25 +109,23 @@ def is_sent_activity(activity: dict[str, Any]) -> bool:
 
 
 def meeting_is_assigned_to(meeting: dict[str, Any], owner_id: str | None) -> bool:
-    """Match the current owner, while preserving SteelTrap's unassigned allowance."""
-    assigned = {str(value) for value in (meeting.get("users") or []) if value}
-    if meeting.get("user_id"):
-        assigned.add(str(meeting["user_id"]))
-    if not assigned:
-        return True
-    return bool(owner_id and owner_id in assigned)
+    """Meetings can be booked with any attendee; assignment does not gate next steps."""
+    return True
 
 
 def task_is_assigned_to(task: dict[str, Any], owner_id: str | None) -> bool:
+    """A next-step task only qualifies when explicitly assigned to the call's closer."""
     assigned = task.get("assigned_to")
-    return not assigned or bool(owner_id and str(assigned) == owner_id)
+    return bool(owner_id and assigned and str(assigned) == owner_id)
 
 
 def first_call_deadline(
     booked_date: str,
     meetings: Iterable[dict[str, Any]],
+    *,
+    show_state: str = "",
 ) -> tuple[datetime | None, dict[str, Any] | None]:
-    """Use the earliest valid same-day meeting, then fall back to booked-date end-of-day."""
+    """Use same-day meeting, or earliest later meeting only when show outcome is unknown."""
     booked = parse_datetime(booked_date, date_at_end_of_day=True)
     if not booked:
         return None, None
@@ -140,6 +139,17 @@ def first_call_deadline(
     if candidates:
         starts_at, meeting = min(candidates, key=lambda pair: pair[0])
         return starts_at, meeting
+    if str(show_state or "").strip().lower() not in {"yes", "no"}:
+        later_candidates = []
+        for meeting in meetings:
+            if str(meeting.get("status") or "").lower() in CANCELED_MEETING_STATUSES:
+                continue
+            starts_at = parse_datetime(meeting.get("starts_at") or meeting.get("activity_at"))
+            if starts_at and starts_at.date() > booked.date():
+                later_candidates.append((starts_at, meeting))
+        if later_candidates:
+            starts_at, meeting = min(later_candidates, key=lambda pair: pair[0])
+            return starts_at, meeting
     return booked, None
 
 
@@ -171,6 +181,8 @@ def score_lead(
     booked_date: str,
     show_state: str,
     owner_id: str | None,
+    closed_won: bool = False,
+    closed_lost: bool = False,
     lead_owner_id: str | None = None,
     emails: Iterable[dict[str, Any]] = (),
     sms: Iterable[dict[str, Any]] = (),
@@ -186,28 +198,35 @@ def score_lead(
     sms = list(sms)
     notes = list(notes)
     meetings = list(meetings)
-    deadline, first_meeting = first_call_deadline(booked_date, meetings)
+    deadline, first_meeting = first_call_deadline(
+        booked_date, meetings, show_state=show_state
+    )
+    exempt_next_steps = closed_won or closed_lost
     result = {key: {"eligible": False, "done": False} for key in STEP_META}
     if not deadline:
         return result
 
     pre_eligible = deadline <= now
     comms = (
-        [(activity, message_time) for activity in emails + sms]
-        + [(activity, activity_time) for activity in notes]
+        [("email", activity, message_time) for activity in emails]
+        + [("sms", activity, message_time) for activity in sms]
+        + [("note", activity, activity_time) for activity in notes]
     )
     loom_done = any(
         (stamp := timestamp(activity)) is not None
         and stamp <= deadline
         and is_active_activity(activity)
+        and (kind != "sms" or (lead_owner_id and str(activity.get("user_id") or "") == lead_owner_id))
         and bool(LOOM_PATTERN.search(activity_body(activity)))
-        for activity, timestamp in comms
+        for kind, activity, timestamp in comms
     )
     precall_text_done = any(
         (stamp := message_time(message)) is not None
         and stamp <= deadline
         and is_outbound(message)
         and is_sent_activity(message)
+        and lead_owner_id
+        and str(message.get("user_id") or "") == lead_owner_id
         and bool(activity_body(message))
         for message in sms
     )
@@ -215,26 +234,6 @@ def score_lead(
     result["precall_text"] = {
         "eligible": pre_eligible,
         "done": pre_eligible and precall_text_done,
-    }
-    prior_day = deadline.date() - timedelta(days=1)
-    afternoon_start = datetime.combine(prior_day, time(12), PACIFIC)
-    afternoon_end = datetime.combine(prior_day, time(18), PACIFIC)
-    meeting_created = parse_datetime(first_meeting.get("date_created")) if first_meeting else None
-    afternoon_eligible = bool(
-        first_meeting and lead_owner_id and meeting_created
-        and meeting_created < afternoon_end and pre_eligible
-    )
-    afternoon_done = any(
-        (stamp := message_time(message)) is not None
-        and max(afternoon_start, meeting_created) <= stamp < afternoon_end
-        and str(message.get("user_id") or "") == lead_owner_id
-        and is_outbound(message)
-        and is_sent_activity(message)
-        for message in sms
-    ) if afternoon_eligible else False
-    result["afternoon_before_text"] = {
-        "eligible": afternoon_eligible,
-        "done": afternoon_eligible and afternoon_done,
     }
     confirmation_eligible = bool(first_meeting and lead_owner_id and pre_eligible)
     confirmation_done = any(
@@ -273,9 +272,11 @@ def score_lead(
         later_meetings.append(meeting)
 
     result["followup_task"] = {
-        "eligible": set_eligible,
-        "done": set_eligible and bool(qualified_tasks or later_meetings),
+        "eligible": set_eligible and not exempt_next_steps,
+        "done": set_eligible and not exempt_next_steps and bool(qualified_tasks or later_meetings),
     }
+    if exempt_next_steps:
+        result["followup_task"]["exempt"] = True
 
     shown_eligible = shown and anchor <= now
     qualifying_task_ids = {task.get("id") for task in qualified_tasks if task.get("id")}
@@ -287,6 +288,8 @@ def score_lead(
     )
     completed_meeting = any(
         str(meeting.get("status") or "").lower() == "completed"
+        and (meeting_end := parse_datetime(meeting.get("ends_at") or meeting.get("starts_at"))) is not None
+        and meeting_end <= now
         for meeting in later_meetings
     )
     task_due = any(
@@ -303,9 +306,11 @@ def score_lead(
         completed_task or completed_meeting or task_due or meeting_due
     )
     result["followup_completed"] = {
-        "eligible": completion_eligible,
-        "done": completion_eligible and (completed_task or completed_meeting),
+        "eligible": completion_eligible and not exempt_next_steps,
+        "done": completion_eligible and not exempt_next_steps and (completed_task or completed_meeting),
     }
+    if exempt_next_steps:
+        result["followup_completed"]["exempt"] = True
 
     window_end = anchor + timedelta(hours=24)
     post_call_message = any(
@@ -313,7 +318,9 @@ def score_lead(
         and anchor <= stamp <= min(window_end, now)
         and is_outbound(message)
         and is_sent_activity(message)
-        for message in [*emails, *sms]
+        and (kind == "email" or (lead_owner_id and str(message.get("user_id") or "") == lead_owner_id))
+        for kind, messages in (("email", emails), ("sms", sms))
+        for message in messages
     )
     result["recap_email"] = {
         "eligible": shown_eligible and (window_end <= now or post_call_message),
@@ -341,10 +348,12 @@ def aggregate_rep_scores(
     """Aggregate lead evidence into the stable rep-level JSON contract."""
     output: dict[str, dict[str, Any]] = {}
     for rep_id, lead_rows in evidence_by_rep.items():
-        counts = defaultdict(lambda: {"done": 0, "eligible": 0})
+        counts = defaultdict(lambda: {"done": 0, "eligible": 0, "exempt": 0})
         for row in lead_rows:
             for key in STEP_META:
                 cell = row.get(key) or {}
+                if cell.get("exempt"):
+                    counts[key]["exempt"] += 1
                 if cell.get("eligible"):
                     counts[key]["eligible"] += 1
                     if cell.get("done"):
@@ -358,6 +367,7 @@ def aggregate_rep_scores(
                 "phase": meta["phase"],
                 "done": done,
                 "eligible": eligible,
+                "exempt": counts[key]["exempt"],
                 "pct": round_percent(done, eligible),
             }
         output[rep_id] = {
@@ -365,7 +375,6 @@ def aggregate_rep_scores(
                 [
                     steps["loom_usage"]["pct"],
                     steps["precall_text"]["pct"],
-                    steps["afternoon_before_text"]["pct"],
                     steps["day_of_confirmation_text"]["pct"],
                 ]
             ),
