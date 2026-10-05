@@ -8,7 +8,8 @@ Related: SteelTrap `docs/reference/process-adherence-criteria.md`
 
 Add two scan-friendly adherence percentages to every sales-rep row:
 
-- Pre-call = the equal-weight average of Pre-Call Loom, Pre-call text, and Day-of confirmation text.
+- Pre-call = the equal-weight average of Pre-Call Loom, Pre-call text, Afternoon-before text,
+  and Day-of confirmation text in the local preview.
 - Post-call = the equal-weight average of Next steps set, Next steps completed, and Post-call follow-up.
 
 Clicking either percentage opens a right-side drawer with the percentage, completed count, and
@@ -38,13 +39,14 @@ month_start <= First Sales Call Booked Date < next_month_start
 
 ## Signal contract
 
-The local payload keeps the five existing SteelTrap signal keys and adds a Close-specific
-day-of confirmation signal for local review. The new key requires a future source mapping.
+The local payload keeps the five existing SteelTrap signal keys and adds two Close-specific
+timed text signals for local review. The new keys require future source mappings.
 
 | Phase | Stable key | UI label | Local Close rule |
 | --- | --- | --- | --- |
 | Pre-call | `loom_usage` | Pre-Call Loom | Any non-empty Close note, email, or SMS content containing `loom.com` at or before the first-call deadline. No lower time bound or sender restriction. |
 | Pre-call | `precall_text` | Pre-call text | A non-empty outbound SMS at or before the first-call deadline. |
+| Pre-call | `afternoon_before_text` | Afternoon-before text | A sent outbound SMS from the current Lead Owner between noon and 6 PM Pacific on the calendar day before the first same-day meeting, and after that meeting was created in Close. If the meeting was created after 6 PM the prior day, or creation time is missing, the step is neutral. The same SMS may satisfy Pre-call text. |
 | Pre-call | `day_of_confirmation_text` | Day-of confirmation text | A non-empty sent outbound SMS whose Close `user_id` matches the lead's current Lead Owner, sent on the first same-day meeting's Pacific calendar date before the meeting start. The same SMS may also satisfy Pre-call text. |
 | Post-call | `followup_task` | Next steps set | A dated Close task assigned to the credited rep (or unassigned), open or complete, whose due date is at or after the call or which was created after the call; **or** a later meeting assigned to the credited rep (or unassigned) that is not canceled or declined. |
 | Post-call | `followup_completed` | Next steps completed | A qualifying task completed after the held first-call anchor; **or** a later meeting whose Close status is `completed`. An incomplete next step stays neutral until its task due date or meeting end. When no next step exists, this step is neutral and `followup_task` records the miss. |
@@ -55,8 +57,8 @@ back to 11:59:59 PM Pacific on the recorded date. The existing `First Call Show 
 determines the first-call outcome. A no-show is eligible only for `followup_task`; the other two
 post-call steps are neutral.
 
-Day-of confirmation is eligible once the meeting starts. It stays neutral when the first same-day
-meeting or owner is missing, and before the meeting begins. Close supplies the sender in SMS
+The two timed text steps are eligible once the meeting starts. They stay neutral when the first
+same-day meeting or owner is missing, and before the meeting begins. Close supplies the sender in SMS
 `user_id`. Using the current owner means a later owner transfer can change how historical SMS is
 scored; this preview does not reconstruct ownership at the time of the meeting.
 
@@ -74,7 +76,7 @@ When `eligible = 0`, the percentage is `null` and the UI displays `—`. Headlin
 are equal-weight averages of the available step percentages, not pooled-volume ratios:
 
 ```text
-pre_call_pct  = round(mean(loom_usage_pct, precall_text_pct, day_of_confirmation_text_pct))
+pre_call_pct  = round(mean(loom_usage_pct, precall_text_pct, afternoon_before_text_pct, day_of_confirmation_text_pct))
 post_call_pct = round(mean(followup_task_pct, followup_completed_pct, recap_email_pct))
 ```
 
@@ -96,7 +98,7 @@ still write `data.preview.json` for local verification:
 ```json
 {
   "adherence_meta": {
-    "schema_version": 3,
+    "schema_version": 5,
     "source": "close_crm",
     "period": { "month": "2026-09", "basis": "first_sales_call_booked_date" },
     "cohort": { "included": 0, "excluded": 0, "includes_lost": true,
@@ -107,11 +109,12 @@ still write `data.preview.json` for local verification:
       "name": "Example Rep",
       "rep_owner_id": "user_123",
       "adherence": {
-        "pre_call_pct": 85,
+        "pre_call_pct": 84,
         "post_call_pct": 74,
         "steps": {
           "loom_usage": { "pct": 80, "done": 16, "eligible": 20 },
           "precall_text": { "pct": 90, "done": 18, "eligible": 20 },
+          "afternoon_before_text": { "pct": 80, "done": 16, "eligible": 20 },
           "day_of_confirmation_text": { "pct": 85, "done": 17, "eligible": 20 },
           "followup_task": { "pct": 90, "done": 18, "eligible": 20 },
           "followup_completed": { "pct": 70, "done": 7, "eligible": 10 },
@@ -123,8 +126,9 @@ still write `data.preview.json` for local verification:
 }
 ```
 
-Only aggregate rep-level data enters the dashboard or preview JSON. Lead IDs, names, message
-bodies, task text, and evidence rows remain in memory and are never written to the public artifact.
+Only aggregate rep-level data enters the production dashboard JSON. The ignored local preview
+also includes eligible lead names, IDs, booked dates, and Close URLs for the Completed and Missed
+lists. Message bodies, task text, and activity rows are not serialized.
 `rep_owner_id` identifies the displayed rep row; individual lead scores follow meeting attribution
 when available.
 
