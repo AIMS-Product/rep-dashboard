@@ -417,7 +417,7 @@ def add_adherence_to_dashboard(
         })
 
     dashboard["adherence_meta"] = {
-        "schema_version": 4 if preview_only else 3,
+        "schema_version": 5 if preview_only else 4,
         "source": source,
         "generated_at": now.isoformat(),
         "period": {

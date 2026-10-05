@@ -24,6 +24,7 @@ LOOM_PATTERN = re.compile(r"(^|[^a-z])loom\.com", re.IGNORECASE)
 STEP_META = {
     "loom_usage": {"phase": "pre_call", "label": "Pre-Call Loom"},
     "precall_text": {"phase": "pre_call", "label": "Pre-call text"},
+    "afternoon_before_text": {"phase": "pre_call", "label": "Afternoon-before text"},
     "day_of_confirmation_text": {"phase": "pre_call", "label": "Day-of confirmation text"},
     "followup_task": {"phase": "post_call", "label": "Next steps set"},
     "followup_completed": {"phase": "post_call", "label": "Next steps completed"},
@@ -215,6 +216,26 @@ def score_lead(
         "eligible": pre_eligible,
         "done": pre_eligible and precall_text_done,
     }
+    prior_day = deadline.date() - timedelta(days=1)
+    afternoon_start = datetime.combine(prior_day, time(12), PACIFIC)
+    afternoon_end = datetime.combine(prior_day, time(18), PACIFIC)
+    meeting_created = parse_datetime(first_meeting.get("date_created")) if first_meeting else None
+    afternoon_eligible = bool(
+        first_meeting and lead_owner_id and meeting_created
+        and meeting_created < afternoon_end and pre_eligible
+    )
+    afternoon_done = any(
+        (stamp := message_time(message)) is not None
+        and max(afternoon_start, meeting_created) <= stamp < afternoon_end
+        and str(message.get("user_id") or "") == lead_owner_id
+        and is_outbound(message)
+        and is_sent_activity(message)
+        for message in sms
+    ) if afternoon_eligible else False
+    result["afternoon_before_text"] = {
+        "eligible": afternoon_eligible,
+        "done": afternoon_eligible and afternoon_done,
+    }
     confirmation_eligible = bool(first_meeting and lead_owner_id and pre_eligible)
     confirmation_done = any(
         (stamp := message_time(message)) is not None
@@ -344,6 +365,7 @@ def aggregate_rep_scores(
                 [
                     steps["loom_usage"]["pct"],
                     steps["precall_text"]["pct"],
+                    steps["afternoon_before_text"]["pct"],
                     steps["day_of_confirmation_text"]["pct"],
                 ]
             ),

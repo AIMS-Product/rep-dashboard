@@ -431,6 +431,7 @@
   .adherence-btn[disabled]:hover { background: var(--white); border-color: var(--border-light); transform: none; }
   .adherence-table-wrap { overflow-x: auto; }
   .adherence-board table { min-width: 1160px; table-layout: fixed; }
+  .adherence-board.has-afternoon-step table { min-width: 1280px; }
   .adherence-board thead .adherence-group-row th {
     padding-top: 10px;
     padding-bottom: 8px;
@@ -899,6 +900,7 @@
     // ── BOARD 4: Process Adherence (shown when aggregate adherence is present)
     let adherenceBoard = '';
     if (D.adherence_meta && reps.some(r => r.adherence)) {
+      const hasAfternoonStep = reps.some(r => r.adherence && r.adherence.steps && r.adherence.steps.afternoon_before_text);
       const adherenceSorted = reps
         .filter(r => !r.exclude_meetings && !r.is_manager && r.adherence)
         .sort((a,b) => b.revenue - a.revenue);
@@ -909,6 +911,7 @@
           <td class="adherence-average-cell">${adherenceButton(r, 'pre_call', sourceIndex)}</td>
           <td>${adherenceStepValue(r, 'loom_usage')}</td>
           <td>${adherenceStepValue(r, 'precall_text')}</td>
+          ${hasAfternoonStep ? `<td>${adherenceStepValue(r, 'afternoon_before_text')}</td>` : ''}
           <td>${adherenceStepValue(r, 'day_of_confirmation_text')}</td>
           <td class="adherence-average-cell adherence-post-start">${adherenceButton(r, 'post_call', sourceIndex)}</td>
           <td>${adherenceStepValue(r, 'followup_task')}</td>
@@ -918,26 +921,28 @@
       }).join('');
       const cohort = D.adherence_meta.cohort || {};
       adherenceBoard = `
-        <div class="board adherence-board fade d2">
+        <div class="board adherence-board ${hasAfternoonStep ? 'has-afternoon-step' : ''} fade d2">
           <div class="board-head">
             <div><div class="board-title">Process Adherence</div><div class="board-sub">Equal-weight step averages &middot; click a percentage for the breakdown</div></div>
           </div>
           <div class="adherence-table-wrap">
             <table>
               <colgroup>
-                <col style="width:16%"><col style="width:8%"><col style="width:11%"><col style="width:11%"><col style="width:14%">
-                <col style="width:8%"><col style="width:10.67%"><col style="width:10.66%"><col style="width:10.67%">
+                ${hasAfternoonStep
+                  ? '<col style="width:15%"><col style="width:8%"><col style="width:10%"><col style="width:10%"><col style="width:12%"><col style="width:12%"><col style="width:8%"><col style="width:8.33%"><col style="width:8.33%"><col style="width:8.34%">'
+                  : '<col style="width:16%"><col style="width:8%"><col style="width:11%"><col style="width:11%"><col style="width:14%"><col style="width:8%"><col style="width:10.67%"><col style="width:10.66%"><col style="width:10.67%">'}
               </colgroup>
               <thead>
                 <tr class="adherence-group-row">
                   <th class="adherence-rep-head" scope="col" rowspan="2">Rep</th>
-                  <th scope="colgroup" colspan="4">Pre-call</th>
+                  <th scope="colgroup" colspan="${hasAfternoonStep ? 5 : 4}">Pre-call</th>
                   <th class="adherence-post-group" scope="colgroup" colspan="4">Post-call</th>
                 </tr>
                 <tr class="adherence-column-row">
                   <th scope="col">Average</th>
                   <th scope="col">Pre-Call Loom</th>
                   <th scope="col">Pre-call text</th>
+                  ${hasAfternoonStep ? '<th scope="col">Afternoon-before text</th>' : ''}
                   <th scope="col">Day-of confirmation text</th>
                   <th class="adherence-post-start" scope="col">Average</th>
                   <th scope="col">Next steps set</th>
@@ -946,7 +951,7 @@
                 </tr>
               </thead>
               <tbody>${adherenceRows}</tbody>
-              <tfoot><tr><td>Scored cohort</td><td colspan="8">${cohort.included || 0} first calls${cohort.includes_lost ? ', including Lost leads' : ''} &middot; ${D.adherence_meta.period.month}</td></tr></tfoot>
+              <tfoot><tr><td>Scored cohort</td><td colspan="${hasAfternoonStep ? 9 : 8}">${cohort.included || 0} first calls${cohort.includes_lost ? ', including Lost leads' : ''} &middot; ${D.adherence_meta.period.month}</td></tr></tfoot>
             </table>
           </div>
         </div>`;
@@ -970,6 +975,7 @@
   const stepHelp = {
     loom_usage: 'Loom link recorded at or before the first-call deadline.',
     precall_text: 'Non-empty outbound SMS recorded at or before the first-call deadline.',
+    afternoon_before_text: 'The current lead owner sends an SMS from noon to 6 PM Pacific the day before the meeting. Calls booked after that window are neutral.',
     day_of_confirmation_text: 'The current lead owner sends an SMS on the meeting’s Pacific calendar day before the meeting begins.',
     followup_task: 'A dated task or a later non-canceled meeting is set.',
     followup_completed: 'A qualifying task is completed or a later meeting is marked completed.',
@@ -1011,7 +1017,7 @@
     const phaseLabel = isPre ? 'Pre-call adherence' : 'Post-call adherence';
     const phaseValue = rep.adherence[isPre ? 'pre_call_pct' : 'post_call_pct'];
     const keys = isPre
-      ? ['loom_usage', 'precall_text', 'day_of_confirmation_text']
+      ? ['loom_usage', 'precall_text', ...(rep.adherence.steps.afternoon_before_text ? ['afternoon_before_text'] : []), 'day_of_confirmation_text']
       : ['followup_task', 'followup_completed', 'recap_email'];
     const cards = keys.map(key => {
       const cell = rep.adherence.steps[key] || {
