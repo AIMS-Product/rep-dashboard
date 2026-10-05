@@ -6,7 +6,7 @@ from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
-from adherence_rules import STEP_META, aggregate_rep_scores  # noqa: E402
+from adherence_rules import LOST_STATUS_ID, STEP_META, aggregate_rep_scores  # noqa: E402
 from build_adherence_preview import (  # noqa: E402
     EXCLUDED_LEAD_STATUSES,
     add_adherence_to_dashboard,
@@ -17,7 +17,62 @@ from build_adherence_preview import (  # noqa: E402
 
 
 class AdherencePreviewCohortTests(unittest.TestCase):
-    def test_lead_lists_match_completed_and_missed_counts_without_neutral_leads(self):
+    def test_fixed_extract_keeps_upcoming_first_call_neutral_at_extract_end(self):
+        lead = {
+            "id": "lead_future", "display_name": "Future Customer", "status_id": "active",
+            "custom.cf_LFdYEQ6bsgp49YjZzefypDmdVx8iwuakWDSLPLpVrBq": "2026-10-05",
+            "custom.cf_OPyvpU45RdvjLqfm8V1VWwNxrGKogEH2IBJmfCj0Uhq": "",
+            "custom.cf_gOfS9pFwext58oberEegLyix8hZzeHrxhCZOVh3P3rd": "user_rep",
+        }
+        extract = {
+            "meta": {"month": "2026-10", "complete": True,
+                     "started_at": "2026-10-05T12:00:00-07:00",
+                     "ended_at": "2026-10-05T13:00:00-07:00", "api_requests": 7},
+            "users": {"user_rep": "Rep Example"}, "leads": [lead],
+            "activities": {"meetings": {"lead_future": [{
+                "id": "meeting_future", "lead_id": "lead_future",
+                "starts_at": "2026-10-05T21:00:00Z", "status": "upcoming", "user_id": "user_rep",
+            }]}, "emails": {}, "sms": {}, "notes": {}, "task_completions": {}},
+            "tasks": {},
+        }
+        result = add_adherence_to_dashboard(
+            {"month_label": "October 2026", "reps": [{"name": "Rep Example"}]},
+            preview_only=True, extract=extract,
+        )
+        lead_result = result["reps"][0]["adherence"]["lead_results"][0]
+        self.assertEqual(set(lead_result["steps"].values()), {"Neutral"})
+        self.assertEqual(result["adherence_meta"]["generated_at"], extract["meta"]["ended_at"])
+
+    def test_lost_lead_remains_visible_and_exempts_sales_next_step_cells(self):
+        lead = {
+            "id": "lead_lost", "display_name": "Lost Customer", "status_id": LOST_STATUS_ID,
+            "status_label": "💔 Lost",
+            "custom.cf_LFdYEQ6bsgp49YjZzefypDmdVx8iwuakWDSLPLpVrBq": "2026-10-01",
+            "custom.cf_OPyvpU45RdvjLqfm8V1VWwNxrGKogEH2IBJmfCj0Uhq": "Yes",
+            "custom.cf_gOfS9pFwext58oberEegLyix8hZzeHrxhCZOVh3P3rd": "user_rep",
+        }
+        extract = {
+            "meta": {"month": "2026-10", "complete": True,
+                     "started_at": "2026-10-05T12:00:00-07:00",
+                     "ended_at": "2026-10-05T13:00:00-07:00", "api_requests": 7},
+            "users": {"user_rep": "Rep Example"}, "leads": [lead],
+            "activities": {"meetings": {"lead_lost": [{
+                "id": "meeting_lost", "lead_id": "lead_lost",
+                "starts_at": "2026-10-01T17:00:00Z", "status": "completed", "user_id": "user_rep",
+            }]}, "emails": {}, "sms": {}, "notes": {}, "task_completions": {}},
+            "tasks": {},
+        }
+        result = add_adherence_to_dashboard(
+            {"month_label": "October 2026", "reps": [{"name": "Rep Example"}]},
+            preview_only=True, extract=extract,
+        )
+        adherence = result["reps"][0]["adherence"]
+        lead_result = adherence["lead_results"][0]
+        self.assertEqual(lead_result["steps"]["followup_task"], "Exempt")
+        self.assertEqual(lead_result["steps"]["followup_completed"], "Exempt")
+        self.assertEqual(adherence["steps"]["followup_task"]["exempt"], 1)
+
+    def test_lead_lists_match_completed_missed_and_exempt_counts_without_neutral_leads(self):
         def evidence(**overrides):
             row = {key: {"eligible": False, "done": False} for key in STEP_META}
             row.update(overrides)
@@ -28,6 +83,8 @@ class AdherencePreviewCohortTests(unittest.TestCase):
              evidence(precall_text={"eligible": True, "done": True})),
             ({"id": "lead_missed", "name": "Beta", "booked_date": "2026-10-01"},
              evidence(precall_text={"eligible": True, "done": False})),
+            ({"id": "lead_exempt", "name": "Won", "booked_date": "2026-10-04", "status_label": "Closed / Won"},
+             evidence(precall_text={"eligible": False, "done": False, "exempt": True})),
             ({"id": "lead_neutral", "name": "Gamma", "booked_date": "2026-10-03"},
              evidence()),
         ]
@@ -35,7 +92,8 @@ class AdherencePreviewCohortTests(unittest.TestCase):
         cohorts = build_lead_cohorts(leads, aggregate)
         self.assertEqual([lead["id"] for lead in cohorts["precall_text"]["completed"]], ["lead_done"])
         self.assertEqual([lead["id"] for lead in cohorts["precall_text"]["missed"]], ["lead_missed"])
-        self.assertEqual(cohorts["day_of_confirmation_text"], {"completed": [], "missed": []})
+        self.assertEqual([lead["id"] for lead in cohorts["precall_text"]["exempt"]], ["lead_exempt"])
+        self.assertEqual(cohorts["day_of_confirmation_text"], {"completed": [], "missed": [], "exempt": []})
 
     def test_lead_lists_reject_a_count_mismatch(self):
         lead = {"id": "lead_1", "name": "Acme", "booked_date": "2026-10-02"}
@@ -82,6 +140,8 @@ class AdherencePreviewCohortTests(unittest.TestCase):
         self.assertEqual([row["name"] for row in listed], ["Private Customer"])
         self.assertEqual(listed[0]["url"], "https://app.close.com/lead/lead_private/")
         self.assertEqual(listed[0]["scored_call_at"], "2026-10-01T10:00:00-07:00")
+        self.assertEqual(preview["reps"][0]["adherence"]["lead_results"][0]["steps"]["followup_task"], "Missed")
+        self.assertNotIn("lead_results", production["reps"][0]["adherence"])
 
     def test_terminal_lead_statuses_are_excluded(self):
         expected = {

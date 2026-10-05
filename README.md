@@ -88,20 +88,30 @@ of rep rows. On Revenue Closed, Rev / Lead is each rep's month-to-date revenue d
 booked leads; AOV is month-to-date revenue divided by closed deals. A zero denominator displays
 `N/A`. Team Rev / Lead is omitted because its booked denominator uses the separate MTD source.
 
-The local Process Adherence preview includes two additional pre-call steps. Afternoon-before text
-requires a sent outbound SMS from the current Lead Owner between noon and 6 PM Pacific on the day
-before the meeting. Calls booked after that window are neutral. Day-of confirmation text requires
-a sent outbound SMS from the current Lead Owner on the meeting's Pacific date before it begins.
-Either SMS may also count for the existing Pre-call text step. Missing meeting or owner evidence
-leaves the relevant new step unscored. These additions are local pending review.
+Process Adherence has three pre-call and three post-call steps. All SMS evidence must come from the
+current Lead Owner, including texts used for Loom evidence and post-call follow-up. Day-of
+confirmation text requires an outbound SMS on the meeting's Pacific date before it begins. It may
+also count for Pre-call text. Missing meeting or owner evidence leaves the confirmation step
+unscored.
+
+For post-call next steps, a task must be explicitly assigned to the rep credited with the first call;
+unassigned and setter-assigned tasks do not qualify. A later non-canceled meeting for the lead can
+be assigned to anyone and still qualifies. Leads currently Closed / Won or Lost remain visible, with
+Next steps set and Next steps completed marked Exempt and excluded from those percentages and the
+post-call average. This is based on status at the time the local preview is generated, so a later
+status or task change appears after the preview is regenerated. A meeting marked completed cannot
+count as completed before its scheduled end. When no live meeting falls on the booked date and the
+show outcome is unknown, the earliest later live meeting is used as the call anchor. Known Yes/No
+outcomes keep the booked-date fallback when no same-day meeting exists.
 
 The local adherence drawer has expandable Completed and Missed lead lists for each step. Neutral
 leads appear in neither list. Lead names link to their Close records, and each row shows the scored
 first-call time so later meetings on the same lead are not confused with the scored call. Names,
-IDs, Close URLs, and booked and first-call dates are written only to the ignored
-`data.preview.json`; the production `data.json` and monthly archives remain aggregate-only. Keep
-the local preview file private because the GitHub Pages deployment does not provide access control
-for lead-level data.
+IDs, Close URLs, and booked and first-call dates are written to the ignored `data.preview.json` for
+local review. Production `data.json` and monthly archives remain aggregate-only. Daily archives at
+`archives/daily/` include scored lead names and Close links for the public GitHub Pages history; raw
+activity and task records remain private and are not archived there. Daily files are finalized only
+after the full 24-hour post-call window has elapsed.
 
 For an isolated local verification artifact, run:
 
@@ -128,6 +138,7 @@ generated `data.preview.json` artifact.
 | `index.html` | Dashboard UI (loads `data.json` client-side) |
 | `data.json` | Latest dashboard data (auto-updated by GitHub Actions) |
 | `scripts/fetch_data.py` | Fetches Close metrics, adds adherence, then writes and archives `data.json` |
+| `scripts/build_yesterday_preview.py` | Builds yesterday's local scorecard and archives matured daily lead-level results |
 | `scripts/adherence_rules.py` | Pure, unit-tested adherence calculation rules |
 | `scripts/build_adherence_preview.py` | Read-only adherence adapter used by production and the local preview |
 | `tests/test_adherence_rules.py` | Boundary tests for eligibility, OR rules, timing, and averaging |

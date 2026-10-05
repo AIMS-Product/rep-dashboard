@@ -24,7 +24,7 @@ from urllib.parse import urlencode, urlparse
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
-from adherence_rules import STEP_META, aggregate_rep_scores, first_call_deadline, score_lead, validate_aggregate
+from adherence_rules import LOST_STATUS_ID, STEP_META, WON_STATUS_ID, aggregate_rep_scores, first_call_deadline, score_lead, validate_aggregate
 
 
 BASE_URL = "https://api.close.com/api/v1"
@@ -181,6 +181,13 @@ def fetch_cohort(client: CloseClient, year: int, month: int) -> list[dict[str, A
     last_day = monthrange(year, month)[1]
     start = f"{year}-{month:02d}-01"
     end = f"{year}-{month:02d}-{last_day:02d}"
+    return fetch_leads_by_booked_date_range(client, start, end)
+
+
+def fetch_leads_by_booked_date_range(
+    client: CloseClient, start: str, end: str
+) -> list[dict[str, Any]]:
+    """Read the existing booked-date cohort using inclusive ISO calendar dates."""
     query = f'"{CF_FIRST_SALES_CALL_BOOKED_NAME}" >= "{start}" "{CF_FIRST_SALES_CALL_BOOKED_NAME}" <= "{end}"'
     return list(client.paginate("/lead/", {"query": query}))
 
@@ -251,7 +258,7 @@ def build_lead_cohorts(
 ) -> dict[str, dict[str, list[dict[str, str]]]]:
     """Group the exact eligible leads behind each step's numerator and denominator."""
     cohorts: dict[str, dict[str, list[dict[str, str]]]] = {
-        key: {"completed": [], "missed": []} for key in STEP_META
+        key: {"completed": [], "missed": [], "exempt": []} for key in STEP_META
     }
     for lead, evidence in scored_leads:
         summary = {
@@ -260,10 +267,13 @@ def build_lead_cohorts(
             "booked_date": lead["booked_date"],
             "scored_call_at": lead.get("scored_call_at") or "",
             "url": lead.get("url") or "",
+            "status_label": lead.get("status_label") or "",
         }
         for key in STEP_META:
             cell = evidence[key]
-            if cell["eligible"]:
+            if cell.get("exempt"):
+                cohorts[key]["exempt"].append(summary)
+            elif cell["eligible"]:
                 bucket = "completed" if cell["done"] else "missed"
                 cohorts[key][bucket].append(summary)
     for key, lists in cohorts.items():
@@ -277,6 +287,28 @@ def build_lead_cohorts(
     return cohorts
 
 
+def build_lead_results(
+    scored_leads: list[tuple[dict[str, Any], dict[str, dict[str, bool]]]],
+) -> list[dict[str, Any]]:
+    """Keep every lead and all seven outcomes available in the private preview."""
+    results = []
+    for lead, evidence in scored_leads:
+        results.append({
+            "id": lead["id"],
+            "name": lead["name"],
+            "url": lead.get("url") or "",
+            "status_label": lead.get("status_label") or "",
+            "booked_date": lead["booked_date"],
+            "scored_call_at": lead.get("scored_call_at") or "",
+            "attribution": lead.get("attribution"),
+            "steps": {
+                key: ("Exempt" if cell.get("exempt") else "Neutral" if not cell["eligible"] else "Completed" if cell["done"] else "Missed")
+                for key, cell in evidence.items()
+            },
+        })
+    return sorted(results, key=lambda row: (row["booked_date"], row["name"].casefold(), row["id"]))
+
+
 def add_adherence_to_dashboard(
     dashboard: dict[str, Any],
     *,
@@ -285,6 +317,7 @@ def add_adherence_to_dashboard(
     limit_leads: int | None = None,
     source: str = "close_crm",
     preview_only: bool = False,
+    extract: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     repo_root = Path(__file__).resolve().parents[1]
     workspace_root = repo_root.parent
@@ -294,16 +327,24 @@ def add_adherence_to_dashboard(
         else month_from_label(dashboard["month_label"])
     )
 
-    api_key = load_env_value([workspace_root / ".env", repo_root / ".env"], "CLOSE_API_KEY")
-    if not api_key:
-        raise RuntimeError("CLOSE_API_KEY was not found in the environment or workspace .env")
-    client = CloseClient(api_key, throttle=throttle)
-
-    print(f"Building read-only Close adherence for {year}-{month_number:02d}", flush=True)
-    print("  Fetching users and monthly cohort", flush=True)
-    users_by_id = fetch_users(client)
+    client: CloseClient | None = None
+    if extract is None:
+        api_key = load_env_value([workspace_root / ".env", repo_root / ".env"], "CLOSE_API_KEY")
+        if not api_key:
+            raise RuntimeError("CLOSE_API_KEY was not found in the environment or workspace .env")
+        client = CloseClient(api_key, throttle=throttle)
+        print(f"Building read-only Close adherence for {year}-{month_number:02d}", flush=True)
+        print("  Fetching users and monthly cohort", flush=True)
+        users_by_id = fetch_users(client)
+        raw_cohort = fetch_cohort(client, year, month_number)
+    else:
+        if extract.get("meta", {}).get("month") != f"{year}-{month_number:02d}":
+            raise ValueError("Close extract month does not match the dashboard month")
+        if not extract.get("meta", {}).get("complete"):
+            raise ValueError("Close extract is not marked complete")
+        users_by_id = extract["users"]
+        raw_cohort = extract["leads"]
     ids_by_name = {name: user_id for user_id, name in users_by_id.items()}
-    raw_cohort = fetch_cohort(client, year, month_number)
     dashboard_reps = {
         row["name"]: row
         for row in dashboard.get("reps") or []
@@ -335,19 +376,28 @@ def add_adherence_to_dashboard(
             "id": lead["id"],
             "name": str(lead.get("display_name") or lead.get("name") or "Unnamed lead"),
             "url": close_lead_url(lead),
+            "status_label": str(lead.get("status_label") or ""),
+            "closed_won": lead.get("status_id") == WON_STATUS_ID
+            or "closed / won" in str(lead.get("status_label") or "").lower(),
+            "closed_lost": lead.get("status_id") == LOST_STATUS_ID
+            or str(lead.get("status_label") or "").strip().lower().endswith("lost"),
             "current_owner_id": owner_id,
             "booked_date": booked_date,
             "show_state": str(custom_value(lead, CF_FIRST_CALL_SHOW_ID, CF_FIRST_CALL_SHOW_NAME) or ""),
         })
 
-    print("  Fetching candidate first-call meetings", flush=True)
-    meetings_by_lead = fetch_activities(
-        client, [lead["id"] for lead in candidates], kinds=("meetings",)
-    )["meetings"]
+    if extract is None:
+        print("  Fetching candidate first-call meetings", flush=True)
+        meetings_by_lead = fetch_activities(
+            client, [lead["id"] for lead in candidates], kinds=("meetings",)
+        )["meetings"]
+    else:
+        meetings_by_lead = extract["activities"].get("meetings", {})
     included = []
     for lead in candidates:
         first_call_at, first_meeting = first_call_deadline(
-            lead["booked_date"], meetings_by_lead.get(lead["id"], [])
+            lead["booked_date"], meetings_by_lead.get(lead["id"], []),
+            show_state=lead["show_state"],
         )
         rep_id, reason = scoring_rep_for_meeting(
             first_meeting, lead["current_owner_id"], visible_rep_ids
@@ -370,15 +420,23 @@ def add_adherence_to_dashboard(
     print(f"  Cohort: {len(raw_cohort):,} raw, {len(included):,} included", flush=True)
     print(f"  Exclusions: {dict(exclusion_counts)}", flush=True)
 
-    print("  Fetching cohort activities in lead-ID batches", flush=True)
-    activity = fetch_activities(
-        client, lead_ids, kinds=("emails", "sms", "notes", "task_completions")
-    )
-    activity["meetings"] = meetings_by_lead
-    print("  Fetching cohort tasks", flush=True)
-    tasks_by_lead = fetch_tasks_by_lead(client, lead_ids)
+    if extract is None:
+        print("  Fetching cohort activities in lead-ID batches", flush=True)
+        activity = fetch_activities(
+            client, lead_ids, kinds=("emails", "sms", "notes", "task_completions")
+        )
+        activity["meetings"] = meetings_by_lead
+        print("  Fetching cohort tasks", flush=True)
+        tasks_by_lead = fetch_tasks_by_lead(client, lead_ids)
+    else:
+        activity = extract["activities"]
+        tasks_by_lead = extract["tasks"]
 
-    now = datetime.now(PACIFIC)
+    now = (
+        datetime.fromisoformat(extract["meta"]["ended_at"]).astimezone(PACIFIC)
+        if extract is not None
+        else datetime.now(PACIFIC)
+    )
     evidence_by_rep: dict[str, list[dict[str, dict[str, bool]]]] = defaultdict(list)
     scored_leads_by_rep: dict[str, list[tuple[dict[str, Any], dict[str, dict[str, bool]]]]] = defaultdict(list)
     for lead in included:
@@ -388,6 +446,8 @@ def add_adherence_to_dashboard(
             show_state=lead["show_state"],
             owner_id=lead["rep_id"],
             lead_owner_id=lead["current_owner_id"],
+            closed_won=lead["closed_won"],
+            closed_lost=lead["closed_lost"],
             emails=activity["emails"].get(lead_id, []),
             sms=activity["sms"].get(lead_id, []),
             notes=activity["notes"].get(lead_id, []),
@@ -412,6 +472,9 @@ def add_adherence_to_dashboard(
             row["adherence"]["lead_cohorts"] = build_lead_cohorts(
                 scored_leads_by_rep.get(rep_id, []), row["adherence"]
             )
+            row["adherence"]["lead_results"] = build_lead_results(
+                scored_leads_by_rep.get(rep_id, [])
+            )
         rep_summary.append({
             "name": row["name"],
             "pre": row["adherence"]["pre_call_pct"],
@@ -419,7 +482,7 @@ def add_adherence_to_dashboard(
         })
 
     dashboard["adherence_meta"] = {
-        "schema_version": 5 if preview_only else 4,
+        "schema_version": 7 if preview_only else 4,
         "source": source,
         "generated_at": now.isoformat(),
         "period": {
@@ -435,9 +498,15 @@ def add_adherence_to_dashboard(
             "attribution_counts": dict(attribution_counts),
             "includes_lost": True,
         },
-        "api_requests": client.request_count,
+        "api_requests": client.request_count if client else extract["meta"]["api_requests"],
         "preview_only": preview_only,
     }
+    if extract is not None:
+        dashboard["adherence_meta"]["extract"] = {
+            "started_at": extract["meta"]["started_at"],
+            "ended_at": extract["meta"]["ended_at"],
+            "complete": extract["meta"]["complete"],
+        }
     print("  Rep baseline:", flush=True)
     for summary in rep_summary:
         print(f"    {summary['name']}: pre={summary['pre']} post={summary['post']}", flush=True)
@@ -466,13 +535,25 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", default=str(repo_root / "data.preview.json"))
     parser.add_argument("--throttle", type=float, default=0.18, help="Minimum seconds between Close requests")
     parser.add_argument("--limit-leads", type=int, help="Optional smoke-test cohort limit")
+    parser.add_argument("--extract", help="Use a previously captured private Close extract")
     return parser.parse_args()
 
 
 if __name__ == "__main__":
     try:
         cli_args = parse_args()
-        preview = build_preview(cli_args)
+        if cli_args.extract:
+            repo_root = Path(__file__).resolve().parents[1]
+            dashboard_path = Path(cli_args.dashboard_data or repo_root / "data.json")
+            dashboard = json.loads(dashboard_path.read_text())
+            extract = json.loads(Path(cli_args.extract).read_text())
+            preview = add_adherence_to_dashboard(
+                dashboard, month_override=cli_args.month, throttle=cli_args.throttle,
+                limit_leads=cli_args.limit_leads, source="close_fixed_extract",
+                preview_only=True, extract=extract,
+            )
+        else:
+            preview = build_preview(cli_args)
         output_path = Path(cli_args.output)
         output_path.write_text(json.dumps(preview, indent=2) + "\n")
         print(f"Wrote local preview to {output_path}", flush=True)
