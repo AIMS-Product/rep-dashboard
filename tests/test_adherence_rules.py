@@ -113,6 +113,26 @@ class AdherenceRulesTests(unittest.TestCase):
         self.assertEqual(result["afternoon_before_text"],
                          {"eligible": True, "done": False})
 
+    def test_tomorrow_first_call_is_not_missed_while_afternoon_window_is_open(self):
+        base = dict(
+            booked_date="2026-10-06", show_state="", owner_id=OWNER,
+            lead_owner_id=OWNER,
+            meetings=[{**meeting("2026-10-06T17:00:00Z"),
+                       "date_created": "2026-10-03T17:00:00Z"}],
+        )
+        during_window = datetime(2026, 10, 5, 19, 15, tzinfo=timezone.utc)
+        after_window = datetime(2026, 10, 6, 2, 0, tzinfo=timezone.utc)
+        at_meeting = datetime(2026, 10, 6, 17, 0, tzinfo=timezone.utc)
+        for now in (during_window, after_window):
+            self.assertEqual(
+                score_lead(**base, now=now)["afternoon_before_text"],
+                {"eligible": False, "done": False},
+            )
+        self.assertEqual(
+            score_lead(**base, now=at_meeting)["afternoon_before_text"],
+            {"eligible": True, "done": False},
+        )
+
     def test_day_of_text_must_arrive_before_the_meeting_begins(self):
         base = dict(
             booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,

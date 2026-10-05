@@ -81,6 +81,7 @@ class AdherencePreviewCohortTests(unittest.TestCase):
         listed = preview["reps"][0]["adherence"]["lead_cohorts"]["precall_text"]["missed"]
         self.assertEqual([row["name"] for row in listed], ["Private Customer"])
         self.assertEqual(listed[0]["url"], "https://app.close.com/lead/lead_private/")
+        self.assertEqual(listed[0]["scored_call_at"], "2026-10-01T10:00:00-07:00")
 
     def test_terminal_lead_statuses_are_excluded(self):
         expected = {

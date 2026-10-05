@@ -96,10 +96,12 @@ Either SMS may also count for the existing Pre-call text step. Missing meeting o
 leaves the relevant new step unscored. These additions are local pending review.
 
 The local adherence drawer has expandable Completed and Missed lead lists for each step. Neutral
-leads appear in neither list. Lead names link to their Close records. Names, IDs, Close URLs, and
-booked dates are written only to the ignored `data.preview.json`; the production `data.json` and
-monthly archives remain aggregate-only. Keep the local preview file private because the GitHub
-Pages deployment does not provide access control for lead-level data.
+leads appear in neither list. Lead names link to their Close records, and each row shows the scored
+first-call time so later meetings on the same lead are not confused with the scored call. Names,
+IDs, Close URLs, and booked and first-call dates are written only to the ignored
+`data.preview.json`; the production `data.json` and monthly archives remain aggregate-only. Keep
+the local preview file private because the GitHub Pages deployment does not provide access control
+for lead-level data.
 
 For an isolated local verification artifact, run:
 

@@ -142,6 +142,7 @@ when available.
 - Escape and backdrop click close it; focus is trapped while open and returns to the triggering
   button afterward.
 - The drawer explains that the phase score is an equal average of available step percentages.
+- Local lead lists show the exact scored first-call time, since a lead may also have later meetings.
 - Reduced-motion preferences disable drawer and page entrance transitions.
 
 ## Verification gates
