@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Add aggregate process-adherence metrics to a rep-dashboard payload from Close CRM.
 
-The adapter performs GET requests only and never serializes lead-level evidence or customer
-content.  Its command-line entry point writes ``data.preview.json`` for local review; the production
-dashboard fetcher imports ``add_adherence_to_dashboard`` and writes the enriched payload to
-``data.json``.
+The adapter performs GET requests only. Its command-line entry point writes a local
+``data.preview.json`` with lead-level score cohorts for review. The production dashboard fetcher
+imports ``add_adherence_to_dashboard`` and writes only aggregate scores to ``data.json``.
 """
 
 from __future__ import annotations
@@ -21,11 +20,11 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Iterable
 from urllib.error import HTTPError
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlparse
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
-from adherence_rules import aggregate_rep_scores, first_call_deadline, score_lead, validate_aggregate
+from adherence_rules import STEP_META, aggregate_rep_scores, first_call_deadline, score_lead, validate_aggregate
 
 
 BASE_URL = "https://api.close.com/api/v1"
@@ -231,6 +230,52 @@ def month_from_label(label: str) -> tuple[int, int]:
     return parsed.year, parsed.month
 
 
+def close_lead_url(lead: dict[str, Any]) -> str:
+    """Use Close's canonical lead link only when it points to this exact lead."""
+    url = str(lead.get("html_url") or "")
+    parsed = urlparse(url)
+    if (
+        parsed.scheme == "https"
+        and parsed.netloc == "app.close.com"
+        and parsed.path.rstrip("/") == f"/lead/{lead['id']}"
+        and not parsed.query
+        and not parsed.fragment
+    ):
+        return url
+    return ""
+
+
+def build_lead_cohorts(
+    scored_leads: list[tuple[dict[str, Any], dict[str, dict[str, bool]]]],
+    aggregate: dict[str, Any],
+) -> dict[str, dict[str, list[dict[str, str]]]]:
+    """Group the exact eligible leads behind each step's numerator and denominator."""
+    cohorts: dict[str, dict[str, list[dict[str, str]]]] = {
+        key: {"completed": [], "missed": []} for key in STEP_META
+    }
+    for lead, evidence in scored_leads:
+        summary = {
+            "id": lead["id"],
+            "name": lead["name"],
+            "booked_date": lead["booked_date"],
+            "url": lead.get("url") or "",
+        }
+        for key in STEP_META:
+            cell = evidence[key]
+            if cell["eligible"]:
+                bucket = "completed" if cell["done"] else "missed"
+                cohorts[key][bucket].append(summary)
+    for key, lists in cohorts.items():
+        for rows in lists.values():
+            rows.sort(key=lambda row: (row["booked_date"], row["name"].casefold(), row["id"]))
+        counts = aggregate["steps"][key]
+        if len(lists["completed"]) != counts["done"] or (
+            len(lists["completed"]) + len(lists["missed"])
+        ) != counts["eligible"]:
+            raise ValueError(f"lead cohort does not match aggregate for {key}")
+    return cohorts
+
+
 def add_adherence_to_dashboard(
     dashboard: dict[str, Any],
     *,
@@ -287,6 +332,8 @@ def add_adherence_to_dashboard(
             continue
         candidates.append({
             "id": lead["id"],
+            "name": str(lead.get("display_name") or lead.get("name") or "Unnamed lead"),
+            "url": close_lead_url(lead),
             "current_owner_id": owner_id,
             "booked_date": booked_date,
             "show_state": str(custom_value(lead, CF_FIRST_CALL_SHOW_ID, CF_FIRST_CALL_SHOW_NAME) or ""),
@@ -331,9 +378,10 @@ def add_adherence_to_dashboard(
 
     now = datetime.now(PACIFIC)
     evidence_by_rep: dict[str, list[dict[str, dict[str, bool]]]] = defaultdict(list)
+    scored_leads_by_rep: dict[str, list[tuple[dict[str, Any], dict[str, dict[str, bool]]]]] = defaultdict(list)
     for lead in included:
         lead_id = lead["id"]
-        evidence_by_rep[lead["rep_id"]].append(score_lead(
+        evidence = score_lead(
             booked_date=lead["booked_date"],
             show_state=lead["show_state"],
             owner_id=lead["rep_id"],
@@ -345,7 +393,10 @@ def add_adherence_to_dashboard(
             tasks=tasks_by_lead.get(lead_id, []),
             task_completions=activity["task_completions"].get(lead_id, []),
             now=now,
-        ))
+        )
+        evidence_by_rep[lead["rep_id"]].append(evidence)
+        if preview_only:
+            scored_leads_by_rep[lead["rep_id"]].append((lead, evidence))
 
     aggregates = aggregate_rep_scores(evidence_by_rep)
     empty = aggregate_rep_scores({"empty": []})["empty"]
@@ -355,6 +406,10 @@ def add_adherence_to_dashboard(
         row["rep_owner_id"] = rep_id
         row["adherence"] = aggregates.get(rep_id, empty)
         validate_aggregate(row["adherence"])
+        if preview_only:
+            row["adherence"]["lead_cohorts"] = build_lead_cohorts(
+                scored_leads_by_rep.get(rep_id, []), row["adherence"]
+            )
         rep_summary.append({
             "name": row["name"],
             "pre": row["adherence"]["pre_call_pct"],
@@ -362,7 +417,7 @@ def add_adherence_to_dashboard(
         })
 
     dashboard["adherence_meta"] = {
-        "schema_version": 3,
+        "schema_version": 4 if preview_only else 3,
         "source": source,
         "generated_at": now.isoformat(),
         "period": {
@@ -418,7 +473,7 @@ if __name__ == "__main__":
         preview = build_preview(cli_args)
         output_path = Path(cli_args.output)
         output_path.write_text(json.dumps(preview, indent=2) + "\n")
-        print(f"Wrote aggregate preview to {output_path}", flush=True)
+        print(f"Wrote local preview to {output_path}", flush=True)
     except Exception as exc:
         print(f"ERROR: {exc}", file=sys.stderr, flush=True)
         raise

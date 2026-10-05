@@ -1,14 +1,87 @@
 import sys
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
-from build_adherence_preview import EXCLUDED_LEAD_STATUSES, scoring_rep_for_meeting  # noqa: E402
+from adherence_rules import STEP_META, aggregate_rep_scores  # noqa: E402
+from build_adherence_preview import (  # noqa: E402
+    EXCLUDED_LEAD_STATUSES,
+    add_adherence_to_dashboard,
+    build_lead_cohorts,
+    close_lead_url,
+    scoring_rep_for_meeting,
+)
 
 
 class AdherencePreviewCohortTests(unittest.TestCase):
+    def test_lead_lists_match_completed_and_missed_counts_without_neutral_leads(self):
+        def evidence(**overrides):
+            row = {key: {"eligible": False, "done": False} for key in STEP_META}
+            row.update(overrides)
+            return row
+
+        leads = [
+            ({"id": "lead_done", "name": "Acme", "booked_date": "2026-10-02"},
+             evidence(precall_text={"eligible": True, "done": True})),
+            ({"id": "lead_missed", "name": "Beta", "booked_date": "2026-10-01"},
+             evidence(precall_text={"eligible": True, "done": False})),
+            ({"id": "lead_neutral", "name": "Gamma", "booked_date": "2026-10-03"},
+             evidence()),
+        ]
+        aggregate = aggregate_rep_scores({"rep": [row for _, row in leads]})["rep"]
+        cohorts = build_lead_cohorts(leads, aggregate)
+        self.assertEqual([lead["id"] for lead in cohorts["precall_text"]["completed"]], ["lead_done"])
+        self.assertEqual([lead["id"] for lead in cohorts["precall_text"]["missed"]], ["lead_missed"])
+        self.assertEqual(cohorts["day_of_confirmation_text"], {"completed": [], "missed": []})
+
+    def test_lead_lists_reject_a_count_mismatch(self):
+        lead = {"id": "lead_1", "name": "Acme", "booked_date": "2026-10-02"}
+        evidence = {key: {"eligible": False, "done": False} for key in STEP_META}
+        aggregate = aggregate_rep_scores({"rep": [evidence]})["rep"]
+        aggregate["steps"]["precall_text"]["eligible"] = 1
+        with self.assertRaisesRegex(ValueError, "precall_text"):
+            build_lead_cohorts([(lead, evidence)], aggregate)
+
+    def test_only_the_matching_close_lead_url_is_accepted(self):
+        lead = {"id": "lead_private", "html_url": "https://app.close.com/lead/lead_private/"}
+        self.assertEqual(close_lead_url(lead), lead["html_url"])
+        lead["html_url"] = "https://example.com/lead/lead_private/"
+        self.assertEqual(close_lead_url(lead), "")
+        lead["html_url"] = "https://app.close.com/lead/lead_other/"
+        self.assertEqual(close_lead_url(lead), "")
+
+    def test_lead_names_are_only_serialized_in_local_preview(self):
+        dashboard = {"month_label": "October 2026", "reps": [{"name": "Rep Example"}]}
+        lead = {
+            "id": "lead_private", "name": None, "display_name": "Private Customer",
+            "html_url": "https://app.close.com/lead/lead_private/",
+            "status_id": "active",
+            "First Sales Call Booked Date": "2026-10-01",
+            "Lead Owner": "Rep Example", "First Call Show Up (Opp)": "No",
+        }
+        meeting = {"starts_at": "2026-10-01T17:00:00Z", "user_id": "user_rep"}
+        activities = [
+            {"meetings": {"lead_private": [meeting]}},
+            {"emails": {}, "sms": {}, "notes": {}, "task_completions": {}},
+        ]
+        with patch("build_adherence_preview.load_env_value", return_value="test-key"), \
+             patch("build_adherence_preview.CloseClient"), \
+             patch("build_adherence_preview.fetch_users", return_value={"user_rep": "Rep Example"}), \
+             patch("build_adherence_preview.fetch_cohort", return_value=[lead]), \
+             patch("build_adherence_preview.fetch_activities", side_effect=activities * 2), \
+             patch("build_adherence_preview.fetch_tasks_by_lead", return_value={}):
+            import copy
+            production = add_adherence_to_dashboard(copy.deepcopy(dashboard), preview_only=False)
+            preview = add_adherence_to_dashboard(copy.deepcopy(dashboard), preview_only=True)
+        self.assertNotIn("lead_cohorts", production["reps"][0]["adherence"])
+        self.assertNotIn("Private Customer", str(production))
+        listed = preview["reps"][0]["adherence"]["lead_cohorts"]["precall_text"]["missed"]
+        self.assertEqual([row["name"] for row in listed], ["Private Customer"])
+        self.assertEqual(listed[0]["url"], "https://app.close.com/lead/lead_private/")
+
     def test_terminal_lead_statuses_are_excluded(self):
         expected = {
             "stat_p3oblSTnbsyDAw4rWqZDePGYMOlKBgV2FjbqIMDrfvF": "disqualified",
