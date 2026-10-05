@@ -80,6 +80,14 @@ first same-day meeting, with current Lead Owner used when Close has no identifia
 these attribution counts are included in `adherence_meta.cohort`.
 Its scored-cohort count can therefore differ from the Booked / Shown board's count.
 
+The Booked / Shown / Qualified board counts a lead as qualified when its Close `Qualified (Opp)`
+field is `Yes`, using the same month, exclusions, and Lead Owner attribution as the per-rep booked
+count. This matches the sales manager scorecard rule; qualification is not gated on the Show Up
+field. Team funnel totals come from the published MTD Funnel dashboard and can differ from the sum
+of rep rows. On Revenue Closed, Rev / Lead is each rep's month-to-date revenue divided by their
+booked leads; AOV is month-to-date revenue divided by closed deals. A zero denominator displays
+`N/A`. Team Rev / Lead is omitted because its booked denominator uses the separate MTD source.
+
 For an isolated local verification artifact, run:
 
 From this directory:

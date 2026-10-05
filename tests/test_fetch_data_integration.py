@@ -10,8 +10,8 @@ import fetch_data  # noqa: E402
 
 
 class ProductionAdherenceIntegrationTests(unittest.TestCase):
-    @patch("fetch_data.fetch_mtd_totals", return_value=(10, 4))
-    @patch("fetch_data.fetch_meeting_data", return_value=({"Joe Dysert": 2}, {"Joe Dysert": 1}))
+    @patch("fetch_data.fetch_mtd_totals", return_value=(10, 4, 3))
+    @patch("fetch_data.fetch_meeting_data", return_value=({"Joe Dysert": 2}, {"Joe Dysert": 1}, {"Joe Dysert": 1}))
     @patch("fetch_data.fetch_closed_won_opportunities")
     @patch("fetch_data.fetch_org_users")
     @patch.object(fetch_data, "CLOSE_API_KEY", "test-key")
@@ -29,13 +29,42 @@ class ProductionAdherenceIntegrationTests(unittest.TestCase):
         self.assertEqual(joe["deals"], 1)
         self.assertEqual(joe["booked"], 2)
         self.assertEqual(joe["shown"], 1)
+        self.assertEqual(joe["qualified"], 1)
         self.assertEqual(joe["close_rate"], 50.0)
+        self.assertEqual(joe["revenue_per_lead"], 50.0)
+        self.assertEqual(joe["aov"], 100.0)
+        self.assertEqual(data["total_qualified"], 3)
         self.assertFalse(joe["exclude_meetings"])
         self.assertTrue(joe["is_manager"])
 
         fetch_opps.return_value = []
         no_deal_data = fetch_data.build_dashboard_data()
         self.assertIn("Joe Dysert", [row["name"] for row in no_deal_data["reps"]])
+        joe_without_deals = next(row for row in no_deal_data["reps"] if row["name"] == "Joe Dysert")
+        self.assertEqual(joe_without_deals["revenue_per_lead"], 0)
+        self.assertIsNone(joe_without_deals["aov"])
+
+    @patch("fetch_data.api_get")
+    def test_qualified_uses_scorecard_field_on_booked_leads(self, api_get):
+        owner = "user_rep"
+        base = {
+            "status_id": "active",
+            f"custom.{fetch_data.CF_LEAD_OWNER_ID}": owner,
+            f"custom.{fetch_data.CF_FIRST_SALES_CALL_BOOKED_ID}": "2026-10-02",
+        }
+        api_get.return_value = {"data": [
+            {**base, f"custom.{fetch_data.CF_FIRST_CALL_SHOW_ID}": "Yes",
+             f"custom.{fetch_data.CF_QUALIFIED_ID}": "Yes"},
+            {**base, f"custom.{fetch_data.CF_FIRST_CALL_SHOW_ID}": "No",
+             f"custom.{fetch_data.CF_QUALIFIED_ID}": "Yes"},
+            {**base, "status_id": next(iter(fetch_data.EXCLUDED_LEAD_STATUSES)),
+             f"custom.{fetch_data.CF_QUALIFIED_ID}": "Yes"},
+        ], "has_more": False}
+
+        booked, shown, qualified = fetch_data.fetch_meeting_data(
+            2026, 10, "2026-10-04", {owner: "Joe Dysert"}, {"Joe Dysert": owner}
+        )
+        self.assertEqual((booked["Joe Dysert"], shown["Joe Dysert"], qualified["Joe Dysert"]), (2, 1, 2))
 
     @patch("fetch_data.add_adherence_to_dashboard")
     @patch("fetch_data.build_dashboard_data")
