@@ -215,16 +215,19 @@ def score_lead(
         "eligible": pre_eligible,
         "done": pre_eligible and precall_text_done,
     }
-    confirmation_eligible = bool(first_meeting and lead_owner_id and pre_eligible)
+    meeting_day_end = datetime.combine(deadline.date(), time.max, tzinfo=PACIFIC)
     confirmation_done = any(
         (stamp := message_time(message)) is not None
         and stamp.date() == deadline.date()
-        and stamp <= deadline
+        and stamp <= now
         and str(message.get("user_id") or "") == lead_owner_id
         and is_outbound(message)
         and is_sent_activity(message)
         and bool(activity_body(message))
         for message in sms
+    )
+    confirmation_eligible = bool(
+        first_meeting and lead_owner_id and (confirmation_done or meeting_day_end <= now)
     )
     result["day_of_confirmation_text"] = {
         "eligible": confirmation_eligible,
