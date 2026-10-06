@@ -24,7 +24,7 @@ STEP_LABELS = {
     "day_of_confirmation_text": "Day-of confirmation text",
     "followup_task": "Next steps set",
     "followup_completed": "Next-step follow-through",
-    "recap_email": "Post-call follow-up",
+    "recap_email": "Recap email sent",
 }
 PHASE_STEPS = {
     "Pre-call": ("loom_usage", "precall_text", "day_of_confirmation_text"),
