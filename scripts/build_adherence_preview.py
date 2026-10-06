@@ -457,8 +457,7 @@ def add_adherence_to_dashboard(
             now=now,
         )
         evidence_by_rep[lead["rep_id"]].append(evidence)
-        if preview_only:
-            scored_leads_by_rep[lead["rep_id"]].append((lead, evidence))
+        scored_leads_by_rep[lead["rep_id"]].append((lead, evidence))
 
     aggregates = aggregate_rep_scores(evidence_by_rep)
     empty = aggregate_rep_scores({"empty": []})["empty"]
@@ -468,10 +467,13 @@ def add_adherence_to_dashboard(
         row["rep_owner_id"] = rep_id
         row["adherence"] = aggregates.get(rep_id, empty)
         validate_aggregate(row["adherence"])
+        # The production dashboard's adherence drilldown needs the lead names and
+        # Close links behind each aggregate. Keep the full per-lead result matrix
+        # limited to the private audit preview.
+        row["adherence"]["lead_cohorts"] = build_lead_cohorts(
+            scored_leads_by_rep.get(rep_id, []), row["adherence"]
+        )
         if preview_only:
-            row["adherence"]["lead_cohorts"] = build_lead_cohorts(
-                scored_leads_by_rep.get(rep_id, []), row["adherence"]
-            )
             row["adherence"]["lead_results"] = build_lead_results(
                 scored_leads_by_rep.get(rep_id, [])
             )

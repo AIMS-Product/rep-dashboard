@@ -1137,7 +1137,7 @@
         <div><div class="drawer-score-label">${phaseLabel}</div><p class="drawer-score-note" id="drawerDescription">Equal average of the available step percentages below. Neutral steps are excluded.</p></div>
       </div>
       <div class="step-list">${cards}</div>
-      <p class="drawer-rule-note">This calculation uses first calls scheduled in the dashboard month. A no-show requires only Next steps set; the other post-call steps remain neutral. Tasks must be assigned to the closer; later meetings can be assigned to anyone. Closed/Won and Lost leads remain visible as Exempt for both next-step checks.${rep.adherence.lead_cohorts ? ' Lead lists, including exempt leads, are available in this local preview.' : ''}</p>`;
+      <p class="drawer-rule-note">This calculation uses first calls scheduled in the dashboard month. A no-show requires only Next steps set; the other post-call steps remain neutral. Tasks must be assigned to the closer; later meetings can be assigned to anyone. Closed/Won and Lost leads remain visible as Exempt for both next-step checks.${rep.adherence.lead_cohorts ? ' Lead lists, including exempt leads, are shown below.' : ''}</p>`;
     drawer.hidden = false;
     document.body.classList.add('drawer-open');
     app.inert = true;

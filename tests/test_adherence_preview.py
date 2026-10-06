@@ -111,7 +111,7 @@ class AdherencePreviewCohortTests(unittest.TestCase):
         lead["html_url"] = "https://app.close.com/lead/lead_other/"
         self.assertEqual(close_lead_url(lead), "")
 
-    def test_lead_names_are_only_serialized_in_local_preview(self):
+    def test_public_dashboard_serializes_lead_drilldowns_but_not_full_results(self):
         dashboard = {"month_label": "October 2026", "reps": [{"name": "Rep Example"}]}
         lead = {
             "id": "lead_private", "name": None, "display_name": "Private Customer",
@@ -134,8 +134,15 @@ class AdherencePreviewCohortTests(unittest.TestCase):
             import copy
             production = add_adherence_to_dashboard(copy.deepcopy(dashboard), preview_only=False)
             preview = add_adherence_to_dashboard(copy.deepcopy(dashboard), preview_only=True)
-        self.assertNotIn("lead_cohorts", production["reps"][0]["adherence"])
-        self.assertNotIn("Private Customer", str(production))
+        production_lists = production["reps"][0]["adherence"]["lead_cohorts"]
+        self.assertEqual(
+            production_lists["precall_text"]["missed"][0]["name"],
+            "Private Customer",
+        )
+        self.assertEqual(
+            production_lists["precall_text"]["missed"][0]["url"],
+            "https://app.close.com/lead/lead_private/",
+        )
         listed = preview["reps"][0]["adherence"]["lead_cohorts"]["precall_text"]["missed"]
         self.assertEqual([row["name"] for row in listed], ["Private Customer"])
         self.assertEqual(listed[0]["url"], "https://app.close.com/lead/lead_private/")
