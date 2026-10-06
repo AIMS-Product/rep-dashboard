@@ -1,0 +1,38 @@
+name: Build Closer EOD
+
+on:
+  workflow_dispatch:
+    inputs:
+      report_date:
+        description: "Pacific calendar date to score (defaults to today)"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build-closer-eod:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build closer EOD messages
+        env:
+          CLOSE_API_KEY: ${{ secrets.CLOSE_API_KEY }}
+          CLOSER_EOD_SLACK_WEBHOOK_URL: ${{ secrets.CLOSER_EOD_SLACK_WEBHOOK_URL }}
+          REPORT_DATE: ${{ inputs.report_date }}
+        run: |
+          if [ -n "$REPORT_DATE" ]; then
+            python3 -u scripts/build_closer_eod.py --date "$REPORT_DATE" --send
+          else
+            python3 -u scripts/build_closer_eod.py --send
+          fi
