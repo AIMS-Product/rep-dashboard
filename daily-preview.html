@@ -863,8 +863,9 @@
     const reps = (D.reps || []).filter(r => !r.exclude_meetings);
     const meta = D.daily_meta;
     const team = meta.booked_shown_qualified;
-    const datePicker = window.location.protocol !== 'file:' && (window.DAILY_ARCHIVE_DATES || []).length > 1
-      ? `<label class="daily-date-label">Day history <select id="dailyDate">${window.DAILY_ARCHIVE_DATES.map(day => `<option value="${day}" ${day === meta.date ? 'selected' : ''}>${day}</option>`).join('')}</select></label>`
+    const historyDates = [...new Set([meta.date, ...(window.DAILY_ARCHIVE_DATES || [])])];
+    const datePicker = window.location.protocol !== 'file:' && historyDates.length > 1
+      ? `<label class="daily-date-label">Day history <select id="dailyDate">${historyDates.map(day => `<option value="${day}" ${day === meta.date ? 'selected' : ''}>${day}</option>`).join('')}</select></label>`
       : '';
     const rows = reps.slice().sort((a,b) => b.booked - a.booked).map((r,i) => {
       const cells = ['booked','shown','qualified'].map(metric => {
@@ -890,7 +891,10 @@
     wireAdherenceButtons(D);
     document.querySelectorAll('[data-daily-metric]').forEach(button => button.addEventListener('click', () => openDailyMetricDrawer(D, button)));
     document.getElementById('dailyDate')?.addEventListener('change', event => {
-      window.location.href = `index.html?daily=1&date=${encodeURIComponent(event.target.value)}`;
+      const selectedDate = event.target.value;
+      window.location.href = selectedDate === meta.date
+        ? 'daily-preview.html'
+        : `index.html?daily=1&date=${encodeURIComponent(selectedDate)}`;
     });
   }
 
