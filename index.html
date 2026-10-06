@@ -102,6 +102,37 @@
     color: var(--text-secondary);
     font-weight: 500;
   }
+  .view-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 8px;
+    padding: 4px;
+    border: 1px solid #dce3e8;
+    border-radius: 11px;
+    background: #e9eef2;
+  }
+  .view-switch a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 0 14px;
+    border-radius: 8px;
+    color: #526171;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background .15s ease, color .15s ease, box-shadow .15s ease;
+  }
+  .view-switch a:hover { color: var(--teal); background: #fff; }
+  .view-switch a:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .view-switch a[aria-current="page"] {
+    background: var(--white);
+    color: #087e75;
+    box-shadow: 0 1px 3px rgba(26, 45, 55, .14);
+  }
 
   /* KPI cards (right) */
   .kpi-cards {
@@ -857,6 +888,13 @@
       </div>`;
   }
 
+  function renderViewSwitch(activeView) {
+    return `<nav class="view-switch" aria-label="Dashboard view">
+      <a href="index.html" ${activeView === 'monthly' ? 'aria-current="page"' : ''}>Monthly Dashboard</a>
+      <a href="daily-preview.html" ${activeView === 'daily' ? 'aria-current="page"' : ''}>Daily History</a>
+    </nav>`;
+  }
+
   function renderDaily(D) {
     window._dashData = D;
     const reps = (D.reps || []).filter(r => !r.exclude_meetings);
@@ -884,7 +922,7 @@
       <tbody>${rows}</tbody><tfoot><tr><td>Team Total</td><td>${clickableTotal('booked')}</td><td>${clickableTotal('shown')}</td><td>${clickableTotal('qualified')}</td><td>${totalRate}</td></tr></tfoot></table></div></div>`;
     const adherence = renderAdherenceBoard(D, true);
     const extract = meta.extract || {};
-    const header = `<div class="top-bar fade"><div class="month-center daily-title"><h1>Daily Scorecard</h1><div class="meta">${meta.period_label} · Pacific calendar day</div></div><div class="daily-history">${datePicker}<div class="meta">Read ${extract.started_at || ''} to ${extract.ended_at || ''}</div></div></div>`;
+    const header = `<div class="top-bar fade"><div class="month-center daily-title"><h1>Daily Scorecard</h1><div class="meta">${meta.period_label} · Pacific calendar day</div>${renderViewSwitch('daily')}</div><div class="daily-history">${datePicker}<div class="meta">Read ${extract.started_at || ''} to ${extract.ended_at || ''}</div></div></div>`;
     const footer = `<div class="footer fade d2">Data from Close CRM &middot; <a href="index.html" style="color:var(--text-muted);text-decoration:underline">Monthly Dashboard</a> &middot; <a href="daily-preview.html" style="color:var(--text-muted);text-decoration:underline">Daily History</a></div>`;
     app.innerHTML = header + `<div class="boards daily-boards">${funnel}${adherence}</div>` + footer;
     wireAdherenceButtons(D);
@@ -917,6 +955,7 @@
         <div class="month-center">
           <h1>${D.month_label}</h1>
           <div class="meta">${toPST(D.updated_at)}</div>
+          ${renderViewSwitch('monthly')}
         </div>
         <div class="kpi-cards">
           <div class="kpi">
