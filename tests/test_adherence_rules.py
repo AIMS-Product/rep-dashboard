@@ -236,7 +236,7 @@ class AdherenceRulesTests(unittest.TestCase):
         self.assertFalse(result["day_of_confirmation_text"]["eligible"])
         self.assertFalse(result["followup_task"]["eligible"])
 
-    def test_no_show_only_requires_next_steps_set(self):
+    def test_no_show_scores_all_post_call_steps_by_the_same_rules(self):
         result = score_lead(
             booked_date="2026-09-10",
             show_state="No",
@@ -246,8 +246,45 @@ class AdherenceRulesTests(unittest.TestCase):
             now=NOW,
         )
         self.assertEqual(result["followup_task"], {"eligible": True, "done": True})
-        self.assertFalse(result["followup_completed"]["eligible"])
-        self.assertFalse(result["recap_email"]["eligible"])
+        self.assertEqual(result["followup_completed"], {"eligible": True, "done": False})
+        self.assertEqual(result["recap_email"], {"eligible": True, "done": False})
+
+    def test_post_call_steps_do_not_depend_on_show_outcome(self):
+        kwargs = dict(
+            booked_date="2026-09-10",
+            owner_id=OWNER,
+            lead_owner_id=OWNER,
+            meetings=[meeting("2026-09-10T17:00:00Z")],
+            tasks=[{"id": "task_1", "lead_id": "lead_1", "assigned_to": OWNER, "date": "2026-09-20"}],
+            task_completions=[{"task_id": "task_1", "activity_at": "2026-09-11T17:00:00Z"}],
+            sms=[{"activity_at": "2026-09-10T18:00:00Z", "direction": "outbound", "status": "sent", "user_id": OWNER, "text": "Recap"}],
+            now=NOW,
+        )
+        results = [score_lead(show_state=show_state, **kwargs) for show_state in ("Yes", "No", "")]
+        for key in ("followup_task", "followup_completed", "recap_email"):
+            self.assertEqual(results[0][key], results[1][key])
+            self.assertEqual(results[1][key], results[2][key])
+        self.assertEqual(results[2]["followup_task"], {"eligible": True, "done": True})
+        self.assertEqual(results[2]["followup_completed"], {"eligible": True, "done": True})
+        self.assertEqual(results[2]["recap_email"], {"eligible": True, "done": True})
+
+    def test_later_meeting_does_not_shift_post_call_anchor_by_show_outcome(self):
+        results = [
+            score_lead(
+                booked_date="2026-09-10",
+                show_state=show_state,
+                owner_id=OWNER,
+                meetings=[meeting("2026-09-12T17:00:00Z", status="upcoming")],
+                now=NOW,
+            )
+            for show_state in ("Yes", "No", "")
+        ]
+        for key in ("followup_task", "followup_completed", "recap_email"):
+            self.assertEqual(results[0][key], results[1][key])
+            self.assertEqual(results[1][key], results[2][key])
+        self.assertEqual(results[2]["followup_task"], {"eligible": True, "done": True})
+        self.assertEqual(results[2]["followup_completed"], {"eligible": True, "done": False})
+        self.assertEqual(results[2]["recap_email"], {"eligible": True, "done": False})
 
     def test_next_steps_set_accepts_meeting_or_task(self):
         base = [meeting("2026-09-10T17:00:00Z")]
@@ -382,7 +419,7 @@ class AdherenceRulesTests(unittest.TestCase):
         self.assertEqual(result["followup_completed"], {"eligible": False, "done": False})
         self.assertTrue(result["recap_email"]["eligible"])
 
-    def test_closed_won_exempts_both_sales_next_step_cells_from_percentages(self):
+    def test_closed_won_exempts_all_post_call_cells_from_percentages(self):
         result = score_lead(
             booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
             closed_won=True,
@@ -394,17 +431,17 @@ class AdherenceRulesTests(unittest.TestCase):
         self.assertTrue(result["followup_task"]["exempt"])
         self.assertTrue(result["followup_completed"]["exempt"])
         aggregate = aggregate_rep_scores({OWNER: [result]})[OWNER]
-        for key in ("followup_task", "followup_completed"):
+        for key in ("followup_task", "followup_completed", "recap_email"):
             self.assertEqual(aggregate["steps"][key]["eligible"], 0)
             self.assertEqual(aggregate["steps"][key]["exempt"], 1)
             self.assertIsNone(aggregate["steps"][key]["pct"])
 
-    def test_lost_exempts_both_sales_next_step_cells(self):
+    def test_lost_exempts_all_post_call_cells(self):
         result = score_lead(
             booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
             closed_lost=True, meetings=[meeting("2026-09-10T17:00:00Z")], now=NOW,
         )
-        for key in ("followup_task", "followup_completed"):
+        for key in ("followup_task", "followup_completed", "recap_email"):
             self.assertTrue(result[key]["exempt"])
             self.assertFalse(result[key]["eligible"])
             self.assertFalse(result[key]["done"])

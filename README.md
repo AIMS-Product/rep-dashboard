@@ -96,13 +96,12 @@ unscored.
 
 For post-call next steps, a task must be explicitly assigned to the rep credited with the first call;
 unassigned and setter-assigned tasks do not qualify. A later non-canceled meeting for the lead can
-be assigned to anyone and still qualifies. Leads currently Closed / Won or Lost remain visible, with
-Next steps set and Next steps completed marked Exempt and excluded from those percentages and the
-post-call average. This is based on status at the time the local preview is generated, so a later
-status or task change appears after the preview is regenerated. A meeting marked completed cannot
-count as completed before its scheduled end. When no live meeting falls on the booked date and the
-show outcome is unknown, the earliest later live meeting is used as the call anchor. Known Yes/No
-outcomes keep the booked-date fallback when no same-day meeting exists.
+be assigned to anyone and still qualifies. Post-call eligibility does not depend on the First Call
+Show Up outcome. Closed / Won and Lost leads remain visible, with all post-call checks marked Exempt.
+This is based on status at the time the local preview is generated, so a later status or task change
+appears after the preview is regenerated. A meeting marked completed cannot count as completed
+before its scheduled end. Post-call uses the earliest live meeting on the booked date, or the
+booked-date fallback when none exists; later meetings count as next-step evidence.
 
 The local adherence drawer has expandable Completed and Missed lead lists for each step. Neutral
 leads appear in neither list. Lead names link to their Close records, and each row shows the scored

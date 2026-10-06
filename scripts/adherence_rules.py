@@ -201,7 +201,7 @@ def score_lead(
     deadline, first_meeting = first_call_deadline(
         booked_date, meetings, show_state=show_state
     )
-    exempt_next_steps = closed_won or closed_lost
+    exempt_post_call = closed_won or closed_lost
     result = {key: {"eligible": False, "done": False} for key in STEP_META}
     if not deadline:
         return result
@@ -251,14 +251,19 @@ def score_lead(
         "done": confirmation_eligible and confirmation_done,
     }
 
-    normalized_show = str(show_state or "").strip().lower()
-    outcome_known = normalized_show in {"yes", "no"}
-    shown = normalized_show == "yes"
-    anchor = deadline
-    if shown and first_meeting:
-        anchor = parse_datetime(first_meeting.get("starts_at") or first_meeting.get("activity_at")) or deadline
+    # Post-call scoring is independent of the show-up field. Use a same-day
+    # meeting when available, otherwise the booked-date fallback; later meetings
+    # are next-step evidence and must not move the anchor.
+    post_deadline, post_first_meeting = first_call_deadline(
+        booked_date, meetings, show_state="yes"
+    )
+    anchor = post_deadline or deadline
+    if post_first_meeting:
+        anchor = parse_datetime(
+            post_first_meeting.get("starts_at") or post_first_meeting.get("activity_at")
+        ) or anchor
 
-    set_eligible = outcome_known and anchor <= now
+    set_eligible = anchor <= now
     qualified_tasks = _qualifying_tasks(tasks, owner_id, anchor)
     later_meetings = []
     for meeting in meetings:
@@ -272,13 +277,12 @@ def score_lead(
         later_meetings.append(meeting)
 
     result["followup_task"] = {
-        "eligible": set_eligible and not exempt_next_steps,
-        "done": set_eligible and not exempt_next_steps and bool(qualified_tasks or later_meetings),
+        "eligible": set_eligible and not exempt_post_call,
+        "done": set_eligible and not exempt_post_call and bool(qualified_tasks or later_meetings),
     }
-    if exempt_next_steps:
+    if exempt_post_call:
         result["followup_task"]["exempt"] = True
 
-    shown_eligible = shown and anchor <= now
     qualifying_task_ids = {task.get("id") for task in qualified_tasks if task.get("id")}
     completed_task = any(
         completion.get("task_id") in qualifying_task_ids
@@ -302,14 +306,14 @@ def score_lead(
         and due <= now
         for meeting in later_meetings
     )
-    completion_eligible = shown_eligible and (
+    completion_eligible = anchor <= now and (
         completed_task or completed_meeting or task_due or meeting_due
     )
     result["followup_completed"] = {
-        "eligible": completion_eligible and not exempt_next_steps,
-        "done": completion_eligible and not exempt_next_steps and (completed_task or completed_meeting),
+        "eligible": completion_eligible and not exempt_post_call,
+        "done": completion_eligible and not exempt_post_call and (completed_task or completed_meeting),
     }
-    if exempt_next_steps:
+    if exempt_post_call:
         result["followup_completed"]["exempt"] = True
 
     window_end = anchor + timedelta(hours=24)
@@ -323,9 +327,11 @@ def score_lead(
         for message in messages
     )
     result["recap_email"] = {
-        "eligible": shown_eligible and (window_end <= now or post_call_message),
-        "done": shown_eligible and post_call_message,
+        "eligible": anchor <= now and (window_end <= now or post_call_message) and not exempt_post_call,
+        "done": anchor <= now and post_call_message and not exempt_post_call,
     }
+    if exempt_post_call:
+        result["recap_email"]["exempt"] = True
     return result
 
 

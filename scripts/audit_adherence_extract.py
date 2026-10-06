@@ -227,10 +227,12 @@ def classify(lead: dict, rep: str, booked: str, lead_owner: str | None,
         "result": ("Completed" if confirmation else "Missed") if confirmation_eligible else "Neutral",
         "support": confirmation, "basis": "Eligible at first call start when same-day meeting and current lead owner are known; non-empty owner-sent outbound SMS on that Pacific date before start counts."}
 
-    show = str(close_value(lead, "show") or "").strip().lower()
-    outcome_known, shown = show in {"yes", "no"}, show == "yes"
-    anchor = (pacific(first.get("starts_at") or first.get("activity_at")) or deadline) if shown and first else deadline
-    set_eligible = outcome_known and anchor <= now
+    # Keep post-call eligibility and its anchor independent of the show-up field.
+    # Later meetings are next-step evidence, not a reason to delay this anchor.
+    post_deadline, post_first = deadline_for(booked, meetings, "Yes")
+    anchor = (pacific(post_first.get("starts_at") or post_first.get("activity_at"))
+              or post_deadline) if post_first else post_deadline or deadline
+    set_eligible = anchor <= now
     def task_ok(task: dict) -> bool:
         due = pacific(task.get("date"), end_of_day=True)
         created_at = pacific(task.get("date_created"))
@@ -247,7 +249,7 @@ def classify(lead: dict, rep: str, booked: str, lead_owner: str | None,
     set_evidence = ([event("task", task, pacific(task.get("date"), end_of_day=True)) for task in qualifying_tasks]
                     + [event("meeting", mtg, pacific(mtg.get("starts_at") or mtg.get("activity_at"))) for mtg in later_meetings])
     result["followup_task"] = {"result": ("Completed" if set_evidence else "Missed") if set_eligible else "Neutral",
-                               "support": set_evidence, "basis": "Known first-call show outcome and anchor have passed; dated task explicitly assigned to the credited closer and actionable at/after or created after anchor, or any later non-canceled meeting, counts."}
+                               "support": set_evidence, "basis": "Scheduled first-call anchor has passed; show outcome does not gate this step. A dated task assigned to the credited closer and actionable at/after or created after anchor, or any later non-canceled meeting, counts."}
 
     task_ids = {str(t.get("id")) for t in qualifying_tasks if t.get("id")}
     done_tasks = [comp for comp in completions if str(comp.get("task_id") or "") in task_ids
@@ -258,13 +260,13 @@ def classify(lead: dict, rep: str, booked: str, lead_owner: str | None,
                      and end <= now]
     due_tasks = [task for task in qualifying_tasks if (due := pacific(task.get("date"), end_of_day=True)) and due <= now]
     elapsed_meetings = [mtg for mtg in later_meetings if (due := pacific(mtg.get("ends_at") or mtg.get("starts_at"))) and due <= now]
-    completion_eligible = shown and anchor <= now and bool(done_tasks or done_meetings or due_tasks or elapsed_meetings)
+    completion_eligible = anchor <= now and bool(done_tasks or done_meetings or due_tasks or elapsed_meetings)
     completion_evidence = [event("task_completed", comp, stamp(comp)) for comp in done_tasks]
     completion_evidence += [event("meeting", mtg, pacific(mtg.get("starts_at") or mtg.get("activity_at"))) for mtg in done_meetings]
     result["followup_completed"] = {"result": ("Completed" if completion_evidence else "Missed") if completion_eligible else "Neutral",
         "support": completion_evidence or [event("task", task, pacific(task.get("date"), end_of_day=True)) for task in due_tasks]
                     + [event("meeting", mtg, pacific(mtg.get("ends_at") or mtg.get("starts_at"))) for mtg in elapsed_meetings],
-        "basis": "Shown call only; completion is eligible after a qualifying task/meeting is completed, due, or ended. Close task completion after anchor or completed later meeting is completion evidence."}
+        "basis": "Show outcome does not gate this step; completion is eligible after a qualifying task/meeting is completed, due, or ended. Close task completion after anchor or completed later meeting is completion evidence."}
 
     window_end = anchor + timedelta(hours=24)
     messages = []
@@ -275,9 +277,9 @@ def classify(lead: dict, rep: str, booked: str, lead_owner: str | None,
                     and str(msg.get("direction") or "").lower() in OUTBOUND and sent(msg)
                     and (kind == "email" or (lead_owner and str(msg.get("user_id") or "") == lead_owner))):
                 messages.append(event(kind, msg, at))
-    recap_eligible = shown and anchor <= now and (window_end <= now or bool(messages))
+    recap_eligible = anchor <= now and (window_end <= now or bool(messages))
     result["recap_email"] = {"result": ("Completed" if messages else "Missed") if recap_eligible else "Neutral",
-                             "support": messages, "basis": "Shown call only; sent outbound email, or owner-sent SMS, from anchor through the earlier of 24 hours after anchor or extract end counts; absent message is neutral until window closes."}
+                             "support": messages, "basis": "Show outcome does not gate this step; sent outbound email, or owner-sent SMS, from anchor through the earlier of 24 hours after anchor or extract end counts; absent message is neutral until window closes."}
     status_label = str(lead.get("status_label") or "").lower()
     is_won = lead.get("status_id") == WON_STATUS_ID or "closed / won" in status_label
     is_lost = lead.get("status_id") == LOST_STATUS_ID or status_label.strip().endswith("lost")
@@ -286,9 +288,9 @@ def classify(lead: dict, rep: str, booked: str, lead_owner: str | None,
         status_record = {"kind": "lead_status", "id": lead.get("id"),
                          "at": None, "date": opportunity.get("date_won") if is_won and opportunity else None,
                          "status": lead.get("status_label"), "user_id": None}
-        basis = ("Lead is Closed/Won in the fixed Close extract; sales next-step setting and completion are exempt after a successful close."
-                 if is_won else "Lead is Lost in the fixed Close extract; sales next-step setting and completion are exempt after loss.")
-        for key in ("followup_task", "followup_completed"):
+        basis = ("Lead is Closed/Won in the fixed Close extract; all post-call checks are exempt after a successful close."
+                 if is_won else "Lead is Lost in the fixed Close extract; all post-call checks are exempt after loss.")
+        for key in ("followup_task", "followup_completed", "recap_email"):
             result[key] = {"result": "Exempt", "support": [status_record], "basis": basis}
     return result, deadline, first
 

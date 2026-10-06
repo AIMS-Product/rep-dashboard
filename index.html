@@ -1096,8 +1096,8 @@
     precall_text: 'Non-empty outbound SMS recorded at or before the first-call deadline.',
     day_of_confirmation_text: 'The current lead owner sends an SMS on the meeting’s Pacific calendar day before the meeting begins.',
     followup_task: 'A dated task assigned to the closer or a later non-canceled meeting for the lead is set; Closed/Won and Lost leads are exempt.',
-    followup_completed: 'Next-step follow-through: completed only when a qualifying task is completed after the held call or a later meeting has ended and is marked completed. It is missed only after the task due date or meeting end passes without completion; until then it stays pending. Closed/Won and Lost leads are exempt.',
-    recap_email: 'Outbound email or SMS is sent within 24 hours of the held first call.'
+    followup_completed: 'Next-step follow-through: completed only when a qualifying task is completed after the scheduled first-call anchor or a later meeting has ended and is marked completed. It is missed only after the task due date or meeting end passes without completion; until then it stays pending. Closed/Won and Lost leads are exempt.',
+    recap_email: 'Outbound email or SMS is sent within 24 hours of the scheduled first-call anchor. Show-up outcome does not affect post-call eligibility; Closed/Won and Lost leads are exempt.'
   };
 
   function escapeHtml(value) {
@@ -1176,7 +1176,7 @@
         <div><div class="drawer-score-label">${phaseLabel}</div><p class="drawer-score-note" id="drawerDescription">Equal average of the available step percentages below. Neutral steps are excluded.</p></div>
       </div>
       <div class="step-list">${cards}</div>
-      <p class="drawer-rule-note">This calculation uses first calls scheduled in the dashboard month. A no-show requires only Next steps set; the other post-call steps remain neutral. Tasks must be assigned to the closer; later meetings can be assigned to anyone. Closed/Won and Lost leads remain visible as Exempt for both next-step checks.${rep.adherence.lead_cohorts ? ' Lead lists, including exempt leads, are shown below.' : ''}</p>`;
+      <p class="drawer-rule-note">This calculation uses first calls scheduled in the dashboard month. Post-call steps do not depend on the show-up outcome. Tasks must be assigned to the closer; later meetings can be assigned to anyone. Closed/Won and Lost leads remain visible as Exempt for post-call checks.${rep.adherence.lead_cohorts ? ' Lead lists, including exempt leads, are shown below.' : ''}</p>`;
     drawer.hidden = false;
     document.body.classList.add('drawer-open');
     app.inert = true;
