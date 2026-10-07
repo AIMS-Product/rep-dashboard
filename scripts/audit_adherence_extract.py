@@ -23,7 +23,7 @@ LOST_STATUS_ID = "stat_aR2jBa8YnTNZmHAnPsnlQuinBdaXpSBCkZGP3UvoBlV"
 STEP_LABELS = {
     "loom_usage": ("Pre-call", "Pre-Call Loom"),
     "precall_text": ("Pre-call", "Pre-call text"),
-    "day_of_confirmation_text": ("Pre-call", "Day-of confirmation text"),
+    "day_of_confirmation_text": ("Pre-call", "Day-of confirmation"),
     "task_created": ("Post-call", "Task created"),
     "fu_meeting_created": ("Post-call", "FU meeting created"),
     "recap_email": ("Post-call", "Recap email sent"),
@@ -87,6 +87,13 @@ def stamp(row: dict) -> datetime | None:
 
 def live(row: dict) -> bool:
     return str(row.get("status") or "").strip().lower() not in {"deleted", "archived"}
+
+
+def _duration_seconds(row: dict) -> int:
+    try:
+        return int(row.get("duration") or 0)
+    except (TypeError, ValueError):
+        return 0
 
 
 def sent(row: dict) -> bool:
@@ -194,7 +201,9 @@ def event(kind: str, row: dict, when: datetime | None = None) -> dict:
 def classify(lead: dict, rep: str, booked: str, lead_owner: str | None,
              extract: dict, now: datetime) -> tuple[dict[str, dict], datetime | None, dict | None]:
     lid = lead["id"]
-    sms, emails, notes = (by_lead(extract, k, lid) for k in ("sms", "emails", "notes"))
+    sms, emails, notes, calls = (
+        by_lead(extract, k, lid) for k in ("sms", "emails", "notes", "calls")
+    )
     meetings = by_lead(extract, "meetings", lid)
     tasks = extract.get("tasks", {}).get(lid, [])
     show_value = str(close_value(lead, "show") or "")
@@ -222,9 +231,20 @@ def classify(lead: dict, rep: str, booked: str, lead_owner: str | None,
                     and at.date() == deadline.date() and at < deadline
                     and str(msg.get("user_id") or "") == lead_owner
                     and str(msg.get("direction") or "").lower() in OUTBOUND and sent(msg) and body(msg)]
+    confirmation.extend(
+        event("call", call, at)
+        for call in calls
+        if (at := stamp(call))
+        and at.date() == deadline.date()
+        and at < deadline
+        and str(call.get("user_id") or "") == lead_owner
+        and str(call.get("direction") or "").strip().lower() in OUTBOUND
+        and live(call)
+        and _duration_seconds(call) >= 45
+    )
     result["day_of_confirmation_text"] = {
         "result": ("Completed" if confirmation else "Missed") if confirmation_eligible else "Neutral",
-        "support": confirmation, "basis": "Eligible at first call start when same-day meeting and current lead owner are known; non-empty owner-sent outbound SMS on that Pacific date before start counts."}
+        "support": confirmation, "basis": "Eligible at first call start when same-day meeting and current lead owner are known; a non-empty owner-sent outbound SMS or owner-made outbound call lasting at least 45 seconds on that Pacific date before start counts."}
 
     # Keep post-call eligibility and its anchor independent of the show-up field.
     # Later meetings are next-step evidence, not a reason to delay this anchor.

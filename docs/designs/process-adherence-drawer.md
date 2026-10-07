@@ -8,7 +8,7 @@ Related: SteelTrap `docs/reference/process-adherence-criteria.md`
 
 Add two scan-friendly adherence percentages to every sales-rep row:
 
-- Pre-call = the equal-weight average of Pre-Call Loom, Pre-call text, and Day-of confirmation text.
+- Pre-call = the equal-weight average of Pre-Call Loom, Pre-call text, and Day-of confirmation.
 - Post-call = the equal-weight average of Task created, FU meeting created, and Recap email sent.
 
 Clicking either percentage opens a right-side drawer with the percentage, completed count, and
@@ -49,7 +49,7 @@ timed text signal for local review. The new key requires a future source mapping
 | --- | --- | --- | --- |
 | Pre-call | `loom_usage` | Pre-Call Loom | Any active Close note or email, or a Close SMS from the current Lead Owner, containing `loom.com` at or before the first-call deadline. No lower time bound or content-quality requirement. |
 | Pre-call | `precall_text` | Pre-call text | A non-empty sent outbound SMS from the current Lead Owner at or before the first-call deadline. |
-| Pre-call | `day_of_confirmation_text` | Day-of confirmation text | A non-empty sent outbound SMS whose Close `user_id` matches the lead's current Lead Owner, sent on the scored first call's Pacific calendar date before the meeting start. The same SMS may also satisfy Pre-call text. |
+| Pre-call | `day_of_confirmation_text` | Day-of confirmation | A non-empty sent outbound SMS, or an outbound call lasting at least 45 seconds, whose Close `user_id` matches the lead's current Lead Owner and which occurs on the scored first call's Pacific calendar date before the meeting start. The same SMS may also satisfy Pre-call text. |
 | Post-call | `task_created` | Task created | Once the scheduled first-call anchor has passed, a dated Close task explicitly assigned to the credited closer, whose due date is at or after the call or which was created after the call. A qualifying task counts once created, whether open or complete. Show-up outcome does not affect eligibility. |
 | Post-call | `fu_meeting_created` | FU meeting created | Once the scheduled first-call anchor has passed, a later meeting for the lead that is not canceled or declined, regardless of its assigned user or meeting outcome. Show-up outcome does not affect eligibility. |
 | Post-call | `recap_email` | Recap email sent | A sent outbound email, or a sent outbound SMS from the current Lead Owner, from the scheduled first-call anchor through 24 hours after it. A missing message stays neutral until the 24-hour window closes. Show-up outcome does not affect eligibility. |
@@ -71,12 +71,13 @@ next-step evidence and do not delay this anchor. A missing, Yes, or No show outc
 post-call scoring.
 
 For task-based next steps, the task must be explicitly assigned to the rep credited with the first call. A later meeting can be assigned to anyone and still counts, provided it is not canceled or declined. All SMS evidence used by these steps must match the lead's current Lead Owner in Close `user_id`.
-This applies to SMS used for Loom evidence, Pre-call text, day-of confirmation text, and post-call follow-up.
+This applies to SMS used for Loom evidence, Pre-call text, Day-of confirmation, and post-call follow-up. The outbound call alternative for Day-of confirmation must also match the current Lead Owner.
 Outbound text steps require a sent outbound SMS; Loom evidence only requires an active record.
-Email and note evidence keeps its existing sender rules. Day-of confirmation text is eligible once
-the meeting starts and stays neutral when the first same-day meeting or owner is missing, and before
-the meeting begins. Using the current owner means a later owner transfer can change how historical
-SMS is scored; this preview does not reconstruct ownership at the time of the meeting.
+Email and note evidence keeps its existing sender rules. Day-of confirmation becomes eligible once
+the meeting start has passed and stays neutral when the first same-day meeting or owner is missing.
+Its SMS or call evidence must be on that Pacific calendar date and before the meeting begins. Using
+the current owner means a later owner transfer can change how historical activities are scored; this
+preview does not reconstruct ownership at the time of the meeting.
 
 For sent email and SMS evidence, `date_sent` is the timestamp used when Close provides it;
 `activity_at` is the fallback. Old overdue tasks that existed before the first call do not satisfy

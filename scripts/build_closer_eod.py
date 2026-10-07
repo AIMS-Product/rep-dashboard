@@ -21,7 +21,7 @@ PACIFIC = ZoneInfo("America/Los_Angeles")
 STEP_LABELS = {
     "loom_usage": "Pre-Call Loom",
     "precall_text": "Pre-call text",
-    "day_of_confirmation_text": "Day-of confirmation text",
+    "day_of_confirmation_text": "Day-of confirmation",
     "task_created": "Task created",
     "fu_meeting_created": "FU meeting created",
     "recap_email": "Recap email sent",

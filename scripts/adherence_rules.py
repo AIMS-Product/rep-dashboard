@@ -26,7 +26,7 @@ LOOM_PATTERN = re.compile(r"(^|[^a-z])loom\.com", re.IGNORECASE)
 STEP_META = {
     "loom_usage": {"phase": "pre_call", "label": "Pre-Call Loom"},
     "precall_text": {"phase": "pre_call", "label": "Pre-call text"},
-    "day_of_confirmation_text": {"phase": "pre_call", "label": "Day-of confirmation text"},
+    "day_of_confirmation_text": {"phase": "pre_call", "label": "Day-of confirmation"},
     "task_created": {"phase": "post_call", "label": "Task created"},
     "fu_meeting_created": {"phase": "post_call", "label": "FU meeting created"},
     "recap_email": {"phase": "post_call", "label": "Recap email sent"},
@@ -91,6 +91,13 @@ def is_outbound(activity: dict[str, Any]) -> bool:
 
 def is_active_activity(activity: dict[str, Any]) -> bool:
     return str(activity.get("status") or "").strip().lower() not in {"deleted", "archived"}
+
+
+def _call_duration_seconds(call: dict[str, Any]) -> int:
+    try:
+        return int(call.get("duration") or 0)
+    except (TypeError, ValueError):
+        return 0
 
 
 def is_sent_activity(activity: dict[str, Any]) -> bool:
@@ -182,6 +189,7 @@ def score_lead(
     lead_owner_id: str | None = None,
     emails: Iterable[dict[str, Any]] = (),
     sms: Iterable[dict[str, Any]] = (),
+    calls: Iterable[dict[str, Any]] = (),
     notes: Iterable[dict[str, Any]] = (),
     meetings: Iterable[dict[str, Any]] = (),
     tasks: Iterable[dict[str, Any]] = (),
@@ -191,6 +199,7 @@ def score_lead(
     now = (now or datetime.now(PACIFIC)).astimezone(PACIFIC)
     emails = list(emails)
     sms = list(sms)
+    calls = list(calls)
     notes = list(notes)
     meetings = list(meetings)
     deadline, first_meeting = first_call_deadline(
@@ -240,6 +249,15 @@ def score_lead(
         and is_sent_activity(message)
         and bool(activity_body(message))
         for message in sms
+    ) or any(
+        (stamp := activity_time(call)) is not None
+        and stamp.date() == deadline.date()
+        and stamp < deadline
+        and str(call.get("user_id") or "") == lead_owner_id
+        and str(call.get("direction") or "").strip().lower() in OUTBOUND_DIRECTIONS
+        and is_active_activity(call)
+        and _call_duration_seconds(call) >= 45
+        for call in calls
     )
     result["day_of_confirmation_text"] = {
         "eligible": confirmation_eligible,

@@ -874,7 +874,7 @@
                 <th class="adherence-post-group" scope="colgroup" colspan="4">Post-call</th>
               </tr>
               <tr class="adherence-column-row">
-                <th scope="col">Average</th><th scope="col">Pre-Call Loom</th><th scope="col">Pre-call text</th><th scope="col">Day-of confirmation text</th>
+                <th scope="col">Average</th><th scope="col">Pre-Call Loom</th><th scope="col">Pre-call text</th><th scope="col">Day-of confirmation</th>
                 <th class="adherence-post-start" scope="col">Average</th><th scope="col">Task created</th><th scope="col">FU meeting created</th><th scope="col">Recap email sent</th>
               </tr>
             </thead>
@@ -1094,7 +1094,7 @@
   const stepHelp = {
     loom_usage: 'Loom link recorded at or before the first-call deadline.',
     precall_text: 'Non-empty outbound SMS recorded at or before the first-call deadline.',
-    day_of_confirmation_text: 'The current lead owner sends an SMS on the meeting’s Pacific calendar day before the meeting begins.',
+    day_of_confirmation_text: 'The current lead owner sends an outbound SMS with a message body or makes an outbound call lasting at least 45 seconds on the meeting’s Pacific calendar day before it begins.',
     task_created: 'A dated task assigned to the credited closer, due at or after the scheduled first-call anchor or created after it. Show-up outcome does not affect eligibility; Closed/Won and Lost leads are exempt.',
     fu_meeting_created: 'A later meeting for the lead that is not canceled or declined; it may be assigned to anyone. Show-up outcome does not affect eligibility; Closed/Won and Lost leads are exempt.',
     recap_email: 'A sent outbound email or owner-sent SMS within 24 hours of the scheduled first-call anchor. Show-up outcome does not affect eligibility; Closed/Won and Lost leads are exempt.'
@@ -1150,7 +1150,7 @@
       : ['task_created', 'fu_meeting_created', 'recap_email'];
     const cards = keys.map(key => {
       const cell = rep.adherence.steps[key] || {
-        label: key === 'day_of_confirmation_text' ? 'Day-of confirmation text' : key,
+        label: key === 'day_of_confirmation_text' ? 'Day-of confirmation' : key,
         pct: null, done: 0, eligible: 0
       };
       const displayLabel = cell.label;
