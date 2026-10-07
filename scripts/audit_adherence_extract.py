@@ -24,9 +24,9 @@ STEP_LABELS = {
     "loom_usage": ("Pre-call", "Pre-Call Loom"),
     "precall_text": ("Pre-call", "Pre-call text"),
     "day_of_confirmation_text": ("Pre-call", "Day-of confirmation text"),
-    "followup_task": ("Post-call", "Next steps set"),
-    "followup_completed": ("Post-call", "Next steps completed"),
-    "recap_email": ("Post-call", "Post-call follow-up"),
+    "task_created": ("Post-call", "Task created"),
+    "fu_meeting_created": ("Post-call", "FU meeting created"),
+    "recap_email": ("Post-call", "Recap email sent"),
 }
 EXCLUDED_STATUSES = {
     "stat_hWIGHjzyNpl4YjIFSFz3VK4fp2ny10SFJLKAihmo4KT": "canceled_by_lead",
@@ -197,7 +197,6 @@ def classify(lead: dict, rep: str, booked: str, lead_owner: str | None,
     sms, emails, notes = (by_lead(extract, k, lid) for k in ("sms", "emails", "notes"))
     meetings = by_lead(extract, "meetings", lid)
     tasks = extract.get("tasks", {}).get(lid, [])
-    completions = by_lead(extract, "task_completions", lid)
     show_value = str(close_value(lead, "show") or "")
     deadline, first = deadline_for(booked, meetings, show_value)
     result = {key: {"result": "Neutral", "support": [], "basis": ""} for key in STEP_LABELS}
@@ -246,27 +245,19 @@ def classify(lead: dict, rep: str, booked: str, lead_owner: str | None,
         starts = pacific(mtg.get("starts_at") or mtg.get("activity_at"))
         if (starts and starts > anchor and str(mtg.get("status") or "").lower() not in OMIT_MEETING_STATES):
             later_meetings.append(mtg)
-    set_evidence = ([event("task", task, pacific(task.get("date"), end_of_day=True)) for task in qualifying_tasks]
-                    + [event("meeting", mtg, pacific(mtg.get("starts_at") or mtg.get("activity_at"))) for mtg in later_meetings])
-    result["followup_task"] = {"result": ("Completed" if set_evidence else "Missed") if set_eligible else "Neutral",
-                               "support": set_evidence, "basis": "Scheduled first-call anchor has passed; show outcome does not gate this step. A dated task assigned to the credited closer and actionable at/after or created after anchor, or any later non-canceled meeting, counts."}
-
-    task_ids = {str(t.get("id")) for t in qualifying_tasks if t.get("id")}
-    done_tasks = [comp for comp in completions if str(comp.get("task_id") or "") in task_ids
-                  and (at := stamp(comp)) and at >= anchor]
-    done_meetings = [mtg for mtg in later_meetings
-                     if str(mtg.get("status") or "").lower() == "completed"
-                     and (end := pacific(mtg.get("ends_at") or mtg.get("starts_at")))
-                     and end <= now]
-    due_tasks = [task for task in qualifying_tasks if (due := pacific(task.get("date"), end_of_day=True)) and due <= now]
-    elapsed_meetings = [mtg for mtg in later_meetings if (due := pacific(mtg.get("ends_at") or mtg.get("starts_at"))) and due <= now]
-    completion_eligible = anchor <= now and bool(done_tasks or done_meetings or due_tasks or elapsed_meetings)
-    completion_evidence = [event("task_completed", comp, stamp(comp)) for comp in done_tasks]
-    completion_evidence += [event("meeting", mtg, pacific(mtg.get("starts_at") or mtg.get("activity_at"))) for mtg in done_meetings]
-    result["followup_completed"] = {"result": ("Completed" if completion_evidence else "Missed") if completion_eligible else "Neutral",
-        "support": completion_evidence or [event("task", task, pacific(task.get("date"), end_of_day=True)) for task in due_tasks]
-                    + [event("meeting", mtg, pacific(mtg.get("ends_at") or mtg.get("starts_at"))) for mtg in elapsed_meetings],
-        "basis": "Show outcome does not gate this step; completion is eligible after a qualifying task/meeting is completed, due, or ended. Close task completion after anchor or completed later meeting is completion evidence."}
+    task_evidence = [event("task", task, pacific(task.get("date"), end_of_day=True)) for task in qualifying_tasks]
+    meeting_evidence = [event("meeting", mtg, pacific(mtg.get("starts_at") or mtg.get("activity_at")))
+                        for mtg in later_meetings]
+    result["task_created"] = {
+        "result": ("Completed" if task_evidence else "Missed") if set_eligible else "Neutral",
+        "support": task_evidence,
+        "basis": "Scheduled first-call anchor has passed; show outcome does not gate this step. A dated task assigned to the credited closer and due at/after or created after the anchor counts.",
+    }
+    result["fu_meeting_created"] = {
+        "result": ("Completed" if meeting_evidence else "Missed") if set_eligible else "Neutral",
+        "support": meeting_evidence,
+        "basis": "Scheduled first-call anchor has passed; show outcome does not gate this step. Any later non-canceled or non-declined meeting for the lead counts, regardless of assignee.",
+    }
 
     window_end = anchor + timedelta(hours=24)
     messages = []
@@ -290,7 +281,7 @@ def classify(lead: dict, rep: str, booked: str, lead_owner: str | None,
                          "status": lead.get("status_label"), "user_id": None}
         basis = ("Lead is Closed/Won in the fixed Close extract; all post-call checks are exempt after a successful close."
                  if is_won else "Lead is Lost in the fixed Close extract; all post-call checks are exempt after loss.")
-        for key in ("followup_task", "followup_completed", "recap_email"):
+        for key in ("task_created", "fu_meeting_created", "recap_email"):
             result[key] = {"result": "Exempt", "support": [status_record], "basis": basis}
     return result, deadline, first
 

@@ -224,87 +224,59 @@ class AdherenceRulesTests(unittest.TestCase):
 
     def test_future_call_is_neutral(self):
         result = score_lead(
-            booked_date="2026-09-29",
-            show_state="",
-            owner_id=OWNER,
+            booked_date="2026-09-29", show_state="", owner_id=OWNER,
             lead_owner_id=OWNER,
-            meetings=[meeting("2026-09-29T17:00:00Z", status="upcoming")],
-            now=NOW,
+            meetings=[meeting("2026-09-29T17:00:00Z", status="upcoming")], now=NOW,
         )
         self.assertFalse(result["loom_usage"]["eligible"])
         self.assertFalse(result["precall_text"]["eligible"])
         self.assertFalse(result["day_of_confirmation_text"]["eligible"])
-        self.assertFalse(result["followup_task"]["eligible"])
+        self.assertFalse(result["task_created"]["eligible"])
+        self.assertFalse(result["fu_meeting_created"]["eligible"])
 
-    def test_no_show_scores_all_post_call_steps_by_the_same_rules(self):
-        result = score_lead(
-            booked_date="2026-09-10",
-            show_state="No",
-            owner_id=OWNER,
-            meetings=[meeting("2026-09-10T17:00:00Z", status="completed")],
-            tasks=[{"id": "task_1", "lead_id": "lead_1", "assigned_to": OWNER, "date": "2026-09-20"}],
-            now=NOW,
+    def test_task_and_fu_meeting_are_independent_steps(self):
+        base = dict(
+            booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
+            lead_owner_id=OWNER, meetings=[meeting("2026-09-10T17:00:00Z")], now=NOW,
         )
-        self.assertEqual(result["followup_task"], {"eligible": True, "done": True})
-        self.assertEqual(result["followup_completed"], {"eligible": True, "done": False})
-        self.assertEqual(result["recap_email"], {"eligible": True, "done": False})
+        via_task = score_lead(**base, tasks=[{
+            "id": "task_1", "lead_id": "lead_1", "assigned_to": OWNER,
+            "date": "2026-09-15",
+        }])
+        via_meeting = score_lead(
+            **{**base, "meetings": base["meetings"] + [
+                meeting("2026-09-15T17:00:00Z", status="upcoming")
+            ]}
+        )
+        self.assertEqual(via_task["task_created"], {"eligible": True, "done": True})
+        self.assertEqual(via_task["fu_meeting_created"], {"eligible": True, "done": False})
+        self.assertEqual(via_meeting["task_created"], {"eligible": True, "done": False})
+        self.assertEqual(via_meeting["fu_meeting_created"], {"eligible": True, "done": True})
 
     def test_post_call_steps_do_not_depend_on_show_outcome(self):
         kwargs = dict(
-            booked_date="2026-09-10",
-            owner_id=OWNER,
-            lead_owner_id=OWNER,
-            meetings=[meeting("2026-09-10T17:00:00Z")],
+            booked_date="2026-09-10", owner_id=OWNER, lead_owner_id=OWNER,
+            meetings=[meeting("2026-09-10T17:00:00Z"), meeting("2026-09-15T17:00:00Z")],
             tasks=[{"id": "task_1", "lead_id": "lead_1", "assigned_to": OWNER, "date": "2026-09-20"}],
-            task_completions=[{"task_id": "task_1", "activity_at": "2026-09-11T17:00:00Z"}],
             sms=[{"activity_at": "2026-09-10T18:00:00Z", "direction": "outbound", "status": "sent", "user_id": OWNER, "text": "Recap"}],
             now=NOW,
         )
-        results = [score_lead(show_state=show_state, **kwargs) for show_state in ("Yes", "No", "")]
-        for key in ("followup_task", "followup_completed", "recap_email"):
+        results = [score_lead(show_state=state, **kwargs) for state in ("Yes", "No", "")]
+        for key in ("task_created", "fu_meeting_created", "recap_email"):
             self.assertEqual(results[0][key], results[1][key])
             self.assertEqual(results[1][key], results[2][key])
-        self.assertEqual(results[2]["followup_task"], {"eligible": True, "done": True})
-        self.assertEqual(results[2]["followup_completed"], {"eligible": True, "done": True})
-        self.assertEqual(results[2]["recap_email"], {"eligible": True, "done": True})
+        for key in ("task_created", "fu_meeting_created", "recap_email"):
+            self.assertEqual(results[2][key], {"eligible": True, "done": True})
 
     def test_later_meeting_does_not_shift_post_call_anchor_by_show_outcome(self):
-        results = [
-            score_lead(
-                booked_date="2026-09-10",
-                show_state=show_state,
-                owner_id=OWNER,
-                meetings=[meeting("2026-09-12T17:00:00Z", status="upcoming")],
-                now=NOW,
-            )
-            for show_state in ("Yes", "No", "")
-        ]
-        for key in ("followup_task", "followup_completed", "recap_email"):
+        results = [score_lead(
+            booked_date="2026-09-10", show_state=state, owner_id=OWNER,
+            meetings=[meeting("2026-09-12T17:00:00Z", status="upcoming")], now=NOW,
+        ) for state in ("Yes", "No", "")]
+        for key in ("task_created", "fu_meeting_created", "recap_email"):
             self.assertEqual(results[0][key], results[1][key])
             self.assertEqual(results[1][key], results[2][key])
-        self.assertEqual(results[2]["followup_task"], {"eligible": True, "done": True})
-        self.assertEqual(results[2]["followup_completed"], {"eligible": True, "done": False})
-        self.assertEqual(results[2]["recap_email"], {"eligible": True, "done": False})
-
-    def test_next_steps_set_accepts_meeting_or_task(self):
-        base = [meeting("2026-09-10T17:00:00Z")]
-        via_meeting = score_lead(
-            booked_date="2026-09-10",
-            show_state="Yes",
-            owner_id=OWNER,
-            meetings=base + [meeting("2026-09-15T17:00:00Z", status="upcoming")],
-            now=NOW,
-        )
-        via_task = score_lead(
-            booked_date="2026-09-10",
-            show_state="Yes",
-            owner_id=OWNER,
-            meetings=base,
-            tasks=[{"id": "task_1", "lead_id": "lead_1", "assigned_to": OWNER, "date": "2026-09-15"}],
-            now=NOW,
-        )
-        self.assertTrue(via_meeting["followup_task"]["done"])
-        self.assertTrue(via_task["followup_task"]["done"])
+        self.assertEqual(results[2]["fu_meeting_created"], {"eligible": True, "done": True})
 
     def test_later_meeting_counts_regardless_of_assignee(self):
         result = score_lead(
@@ -313,138 +285,69 @@ class AdherenceRulesTests(unittest.TestCase):
                       meeting("2026-09-15T17:00:00Z", status="upcoming", user_id="another_rep")],
             now=NOW,
         )
-        self.assertTrue(result["followup_task"]["done"])
+        self.assertTrue(result["fu_meeting_created"]["done"])
 
-    def test_next_step_task_must_be_explicitly_assigned_to_credited_closer(self):
+    def test_task_must_be_explicitly_assigned_to_credited_closer(self):
         base = dict(booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
                     meetings=[meeting("2026-09-10T17:00:00Z")], now=NOW)
         for assigned_to in (None, "setter_rep", ""):
-            task = {"id": f"task_{assigned_to}", "lead_id": "lead_1",
-                    "assigned_to": assigned_to, "date": "2026-09-15"}
-            result = score_lead(**base, tasks=[task])
-            self.assertFalse(result["followup_task"]["done"], assigned_to)
+            result = score_lead(**base, tasks=[{
+                "id": f"task_{assigned_to}", "lead_id": "lead_1",
+                "assigned_to": assigned_to, "date": "2026-09-15",
+            }])
+            self.assertFalse(result["task_created"]["done"], assigned_to)
         assigned = score_lead(**base, tasks=[{
             "id": "closer_task", "lead_id": "lead_1", "assigned_to": OWNER,
             "date": "2026-09-15",
         }])
-        self.assertTrue(assigned["followup_task"]["done"])
+        self.assertTrue(assigned["task_created"]["done"])
 
-    def test_old_overdue_task_is_not_a_post_call_next_step(self):
-        result = score_lead(
-            booked_date="2026-09-10",
-            show_state="Yes",
-            owner_id=OWNER,
-            meetings=[meeting("2026-09-10T17:00:00Z")],
-            tasks=[{
-                "id": "old_task", "lead_id": "lead_1", "assigned_to": OWNER,
-                "date": "2026-09-08", "date_created": "2026-09-07T17:00:00Z",
-            }],
-            task_completions=[{"task_id": "old_task", "activity_at": "2026-09-12T17:00:00Z"}],
-            now=NOW,
-        )
-        self.assertEqual(result["followup_task"], {"eligible": True, "done": False})
-        self.assertEqual(result["followup_completed"], {"eligible": False, "done": False})
+    def test_old_overdue_task_does_not_count_but_later_task_created_does(self):
+        base = dict(booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
+                    meetings=[meeting("2026-09-10T17:00:00Z")], now=NOW)
+        old = score_lead(**base, tasks=[{
+            "id": "old", "lead_id": "lead_1", "assigned_to": OWNER,
+            "date": "2026-09-08", "date_created": "2026-09-07T17:00:00Z",
+        }])
+        new = score_lead(**base, tasks=[{
+            "id": "new", "lead_id": "lead_1", "assigned_to": OWNER,
+            "date": "2026-09-09", "date_created": "2026-09-10T18:00:00Z",
+        }])
+        self.assertEqual(old["task_created"], {"eligible": True, "done": False})
+        self.assertEqual(new["task_created"], {"eligible": True, "done": True})
 
-    def test_task_created_after_call_can_set_a_next_step(self):
-        result = score_lead(
-            booked_date="2026-09-10",
-            show_state="Yes",
-            owner_id=OWNER,
-            meetings=[meeting("2026-09-10T17:00:00Z")],
-            tasks=[{
-                "id": "new_task", "lead_id": "lead_1", "assigned_to": OWNER,
-                "date": "2026-09-09", "date_created": "2026-09-10T18:00:00Z",
-            }],
-            now=NOW,
-        )
-        self.assertTrue(result["followup_task"]["done"])
-
-    def test_next_steps_completed_accepts_showed_meeting_or_completed_task(self):
-        base = [meeting("2026-09-10T17:00:00Z")]
-        via_meeting = score_lead(
-            booked_date="2026-09-10",
-            show_state="Yes",
-            owner_id=OWNER,
-            meetings=base + [meeting("2026-09-15T17:00:00Z", status="completed")],
-            now=NOW,
-        )
-        via_task = score_lead(
-            booked_date="2026-09-10",
-            show_state="Yes",
-            owner_id=OWNER,
-            meetings=base,
-            tasks=[{"id": "task_1", "lead_id": "lead_1", "assigned_to": OWNER, "date": "2026-09-15"}],
-            task_completions=[{"task_id": "task_1", "activity_at": "2026-09-12T17:00:00Z"}],
-            now=NOW,
-        )
-        self.assertTrue(via_meeting["followup_completed"]["done"])
-        self.assertTrue(via_task["followup_completed"]["done"])
-
-    def test_future_meeting_marked_completed_cannot_complete_next_steps_early(self):
+    def test_task_created_counts_open_task_without_completion_evidence(self):
         result = score_lead(
             booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
-            meetings=[meeting("2026-09-10T17:00:00Z"),
-                      meeting("2026-09-25T17:00:00Z", status="completed")],
-            now=NOW,
-        )
-        self.assertTrue(result["followup_task"]["done"])
-        self.assertEqual(result["followup_completed"], {"eligible": False, "done": False})
-
-    def test_next_step_completion_is_neutral_until_due(self):
-        call = [meeting("2026-09-21T17:00:00Z")]
-        now = datetime(2026, 9, 21, 19, 0, tzinfo=timezone.utc)
-        upcoming = score_lead(
-            booked_date="2026-09-21", show_state="Yes", owner_id=OWNER,
-            meetings=call,
-            tasks=[{"id": "future", "lead_id": "lead_1", "assigned_to": OWNER,
-                    "date": "2026-09-25"}],
-            now=now,
-        )
-        self.assertEqual(upcoming["followup_completed"], {"eligible": False, "done": False})
-        overdue = score_lead(
-            booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
             meetings=[meeting("2026-09-10T17:00:00Z")],
-            tasks=[{"id": "overdue", "lead_id": "lead_1", "assigned_to": OWNER,
-                    "date": "2026-09-15"}],
+            tasks=[{"id": "open", "lead_id": "lead_1", "assigned_to": OWNER, "date": "2026-09-15"}],
             now=NOW,
         )
-        self.assertEqual(overdue["followup_completed"], {"eligible": True, "done": False})
+        self.assertTrue(result["task_created"]["done"])
+        self.assertFalse(result["fu_meeting_created"]["done"])
 
-    def test_no_next_step_does_not_count_as_uncompleted_next_step(self):
+    def test_no_next_steps_misses_both_task_and_meeting(self):
         result = score_lead(
             booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
             meetings=[meeting("2026-09-10T17:00:00Z")], now=NOW,
         )
-        self.assertEqual(result["followup_task"], {"eligible": True, "done": False})
-        self.assertEqual(result["followup_completed"], {"eligible": False, "done": False})
+        self.assertEqual(result["task_created"], {"eligible": True, "done": False})
+        self.assertEqual(result["fu_meeting_created"], {"eligible": True, "done": False})
         self.assertTrue(result["recap_email"]["eligible"])
 
-    def test_closed_won_exempts_all_post_call_cells_from_percentages(self):
-        result = score_lead(
-            booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
-            closed_won=True,
-            meetings=[meeting("2026-09-10T17:00:00Z"), meeting("2026-09-15T17:00:00Z")],
-            tasks=[{"id": "task", "lead_id": "lead_1", "assigned_to": OWNER, "date": "2026-09-15"}],
-            task_completions=[{"task_id": "task", "activity_at": "2026-09-12T17:00:00Z"}],
-            now=NOW,
-        )
-        self.assertTrue(result["followup_task"]["exempt"])
-        self.assertTrue(result["followup_completed"]["exempt"])
-        aggregate = aggregate_rep_scores({OWNER: [result]})[OWNER]
-        for key in ("followup_task", "followup_completed", "recap_email"):
-            self.assertEqual(aggregate["steps"][key]["eligible"], 0)
-            self.assertEqual(aggregate["steps"][key]["exempt"], 1)
-            self.assertIsNone(aggregate["steps"][key]["pct"])
-
-    def test_lost_exempts_all_post_call_cells(self):
-        result = score_lead(
-            booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
-            closed_lost=True, meetings=[meeting("2026-09-10T17:00:00Z")], now=NOW,
-        )
-        for key in ("followup_task", "followup_completed", "recap_email"):
-            self.assertTrue(result[key]["exempt"])
-            self.assertFalse(result[key]["eligible"])
-            self.assertFalse(result[key]["done"])
+    def test_terminal_statuses_exempt_all_three_post_call_steps(self):
+        for terminal in ("closed_won", "closed_lost"):
+            result = score_lead(
+                booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
+                **{terminal: True}, meetings=[meeting("2026-09-10T17:00:00Z")], now=NOW,
+            )
+            for key in ("task_created", "fu_meeting_created", "recap_email"):
+                self.assertTrue(result[key]["exempt"])
+                self.assertFalse(result[key]["eligible"])
+                self.assertFalse(result[key]["done"])
+                aggregate = aggregate_rep_scores({OWNER: [result]})[OWNER]
+                self.assertEqual(aggregate["steps"][key]["exempt"], 1)
+                self.assertEqual(aggregate["steps"][key]["pct"], None)
 
     def test_post_call_followup_accepts_email_or_sms_through_24_hours(self):
         base = [meeting("2026-09-10T17:00:00Z")]
@@ -534,22 +437,22 @@ class AdherenceRulesTests(unittest.TestCase):
     def test_phase_is_equal_average_of_step_percentages(self):
         yes = {key: {"eligible": True, "done": True} for key in (
             "loom_usage", "precall_text", "day_of_confirmation_text",
-            "followup_task", "followup_completed", "recap_email"
+            "task_created", "fu_meeting_created", "recap_email"
         )}
         no = {key: {"eligible": True, "done": False} for key in yes}
         neutral_post = {
             "loom_usage": {"eligible": True, "done": True},
             "precall_text": {"eligible": True, "done": False},
             "day_of_confirmation_text": {"eligible": True, "done": False},
-            "followup_task": {"eligible": True, "done": True},
-            "followup_completed": {"eligible": False, "done": False},
+            "task_created": {"eligible": True, "done": True},
+            "fu_meeting_created": {"eligible": False, "done": False},
             "recap_email": {"eligible": False, "done": False},
         }
         agg = aggregate_rep_scores({OWNER: [yes, no, neutral_post]})[OWNER]
         self.assertEqual(agg["steps"]["day_of_confirmation_text"]["pct"], 33)
         self.assertEqual(agg["pre_call_pct"], 44)
-        self.assertEqual(agg["steps"]["followup_task"]["pct"], 67)
-        self.assertEqual(agg["steps"]["followup_completed"]["pct"], 50)
+        self.assertEqual(agg["steps"]["task_created"]["pct"], 67)
+        self.assertEqual(agg["steps"]["fu_meeting_created"]["pct"], 50)
         self.assertEqual(agg["steps"]["recap_email"]["pct"], 50)
         self.assertEqual(agg["post_call_pct"], 56)
 

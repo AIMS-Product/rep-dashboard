@@ -62,7 +62,6 @@ def capture(month: str, output: Path, throttle: float = 0.18) -> dict:
         },
         "task_count": sum(len(rows) for rows in tasks.values()),
         "activity_kinds": list(ACTIVITY_ENDPOINTS),
-        "task_completion_endpoint": "/activity/task_completed/",
         "complete": True,
     })
     output.parent.mkdir(parents=True, exist_ok=True)

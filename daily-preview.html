@@ -832,7 +832,7 @@
   function adherenceStepValue(r, key) {
     const cell = r.adherence && r.adherence.steps && r.adherence.steps[key];
     const value = cell && cell.pct;
-    const label = key === 'followup_completed' ? 'Next-step follow-through' : cell ? cell.label : key;
+    const label = cell ? cell.label : key;
     return `<span class="adherence-step-value ${scoreTone(value)}" aria-label="${label}: ${value == null ? 'no data' : value + ' percent'}">${pctText(value)}</span>`;
   }
 
@@ -851,8 +851,8 @@
         <td>${adherenceStepValue(r, 'precall_text')}</td>
         <td>${adherenceStepValue(r, 'day_of_confirmation_text')}</td>
         <td class="adherence-average-cell adherence-post-start">${adherenceButton(r, 'post_call', sourceIndex)}</td>
-        <td>${adherenceStepValue(r, 'followup_task')}</td>
-        <td>${adherenceStepValue(r, 'followup_completed')}</td>
+        <td>${adherenceStepValue(r, 'task_created')}</td>
+        <td>${adherenceStepValue(r, 'fu_meeting_created')}</td>
         <td>${adherenceStepValue(r, 'recap_email')}</td>
       </tr>`;
     }).join('');
@@ -876,7 +876,7 @@
               </tr>
               <tr class="adherence-column-row">
                 <th scope="col">Average</th><th scope="col">Pre-Call Loom</th><th scope="col">Pre-call text</th><th scope="col">Day-of confirmation text</th>
-                <th class="adherence-post-start" scope="col">Average</th><th scope="col">Next steps set</th><th scope="col">Next-step follow-through</th><th scope="col">Post-call follow-up</th>
+                <th class="adherence-post-start" scope="col">Average</th><th scope="col">Task created</th><th scope="col">FU meeting created</th><th scope="col">Recap email sent</th>
               </tr>
             </thead>
             <tbody>${adherenceRows}</tbody>
@@ -1096,9 +1096,9 @@
     loom_usage: 'Loom link recorded at or before the first-call deadline.',
     precall_text: 'Non-empty outbound SMS recorded at or before the first-call deadline.',
     day_of_confirmation_text: 'The current lead owner sends an SMS on the meeting’s Pacific calendar day before the meeting begins.',
-    followup_task: 'A dated task assigned to the closer or a later non-canceled meeting for the lead is set; Closed/Won and Lost leads are exempt.',
-    followup_completed: 'Next-step follow-through: completed only when a qualifying task is completed after the scheduled first-call anchor or a later meeting has ended and is marked completed. It is missed only after the task due date or meeting end passes without completion; until then it stays pending. Closed/Won and Lost leads are exempt.',
-    recap_email: 'Outbound email or SMS is sent within 24 hours of the scheduled first-call anchor. Show-up outcome does not affect post-call eligibility; Closed/Won and Lost leads are exempt.'
+    task_created: 'A dated task assigned to the credited closer, due at or after the scheduled first-call anchor or created after it. Show-up outcome does not affect eligibility; Closed/Won and Lost leads are exempt.',
+    fu_meeting_created: 'A later meeting for the lead that is not canceled or declined; it may be assigned to anyone. Show-up outcome does not affect eligibility; Closed/Won and Lost leads are exempt.',
+    recap_email: 'A sent outbound email or owner-sent SMS within 24 hours of the scheduled first-call anchor. Show-up outcome does not affect eligibility; Closed/Won and Lost leads are exempt.'
   };
 
   function escapeHtml(value) {
@@ -1148,13 +1148,13 @@
     const phaseValue = rep.adherence[isPre ? 'pre_call_pct' : 'post_call_pct'];
     const keys = isPre
       ? ['loom_usage', 'precall_text', 'day_of_confirmation_text']
-      : ['followup_task', 'followup_completed', 'recap_email'];
+      : ['task_created', 'fu_meeting_created', 'recap_email'];
     const cards = keys.map(key => {
       const cell = rep.adherence.steps[key] || {
-        label: key === 'day_of_confirmation_text' ? 'Day-of confirmation text' : key === 'followup_completed' ? 'Next-step follow-through' : key,
+        label: key === 'day_of_confirmation_text' ? 'Day-of confirmation text' : key,
         pct: null, done: 0, eligible: 0
       };
-      const displayLabel = key === 'followup_completed' ? 'Next-step follow-through' : cell.label;
+      const displayLabel = cell.label;
       const pct = cell.pct;
       const cohorts = rep.adherence.lead_cohorts && rep.adherence.lead_cohorts[key];
       const leadLists = cohorts ? `<div class="step-cohorts">
@@ -1177,7 +1177,7 @@
         <div><div class="drawer-score-label">${phaseLabel}</div><p class="drawer-score-note" id="drawerDescription">Equal average of the available step percentages below. Neutral steps are excluded.</p></div>
       </div>
       <div class="step-list">${cards}</div>
-      <p class="drawer-rule-note">This calculation uses first calls scheduled in the dashboard month. Post-call steps do not depend on the show-up outcome. Tasks must be assigned to the closer; later meetings can be assigned to anyone. Closed/Won and Lost leads remain visible as Exempt for post-call checks.${rep.adherence.lead_cohorts ? ' Lead lists, including exempt leads, are shown below.' : ''}</p>`;
+      <p class="drawer-rule-note">This calculation uses first calls scheduled in the dashboard month. Post-call steps are Task created, FU meeting created, and Recap email sent; they do not depend on the show-up outcome. Tasks must be assigned to the closer; later meetings can be assigned to anyone. Closed/Won and Lost leads remain visible as Exempt for post-call checks.${rep.adherence.lead_cohorts ? ' Lead lists, including exempt leads, are shown below.' : ''}</p>`;
     drawer.hidden = false;
     document.body.classList.add('drawer-open');
     app.inert = true;

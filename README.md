@@ -94,14 +94,16 @@ confirmation text requires an outbound SMS on the meeting's Pacific date before 
 also count for Pre-call text. Missing meeting or owner evidence leaves the confirmation step
 unscored.
 
-For post-call next steps, a task must be explicitly assigned to the rep credited with the first call;
-unassigned and setter-assigned tasks do not qualify. A later non-canceled meeting for the lead can
-be assigned to anyone and still qualifies. Post-call eligibility does not depend on the First Call
-Show Up outcome. Closed / Won and Lost leads remain visible, with all post-call checks marked Exempt.
-This is based on status at the time the local preview is generated, so a later status or task change
-appears after the preview is regenerated. A meeting marked completed cannot count as completed
-before its scheduled end. Post-call uses the earliest live meeting on the booked date, or the
-booked-date fallback when none exists; later meetings count as next-step evidence.
+The post-call average is split into three separate requirements: Task created, FU meeting created,
+and Recap email sent. A qualifying task must have a date, be assigned to the rep credited with the
+first call, and be due at or after the call or created after it. A later non-canceled meeting for the
+lead can be assigned to anyone and counts regardless of its outcome. Recap email sent accepts a sent
+outbound email or a sent SMS from the current Lead Owner within 24 hours of the call. Post-call
+eligibility does not depend on the First Call Show Up outcome. Closed / Won and Lost leads remain
+visible, with all three post-call checks marked Exempt. This uses status at the time the local
+preview is generated, so a later status or task change appears after the preview is regenerated.
+Post-call uses the earliest live meeting on the booked date, or the booked-date fallback when none
+exists; later meetings count only for FU meeting created.
 
 The local adherence drawer has expandable Completed and Missed lead lists for each step. Neutral
 leads appear in neither list. Lead names link to their Close records, and each row shows the scored

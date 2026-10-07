@@ -30,6 +30,10 @@ ROOT = Path(__file__).resolve().parents[1]
 DAILY_ARCHIVE_ROOT = ROOT / "archives" / "daily"
 
 
+def daily_show_rate(booked: int, shown: int) -> float:
+    return round(shown / booked * 100, 1) if booked else 0
+
+
 def write_standalone_html(data: dict, output: Path) -> None:
     template = (ROOT / "index.html").read_text().replace(
         "<title>Sales Performance Dashboard</title>",
@@ -61,7 +65,7 @@ def serialize_preview(dashboard: dict) -> dict:
         }
         reps.append({
             key: rep[key]
-            for key in ("name", "is_manager", "exclude_meetings", "booked", "shown", "qualified")
+            for key in ("name", "is_manager", "exclude_meetings", "booked", "shown", "qualified", "show_rate")
             if key in rep
         } | {"adherence": adherence,
              "daily_metric_leads": rep.get("daily_metric_leads", {"booked": [], "shown": [], "qualified": []})})
@@ -180,6 +184,7 @@ def build(
         rep["booked"] = booked.get(rep_name, 0)
         rep["shown"] = shown.get(rep_name, 0)
         rep["qualified"] = qualified.get(rep_name, 0)
+        rep["show_rate"] = daily_show_rate(rep["booked"], rep["shown"])
         rep["daily_metric_leads"] = metric_leads.get(rep_name, {"booked": [], "shown": [], "qualified": []})
     dashboard["daily_metric_leads"] = team_metric_leads
 

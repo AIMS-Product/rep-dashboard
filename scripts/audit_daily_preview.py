@@ -84,7 +84,8 @@ def run(extract_path: Path, preview_path: Path, out_dir: Path) -> dict:
         if rep_name not in dashboard_reps or dashboard_reps[rep_name].get("exclude_meetings"):
             metric_exclusions["non_dashboard_owner"] += 1
             continue
-        item = {"id": lead_id, "name": lead.get("display_name") or lead.get("name") or "Unnamed lead", "rep": rep_name}
+        item = {"id": lead_id, "name": lead.get("display_name") or lead.get("name") or "Unnamed lead",
+                "rep": rep_name, "booked_date": day}
         expected_metric_rows["booked"].append(item)
         if str(value(lead, SHOW_FIELD, "First Call Show Up (Opp)") or "").strip().lower() == "yes":
             expected_metric_rows["shown"].append(item)
@@ -104,6 +105,17 @@ def run(extract_path: Path, preview_path: Path, out_dir: Path) -> dict:
             metric_mismatches.append({"scope": "team", "metric": metric,
                                       "missing_ids": sorted(expected_ids - actual_ids),
                                       "unexpected_ids": sorted(actual_ids - expected_ids)})
+        expected_by_id = {row["id"]: row for row in expected_rows}
+        actual_by_id = {lead_id_from_url(str(row.get("url") or "")): row
+                        for row in actual_team_lists.get(metric, [])}
+        for lead_id in sorted(expected_ids & actual_ids):
+            actual = actual_by_id.get(lead_id, {})
+            expected = expected_by_id[lead_id]
+            for field in ("name", "rep", "booked_date"):
+                if actual.get(field) != expected[field]:
+                    metric_mismatches.append({"scope": "team", "metric": metric,
+                                              "lead_id": lead_id, "field": field,
+                                              "independent": expected[field], "preview": actual.get(field)})
         for rep_name in dashboard_reps:
             expected_rep_ids = {row["id"] for row in expected_rows if row["rep"] == rep_name}
             actual_rep_lists = (dashboard_reps[rep_name].get("daily_metric_leads") or {}).get(metric, [])
@@ -113,6 +125,16 @@ def run(extract_path: Path, preview_path: Path, out_dir: Path) -> dict:
                 metric_mismatches.append({"scope": rep_name, "metric": metric,
                                           "missing_ids": sorted(expected_rep_ids - actual_rep_ids),
                                           "unexpected_ids": sorted(actual_rep_ids - expected_rep_ids)})
+            actual_by_id = {lead_id_from_url(str(row.get("url") or "")): row
+                            for row in actual_rep_lists}
+            for lead_id in sorted(expected_rep_ids & actual_rep_ids):
+                expected = next(row for row in expected_rows if row["id"] == lead_id)
+                actual = actual_by_id.get(lead_id, {})
+                for field in ("name", "rep", "booked_date"):
+                    if actual.get(field) != expected[field]:
+                        metric_mismatches.append({"scope": rep_name, "metric": metric,
+                                                  "lead_id": lead_id, "field": field,
+                                                  "independent": expected[field], "preview": actual.get(field)})
             metric_rep_summary.setdefault(rep_name, {})[metric] = {
                 "independent": len(expected_rep_ids),
                 "preview": int(dashboard_reps[rep_name].get(metric) or 0),
@@ -122,6 +144,16 @@ def run(extract_path: Path, preview_path: Path, out_dir: Path) -> dict:
                 metric_mismatches.append({"scope": rep_name, "metric": metric,
                                           "independent_count": len(expected_rep_ids),
                                           "preview_count": metric_rep_summary[rep_name][metric]["preview"]})
+    for rep_name in dashboard_reps:
+        rep_metrics = metric_rep_summary[rep_name]
+        expected_booked = rep_metrics["booked"]["independent"]
+        expected_shown = rep_metrics["shown"]["independent"]
+        expected_rate = round(expected_shown / expected_booked * 100, 1) if expected_booked else 0
+        preview_rate = dashboard_reps[rep_name].get("show_rate")
+        rep_metrics["show_rate"] = {"independent": expected_rate, "preview": preview_rate}
+        if preview_rate != expected_rate:
+            metric_mismatches.append({"scope": rep_name, "metric": "show_rate",
+                                      "independent": expected_rate, "preview": preview_rate})
     team_counts = meta.get("booked_shown_qualified", {})
     for metric in ("booked", "shown", "qualified"):
         if team_counts.get(f"team_{metric}") != expected_team_counts[metric]:
@@ -138,6 +170,11 @@ def run(extract_path: Path, preview_path: Path, out_dir: Path) -> dict:
         if team_counts.get(key) != expected_value:
             metric_mismatches.append({"scope": "team", "metric": key,
                                       "independent_count": expected_value, "preview_count": team_counts.get(key)})
+    expected_team_rate = round(expected_team_counts["shown"] / expected_team_counts["booked"] * 100, 1) if expected_team_counts["booked"] else 0
+    preview_team_rate = round((team_counts.get("team_shown") or 0) / (team_counts.get("team_booked") or 1) * 100, 1) if team_counts.get("team_booked") else 0
+    if expected_team_rate != preview_team_rate:
+        metric_mismatches.append({"scope": "team", "metric": "show_rate",
+                                  "independent": expected_team_rate, "preview": preview_team_rate})
 
     # Independently determine the scored call/credited rep and all six process outcomes.
     actual_results = {}
@@ -286,6 +323,9 @@ def run(extract_path: Path, preview_path: Path, out_dir: Path) -> dict:
         rep_adherence_summary[rep_name] = summary
 
     counts = Counter(row["independent"] for row in records)
+    outcomes_by_step = defaultdict(Counter)
+    for row in records:
+        outcomes_by_step[row["step"]][row["independent"]] += 1
     result = {
         "meta": {
             "date": day,
@@ -312,6 +352,7 @@ def run(extract_path: Path, preview_path: Path, out_dir: Path) -> dict:
         "excluded_leads": excluded,
         "booked_shown_qualified": {"expected_team_counts": expected_team_counts,
                                    "preview_team_counts": {key: team_counts.get(f"team_{key}") for key in expected_team_counts},
+                                   "team_show_rate": {"independent": expected_team_rate, "preview_from_counts": preview_team_rate},
                                    "rep_summary": metric_rep_summary},
         "adherence_mismatches": [row for row in records if not row["matches"]],
         "lead_record_mismatches": lead_record_mismatches,
@@ -336,17 +377,50 @@ def run(extract_path: Path, preview_path: Path, out_dir: Path) -> dict:
         "",
         f"Fixed Close extract: {extract['meta']['started_at']} to {extract['meta']['ended_at']} (America/Los_Angeles).",
         f"Coverage: {len(leads)} raw leads; {result['meta']['included_leads']} included; {len(excluded)} excluded; {len(records)} of {result['meta']['expected_lead_step_cells']} lead-step cells reviewed.",
-        f"Daily metric cells: {len(dashboard_reps) * 3} rep counts plus three team totals; lead-list/count mismatches: {len(metric_mismatches)}.",
+        f"Daily metric cells: {len(dashboard_reps) * 3} rep counts plus three team totals and Show Rates; lead-list/count/rate mismatches: {len(metric_mismatches)}.",
         f"Adherence differences: {adherence_mismatches} lead-step cells; {len(rep_aggregate_mismatches)} rep aggregate fields; {len(lead_record_mismatches)} lead records; {len(drawer_mismatches)} drawer cohorts; {len(adherence_meta_mismatches)} cohort metadata fields. Results: {dict(counts)}.",
         "",
         "## Booked / Shown / Qualified recalculation",
         "",
-        "| Rep | Booked | Shown | Qualified |",
-        "| --- | ---: | ---: | ---: |",
+        "| Rep | Booked | Shown | Qualified | Show Rate |",
+        "| --- | ---: | ---: | ---: | ---: |",
     ]
     for rep_name, values in metric_rep_summary.items():
-        lines.append(f"| {rep_name} | {values['booked']['independent']} | {values['shown']['independent']} | {values['qualified']['independent']} |")
-    lines.extend(["| **Team** | **{booked}** | **{shown}** | **{qualified}** |".format(**expected_team_counts), "", "## Exclusions", ""])
+        lines.append(f"| {rep_name} | {values['booked']['independent']} | {values['shown']['independent']} | {values['qualified']['independent']} | {values['show_rate']['independent']}% |")
+    lines.extend(["| **Team** | **{booked}** | **{shown}** | **{qualified}** | **{rate}%** |".format(**expected_team_counts, rate=expected_team_rate),
+                  "", f"Independent team Show Rate: {expected_team_rate}% (recalculated from shown ÷ booked).", ""])
+    def pct(value):
+        return "—" if value is None else f"{value}%"
+    lines.extend([
+        "## Process adherence by rep",
+        "",
+        "| Rep | Pre avg | Loom | Pre-call text | Day confirmation | Post avg | Task created | FU meeting created | Recap email sent |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+    ])
+    for rep_name, summary in rep_adherence_summary.items():
+        steps = summary["steps"]
+        lines.append(
+            f"| {rep_name} | {pct(summary['pre_call_pct']['independent'])} "
+            f"| {pct(steps['loom_usage']['pct']['independent'])} "
+            f"| {pct(steps['precall_text']['pct']['independent'])} "
+            f"| {pct(steps['day_of_confirmation_text']['pct']['independent'])} "
+            f"| {pct(summary['post_call_pct']['independent'])} "
+            f"| {pct(steps['task_created']['pct']['independent'])} "
+            f"| {pct(steps['fu_meeting_created']['pct']['independent'])} "
+            f"| {pct(steps['recap_email']['pct']['independent'])} |"
+        )
+    lines.extend([
+        "",
+        "## Lead-step outcome counts",
+        "",
+        "| Process step | Completed | Missed | Neutral | Exempt |",
+        "| --- | ---: | ---: | ---: | ---: |",
+    ])
+    for step, (_, label) in adherence_audit.STEP_LABELS.items():
+        values = outcomes_by_step[step]
+        lines.append(f"| {label} | {values['Completed']} | {values['Missed']} | {values['Neutral']} | {values['Exempt']} |")
+    lines.append(f"| **Total** | **{counts['Completed']}** | **{counts['Missed']}** | **{counts['Neutral']}** | **{counts['Exempt']}** |")
+    lines.extend(["", "## Exclusions", ""])
     if excluded:
         lines.extend(f"- {row['lead_name']} (`{row['lead_id']}`): {row['reason']}" for row in excluded)
     else:

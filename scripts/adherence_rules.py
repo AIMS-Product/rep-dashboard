@@ -27,9 +27,9 @@ STEP_META = {
     "loom_usage": {"phase": "pre_call", "label": "Pre-Call Loom"},
     "precall_text": {"phase": "pre_call", "label": "Pre-call text"},
     "day_of_confirmation_text": {"phase": "pre_call", "label": "Day-of confirmation text"},
-    "followup_task": {"phase": "post_call", "label": "Next steps set"},
-    "followup_completed": {"phase": "post_call", "label": "Next steps completed"},
-    "recap_email": {"phase": "post_call", "label": "Post-call follow-up"},
+    "task_created": {"phase": "post_call", "label": "Task created"},
+    "fu_meeting_created": {"phase": "post_call", "label": "FU meeting created"},
+    "recap_email": {"phase": "post_call", "label": "Recap email sent"},
 }
 
 
@@ -172,10 +172,6 @@ def _qualifying_tasks(
     ]
 
 
-def _completion_time(activity: dict[str, Any]) -> datetime | None:
-    return activity_time(activity)
-
-
 def score_lead(
     *,
     booked_date: str,
@@ -189,7 +185,6 @@ def score_lead(
     notes: Iterable[dict[str, Any]] = (),
     meetings: Iterable[dict[str, Any]] = (),
     tasks: Iterable[dict[str, Any]] = (),
-    task_completions: Iterable[dict[str, Any]] = (),
     now: datetime | None = None,
 ) -> dict[str, dict[str, bool]]:
     """Score one monthly-cohort lead against the adherence signals."""
@@ -276,45 +271,19 @@ def score_lead(
             continue
         later_meetings.append(meeting)
 
-    result["followup_task"] = {
+    result["task_created"] = {
         "eligible": set_eligible and not exempt_post_call,
-        "done": set_eligible and not exempt_post_call and bool(qualified_tasks or later_meetings),
+        "done": set_eligible and not exempt_post_call and bool(qualified_tasks),
     }
     if exempt_post_call:
-        result["followup_task"]["exempt"] = True
+        result["task_created"]["exempt"] = True
 
-    qualifying_task_ids = {task.get("id") for task in qualified_tasks if task.get("id")}
-    completed_task = any(
-        completion.get("task_id") in qualifying_task_ids
-        and (stamp := _completion_time(completion)) is not None
-        and stamp >= anchor
-        for completion in task_completions
-    )
-    completed_meeting = any(
-        str(meeting.get("status") or "").lower() == "completed"
-        and (meeting_end := parse_datetime(meeting.get("ends_at") or meeting.get("starts_at"))) is not None
-        and meeting_end <= now
-        for meeting in later_meetings
-    )
-    task_due = any(
-        (due := parse_datetime(task.get("date"), date_at_end_of_day=True)) is not None
-        and due <= now
-        for task in qualified_tasks
-    )
-    meeting_due = any(
-        (due := parse_datetime(meeting.get("ends_at") or meeting.get("starts_at"))) is not None
-        and due <= now
-        for meeting in later_meetings
-    )
-    completion_eligible = anchor <= now and (
-        completed_task or completed_meeting or task_due or meeting_due
-    )
-    result["followup_completed"] = {
-        "eligible": completion_eligible and not exempt_post_call,
-        "done": completion_eligible and not exempt_post_call and (completed_task or completed_meeting),
+    result["fu_meeting_created"] = {
+        "eligible": set_eligible and not exempt_post_call,
+        "done": set_eligible and not exempt_post_call and bool(later_meetings),
     }
     if exempt_post_call:
-        result["followup_completed"]["exempt"] = True
+        result["fu_meeting_created"]["exempt"] = True
 
     window_end = anchor + timedelta(hours=24)
     post_call_message = any(
@@ -386,8 +355,8 @@ def aggregate_rep_scores(
             ),
             "post_call_pct": round_mean(
                 [
-                    steps["followup_task"]["pct"],
-                    steps["followup_completed"]["pct"],
+                    steps["task_created"]["pct"],
+                    steps["fu_meeting_created"]["pct"],
                     steps["recap_email"]["pct"],
                 ]
             ),

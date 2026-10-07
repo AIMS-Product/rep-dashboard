@@ -43,7 +43,7 @@ class AdherencePreviewCohortTests(unittest.TestCase):
         self.assertEqual(set(lead_result["steps"].values()), {"Neutral"})
         self.assertEqual(result["adherence_meta"]["generated_at"], extract["meta"]["ended_at"])
 
-    def test_lost_lead_remains_visible_and_exempts_sales_next_step_cells(self):
+    def test_lost_lead_remains_visible_and_exempts_all_post_call_cells(self):
         lead = {
             "id": "lead_lost", "display_name": "Lost Customer", "status_id": LOST_STATUS_ID,
             "status_label": "💔 Lost",
@@ -68,9 +68,10 @@ class AdherencePreviewCohortTests(unittest.TestCase):
         )
         adherence = result["reps"][0]["adherence"]
         lead_result = adherence["lead_results"][0]
-        self.assertEqual(lead_result["steps"]["followup_task"], "Exempt")
-        self.assertEqual(lead_result["steps"]["followup_completed"], "Exempt")
-        self.assertEqual(adherence["steps"]["followup_task"]["exempt"], 1)
+        self.assertEqual(lead_result["steps"]["task_created"], "Exempt")
+        self.assertEqual(lead_result["steps"]["fu_meeting_created"], "Exempt")
+        self.assertEqual(lead_result["steps"]["recap_email"], "Exempt")
+        self.assertEqual(adherence["steps"]["task_created"]["exempt"], 1)
 
     def test_lead_lists_match_completed_missed_and_exempt_counts_without_neutral_leads(self):
         def evidence(**overrides):
@@ -147,7 +148,7 @@ class AdherencePreviewCohortTests(unittest.TestCase):
         self.assertEqual([row["name"] for row in listed], ["Private Customer"])
         self.assertEqual(listed[0]["url"], "https://app.close.com/lead/lead_private/")
         self.assertEqual(listed[0]["scored_call_at"], "2026-10-01T10:00:00-07:00")
-        self.assertEqual(preview["reps"][0]["adherence"]["lead_results"][0]["steps"]["followup_task"], "Missed")
+        self.assertEqual(preview["reps"][0]["adherence"]["lead_results"][0]["steps"]["task_created"], "Missed")
         self.assertNotIn("lead_results", production["reps"][0]["adherence"])
 
     def test_terminal_lead_statuses_are_excluded(self):
