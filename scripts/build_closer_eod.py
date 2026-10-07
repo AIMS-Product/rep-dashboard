@@ -64,10 +64,10 @@ def render_messages(dashboard: dict, day: str) -> list[tuple[str, str]]:
             name = lead.get("name") or f"Lead {index}"
             url = lead.get("url") or ""
             heading = f"<{url}|{name}>" if url else name
-            status = lead.get("status_label") or "Unknown status"
+            status = lead.get("opportunity_status_label") or "No opportunity"
             lines.extend((
                 "",
-                f"{index}. *{heading}* · `{status}`",
+                f"{index}. *{heading}* · Opp: `{status}`",
                 render_phase(lead, "Pre-call"),
                 render_phase(lead, "Post-call"),
             ))

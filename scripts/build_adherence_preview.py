@@ -251,6 +251,22 @@ def close_lead_url(lead: dict[str, Any]) -> str:
     return ""
 
 
+def opportunity_status_label(lead: dict[str, Any]) -> str:
+    """Return the latest opportunity status attached to a lead, if any."""
+    opportunities = lead.get("opportunities") or []
+    if not opportunities:
+        return "No opportunity"
+    latest = max(
+        opportunities,
+        key=lambda opportunity: (
+            str(opportunity.get("date_updated") or ""),
+            str(opportunity.get("date_created") or ""),
+            str(opportunity.get("id") or ""),
+        ),
+    )
+    return str(latest.get("status_label") or "Unknown opportunity status")
+
+
 def build_lead_cohorts(
     scored_leads: list[tuple[dict[str, Any], dict[str, dict[str, bool]]]],
     aggregate: dict[str, Any],
@@ -297,6 +313,7 @@ def build_lead_results(
             "name": lead["name"],
             "url": lead.get("url") or "",
             "status_label": lead.get("status_label") or "",
+            "opportunity_status_label": lead.get("opportunity_status_label") or "No opportunity",
             "booked_date": lead["booked_date"],
             "scored_call_at": lead.get("scored_call_at") or "",
             "attribution": lead.get("attribution"),
@@ -376,6 +393,7 @@ def add_adherence_to_dashboard(
             "name": str(lead.get("display_name") or lead.get("name") or "Unnamed lead"),
             "url": close_lead_url(lead),
             "status_label": str(lead.get("status_label") or ""),
+            "opportunity_status_label": opportunity_status_label(lead),
             "closed_won": lead.get("status_id") == WON_STATUS_ID
             or "closed / won" in str(lead.get("status_label") or "").lower(),
             "closed_lost": lead.get("status_id") == LOST_STATUS_ID
