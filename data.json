@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-07 09:18:59 PDT",
+  "updated_at": "2026-10-07 09:30:20 PDT",
   "month_label": "October 2026",
   "day_of_month": 7,
   "days_in_month": 31,
@@ -10,12 +10,12 @@
   "pct_team_quota": 5.6,
   "total_revenue": 42341.0,
   "total_deals": 6,
-  "total_booked": 121,
+  "total_booked": 120,
   "total_shown": 58,
   "total_qualified": 42,
   "team_aov": 7056.83,
   "team_close_rate": 5.0,
-  "team_show_rate": 47.9,
+  "team_show_rate": 48.3,
   "today_revenue": 0.0,
   "today_deals": 0,
   "today_closers": [],
@@ -4753,110 +4753,6 @@
       }
     },
     {
-      "name": "Shreya Bechra",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 0,
-      "shown": 0,
-      "qualified": 0,
-      "close_rate": 0,
-      "show_rate": 0,
-      "revenue_per_lead": null,
-      "aov": null,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "rep_owner_id": "user_1TKtkacQ7ZMKkcqnmCERikTYWwGltp5XUjEE9Hshple",
-      "adherence": {
-        "pre_call_pct": null,
-        "post_call_pct": null,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 0,
-            "pct": null
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 0,
-            "pct": null
-          },
-          "day_of_confirmation_text": {
-            "label": "Day-of confirmation",
-            "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 0,
-            "pct": null
-          },
-          "task_created": {
-            "label": "Task created",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 0,
-            "pct": null
-          },
-          "fu_meeting_created": {
-            "label": "FU meeting created",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 0,
-            "pct": null
-          },
-          "recap_email": {
-            "label": "Recap email sent",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 0,
-            "pct": null
-          }
-        },
-        "lead_cohorts": {
-          "loom_usage": {
-            "completed": [],
-            "missed": [],
-            "exempt": []
-          },
-          "precall_text": {
-            "completed": [],
-            "missed": [],
-            "exempt": []
-          },
-          "day_of_confirmation_text": {
-            "completed": [],
-            "missed": [],
-            "exempt": []
-          },
-          "task_created": {
-            "completed": [],
-            "missed": [],
-            "exempt": []
-          },
-          "fu_meeting_created": {
-            "completed": [],
-            "missed": [],
-            "exempt": []
-          },
-          "recap_email": {
-            "completed": [],
-            "missed": [],
-            "exempt": []
-          }
-        }
-      }
-    },
-    {
       "name": "Ariella Irvine",
       "revenue": 0,
       "deals": 0,
@@ -6035,12 +5931,116 @@
           }
         }
       }
+    },
+    {
+      "name": "Shreya Bechra",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 100000,
+      "pct_to_quota": 0.0,
+      "booked": 0,
+      "shown": 0,
+      "qualified": 0,
+      "close_rate": 0,
+      "show_rate": 0,
+      "revenue_per_lead": null,
+      "aov": null,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "rep_owner_id": "user_1TKtkacQ7ZMKkcqnmCERikTYWwGltp5XUjEE9Hshple",
+      "adherence": {
+        "pre_call_pct": null,
+        "post_call_pct": null,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "day_of_confirmation_text": {
+            "label": "Day-of confirmation",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "task_created": {
+            "label": "Task created",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "fu_meeting_created": {
+            "label": "FU meeting created",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "recap_email": {
+            "label": "Recap email sent",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          }
+        },
+        "lead_cohorts": {
+          "loom_usage": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "precall_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "day_of_confirmation_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "task_created": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "fu_meeting_created": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "recap_email": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          }
+        }
+      }
     }
   ],
   "adherence_meta": {
     "schema_version": 6,
     "source": "close_crm",
-    "generated_at": "2026-10-07T09:19:54.953501-07:00",
+    "generated_at": "2026-10-07T09:31:38.098356-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
@@ -6048,18 +6048,19 @@
     },
     "cohort": {
       "raw": 175,
-      "included": 154,
-      "excluded": 21,
+      "included": 153,
+      "excluded": 22,
       "exclusion_counts": {
         "canceled_by_lead": 19,
+        "not_visible_rep": 1,
         "meeting_rep_not_visible": 2
       },
       "attribution_counts": {
-        "meeting_rep": 154
+        "meeting_rep": 153
       },
       "includes_lost": true
     },
-    "api_requests": 210,
+    "api_requests": 209,
     "preview_only": false
   }
 }
