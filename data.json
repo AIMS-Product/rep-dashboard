@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09 12:31:59 PDT",
+  "updated_at": "2026-10-09 13:35:51 PDT",
   "month_label": "October 2026",
   "day_of_month": 9,
   "days_in_month": 31,
@@ -10,12 +10,12 @@
   "pct_team_quota": 14.5,
   "total_revenue": 108920.0,
   "total_deals": 13,
-  "total_booked": 167,
-  "total_shown": 97,
-  "total_qualified": 71,
+  "total_booked": 188,
+  "total_shown": 105,
+  "total_qualified": 74,
   "team_aov": 8378.46,
-  "team_close_rate": 7.8,
-  "team_show_rate": 58.1,
+  "team_close_rate": 6.9,
+  "team_show_rate": 55.9,
   "today_revenue": 19344.0,
   "today_deals": 2,
   "today_closers": [
@@ -37,12 +37,12 @@
       "deals": 3,
       "quota": 100000,
       "pct_to_quota": 26.2,
-      "booked": 22,
-      "shown": 14,
+      "booked": 26,
+      "shown": 15,
       "qualified": 14,
-      "close_rate": 13.6,
-      "show_rate": 63.6,
-      "revenue_per_lead": 1192.77,
+      "close_rate": 11.5,
+      "show_rate": 57.7,
+      "revenue_per_lead": 1009.27,
       "aov": 8747.0,
       "is_manager": false,
       "is_lead": false,
@@ -50,7 +50,7 @@
       "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
       "adherence": {
         "pre_call_pct": 85,
-        "post_call_pct": 72,
+        "post_call_pct": 74,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -87,10 +87,10 @@
           "fu_meeting_created": {
             "label": "FU meeting created",
             "phase": "post_call",
-            "done": 5,
+            "done": 6,
             "eligible": 13,
             "exempt": 9,
-            "pct": 38
+            "pct": 46
           },
           "recap_email": {
             "label": "Recap email sent",
@@ -870,6 +870,14 @@
                 "status_label": "Reschedule Requested"
               },
               {
+                "id": "lead_cHDZEkq5F6V2IUIgyrcDSytr5Q1oKwHDQE24L4uiiUH",
+                "name": "Elliott Jensen",
+                "booked_date": "2026-10-07",
+                "scored_call_at": "2026-10-07T11:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_cHDZEkq5F6V2IUIgyrcDSytr5Q1oKwHDQE24L4uiiUH/",
+                "status_label": "WARM - Follow up"
+              },
+              {
                 "id": "lead_Beo5u27xfF6ZQacPuXc7kSnm8Lsc4quT7KqABjRyxsz",
                 "name": "Pepe Cabeza de Vacs",
                 "booked_date": "2026-10-08",
@@ -909,14 +917,6 @@
                 "booked_date": "2026-10-06",
                 "scored_call_at": "2026-10-06T09:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_4o55I45OHGLhZpp0ZDJ96BVt8DdEag5LVjp09gez2lm/",
-                "status_label": "WARM - Follow up"
-              },
-              {
-                "id": "lead_cHDZEkq5F6V2IUIgyrcDSytr5Q1oKwHDQE24L4uiiUH",
-                "name": "Elliott Jensen",
-                "booked_date": "2026-10-07",
-                "scored_call_at": "2026-10-07T11:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_cHDZEkq5F6V2IUIgyrcDSytr5Q1oKwHDQE24L4uiiUH/",
                 "status_label": "WARM - Follow up"
               },
               {
@@ -1211,12 +1211,12 @@
       "deals": 3,
       "quota": 100000,
       "pct_to_quota": 24.1,
-      "booked": 39,
-      "shown": 16,
+      "booked": 42,
+      "shown": 17,
       "qualified": 14,
-      "close_rate": 7.7,
-      "show_rate": 41.0,
-      "revenue_per_lead": 619.0,
+      "close_rate": 7.1,
+      "show_rate": 40.5,
+      "revenue_per_lead": 574.79,
       "aov": 8047.0,
       "is_manager": false,
       "is_lead": false,
@@ -5141,12 +5141,12 @@
       "deals": 1,
       "quota": 100000,
       "pct_to_quota": 9.0,
-      "booked": 33,
-      "shown": 17,
-      "qualified": 11,
-      "close_rate": 3.0,
-      "show_rate": 51.5,
-      "revenue_per_lead": 272.73,
+      "booked": 43,
+      "shown": 19,
+      "qualified": 12,
+      "close_rate": 2.3,
+      "show_rate": 44.2,
+      "revenue_per_lead": 209.3,
       "aov": 9000.0,
       "is_manager": false,
       "is_lead": false,
@@ -5159,42 +5159,42 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 25,
-            "eligible": 37,
+            "done": 26,
+            "eligible": 38,
             "exempt": 0,
             "pct": 68
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 27,
-            "eligible": 37,
+            "done": 28,
+            "eligible": 38,
             "exempt": 0,
-            "pct": 73
+            "pct": 74
           },
           "day_of_confirmation_text": {
             "label": "Day-of confirmation",
             "phase": "pre_call",
-            "done": 23,
-            "eligible": 37,
+            "done": 24,
+            "eligible": 38,
             "exempt": 0,
-            "pct": 62
+            "pct": 63
           },
           "task_created": {
             "label": "Task created",
             "phase": "post_call",
             "done": 6,
-            "eligible": 32,
+            "eligible": 33,
             "exempt": 5,
-            "pct": 19
+            "pct": 18
           },
           "fu_meeting_created": {
             "label": "FU meeting created",
             "phase": "post_call",
             "done": 4,
-            "eligible": 32,
+            "eligible": 33,
             "exempt": 5,
-            "pct": 13
+            "pct": 12
           },
           "recap_email": {
             "label": "Recap email sent",
@@ -5401,6 +5401,14 @@
                 "status_label": "\ud83d\udc7b No Show"
               },
               {
+                "id": "lead_MwibQTu0Lj3wLYuGmKuXVN3UBkP08Q9aBWuvfNPzYji",
+                "name": "Darrow Palast",
+                "booked_date": "2026-10-09",
+                "scored_call_at": "2026-10-09T13:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_MwibQTu0Lj3wLYuGmKuXVN3UBkP08Q9aBWuvfNPzYji/",
+                "status_label": "\u260e\ufe0f Call Booked"
+              },
+              {
                 "id": "lead_K01ghA0YTPRUKH8NU8Q0d7Mr4pK7ATNoSCWBIh21Ce7",
                 "name": "Lamesia Simmons",
                 "booked_date": "2026-10-09",
@@ -5712,6 +5720,14 @@
                 "status_label": "\ud83d\udc7b No Show"
               },
               {
+                "id": "lead_MwibQTu0Lj3wLYuGmKuXVN3UBkP08Q9aBWuvfNPzYji",
+                "name": "Darrow Palast",
+                "booked_date": "2026-10-09",
+                "scored_call_at": "2026-10-09T13:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_MwibQTu0Lj3wLYuGmKuXVN3UBkP08Q9aBWuvfNPzYji/",
+                "status_label": "\u260e\ufe0f Call Booked"
+              },
+              {
                 "id": "lead_K01ghA0YTPRUKH8NU8Q0d7Mr4pK7ATNoSCWBIh21Ce7",
                 "name": "Lamesia Simmons",
                 "booked_date": "2026-10-09",
@@ -5981,6 +5997,14 @@
                 "scored_call_at": "2026-10-08T14:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_Bxqz2KGpO8Ss3hfwo261sn3WXfpPUOjqdS1AKpJbgSy/",
                 "status_label": "\ud83d\udc7b No Show"
+              },
+              {
+                "id": "lead_MwibQTu0Lj3wLYuGmKuXVN3UBkP08Q9aBWuvfNPzYji",
+                "name": "Darrow Palast",
+                "booked_date": "2026-10-09",
+                "scored_call_at": "2026-10-09T13:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_MwibQTu0Lj3wLYuGmKuXVN3UBkP08Q9aBWuvfNPzYji/",
+                "status_label": "\u260e\ufe0f Call Booked"
               },
               {
                 "id": "lead_K01ghA0YTPRUKH8NU8Q0d7Mr4pK7ATNoSCWBIh21Ce7",
@@ -6374,6 +6398,14 @@
                 "scored_call_at": "2026-10-07T12:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_oVWARVq8FWgWxdgGJoCZoSVznp5gGRes0CUxqN4KdbQ/",
                 "status_label": "WARM - Follow up"
+              },
+              {
+                "id": "lead_MwibQTu0Lj3wLYuGmKuXVN3UBkP08Q9aBWuvfNPzYji",
+                "name": "Darrow Palast",
+                "booked_date": "2026-10-09",
+                "scored_call_at": "2026-10-09T13:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_MwibQTu0Lj3wLYuGmKuXVN3UBkP08Q9aBWuvfNPzYji/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "exempt": [
@@ -6670,6 +6702,14 @@
                 "scored_call_at": "2026-10-08T14:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_Bxqz2KGpO8Ss3hfwo261sn3WXfpPUOjqdS1AKpJbgSy/",
                 "status_label": "\ud83d\udc7b No Show"
+              },
+              {
+                "id": "lead_MwibQTu0Lj3wLYuGmKuXVN3UBkP08Q9aBWuvfNPzYji",
+                "name": "Darrow Palast",
+                "booked_date": "2026-10-09",
+                "scored_call_at": "2026-10-09T13:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_MwibQTu0Lj3wLYuGmKuXVN3UBkP08Q9aBWuvfNPzYji/",
+                "status_label": "\u260e\ufe0f Call Booked"
               },
               {
                 "id": "lead_K01ghA0YTPRUKH8NU8Q0d7Mr4pK7ATNoSCWBIh21Ce7",
@@ -7049,29 +7089,29 @@
       "rep_owner_id": "user_F0VeLnOQlWpkDncNW8rBl1V2QJ08fnDt6DcUjNATUJK",
       "adherence": {
         "pre_call_pct": 98,
-        "post_call_pct": 64,
+        "post_call_pct": 61,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 17,
-            "eligible": 17,
+            "done": 18,
+            "eligible": 18,
             "exempt": 0,
             "pct": 100
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 16,
-            "eligible": 17,
+            "done": 17,
+            "eligible": 18,
             "exempt": 0,
             "pct": 94
           },
           "day_of_confirmation_text": {
             "label": "Day-of confirmation",
             "phase": "pre_call",
-            "done": 16,
-            "eligible": 16,
+            "done": 17,
+            "eligible": 17,
             "exempt": 0,
             "pct": 100
           },
@@ -7079,23 +7119,23 @@
             "label": "Task created",
             "phase": "post_call",
             "done": 8,
-            "eligible": 11,
+            "eligible": 12,
             "exempt": 6,
-            "pct": 73
+            "pct": 67
           },
           "fu_meeting_created": {
             "label": "FU meeting created",
             "phase": "post_call",
             "done": 2,
-            "eligible": 11,
+            "eligible": 12,
             "exempt": 6,
-            "pct": 18
+            "pct": 17
           },
           "recap_email": {
             "label": "Recap email sent",
             "phase": "post_call",
-            "done": 11,
-            "eligible": 11,
+            "done": 12,
+            "eligible": 12,
             "exempt": 6,
             "pct": 100
           }
@@ -7238,6 +7278,14 @@
                 "scored_call_at": "2026-10-09T09:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_7mZQopHW79fWAMMiq570UhLrKVGES3359aF2T61dpo4/",
                 "status_label": "\ud83d\udc94 Lost"
+              },
+              {
+                "id": "lead_HPHdqLXtMg0XhA84uCQ3qa67J11eTh3D2O2D5sg5Dnu",
+                "name": "Melissa Stephenson McKenzie",
+                "booked_date": "2026-10-09",
+                "scored_call_at": "2026-10-09T13:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_HPHdqLXtMg0XhA84uCQ3qa67J11eTh3D2O2D5sg5Dnu/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [],
@@ -7372,6 +7420,14 @@
                 "scored_call_at": "2026-10-09T09:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_7mZQopHW79fWAMMiq570UhLrKVGES3359aF2T61dpo4/",
                 "status_label": "\ud83d\udc94 Lost"
+              },
+              {
+                "id": "lead_HPHdqLXtMg0XhA84uCQ3qa67J11eTh3D2O2D5sg5Dnu",
+                "name": "Melissa Stephenson McKenzie",
+                "booked_date": "2026-10-09",
+                "scored_call_at": "2026-10-09T13:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_HPHdqLXtMg0XhA84uCQ3qa67J11eTh3D2O2D5sg5Dnu/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [
@@ -7515,6 +7571,14 @@
                 "scored_call_at": "2026-10-09T09:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_7mZQopHW79fWAMMiq570UhLrKVGES3359aF2T61dpo4/",
                 "status_label": "\ud83d\udc94 Lost"
+              },
+              {
+                "id": "lead_HPHdqLXtMg0XhA84uCQ3qa67J11eTh3D2O2D5sg5Dnu",
+                "name": "Melissa Stephenson McKenzie",
+                "booked_date": "2026-10-09",
+                "scored_call_at": "2026-10-09T13:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_HPHdqLXtMg0XhA84uCQ3qa67J11eTh3D2O2D5sg5Dnu/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [],
@@ -7611,6 +7675,14 @@
                 "scored_call_at": "2026-10-08T10:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_1PuybawPcMM8SQbPM4tfRZRtuv0OWAgFgwMytXN3mQq/",
                 "status_label": "\ud83d\udc7b No Show"
+              },
+              {
+                "id": "lead_HPHdqLXtMg0XhA84uCQ3qa67J11eTh3D2O2D5sg5Dnu",
+                "name": "Melissa Stephenson McKenzie",
+                "booked_date": "2026-10-09",
+                "scored_call_at": "2026-10-09T13:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_HPHdqLXtMg0XhA84uCQ3qa67J11eTh3D2O2D5sg5Dnu/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "exempt": [
@@ -7755,6 +7827,14 @@
                 "scored_call_at": "2026-10-08T13:15:00-07:00",
                 "url": "https://app.close.com/lead/lead_lrGNcQwoQGYE7Nk6fM1eHcO2R7dkmqclsBZBAWSOL40/",
                 "status_label": "WARM - Follow up"
+              },
+              {
+                "id": "lead_HPHdqLXtMg0XhA84uCQ3qa67J11eTh3D2O2D5sg5Dnu",
+                "name": "Melissa Stephenson McKenzie",
+                "booked_date": "2026-10-09",
+                "scored_call_at": "2026-10-09T13:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_HPHdqLXtMg0XhA84uCQ3qa67J11eTh3D2O2D5sg5Dnu/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "exempt": [
@@ -7897,6 +7977,14 @@
                 "scored_call_at": "2026-10-08T13:15:00-07:00",
                 "url": "https://app.close.com/lead/lead_lrGNcQwoQGYE7Nk6fM1eHcO2R7dkmqclsBZBAWSOL40/",
                 "status_label": "WARM - Follow up"
+              },
+              {
+                "id": "lead_HPHdqLXtMg0XhA84uCQ3qa67J11eTh3D2O2D5sg5Dnu",
+                "name": "Melissa Stephenson McKenzie",
+                "booked_date": "2026-10-09",
+                "scored_call_at": "2026-10-09T13:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_HPHdqLXtMg0XhA84uCQ3qa67J11eTh3D2O2D5sg5Dnu/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [],
@@ -7960,12 +8048,12 @@
       "deals": 2,
       "quota": 0,
       "pct_to_quota": 0,
-      "booked": 2,
-      "shown": 2,
+      "booked": 11,
+      "shown": 3,
       "qualified": 1,
-      "close_rate": 100.0,
-      "show_rate": 100.0,
-      "revenue_per_lead": 4100.0,
+      "close_rate": 18.2,
+      "show_rate": 27.3,
+      "revenue_per_lead": 745.45,
       "aov": 4100.0,
       "is_manager": true,
       "is_lead": false,
@@ -8064,12 +8152,12 @@
       "deals": 1,
       "quota": 100000,
       "pct_to_quota": 6.0,
-      "booked": 19,
-      "shown": 11,
-      "qualified": 9,
-      "close_rate": 5.3,
-      "show_rate": 57.9,
-      "revenue_per_lead": 315.63,
+      "booked": 26,
+      "shown": 12,
+      "qualified": 10,
+      "close_rate": 3.8,
+      "show_rate": 46.2,
+      "revenue_per_lead": 230.65,
       "aov": 5997.0,
       "is_manager": false,
       "is_lead": false,
@@ -9043,11 +9131,11 @@
       "deals": 0,
       "quota": 100000,
       "pct_to_quota": 0.0,
-      "booked": 23,
-      "shown": 10,
-      "qualified": 8,
+      "booked": 29,
+      "shown": 13,
+      "qualified": 10,
       "close_rate": 0.0,
-      "show_rate": 43.5,
+      "show_rate": 44.8,
       "revenue_per_lead": 0.0,
       "aov": null,
       "is_manager": false,
@@ -10839,7 +10927,7 @@
   "adherence_meta": {
     "schema_version": 6,
     "source": "close_crm",
-    "generated_at": "2026-10-09T12:35:55.065287-07:00",
+    "generated_at": "2026-10-09T13:39:38.617199-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
@@ -10859,7 +10947,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 654,
+    "api_requests": 609,
     "preview_only": false
   }
 }
