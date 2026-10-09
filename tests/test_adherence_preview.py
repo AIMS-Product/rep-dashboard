@@ -1,7 +1,8 @@
+import hashlib
 import sys
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
@@ -12,11 +13,154 @@ from build_adherence_preview import (  # noqa: E402
     add_adherence_to_dashboard,
     build_lead_cohorts,
     close_lead_url,
+    fetch_cohort,
+    fetch_process_cohort,
+    fetch_qualifying_process_cohort,
+    has_active_first_meeting,
+    process_candidate_date,
     scoring_rep_for_meeting,
+    LATEST_BOOKED_DATE_FIELD,
 )
+from qualifying_meeting_rules import SOURCE_SHA256, latest_qualifying_dates_in_period  # noqa: E402
 
 
 class AdherencePreviewCohortTests(unittest.TestCase):
+    def test_activity_dates_keep_intended_next_steps_exceptions(self):
+        meetings = [
+            {"id": "scraper", "lead_id": "lead_scraper",
+             "title": "Vendingpreneurs Momentum - Next Steps with Pat",
+             "starts_at": "2026-10-08T00:30:00Z", "status": "completed"},
+            {"id": "vendhub", "lead_id": "lead_vendhub", "title": "VendHub Next Steps Call",
+             "starts_at": "2026-10-07T17:00:00Z", "status": "upcoming"},
+            {"id": "ordinary", "lead_id": "lead_followup", "title": "Vendingpreneur Follow-up",
+             "starts_at": "2026-10-07T17:00:00Z", "status": "completed"},
+            {"id": "rescheduled", "lead_id": "lead_reschedule",
+             "title": "Vendingpreneurs Consultation - Rescheduled",
+             "starts_at": "2026-10-07T17:00:00Z", "status": "upcoming"},
+            {"id": "declined", "lead_id": "lead_declined", "title": "Vendingpreneurs Consultation",
+             "starts_at": "2026-10-07T17:00:00Z", "status": "declined-by-org"},
+        ]
+        self.assertEqual(latest_qualifying_dates_in_period(meetings, "2026-10-07", "2026-10-07"), {
+            "lead_scraper": "2026-10-07", "lead_vendhub": "2026-10-07",
+        })
+
+    def test_pinned_classifier_matches_updater_source_in_workspace(self):
+        source = Path(__file__).resolve().parents[2] / "close-first-sales-meeting" / "update_field.py"
+        if source.exists():
+            self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), SOURCE_SHA256)
+
+    def test_monthly_activity_cohort_uses_latest_qualifying_date_inside_month(self):
+        first = "custom.cf_LFdYEQ6bsgp49YjZzefypDmdVx8iwuakWDSLPLpVrBq"
+        latest = f"custom.{LATEST_BOOKED_DATE_FIELD[0]}"
+        middle = {"id": "lead_middle", first: "2026-09-01", latest: "2026-11-02"}
+        unpopulated = {"id": "lead_unpopulated"}
+        meetings = [
+            {"id": "a", "lead_id": "lead_middle", "title": "Vendingpreneurs Consultation",
+             "starts_at": "2026-10-07T17:00:00Z", "status": "completed"},
+            {"id": "b", "lead_id": "lead_middle", "title": "Vendingpreneurs Consultation",
+             "starts_at": "2026-10-09T17:00:00Z", "status": "upcoming"},
+            {"id": "c", "lead_id": "lead_middle", "title": "Vendingpreneurs Consultation",
+             "starts_at": "2026-10-12T17:00:00Z", "status": "declined-by-org"},
+            {"id": "d", "lead_id": "lead_middle", "title": "Vendingpreneur Follow-up",
+             "starts_at": "2026-10-14T17:00:00Z", "status": "upcoming"},
+            {"id": "e", "lead_id": "lead_unpopulated",
+             "title": "Vendingpreneurs Summit - Next Steps with Pat",
+             "starts_at": "2026-10-08T17:00:00Z", "status": "completed"},
+        ]
+        client = Mock()
+        client.paginate.side_effect = [iter(meetings), iter([]), iter([])]
+        client.get.side_effect = lambda endpoint: {
+            "/lead/lead_middle/": middle, "/lead/lead_unpopulated/": unpopulated,
+        }[endpoint]
+        selected = fetch_qualifying_process_cohort(client, "2026-10-01", "2026-10-31")
+        self.assertEqual(selected, [middle | {"_process_candidate_date": "2026-10-09"}])
+        self.assertEqual(process_candidate_date(selected[0], "2026-10-01", "2026-10-31"),
+                         ("2026-10-09", "meeting_activity"))
+
+    def test_process_query_unions_first_and_latest_without_duplicate_leads(self):
+        first = {"id": "lead_katina"}
+        both = {"id": "lead_both"}
+        latest = {"id": "lead_vyomesh"}
+        client = Mock()
+        client.paginate.side_effect = [iter([first, both]), iter([both, latest])]
+        self.assertEqual(fetch_process_cohort(client, "2026-10-07", "2026-10-07"),
+                         [first, both, latest])
+        queries = [call.args[1]["query"] for call in client.paginate.call_args_list]
+        self.assertIn("First Sales Call Booked Date", queries[0])
+        self.assertIn("Latest Sales Call Booked Date", queries[1])
+
+    def test_first_date_fallback_keeps_joe_but_rejects_declined_activity(self):
+        first = "cf_LFdYEQ6bsgp49YjZzefypDmdVx8iwuakWDSLPLpVrBq"
+        latest = LATEST_BOOKED_DATE_FIELD[0]
+        katina = {f"custom.{first}": "2026-10-07", f"custom.{latest}": "2026-12-07"}
+        maria = {f"custom.{first}": "2026-10-07", f"custom.{latest}": "2026-10-12"}
+        self.assertEqual(process_candidate_date(katina, "2026-10-07", "2026-10-07"),
+                         ("2026-10-07", "first_fallback"))
+        self.assertEqual(process_candidate_date(maria, "2026-10-07", "2026-10-07"),
+                         ("2026-10-07", "first_fallback"))
+        middle = {f"custom.{first}": "2026-10-01", f"custom.{latest}": "2026-10-12",
+                  "_process_candidate_date": "2026-10-07"}
+        self.assertEqual(process_candidate_date(middle, "2026-10-07", "2026-10-07"),
+                         ("2026-10-07", "meeting_activity"))
+        self.assertTrue(has_active_first_meeting([
+            {"starts_at": "2026-10-07T17:30:00Z", "status": "completed"},
+        ], "2026-10-07"))
+        self.assertFalse(has_active_first_meeting([
+            {"starts_at": "2026-10-07T11:30:00Z", "status": "declined-by-org"},
+        ], "2026-10-07"))
+
+    def test_monthly_process_query_uses_latest_date(self):
+        client = Mock()
+        client.paginate.return_value = iter([])
+        self.assertEqual(fetch_cohort(
+            client, 2026, 10, field_name=LATEST_BOOKED_DATE_FIELD[1],
+        ), [])
+        client.paginate.assert_called_once_with("/lead/", {
+            "query": '"Latest Sales Call Booked Date" >= "2026-10-01" '
+                     '"Latest Sales Call Booked Date" <= "2026-10-31"',
+        })
+
+    def test_scott_october_seventh_latest_process_cohort_uses_rebooked_dates(self):
+        first_id = "cf_LFdYEQ6bsgp49YjZzefypDmdVx8iwuakWDSLPLpVrBq"
+        latest_id = "cf_2PQJIcagevN5HvUHfmWGWR22pCvzLZk6tJPTicDvuS3"
+        owner_id = "cf_gOfS9pFwext58oberEegLyix8hZzeHrxhCZOVh3P3rd"
+        # These titles, timestamps, and activity statuses are from Scott's Close meetings.
+        cases = [
+            ("Milton Hunt", "lead_TWEOH11AgRpxBqVYFjCyHLlcICTf2Q5CQqHDDF8Jgfi", "2026-10-07", "2026-10-07T16:00:00Z", "Milton Hunt and Vendingprenuers Consultation", "stat_hWIGHjzyNpl4YjIFSFz3VK4fp2ny10SFJLKAihmo4KT"),
+            ("Joshua Hernandez", "lead_RozBCmk1dy84idSw4wcralSl9OudIXMIvSJn1PNmTVr", "2026-10-07", "2026-10-07T18:00:00Z", "Joshua Hernandez and Vendingprenuers Consultation", "active"),
+            ("Alisa Boronda", "lead_3myJq3tbid3IUhnwswYzRZHwv81q3uP6tugK9Rf6QVs", "2026-10-07", "2026-10-07T20:00:00Z", "Alisa Boronda and Vendingprenuers Consultation", "active"),
+            ("Vyomesh Mistry", "lead_p8FVwdW3af21WyetiK5gs96J94EmQjgTrrQCTAhnhNE", "2026-10-01", "2026-10-07T21:00:00Z", "Vending Consult Call with Vyomesh and Scott Seymour", "active"),
+            ("Sheri Lindemann", "lead_8K0sP11r3ocvyyeqpNl3yyBCyimVXsBUq0MKdkBkBtt", "2026-10-07", "2026-10-07T22:00:00Z", "Sheri Lindemann and Vendingprenuers Consultation", "active"),
+            ("Lemuel", "lead_YSVxXIjqoRkQX9kI8GdwClbH7Fz6bXaWMKgLvbxfqi0", "2026-04-15", "2026-10-07T22:45:00Z", "Vending Discovery Call - Next Steps with lemuel and Scott Seymour", "active"),
+        ]
+        leads = [{"id": lead_id, "display_name": name, "status_id": status,
+                  f"custom.{first_id}": first_date, f"custom.{latest_id}": "2026-10-07",
+                  f"custom.{owner_id}": "user_scott"}
+                 for name, lead_id, first_date, _, _, status in cases]
+        meetings = {lead_id: [{"lead_id": lead_id, "starts_at": starts_at,
+                               "title": title, "status": "completed", "user_id": "user_scott"}]
+                    for _, lead_id, _, starts_at, title, _ in cases}
+        extract = {
+            "meta": {"month": "2026-10", "complete": True,
+                     "started_at": "2026-10-08T09:00:00-07:00",
+                     "ended_at": "2026-10-08T09:01:00-07:00", "api_requests": 1},
+            "users": {"user_scott": "Scott Seymour"}, "leads": leads,
+            "activities": {"meetings": meetings, "emails": {}, "sms": {}, "calls": {}, "notes": {}},
+            "tasks": {},
+        }
+        result = add_adherence_to_dashboard(
+            {"month_label": "October 2026", "reps": [{"name": "Scott Seymour"}]},
+            preview_only=True, extract=extract,
+            include_canceled_by_lead_status=True,
+            candidate_booked_date_field=(latest_id, "Latest Sales Call Booked Date"),
+        )
+        scored = result["reps"][0]["adherence"]["lead_results"]
+        self.assertEqual({row["name"] for row in scored}, {case[0] for case in cases})
+        self.assertEqual({row["booked_date"] for row in scored}, {"2026-10-07"})
+        self.assertEqual({row["scored_call_at"][:10] for row in scored}, {"2026-10-07"})
+        self.assertEqual(leads[3][f"custom.{first_id}"], "2026-10-01")
+        self.assertEqual(leads[5][f"custom.{first_id}"], "2026-04-15")
+
     def test_fixed_extract_keeps_upcoming_first_call_neutral_at_extract_end(self):
         lead = {
             "id": "lead_future", "display_name": "Future Customer", "status_id": "active",

@@ -19,12 +19,13 @@ from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Iterable
-from urllib.error import HTTPError
+from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode, urlparse
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
-from adherence_rules import LOST_STATUS_ID, STEP_META, WON_STATUS_ID, aggregate_rep_scores, first_call_deadline, score_lead, validate_aggregate
+from adherence_rules import LOST_STATUS_ID, STEP_META, WON_STATUS_ID, aggregate_rep_scores, first_call_deadline, parse_datetime, score_lead, validate_aggregate
+from qualifying_meeting_rules import latest_qualifying_dates_in_period
 
 
 BASE_URL = "https://api.close.com/api/v1"
@@ -32,6 +33,9 @@ PACIFIC = ZoneInfo("America/Los_Angeles")
 
 CF_FIRST_SALES_CALL_BOOKED_ID = "cf_LFdYEQ6bsgp49YjZzefypDmdVx8iwuakWDSLPLpVrBq"
 CF_FIRST_SALES_CALL_BOOKED_NAME = "First Sales Call Booked Date"
+CF_LATEST_SALES_CALL_BOOKED_ID = "cf_2PQJIcagevN5HvUHfmWGWR22pCvzLZk6tJPTicDvuS3"
+CF_LATEST_SALES_CALL_BOOKED_NAME = "Latest Sales Call Booked Date"
+LATEST_BOOKED_DATE_FIELD = (CF_LATEST_SALES_CALL_BOOKED_ID, CF_LATEST_SALES_CALL_BOOKED_NAME)
 CF_FIRST_CALL_SHOW_ID = "cf_OPyvpU45RdvjLqfm8V1VWwNxrGKogEH2IBJmfCj0Uhq"
 CF_FIRST_CALL_SHOW_NAME = "First Call Show Up (Opp)"
 CF_LEAD_OWNER_ID = "cf_gOfS9pFwext58oberEegLyix8hZzeHrxhCZOVh3P3rd"
@@ -99,6 +103,12 @@ class CloseClient:
                     continue
                 body = error.read().decode(errors="replace")[:500] if error.fp else ""
                 raise RuntimeError(f"Close API {error.code} for {endpoint}: {body}") from error
+            except (URLError, TimeoutError, OSError) as error:
+                if attempt == 3:
+                    raise RuntimeError(f"Close API connection failed for {endpoint} after retries") from error
+                wait = 2 ** (attempt + 1)
+                print(f"    Close connection interrupted; retrying in {wait}s", flush=True)
+                time.sleep(wait)
         raise RuntimeError(f"Close API retry budget exhausted for {endpoint}")
 
     def paginate(self, endpoint: str, params: dict[str, Any] | None = None):
@@ -177,19 +187,83 @@ def fetch_users(client: CloseClient) -> dict[str, str]:
     return users
 
 
-def fetch_cohort(client: CloseClient, year: int, month: int) -> list[dict[str, Any]]:
+def fetch_cohort(
+    client: CloseClient, year: int, month: int,
+    *, field_name: str = CF_FIRST_SALES_CALL_BOOKED_NAME,
+) -> list[dict[str, Any]]:
     last_day = monthrange(year, month)[1]
     start = f"{year}-{month:02d}-01"
     end = f"{year}-{month:02d}-{last_day:02d}"
-    return fetch_leads_by_booked_date_range(client, start, end)
+    return fetch_leads_by_booked_date_range(client, start, end, field_name=field_name)
 
 
 def fetch_leads_by_booked_date_range(
-    client: CloseClient, start: str, end: str
+    client: CloseClient, start: str, end: str,
+    *, field_name: str = CF_FIRST_SALES_CALL_BOOKED_NAME,
 ) -> list[dict[str, Any]]:
-    """Read the existing booked-date cohort using inclusive ISO calendar dates."""
-    query = f'"{CF_FIRST_SALES_CALL_BOOKED_NAME}" >= "{start}" "{CF_FIRST_SALES_CALL_BOOKED_NAME}" <= "{end}"'
+    """Read a booked-date cohort using inclusive ISO calendar dates."""
+    query = f'"{field_name}" >= "{start}" "{field_name}" <= "{end}"'
     return list(client.paginate("/lead/", {"query": query}))
+
+
+def fetch_process_cohort(client: CloseClient, start: str, end: str) -> list[dict[str, Any]]:
+    """Keep original-date leads when a later booking moves their LSCBD."""
+    leads = {
+        lead["id"]: lead for lead in fetch_leads_by_booked_date_range(client, start, end)
+    }
+    leads.update({
+        lead["id"]: lead for lead in fetch_leads_by_booked_date_range(
+            client, start, end, field_name=CF_LATEST_SALES_CALL_BOOKED_NAME,
+        )
+    })
+    return list(leads.values())
+
+
+def fetch_qualifying_process_cohort(client: CloseClient, start: str, end: str) -> list[dict[str, Any]]:
+    """Select FSCBD leads by qualifying meeting dates within the report period."""
+    dates = latest_qualifying_dates_in_period(client.paginate("/activity/meeting/"), start, end)
+
+    leads = {
+        str(lead["id"]): lead for lead in fetch_process_cohort(client, start, end)
+        if str(lead.get("id")) in dates
+    }
+    for lead_id in sorted(dates.keys() - leads.keys()):
+        payload = client.get(f"/lead/{lead_id}/")
+        lead = payload.get("data") if isinstance(payload, dict) and isinstance(payload.get("data"), dict) else payload
+        if not isinstance(lead, dict) or str(lead.get("id")) != lead_id:
+            raise ValueError(f"Close did not return lead details for qualifying meeting lead {lead_id}")
+        leads[lead_id] = lead
+
+    return [
+        dict(lead, _process_candidate_date=dates[lead_id])
+        for lead_id, lead in leads.items()
+        if custom_value(lead, CF_FIRST_SALES_CALL_BOOKED_ID, CF_FIRST_SALES_CALL_BOOKED_NAME)
+    ]
+
+
+def process_candidate_date(lead: dict[str, Any], start: str, end: str) -> tuple[str, str]:
+    activity_date = str(lead.get("_process_candidate_date") or "")[:10]
+    if start <= activity_date <= end:
+        return activity_date, "meeting_activity"
+    latest = str(custom_value(lead, *LATEST_BOOKED_DATE_FIELD) or "")[:10]
+    if start <= latest <= end:
+        return latest, "latest"
+    first = str(custom_value(lead, CF_FIRST_SALES_CALL_BOOKED_ID, CF_FIRST_SALES_CALL_BOOKED_NAME) or "")[:10]
+    if start <= first <= end:
+        return first, "first_fallback"
+    return "", "outside_range"
+
+
+def has_active_first_meeting(meetings: Iterable[dict[str, Any]], booked_date: str) -> bool:
+    """Require a non-canceled meeting on the selected process date."""
+    return any(
+        (starts := parse_datetime(meeting.get("starts_at") or meeting.get("activity_at"))) is not None
+        and starts.date().isoformat() == booked_date
+        and not str(meeting.get("status") or "").strip().lower().startswith(
+            ("canceled", "cancelled", "declined")
+        )
+        for meeting in meetings
+    )
 
 
 def fetch_activities(
@@ -335,6 +409,9 @@ def add_adherence_to_dashboard(
     source: str = "close_crm",
     preview_only: bool = False,
     extract: dict[str, Any] | None = None,
+    include_canceled_by_lead_status: bool = False,
+    candidate_booked_date_field: tuple[str, str] | None = None,
+    candidate_date_range: tuple[str, str] | None = None,
 ) -> dict[str, Any]:
     repo_root = Path(__file__).resolve().parents[1]
     workspace_root = repo_root.parent
@@ -342,6 +419,10 @@ def add_adherence_to_dashboard(
         tuple(map(int, month_override.split("-")))
         if month_override
         else month_from_label(dashboard["month_label"])
+    )
+    period_start, period_end = candidate_date_range or (
+        f"{year}-{month_number:02d}-01",
+        f"{year}-{month_number:02d}-{monthrange(year, month_number)[1]:02d}",
     )
 
     client: CloseClient | None = None
@@ -353,7 +434,11 @@ def add_adherence_to_dashboard(
         print(f"Building read-only Close adherence for {year}-{month_number:02d}", flush=True)
         print("  Fetching users and monthly cohort", flush=True)
         users_by_id = fetch_users(client)
-        raw_cohort = fetch_cohort(client, year, month_number)
+        raw_cohort = (
+            fetch_qualifying_process_cohort(client, period_start, period_end)
+            if candidate_booked_date_field == LATEST_BOOKED_DATE_FIELD
+            else fetch_cohort(client, year, month_number)
+        )
     else:
         if extract.get("meta", {}).get("month") != f"{year}-{month_number:02d}":
             raise ValueError("Close extract month does not match the dashboard month")
@@ -373,7 +458,9 @@ def add_adherence_to_dashboard(
     exclusion_counts = defaultdict(int)
     for lead in raw_cohort:
         status_exclusion = EXCLUDED_LEAD_STATUSES.get(lead.get("status_id"))
-        if status_exclusion:
+        if status_exclusion and not (
+            include_canceled_by_lead_status and status_exclusion == "canceled_by_lead"
+        ):
             exclusion_counts[status_exclusion] += 1
             continue
         funnel = str(custom_value(lead, CF_FUNNEL_NAME_DEAL_ID, "Funnel Name DEAL (Opp)") or "").strip()
@@ -385,7 +472,14 @@ def add_adherence_to_dashboard(
             users_by_id,
             ids_by_name,
         )
-        booked_date = str(custom_value(lead, CF_FIRST_SALES_CALL_BOOKED_ID, CF_FIRST_SALES_CALL_BOOKED_NAME) or "")[:10]
+        if candidate_booked_date_field == LATEST_BOOKED_DATE_FIELD:
+            booked_date, date_source = process_candidate_date(lead, period_start, period_end)
+        else:
+            date_field_id, date_field_name = candidate_booked_date_field or (
+                CF_FIRST_SALES_CALL_BOOKED_ID, CF_FIRST_SALES_CALL_BOOKED_NAME,
+            )
+            booked_date = str(custom_value(lead, date_field_id, date_field_name) or "")[:10]
+            date_source = "first"
         if not booked_date:
             exclusion_counts["missing_booked_date"] += 1
             continue
@@ -401,6 +495,7 @@ def add_adherence_to_dashboard(
             or str(lead.get("status_label") or "").strip().lower().endswith("lost"),
             "current_owner_id": owner_id,
             "booked_date": booked_date,
+            "date_source": date_source,
             "show_state": str(custom_value(lead, CF_FIRST_CALL_SHOW_ID, CF_FIRST_CALL_SHOW_NAME) or ""),
         })
 
@@ -413,6 +508,11 @@ def add_adherence_to_dashboard(
         meetings_by_lead = extract["activities"].get("meetings", {})
     included = []
     for lead in candidates:
+        if not has_active_first_meeting(
+            meetings_by_lead.get(lead["id"], []), lead["booked_date"]
+        ):
+            exclusion_counts["inactive_booked_meeting"] += 1
+            continue
         first_call_at, first_meeting = first_call_deadline(
             lead["booked_date"], meetings_by_lead.get(lead["id"], []),
             show_state=lead["show_state"],
@@ -506,7 +606,9 @@ def add_adherence_to_dashboard(
         "period": {
             "month": f"{year}-{month_number:02d}",
             "timezone": "America/Los_Angeles",
-            "basis": "first_sales_call_booked_date",
+            "basis": "latest_sales_call_booked_date_with_first_date_fallback"
+            if candidate_booked_date_field == LATEST_BOOKED_DATE_FIELD
+            else "first_sales_call_booked_date",
         },
         "cohort": {
             "raw": len(raw_cohort),
@@ -542,6 +644,8 @@ def build_preview(args: argparse.Namespace) -> dict[str, Any]:
         limit_leads=args.limit_leads,
         source="close_local_baseline",
         preview_only=True,
+        candidate_booked_date_field=LATEST_BOOKED_DATE_FIELD,
+        include_canceled_by_lead_status=True,
     )
 
 
@@ -569,6 +673,8 @@ if __name__ == "__main__":
                 dashboard, month_override=cli_args.month, throttle=cli_args.throttle,
                 limit_leads=cli_args.limit_leads, source="close_fixed_extract",
                 preview_only=True, extract=extract,
+                candidate_booked_date_field=LATEST_BOOKED_DATE_FIELD,
+                include_canceled_by_lead_status=True,
             )
         else:
             preview = build_preview(cli_args)

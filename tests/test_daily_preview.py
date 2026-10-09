@@ -1,10 +1,18 @@
+import json
 import sys
 import unittest
 from pathlib import Path
+from tempfile import TemporaryDirectory
+from unittest.mock import Mock, patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
-from build_yesterday_preview import daily_show_rate, serialize_preview  # noqa: E402
+from build_yesterday_preview import (  # noqa: E402
+    daily_show_rate,
+    fetch_latest_process_cohort,
+    serialize_preview,
+    build,
+)
 
 
 class DailyPreviewMetricTests(unittest.TestCase):
@@ -23,6 +31,84 @@ class DailyPreviewMetricTests(unittest.TestCase):
                       "qualified": 0, "show_rate": 33.3}],
         })
         self.assertEqual(serialized["reps"][0]["show_rate"], 33.3)
+
+    def test_eod_process_candidates_include_a_qualifying_meeting_on_latest_date(self):
+        field = "cf_2PQJIcagevN5HvUHfmWGWR22pCvzLZk6tJPTicDvuS3"
+        lead = {"id": "lead_scott", f"custom.{field}": "2026-10-07",
+                "custom.cf_LFdYEQ6bsgp49YjZzefypDmdVx8iwuakWDSLPLpVrBq": "2026-10-01"}
+        client = Mock()
+        client.paginate.return_value = [{
+            "id": "meet_scott", "lead_id": "lead_scott", "title": "Vendingpreneurs Consultation",
+            "starts_at": "2026-10-07T17:00:00Z", "status": "completed",
+        }]
+        with patch("build_yesterday_preview.fetch_process_cohort", return_value=[lead]) as cohort:
+            self.assertEqual(fetch_latest_process_cohort(client, "2026-10-07"),
+                             [lead | {"_process_candidate_date": "2026-10-07"}])
+        cohort.assert_called_once_with(client, "2026-10-07", "2026-10-07")
+
+    def test_eod_process_candidates_find_intermediate_booking_and_exclude_followup_or_canceled(self):
+        first = "custom.cf_LFdYEQ6bsgp49YjZzefypDmdVx8iwuakWDSLPLpVrBq"
+        latest = "custom.cf_2PQJIcagevN5HvUHfmWGWR22pCvzLZk6tJPTicDvuS3"
+        lead = {"id": "lead_middle", first: "2026-10-01", latest: "2026-10-12"}
+        client = Mock()
+        client.paginate.return_value = [
+            {"id": "meet_middle", "lead_id": "lead_middle", "title": "Vendingpreneurs Consultation",
+             "starts_at": "2026-10-08T00:30:00Z", "status": "completed"},
+            {"id": "meet_scraper", "lead_id": "lead_scraper",
+             "title": "Vendingpreneurs Momentum - Next Steps with Pat",
+             "starts_at": "2026-10-07T17:00:00Z", "status": "completed"},
+            {"id": "meet_unpopulated", "lead_id": "lead_unpopulated",
+             "title": "Vendingpreneurs Summit - Next Steps with Pat",
+             "starts_at": "2026-10-07T17:00:00Z", "status": "completed"},
+            {"id": "meet_followup", "lead_id": "lead_followup",
+             "title": "Vendingpreneur Follow-up", "starts_at": "2026-10-07T17:00:00Z",
+             "status": "completed"},
+            {"id": "meet_canceled", "lead_id": "lead_canceled",
+             "title": "Vendingpreneurs Consultation", "starts_at": "2026-10-07T17:00:00Z",
+             "status": "declined-by-org"},
+        ]
+        client.get.side_effect = lambda endpoint: {
+            "/lead/lead_middle/": lead,
+            "/lead/lead_scraper/": {"id": "lead_scraper", first: "2026-09-01", latest: "2026-10-12"},
+            "/lead/lead_unpopulated/": {"id": "lead_unpopulated"},
+        }[endpoint]
+        with patch("build_yesterday_preview.fetch_process_cohort", return_value=[]):
+            candidates = fetch_latest_process_cohort(client, "2026-10-07")
+        self.assertEqual({row["id"] for row in candidates}, {"lead_middle", "lead_scraper"})
+        self.assertTrue(all(row["_process_candidate_date"] == "2026-10-07" for row in candidates))
+        self.assertEqual(client.get.call_count, 3)
+
+    def test_daily_booked_metrics_and_process_use_separate_cohorts(self):
+        metric_lead = {"id": "lead_original", "display_name": "Original"}
+        process_lead = {"id": "lead_rebooked", "display_name": "Rebooked"}
+        activities = {kind: {} for kind in ("emails", "sms", "calls", "notes", "meetings")}
+        client = Mock(request_count=0)
+
+        def record_process(dashboard, **kwargs):
+            self.assertEqual(kwargs["extract"]["leads"], [process_lead])
+            self.assertEqual(kwargs["candidate_booked_date_field"][1], "Latest Sales Call Booked Date")
+            self.assertTrue(kwargs["include_canceled_by_lead_status"])
+            self.assertEqual(kwargs["candidate_date_range"], ("2026-10-07", "2026-10-07"))
+            dashboard["adherence_meta"] = {}
+            return dashboard
+
+        with TemporaryDirectory() as directory, \
+             patch("build_yesterday_preview.load_env_value", return_value="test-key"), \
+             patch("build_yesterday_preview.CloseClient", return_value=client), \
+             patch("build_yesterday_preview.fetch_users", return_value={}), \
+             patch("build_yesterday_preview.fetch_leads_by_booked_date_range", return_value=[metric_lead]), \
+             patch("build_yesterday_preview.fetch_latest_process_cohort", return_value=[process_lead]), \
+             patch("build_yesterday_preview.fetch_activities", return_value=activities), \
+             patch("build_yesterday_preview.fetch_tasks_by_lead", return_value={}), \
+             patch("build_yesterday_preview.aggregate_meeting_leads", return_value=({}, {}, {}, 0, 0)), \
+             patch("build_yesterday_preview.meeting_lead_rows", return_value=[]), \
+             patch("build_yesterday_preview.add_adherence_to_dashboard", side_effect=record_process):
+            extract_path = Path(directory) / "extract.json"
+            build(Path(directory) / "output.json", extract_path,
+                  report_date="2026-10-07", write_local_preview=False)
+            extract = json.loads(extract_path.read_text())
+        self.assertEqual(extract["leads"], [metric_lead])
+        self.assertEqual(extract["process_extract"]["leads"], [process_lead])
 
 
 if __name__ == "__main__":

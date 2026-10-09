@@ -21,17 +21,53 @@ from build_adherence_preview import (
     load_env_value,
     add_adherence_to_dashboard,
     close_lead_url,
+    custom_value,
+    LATEST_BOOKED_DATE_FIELD,
+    fetch_process_cohort,
+    CF_FIRST_SALES_CALL_BOOKED_ID,
+    CF_FIRST_SALES_CALL_BOOKED_NAME,
 )
 from fetch_data import aggregate_meeting_leads, meeting_lead_rows
+from qualifying_meeting_rules import latest_qualifying_dates_in_period
 
 
 PACIFIC = ZoneInfo("America/Los_Angeles")
 ROOT = Path(__file__).resolve().parents[1]
 DAILY_ARCHIVE_ROOT = ROOT / "archives" / "daily"
+PROCESS_COHORT_METHOD = "qualifying_meeting_activity"
 
 
 def daily_show_rate(booked: int, shown: int) -> float:
     return round(shown / booked * 100, 1) if booked else 0
+
+
+def fetch_latest_process_cohort(client: CloseClient, report_date: str) -> list[dict]:
+    """Select all active qualifying meetings on the Pacific report date."""
+    meeting_lead_ids = set(latest_qualifying_dates_in_period(
+        client.paginate("/activity/meeting/"), report_date, report_date,
+    ))
+
+    field_leads = {
+        str(lead["id"]): lead
+        for lead in fetch_process_cohort(client, report_date, report_date)
+        if str(lead.get("id")) in meeting_lead_ids
+    }
+    for lead_id in sorted(meeting_lead_ids - field_leads.keys()):
+        payload = client.get(f"/lead/{lead_id}/")
+        lead = payload.get("data") if isinstance(payload, dict) and isinstance(payload.get("data"), dict) else payload
+        if not isinstance(lead, dict) or str(lead.get("id")) != lead_id:
+            raise ValueError(f"Close did not return lead details for qualifying meeting lead {lead_id}")
+        field_leads[lead_id] = lead
+
+    leads = []
+    for lead in field_leads.values():
+        if not custom_value(lead, CF_FIRST_SALES_CALL_BOOKED_ID, CF_FIRST_SALES_CALL_BOOKED_NAME):
+            continue
+        candidate = dict(lead)
+        candidate["_process_candidate_date"] = report_date
+        leads.append(candidate)
+    print(f"  Qualifying process cohort: {len(leads)} leads on {report_date}", flush=True)
+    return leads
 
 
 def write_standalone_html(data: dict, output: Path) -> None:
@@ -103,6 +139,8 @@ def build(
         extract = json.loads(extract_path.read_text())
         day = extract["meta"]["date"]
         yesterday = datetime.fromisoformat(day).date()
+        if extract.get("meta", {}).get("process_cohort_method") != PROCESS_COHORT_METHOD:
+            raise ValueError("The reused daily extract is missing the qualifying meeting cohort")
     else:
         day = report_date or yesterday.isoformat()
         key = load_env_value([ROOT.parent / ".env", ROOT / ".env"], "CLOSE_API_KEY")
@@ -117,12 +155,29 @@ def build(
         lead_ids = [str(lead["id"]) for lead in leads if lead.get("id")]
         activities = fetch_activities(client, lead_ids)
         tasks = fetch_tasks_by_lead(client, lead_ids)
+        process_leads = fetch_latest_process_cohort(client, day)
+        process_ids = [str(lead["id"]) for lead in process_leads if lead.get("id")]
+        process_activities = fetch_activities(client, process_ids)
+        process_tasks = fetch_tasks_by_lead(client, process_ids)
+        process_extract = {
+            "meta": {"month": day[:7], "complete": True,
+                     "cohort_method": PROCESS_COHORT_METHOD,
+                     "started_at": started_at,
+                     "ended_at": datetime.now(PACIFIC).isoformat(),
+                     "api_requests": client.request_count},
+            "users": users,
+            "leads": process_leads,
+            "activities": {kind: dict(grouped) for kind, grouped in process_activities.items()},
+            "tasks": dict(process_tasks),
+        }
         extract = {
             "meta": {
                 "month": day[:7],
                 "date": day,
                 "timezone": "America/Los_Angeles",
                 "source": "CloseClient in scripts/build_adherence_preview.py",
+                "cohort_method": "first_sales_call_booked_date",
+                "process_cohort_method": PROCESS_COHORT_METHOD,
                 "started_at": started_at,
                 "ended_at": datetime.now(PACIFIC).isoformat(),
                 "api_requests": client.request_count,
@@ -142,6 +197,7 @@ def build(
             "activities": {kind: dict(grouped) for kind, grouped in activities.items()},
             "tasks": dict(tasks),
         }
+        extract["process_extract"] = process_extract
         extract_path.parent.mkdir(parents=True, exist_ok=True)
         extract_path.write_text(json.dumps(extract, indent=2, sort_keys=True) + "\n")
     if not extract.get("meta", {}).get("complete"):
@@ -193,7 +249,10 @@ def build(
         month_override=day[:7],
         source="close_daily_fixed_extract",
         preview_only=True,
-        extract=extract,
+        extract=extract["process_extract"],
+        include_canceled_by_lead_status=True,
+        candidate_booked_date_field=LATEST_BOOKED_DATE_FIELD,
+        candidate_date_range=(day, day),
     )
     dashboard["daily_meta"] = {
         "date": day,

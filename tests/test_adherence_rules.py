@@ -140,6 +140,24 @@ class AdherenceRulesTests(unittest.TestCase):
         self.assertTrue(lead_owner_sent["day_of_confirmation_text"]["done"])
         self.assertTrue(lead_owner_sent["precall_text"]["done"])
 
+    def test_day_of_confirmation_counts_any_owner_outbound_dial_before_call(self):
+        base = dict(
+            booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
+            lead_owner_id=OWNER, meetings=[meeting("2026-09-10T17:00:00Z")], now=NOW,
+        )
+        dial = {"activity_at": "2026-09-10T16:00:00Z", "direction": "outbound",
+                "status": "no-answer", "user_id": OWNER, "duration": 0}
+        self.assertEqual(score_lead(**base, calls=[dial])["day_of_confirmation_text"],
+                         {"eligible": True, "done": True})
+        for invalid in (
+            dial | {"direction": "inbound"},
+            dial | {"user_id": "another_user"},
+            dial | {"activity_at": "2026-09-10T17:00:00Z"},
+            dial | {"status": "deleted"},
+        ):
+            with self.subTest(invalid=invalid):
+                self.assertFalse(score_lead(**base, calls=[invalid])["day_of_confirmation_text"]["done"])
+
     def test_day_of_text_must_arrive_before_the_meeting_begins(self):
         base = dict(
             booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,

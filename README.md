@@ -90,8 +90,8 @@ booked leads; AOV is month-to-date revenue divided by closed deals. A zero denom
 
 Process Adherence has three pre-call and three post-call steps. All SMS evidence must come from the
 current Lead Owner, including texts used for Loom evidence and post-call follow-up. Day-of
-confirmation requires an outbound SMS with a message body or an outbound call lasting at least 45
-seconds, both from the current Lead Owner and on the meeting's Pacific date before it begins. An
+confirmation requires an outbound SMS with a message body or any outbound dial,
+both from the current Lead Owner and on the meeting's Pacific date before it begins. An
 SMS may also count for Pre-call text. Missing meeting or owner evidence leaves the confirmation
 step unscored.
 

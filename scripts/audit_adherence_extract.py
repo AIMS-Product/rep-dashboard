@@ -8,6 +8,7 @@ import csv
 import json
 import re
 from collections import Counter, defaultdict
+from calendar import monthrange
 from datetime import date, datetime, time, timedelta
 from math import floor
 from pathlib import Path
@@ -39,7 +40,8 @@ OMIT_MEETING_STATES = {"canceled", "declined-by-lead", "declined-by-org"}
 OUTBOUND = {"outbound", "outgoing"}
 LOOM = re.compile(r"(^|[^a-z])loom\.com", re.IGNORECASE)
 FIELDS = {
-    "booked": ("cf_LFdYEQ6bsgp49YjZzefypDmdVx8iwuakWDSLPLpVrBq", "First Sales Call Booked Date"),
+    "booked": ("cf_2PQJIcagevN5HvUHfmWGWR22pCvzLZk6tJPTicDvuS3", "Latest Sales Call Booked Date"),
+    "first_booked": ("cf_LFdYEQ6bsgp49YjZzefypDmdVx8iwuakWDSLPLpVrBq", "First Sales Call Booked Date"),
     "show": ("cf_OPyvpU45RdvjLqfm8V1VWwNxrGKogEH2IBJmfCj0Uhq", "First Call Show Up (Opp)"),
     "owner": ("cf_gOfS9pFwext58oberEegLyix8hZzeHrxhCZOVh3P3rd", "Lead Owner"),
     "funnel": ("cf_xqDQE8fkPsWa0RNEve7hcaxKblCe6489XeZGRDzyPdX", "Funnel Name DEAL (Opp)"),
@@ -87,13 +89,6 @@ def stamp(row: dict) -> datetime | None:
 
 def live(row: dict) -> bool:
     return str(row.get("status") or "").strip().lower() not in {"deleted", "archived"}
-
-
-def _duration_seconds(row: dict) -> int:
-    try:
-        return int(row.get("duration") or 0)
-    except (TypeError, ValueError):
-        return 0
 
 
 def sent(row: dict) -> bool:
@@ -182,16 +177,33 @@ def credited_rep(meeting: dict | None, lead_owner: str | None, visible: set[str]
     return None, "not_visible_rep"
 
 
-def in_scope(lead: dict) -> tuple[str | None, str]:
+def in_scope(lead: dict, start: str, end: str) -> tuple[str | None, str, str]:
     status_reason = EXCLUDED_STATUSES.get(lead.get("status_id"))
-    if status_reason:
-        return None, status_reason
+    if status_reason and status_reason != "canceled_by_lead":
+        return None, status_reason, ""
     if str(close_value(lead, "funnel") or "").strip() in OMIT_FUNNELS:
-        return None, "funnel"
-    booked = str(close_value(lead, "booked") or "")[:10]
-    if not booked:
-        return None, "missing_booked_date"
-    return booked, "candidate"
+        return None, "funnel", ""
+    activity_date = str(lead.get("_process_candidate_date") or "")[:10]
+    if start <= activity_date <= end:
+        return activity_date, "candidate", "meeting_activity"
+    latest = str(close_value(lead, "booked") or "")[:10]
+    if start <= latest <= end:
+        return latest, "candidate", "latest"
+    first = str(close_value(lead, "first_booked") or "")[:10]
+    if start <= first <= end:
+        return first, "candidate", "first_fallback"
+    return None, "missing_booked_date", ""
+
+
+def active_first_meeting(extract: dict, lead_id: str, booked_date: str) -> bool:
+    return any(
+        (starts := pacific(meeting.get("starts_at") or meeting.get("activity_at"))) is not None
+        and starts.date().isoformat() == booked_date
+        and not str(meeting.get("status") or "").strip().lower().startswith(
+            ("canceled", "cancelled", "declined")
+        )
+        for meeting in by_lead(extract, "meetings", lead_id)
+    )
 
 
 def event(kind: str, row: dict, when: datetime | None = None) -> dict:
@@ -240,11 +252,10 @@ def classify(lead: dict, rep: str, booked: str, lead_owner: str | None,
         and str(call.get("user_id") or "") == lead_owner
         and str(call.get("direction") or "").strip().lower() in OUTBOUND
         and live(call)
-        and _duration_seconds(call) >= 45
     )
     result["day_of_confirmation_text"] = {
         "result": ("Completed" if confirmation else "Missed") if confirmation_eligible else "Neutral",
-        "support": confirmation, "basis": "Eligible at first call start when same-day meeting and current lead owner are known; a non-empty owner-sent outbound SMS or owner-made outbound call lasting at least 45 seconds on that Pacific date before start counts."}
+        "support": confirmation, "basis": "Eligible at first call start when same-day meeting and current lead owner are known; a non-empty owner-sent outbound SMS or any owner-made outbound call on that Pacific date before start counts."}
 
     # Keep post-call eligibility and its anchor independent of the show-up field.
     # Later meetings are next-step evidence, not a reason to delay this anchor.
@@ -324,6 +335,9 @@ def aggregate(cells: list[dict]) -> dict:
 
 def write_audit(extract_path: Path, preview_path: Path, dashboard_path: Path, out_dir: Path) -> dict:
     extract, preview, dashboard = (json.loads(p.read_text()) for p in (extract_path, preview_path, dashboard_path))
+    year, month = map(int, extract["meta"]["month"].split("-"))
+    period_start = f"{year}-{month:02d}-01"
+    period_end = f"{year}-{month:02d}-{monthrange(year, month)[1]:02d}"
     now = pacific(extract["meta"]["ended_at"])
     all_dashboard_reps = dashboard["reps"]
     rep_rows = [r for r in all_dashboard_reps if not r.get("exclude_meetings") and not r.get("is_manager")]
@@ -335,7 +349,11 @@ def write_audit(extract_path: Path, preview_path: Path, dashboard_path: Path, ou
     exclusion_rows = []
     included_rows = []
     for lead in extract["leads"]:
-        booked, initial_reason = in_scope(lead)
+        booked, initial_reason, _ = in_scope(lead, period_start, period_end)
+        if initial_reason == "candidate" and not active_first_meeting(
+            extract, str(lead["id"]), booked
+        ):
+            initial_reason = "inactive_booked_meeting"
         if initial_reason != "candidate":
             exclusions[initial_reason] += 1
             exclusion_rows.append({"lead_id": lead.get("id"), "lead_name": lead.get("display_name") or lead.get("name"),

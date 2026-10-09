@@ -81,6 +81,8 @@ class ProductionAdherenceIntegrationTests(unittest.TestCase):
             base_payload,
             source="close_crm",
             preview_only=False,
+            candidate_booked_date_field=fetch_data.LATEST_BOOKED_DATE_FIELD,
+            include_canceled_by_lead_status=True,
         )
 
 

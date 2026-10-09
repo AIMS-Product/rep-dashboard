@@ -93,13 +93,6 @@ def is_active_activity(activity: dict[str, Any]) -> bool:
     return str(activity.get("status") or "").strip().lower() not in {"deleted", "archived"}
 
 
-def _call_duration_seconds(call: dict[str, Any]) -> int:
-    try:
-        return int(call.get("duration") or 0)
-    except (TypeError, ValueError):
-        return 0
-
-
 def is_sent_activity(activity: dict[str, Any]) -> bool:
     """Mirror SteelTrap's sent-status gate, including its pre-webhook legacy allowance."""
     if not is_active_activity(activity):
@@ -256,7 +249,6 @@ def score_lead(
         and str(call.get("user_id") or "") == lead_owner_id
         and str(call.get("direction") or "").strip().lower() in OUTBOUND_DIRECTIONS
         and is_active_activity(call)
-        and _call_duration_seconds(call) >= 45
         for call in calls
     )
     result["day_of_confirmation_text"] = {

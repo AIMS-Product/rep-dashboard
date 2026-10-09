@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from calendar import monthrange
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -14,10 +15,10 @@ from build_adherence_preview import (
     ACTIVITY_ENDPOINTS,
     CloseClient,
     fetch_activities,
-    fetch_cohort,
     fetch_tasks_by_lead,
     fetch_users,
     load_env_value,
+    fetch_qualifying_process_cohort,
 )
 
 
@@ -36,12 +37,16 @@ def capture(month: str, output: Path, throttle: float = 0.18) -> dict:
             "month": month,
             "timezone": "America/Los_Angeles",
             "source": "CloseClient in scripts/build_adherence_preview.py",
+            "cohort_method": "qualifying_meeting_activity",
             "started_at": datetime.now(PACIFIC).isoformat(),
         }
     }
     client = CloseClient(key, throttle=throttle)
     users = fetch_users(client)
-    leads = fetch_cohort(client, year, month_number)
+    last_day = monthrange(year, month_number)[1]
+    leads = fetch_qualifying_process_cohort(
+        client, f"{year}-{month_number:02d}-01", f"{year}-{month_number:02d}-{last_day:02d}",
+    )
     lead_ids = [str(lead["id"]) for lead in leads if lead.get("id")]
     activities = fetch_activities(client, lead_ids)
     tasks = fetch_tasks_by_lead(client, lead_ids)

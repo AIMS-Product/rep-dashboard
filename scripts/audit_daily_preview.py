@@ -55,12 +55,19 @@ def run(extract_path: Path, preview_path: Path, out_dir: Path) -> dict:
     day = str(meta["date"])
     if extract.get("meta", {}).get("date") != day or not extract.get("meta", {}).get("complete"):
         raise ValueError("Preview date must match a complete fixed Close extract")
-    extract_end = adherence_audit.pacific(extract["meta"]["ended_at"])
     leads = {str(row["id"]): row for row in extract["leads"]}
+    process_extract = extract.get("process_extract") or extract
+    if process_extract.get("meta", {}).get("cohort_method") != "qualifying_meeting_activity":
+        raise ValueError("Daily adherence audit requires the qualifying meeting cohort")
+    process_end = adherence_audit.pacific(process_extract["meta"]["ended_at"])
+    process_leads = {str(row["id"]): row for row in process_extract["leads"]}
     users = extract["users"]
     dashboard_reps = {row["name"]: row for row in preview.get("reps", [])}
     ids_by_name = {name: user_id for user_id, name in users.items()}
-    visible_ids = {ids_by_name[name] for name in dashboard_reps if name in ids_by_name}
+    visible_ids = {
+        ids_by_name[name] for name, rep in dashboard_reps.items()
+        if name in ids_by_name and not rep.get("exclude_meetings") and not rep.get("is_manager")
+    }
 
     # Independently recalculate the three daily lead metrics from the Close lead records.
     expected_metric_rows = {key: [] for key in ("booked", "shown", "qualified")}
@@ -188,15 +195,18 @@ def run(extract_path: Path, preview_path: Path, out_dir: Path) -> dict:
     expected_attribution_counts = Counter()
     expected_cohorts = defaultdict(lambda: defaultdict(lambda: defaultdict(set)))
     lead_record_mismatches = []
-    for lead_id, lead in leads.items():
-        booked = str(value(lead, BOOKED_FIELD, "First Sales Call Booked Date") or "")[:10]
-        scope_booked, scope_reason = adherence_audit.in_scope(lead)
+    for lead_id, lead in process_leads.items():
+        booked, scope_reason, _ = adherence_audit.in_scope(lead, day, day)
+        if scope_reason == "candidate" and not adherence_audit.active_first_meeting(
+            process_extract, lead_id, booked
+        ):
+            scope_reason = "inactive_booked_meeting"
         if scope_reason != "candidate" or booked != day:
             excluded.append({"lead_id": lead_id, "lead_name": lead.get("display_name") or lead.get("name"),
                              "reason": scope_reason if scope_reason != "candidate" else "booked_date_mismatch"})
             continue
         owner = adherence_audit.owner_id(lead, users)
-        meetings = adherence_audit.by_lead(extract, "meetings", lead_id)
+        meetings = adherence_audit.by_lead(process_extract, "meetings", lead_id)
         show = str(value(lead, SHOW_FIELD, "First Call Show Up (Opp)") or "")
         deadline, first = adherence_audit.deadline_for(booked, meetings, show)
         rep_id, attribution = adherence_audit.credited_rep(first, owner, visible_ids)
@@ -208,7 +218,7 @@ def run(extract_path: Path, preview_path: Path, out_dir: Path) -> dict:
         expected_result_ids.add(lead_id)
         expected_attribution_counts[attribution] += 1
         independent, classified_deadline, classified_first = adherence_audit.classify(
-            lead, rep_id, booked, owner, extract, extract_end
+            lead, rep_id, booked, owner, process_extract, process_end
         )
         independent_by_rep[rep_id].append(independent)
         actual_pair = actual_results.get(lead_id)
@@ -287,7 +297,7 @@ def run(extract_path: Path, preview_path: Path, out_dir: Path) -> dict:
 
     cohort_meta = preview.get("adherence_meta", {}).get("cohort", {})
     adherence_meta_mismatches = []
-    for key, expected_value in (("raw", len(leads)), ("included", expected_lead_count),
+    for key, expected_value in (("raw", len(process_leads)), ("included", expected_lead_count),
                                 ("excluded", len(excluded))):
         if cohort_meta.get(key) != expected_value:
             adherence_meta_mismatches.append({"field": key, "independent": expected_value,
@@ -332,7 +342,8 @@ def run(extract_path: Path, preview_path: Path, out_dir: Path) -> dict:
             "timezone": "America/Los_Angeles",
             "extract_started_at": extract["meta"]["started_at"],
             "extract_ended_at": extract["meta"]["ended_at"],
-            "raw_leads": len(leads),
+            "raw_leads": len(process_leads),
+            "raw_metric_leads": len(leads),
             "included_leads": len(independent_by_rep) and sum(map(len, independent_by_rep.values())) or 0,
             "excluded_leads": len(excluded),
             "lead_step_cells_reviewed": len(records),

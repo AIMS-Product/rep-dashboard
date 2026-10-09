@@ -28,7 +28,7 @@ from urllib.error import HTTPError
 from base64 import b64encode
 from calendar import monthrange
 
-from build_adherence_preview import add_adherence_to_dashboard
+from build_adherence_preview import LATEST_BOOKED_DATE_FIELD, add_adherence_to_dashboard
 
 # --- Configuration ---
 
@@ -593,6 +593,8 @@ def build_live_dashboard_data():
         dashboard,
         source="close_crm",
         preview_only=False,
+        candidate_booked_date_field=LATEST_BOOKED_DATE_FIELD,
+        include_canceled_by_lead_status=True,
     )
 
 
