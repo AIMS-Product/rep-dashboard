@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-08 18:30:16 PDT",
+  "updated_at": "2026-10-08 18:45:12 PDT",
   "month_label": "October 2026",
   "day_of_month": 8,
   "days_in_month": 31,
@@ -6036,6 +6036,110 @@
       }
     },
     {
+      "name": "Shreya Bechra",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 100000,
+      "pct_to_quota": 0.0,
+      "booked": 0,
+      "shown": 0,
+      "qualified": 0,
+      "close_rate": 0,
+      "show_rate": 0,
+      "revenue_per_lead": null,
+      "aov": null,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "rep_owner_id": "user_1TKtkacQ7ZMKkcqnmCERikTYWwGltp5XUjEE9Hshple",
+      "adherence": {
+        "pre_call_pct": null,
+        "post_call_pct": null,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "day_of_confirmation_text": {
+            "label": "Day-of confirmation",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "task_created": {
+            "label": "Task created",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "fu_meeting_created": {
+            "label": "FU meeting created",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "recap_email": {
+            "label": "Recap email sent",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          }
+        },
+        "lead_cohorts": {
+          "loom_usage": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "precall_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "day_of_confirmation_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "task_created": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "fu_meeting_created": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "recap_email": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          }
+        }
+      }
+    },
+    {
       "name": "Scott Seymour",
       "revenue": 0,
       "deals": 0,
@@ -7800,116 +7904,12 @@
           }
         }
       }
-    },
-    {
-      "name": "Shreya Bechra",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 0,
-      "shown": 0,
-      "qualified": 0,
-      "close_rate": 0,
-      "show_rate": 0,
-      "revenue_per_lead": null,
-      "aov": null,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "rep_owner_id": "user_1TKtkacQ7ZMKkcqnmCERikTYWwGltp5XUjEE9Hshple",
-      "adherence": {
-        "pre_call_pct": null,
-        "post_call_pct": null,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 0,
-            "pct": null
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 0,
-            "pct": null
-          },
-          "day_of_confirmation_text": {
-            "label": "Day-of confirmation",
-            "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 0,
-            "pct": null
-          },
-          "task_created": {
-            "label": "Task created",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 0,
-            "pct": null
-          },
-          "fu_meeting_created": {
-            "label": "FU meeting created",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 0,
-            "pct": null
-          },
-          "recap_email": {
-            "label": "Recap email sent",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 0,
-            "pct": null
-          }
-        },
-        "lead_cohorts": {
-          "loom_usage": {
-            "completed": [],
-            "missed": [],
-            "exempt": []
-          },
-          "precall_text": {
-            "completed": [],
-            "missed": [],
-            "exempt": []
-          },
-          "day_of_confirmation_text": {
-            "completed": [],
-            "missed": [],
-            "exempt": []
-          },
-          "task_created": {
-            "completed": [],
-            "missed": [],
-            "exempt": []
-          },
-          "fu_meeting_created": {
-            "completed": [],
-            "missed": [],
-            "exempt": []
-          },
-          "recap_email": {
-            "completed": [],
-            "missed": [],
-            "exempt": []
-          }
-        }
-      }
     }
   ],
   "adherence_meta": {
     "schema_version": 6,
     "source": "close_crm",
-    "generated_at": "2026-10-08T18:31:40.874768-07:00",
+    "generated_at": "2026-10-08T18:46:50.869586-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
