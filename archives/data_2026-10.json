@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-08 17:00:21 PDT",
+  "updated_at": "2026-10-08 17:15:13 PDT",
   "month_label": "October 2026",
   "day_of_month": 8,
   "days_in_month": 31,
@@ -7,17 +7,17 @@
   "working_days_elapsed": 6,
   "pct_month_passed": 27.3,
   "team_quota": 750000,
-  "pct_team_quota": 11.1,
-  "total_revenue": 83579.0,
-  "total_deals": 10,
+  "pct_team_quota": 11.9,
+  "total_revenue": 89576.0,
+  "total_deals": 11,
   "total_booked": 142,
   "total_shown": 92,
   "total_qualified": 65,
-  "team_aov": 8357.9,
-  "team_close_rate": 7.0,
+  "team_aov": 8143.27,
+  "team_close_rate": 7.7,
   "team_show_rate": 64.8,
-  "today_revenue": 25344.0,
-  "today_deals": 2,
+  "today_revenue": 31341.0,
+  "today_deals": 3,
   "today_closers": [
     {
       "name": "Ariella Irvine",
@@ -28,6 +28,11 @@
       "name": "Robin Perkins",
       "deals": 1,
       "total": 10347.0
+    },
+    {
+      "name": "Christian Hartwell",
+      "deals": 1,
+      "total": 5997.0
     }
   ],
   "reps": [
@@ -37,12 +42,12 @@
       "deals": 3,
       "quota": 100000,
       "pct_to_quota": 26.2,
-      "booked": 23,
+      "booked": 24,
       "shown": 14,
       "qualified": 14,
-      "close_rate": 13.0,
-      "show_rate": 60.9,
-      "revenue_per_lead": 1140.91,
+      "close_rate": 12.5,
+      "show_rate": 58.3,
+      "revenue_per_lead": 1093.38,
       "aov": 8747.0,
       "is_manager": false,
       "is_lead": false,
@@ -1076,8 +1081,8 @@
           "recap_email": {
             "label": "Recap email sent",
             "phase": "post_call",
-            "done": 5,
-            "eligible": 5,
+            "done": 6,
+            "eligible": 6,
             "exempt": 1,
             "pct": 100
           }
@@ -1439,6 +1444,14 @@
                 "scored_call_at": "2026-10-05T18:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_oS96Aii9eCvRkVUWh1Tb6FS87zLSYA4T6kbbkEwEl8R/",
                 "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
+              },
+              {
+                "id": "lead_oEgACpKeJEDPgN9NJhHLjlfib0RZ3Ek7hQ1Qqb8oL6n",
+                "name": "Tiffany Ollila",
+                "booked_date": "2026-10-08",
+                "scored_call_at": "2026-10-08T16:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_oEgACpKeJEDPgN9NJhHLjlfib0RZ3Ek7hQ1Qqb8oL6n/",
+                "status_label": "\ud83d\udc7b No Show"
               }
             ],
             "missed": [],
@@ -2867,12 +2880,12 @@
       "deals": 1,
       "quota": 100000,
       "pct_to_quota": 11.3,
-      "booked": 24,
+      "booked": 25,
       "shown": 10,
       "qualified": 7,
-      "close_rate": 4.2,
-      "show_rate": 41.7,
-      "revenue_per_lead": 472.79,
+      "close_rate": 4.0,
+      "show_rate": 40.0,
+      "revenue_per_lead": 453.88,
       "aov": 11347.0,
       "is_manager": false,
       "is_lead": false,
@@ -5333,17 +5346,17 @@
     },
     {
       "name": "Christian Hartwell",
-      "revenue": 0,
-      "deals": 0,
+      "revenue": 5997.0,
+      "deals": 1,
       "quota": 100000,
-      "pct_to_quota": 0.0,
+      "pct_to_quota": 6.0,
       "booked": 20,
       "shown": 10,
       "qualified": 8,
-      "close_rate": 0.0,
+      "close_rate": 5.0,
       "show_rate": 50.0,
-      "revenue_per_lead": 0.0,
-      "aov": null,
+      "revenue_per_lead": 299.85,
+      "aov": 5997.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -7896,15 +7909,15 @@
   "adherence_meta": {
     "schema_version": 6,
     "source": "close_crm",
-    "generated_at": "2026-10-08T17:02:05.939386-07:00",
+    "generated_at": "2026-10-08T17:16:32.071319-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
       "basis": "first_sales_call_booked_date"
     },
     "cohort": {
-      "raw": 215,
-      "included": 196,
+      "raw": 217,
+      "included": 198,
       "excluded": 19,
       "exclusion_counts": {
         "canceled_by_lead": 16,
@@ -7912,7 +7925,7 @@
         "meeting_rep_not_visible": 2
       },
       "attribution_counts": {
-        "meeting_rep": 194,
+        "meeting_rep": 196,
         "owner_fallback": 2
       },
       "includes_lost": true
