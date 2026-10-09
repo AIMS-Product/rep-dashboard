@@ -41,12 +41,12 @@ class DailyPreviewMetricTests(unittest.TestCase):
             "id": "meet_scott", "lead_id": "lead_scott", "title": "Vendingpreneurs Consultation",
             "starts_at": "2026-10-07T17:00:00Z", "status": "completed",
         }]
-        with patch("build_yesterday_preview.fetch_process_cohort", return_value=[lead]) as cohort:
-            self.assertEqual(fetch_latest_process_cohort(client, "2026-10-07"),
-                             [lead | {"_process_candidate_date": "2026-10-07"}])
-        cohort.assert_called_once_with(client, "2026-10-07", "2026-10-07")
+        client.get.return_value = lead
+        self.assertEqual(fetch_latest_process_cohort(client, "2026-10-07"),
+                         [lead | {"_process_candidate_date": "2026-10-07"}])
+        client.get.assert_called_once_with("/lead/lead_scott/")
 
-    def test_eod_process_candidates_find_intermediate_booking_and_exclude_followup_or_canceled(self):
+    def test_eod_process_candidates_include_missing_dates_and_exclude_followup_or_canceled(self):
         first = "custom.cf_LFdYEQ6bsgp49YjZzefypDmdVx8iwuakWDSLPLpVrBq"
         latest = "custom.cf_2PQJIcagevN5HvUHfmWGWR22pCvzLZk6tJPTicDvuS3"
         lead = {"id": "lead_middle", first: "2026-10-01", latest: "2026-10-12"}
@@ -72,11 +72,28 @@ class DailyPreviewMetricTests(unittest.TestCase):
             "/lead/lead_scraper/": {"id": "lead_scraper", first: "2026-09-01", latest: "2026-10-12"},
             "/lead/lead_unpopulated/": {"id": "lead_unpopulated"},
         }[endpoint]
-        with patch("build_yesterday_preview.fetch_process_cohort", return_value=[]):
-            candidates = fetch_latest_process_cohort(client, "2026-10-07")
-        self.assertEqual({row["id"] for row in candidates}, {"lead_middle", "lead_scraper"})
+        candidates = fetch_latest_process_cohort(client, "2026-10-07")
+        self.assertEqual({row["id"] for row in candidates}, {"lead_middle", "lead_scraper", "lead_unpopulated"})
         self.assertTrue(all(row["_process_candidate_date"] == "2026-10-07" for row in candidates))
         self.assertEqual(client.get.call_count, 3)
+
+    def test_colbys_real_qualifying_title_and_date_need_no_booked_fields(self):
+        client = Mock()
+        client.paginate.return_value = [{
+            "id": "acti_2xjDGyXxoCe1f1yyaOST56dyf04tTdEwRrRFVf1RIhU",
+            "lead_id": "lead_8fpI1TR6OA0rHUsnW14u917HD4ya5qqg1wxhftIYBht",
+            "title": "Vendingpreneurs Keystone - Next Steps with Colby and Joseph Vaughan",
+            "starts_at": "2026-10-08T22:00:00+00:00", "status": "completed",
+            "user_id": "user_7HSxi55O8q5jO11khvrTcAGoL2nlcoa3kZ6loAY6i78",
+        }]
+        client.get.return_value = {
+            "id": "lead_8fpI1TR6OA0rHUsnW14u917HD4ya5qqg1wxhftIYBht",
+            "display_name": "Colby Anderson",
+        }
+        self.assertEqual(fetch_latest_process_cohort(client, "2026-10-08"), [
+            client.get.return_value | {"_process_candidate_date": "2026-10-08"},
+        ])
+        client.paginate.assert_called_once_with("/activity/meeting/")
 
     def test_daily_booked_metrics_and_process_use_separate_cohorts(self):
         metric_lead = {"id": "lead_original", "display_name": "Original"}
@@ -89,7 +106,7 @@ class DailyPreviewMetricTests(unittest.TestCase):
             self.assertEqual(kwargs["candidate_booked_date_field"][1], "Latest Sales Call Booked Date")
             self.assertTrue(kwargs["include_canceled_by_lead_status"])
             self.assertEqual(kwargs["candidate_date_range"], ("2026-10-07", "2026-10-07"))
-            dashboard["adherence_meta"] = {}
+            dashboard["adherence_meta"] = {"period": {}}
             return dashboard
 
         with TemporaryDirectory() as directory, \

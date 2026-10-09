@@ -57,7 +57,9 @@ def run(extract_path: Path, preview_path: Path, out_dir: Path) -> dict:
         raise ValueError("Preview date must match a complete fixed Close extract")
     leads = {str(row["id"]): row for row in extract["leads"]}
     process_extract = extract.get("process_extract") or extract
-    if process_extract.get("meta", {}).get("cohort_method") != "qualifying_meeting_activity":
+    if process_extract.get("meta", {}).get("cohort_method") not in {
+        "qualifying_meeting_activity", "qualifying_meeting_activity_all_leads",
+    }:
         raise ValueError("Daily adherence audit requires the qualifying meeting cohort")
     process_end = adherence_audit.pacific(process_extract["meta"]["ended_at"])
     process_leads = {str(row["id"]): row for row in process_extract["leads"]}

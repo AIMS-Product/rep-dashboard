@@ -21,11 +21,7 @@ from build_adherence_preview import (
     load_env_value,
     add_adherence_to_dashboard,
     close_lead_url,
-    custom_value,
     LATEST_BOOKED_DATE_FIELD,
-    fetch_process_cohort,
-    CF_FIRST_SALES_CALL_BOOKED_ID,
-    CF_FIRST_SALES_CALL_BOOKED_NAME,
 )
 from fetch_data import aggregate_meeting_leads, meeting_lead_rows
 from qualifying_meeting_rules import latest_qualifying_dates_in_period
@@ -34,7 +30,7 @@ from qualifying_meeting_rules import latest_qualifying_dates_in_period
 PACIFIC = ZoneInfo("America/Los_Angeles")
 ROOT = Path(__file__).resolve().parents[1]
 DAILY_ARCHIVE_ROOT = ROOT / "archives" / "daily"
-PROCESS_COHORT_METHOD = "qualifying_meeting_activity"
+PROCESS_COHORT_METHOD = "qualifying_meeting_activity_all_leads"
 
 
 def daily_show_rate(booked: int, shown: int) -> float:
@@ -46,23 +42,12 @@ def fetch_latest_process_cohort(client: CloseClient, report_date: str) -> list[d
     meeting_lead_ids = set(latest_qualifying_dates_in_period(
         client.paginate("/activity/meeting/"), report_date, report_date,
     ))
-
-    field_leads = {
-        str(lead["id"]): lead
-        for lead in fetch_process_cohort(client, report_date, report_date)
-        if str(lead.get("id")) in meeting_lead_ids
-    }
-    for lead_id in sorted(meeting_lead_ids - field_leads.keys()):
+    leads = []
+    for lead_id in sorted(meeting_lead_ids):
         payload = client.get(f"/lead/{lead_id}/")
         lead = payload.get("data") if isinstance(payload, dict) and isinstance(payload.get("data"), dict) else payload
         if not isinstance(lead, dict) or str(lead.get("id")) != lead_id:
             raise ValueError(f"Close did not return lead details for qualifying meeting lead {lead_id}")
-        field_leads[lead_id] = lead
-
-    leads = []
-    for lead in field_leads.values():
-        if not custom_value(lead, CF_FIRST_SALES_CALL_BOOKED_ID, CF_FIRST_SALES_CALL_BOOKED_NAME):
-            continue
         candidate = dict(lead)
         candidate["_process_candidate_date"] = report_date
         leads.append(candidate)
@@ -254,6 +239,7 @@ def build(
         candidate_booked_date_field=LATEST_BOOKED_DATE_FIELD,
         candidate_date_range=(day, day),
     )
+    dashboard["adherence_meta"]["period"]["basis"] = PROCESS_COHORT_METHOD
     dashboard["daily_meta"] = {
         "date": day,
         "timezone": "America/Los_Angeles",
