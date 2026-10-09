@@ -73,7 +73,10 @@ class AdherencePreviewCohortTests(unittest.TestCase):
             "/lead/lead_middle/": middle, "/lead/lead_unpopulated/": unpopulated,
         }[endpoint]
         selected = fetch_qualifying_process_cohort(client, "2026-10-01", "2026-10-31")
-        self.assertEqual(selected, [middle | {"_process_candidate_date": "2026-10-09"}])
+        self.assertEqual(selected, [
+            middle | {"_process_candidate_date": "2026-10-09"},
+            unpopulated | {"_process_candidate_date": "2026-10-08"},
+        ])
         self.assertEqual(process_candidate_date(selected[0], "2026-10-01", "2026-10-31"),
                          ("2026-10-09", "meeting_activity"))
 

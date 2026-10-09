@@ -79,6 +79,9 @@ The adherence cohort includes leads later marked Lost. Scores follow the rep ass
 first same-day meeting, with current Lead Owner used when Close has no identifiable meeting rep;
 these attribution counts are included in `adherence_meta.cohort`.
 Its scored-cohort count can therefore differ from the Booked / Shown board's count.
+Monthly process candidates come from active meetings in the Pacific reporting month
+that match the updater's qualifying sales-call titles, even when both booked-date
+fields are blank.
 The Closer EOD process cohort uses active meetings on the Pacific report date that
 match the updater's qualifying sales-call titles. It does not require First or Latest
 Sales Call Booked Date on the lead. The EOD Booked / Shown / Qualified totals still
