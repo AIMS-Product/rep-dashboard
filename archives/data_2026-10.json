@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-12 16:58:11 PDT",
+  "updated_at": "2026-10-12 21:02:57 PDT",
   "month_label": "October 2026",
   "day_of_month": 12,
   "days_in_month": 31,
@@ -11,11 +11,11 @@
   "total_revenue": 121814.0,
   "total_deals": 15,
   "total_booked": 212,
-  "total_shown": 123,
+  "total_shown": 126,
   "total_qualified": 91,
   "team_aov": 8120.93,
   "team_close_rate": 7.1,
-  "team_show_rate": 58.0,
+  "team_show_rate": 59.4,
   "today_revenue": 6897.0,
   "today_deals": 1,
   "today_closers": [
@@ -2599,12 +2599,12 @@
       "deals": 3,
       "quota": 100000,
       "pct_to_quota": 26.2,
-      "booked": 28,
+      "booked": 29,
       "shown": 15,
       "qualified": 14,
-      "close_rate": 10.7,
-      "show_rate": 53.6,
-      "revenue_per_lead": 937.18,
+      "close_rate": 10.3,
+      "show_rate": 51.7,
+      "revenue_per_lead": 904.86,
       "aov": 8747.0,
       "is_manager": false,
       "is_lead": false,
@@ -3833,54 +3833,54 @@
       "exclude_meetings": false,
       "rep_owner_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
       "adherence": {
-        "pre_call_pct": 70,
-        "post_call_pct": 62,
+        "pre_call_pct": 72,
+        "post_call_pct": 63,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 8,
-            "eligible": 18,
+            "done": 9,
+            "eligible": 19,
             "exempt": 0,
-            "pct": 44
+            "pct": 47
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 17,
-            "eligible": 18,
+            "done": 18,
+            "eligible": 19,
             "exempt": 0,
-            "pct": 94
+            "pct": 95
           },
           "day_of_confirmation_text": {
             "label": "Day-of confirmation",
             "phase": "pre_call",
-            "done": 13,
-            "eligible": 18,
+            "done": 14,
+            "eligible": 19,
             "exempt": 0,
-            "pct": 72
+            "pct": 74
           },
           "task_created": {
             "label": "Task created",
             "phase": "post_call",
             "done": 6,
-            "eligible": 15,
+            "eligible": 16,
             "exempt": 3,
-            "pct": 40
+            "pct": 38
           },
           "fu_meeting_created": {
             "label": "FU meeting created",
             "phase": "post_call",
-            "done": 7,
-            "eligible": 15,
+            "done": 8,
+            "eligible": 16,
             "exempt": 3,
-            "pct": 47
+            "pct": 50
           },
           "recap_email": {
             "label": "Recap email sent",
             "phase": "post_call",
-            "done": 15,
-            "eligible": 15,
+            "done": 16,
+            "eligible": 16,
             "exempt": 3,
             "pct": 100
           }
@@ -3945,6 +3945,14 @@
                 "status_label": "\u260e\ufe0f Call Booked"
               },
               {
+                "id": "lead_RmskpW4TMHaD6xWn3d6iAOTwQOrPH8m5nHCcMhjNnqO",
+                "name": "Isaac Monarrez",
+                "booked_date": "2026-10-12",
+                "scored_call_at": "2026-10-12T18:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_RmskpW4TMHaD6xWn3d6iAOTwQOrPH8m5nHCcMhjNnqO/",
+                "status_label": "\u260e\ufe0f Call Booked"
+              },
+              {
                 "id": "lead_iJIxvPDwzfMH5TL2Ax0ROZvKZglMITPsn83BsTGbuW9",
                 "name": "Michael Mann",
                 "booked_date": "2026-10-12",
@@ -4168,6 +4176,14 @@
                 "status_label": "\ud83d\udcde HOT- Follow Up"
               },
               {
+                "id": "lead_RmskpW4TMHaD6xWn3d6iAOTwQOrPH8m5nHCcMhjNnqO",
+                "name": "Isaac Monarrez",
+                "booked_date": "2026-10-12",
+                "scored_call_at": "2026-10-12T18:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_RmskpW4TMHaD6xWn3d6iAOTwQOrPH8m5nHCcMhjNnqO/",
+                "status_label": "\u260e\ufe0f Call Booked"
+              },
+              {
                 "id": "lead_iJIxvPDwzfMH5TL2Ax0ROZvKZglMITPsn83BsTGbuW9",
                 "name": "Michael Mann",
                 "booked_date": "2026-10-12",
@@ -4285,6 +4301,14 @@
                 "scored_call_at": "2026-10-12T12:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_dUNYlcpdI5p7h8Du5UgYd57X158CJcBRBY8Z2CNME23/",
                 "status_label": "\ud83d\udcde HOT- Follow Up"
+              },
+              {
+                "id": "lead_RmskpW4TMHaD6xWn3d6iAOTwQOrPH8m5nHCcMhjNnqO",
+                "name": "Isaac Monarrez",
+                "booked_date": "2026-10-12",
+                "scored_call_at": "2026-10-12T18:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_RmskpW4TMHaD6xWn3d6iAOTwQOrPH8m5nHCcMhjNnqO/",
+                "status_label": "\u260e\ufe0f Call Booked"
               },
               {
                 "id": "lead_iJIxvPDwzfMH5TL2Ax0ROZvKZglMITPsn83BsTGbuW9",
@@ -4456,6 +4480,14 @@
                 "status_label": "\ud83d\udcde HOT- Follow Up"
               },
               {
+                "id": "lead_RmskpW4TMHaD6xWn3d6iAOTwQOrPH8m5nHCcMhjNnqO",
+                "name": "Isaac Monarrez",
+                "booked_date": "2026-10-12",
+                "scored_call_at": "2026-10-12T18:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_RmskpW4TMHaD6xWn3d6iAOTwQOrPH8m5nHCcMhjNnqO/",
+                "status_label": "\u260e\ufe0f Call Booked"
+              },
+              {
                 "id": "lead_iJIxvPDwzfMH5TL2Ax0ROZvKZglMITPsn83BsTGbuW9",
                 "name": "Michael Mann",
                 "booked_date": "2026-10-12",
@@ -4540,6 +4572,14 @@
                 "scored_call_at": "2026-10-12T12:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_dUNYlcpdI5p7h8Du5UgYd57X158CJcBRBY8Z2CNME23/",
                 "status_label": "\ud83d\udcde HOT- Follow Up"
+              },
+              {
+                "id": "lead_RmskpW4TMHaD6xWn3d6iAOTwQOrPH8m5nHCcMhjNnqO",
+                "name": "Isaac Monarrez",
+                "booked_date": "2026-10-12",
+                "scored_call_at": "2026-10-12T18:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_RmskpW4TMHaD6xWn3d6iAOTwQOrPH8m5nHCcMhjNnqO/",
+                "status_label": "\u260e\ufe0f Call Booked"
               },
               {
                 "id": "lead_iJIxvPDwzfMH5TL2Ax0ROZvKZglMITPsn83BsTGbuW9",
@@ -4756,6 +4796,14 @@
                 "scored_call_at": "2026-10-12T12:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_dUNYlcpdI5p7h8Du5UgYd57X158CJcBRBY8Z2CNME23/",
                 "status_label": "\ud83d\udcde HOT- Follow Up"
+              },
+              {
+                "id": "lead_RmskpW4TMHaD6xWn3d6iAOTwQOrPH8m5nHCcMhjNnqO",
+                "name": "Isaac Monarrez",
+                "booked_date": "2026-10-12",
+                "scored_call_at": "2026-10-12T18:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_RmskpW4TMHaD6xWn3d6iAOTwQOrPH8m5nHCcMhjNnqO/",
+                "status_label": "\u260e\ufe0f Call Booked"
               },
               {
                 "id": "lead_iJIxvPDwzfMH5TL2Ax0ROZvKZglMITPsn83BsTGbuW9",
@@ -9751,12 +9799,12 @@
       "deals": 1,
       "quota": 100000,
       "pct_to_quota": 6.0,
-      "booked": 28,
+      "booked": 29,
       "shown": 15,
       "qualified": 13,
-      "close_rate": 3.6,
-      "show_rate": 53.6,
-      "revenue_per_lead": 214.18,
+      "close_rate": 3.4,
+      "show_rate": 51.7,
+      "revenue_per_lead": 206.79,
       "aov": 5997.0,
       "is_manager": false,
       "is_lead": false,
@@ -9764,7 +9812,7 @@
       "rep_owner_id": "user_wHm1vcLde4RExd3vv9UOjnms5Oz8ssXg8600mQuxMPb",
       "adherence": {
         "pre_call_pct": 54,
-        "post_call_pct": 64,
+        "post_call_pct": 65,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -9801,10 +9849,10 @@
           "fu_meeting_created": {
             "label": "FU meeting created",
             "phase": "post_call",
-            "done": 8,
+            "done": 9,
             "eligible": 24,
             "exempt": 0,
-            "pct": 33
+            "pct": 38
           },
           "recap_email": {
             "label": "Recap email sent",
@@ -10663,6 +10711,14 @@
                 "status_label": "\ud83d\udcde HOT- Follow Up"
               },
               {
+                "id": "lead_VNsp3n6qolJE8RK2b8TAIDbM0JXk2blcypDf7BrtkeQ",
+                "name": "Alexis Ramirez",
+                "booked_date": "2026-10-09",
+                "scored_call_at": "2026-10-09T14:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_VNsp3n6qolJE8RK2b8TAIDbM0JXk2blcypDf7BrtkeQ/",
+                "status_label": "\ud83d\udd3b Canceled (by Lead)"
+              },
+              {
                 "id": "lead_T88ndYPQXYHBPjvB0XMqkfabZIJielWTNIf2XzEkW11",
                 "name": "Harold Brown",
                 "booked_date": "2026-10-09",
@@ -10751,14 +10807,6 @@
                 "scored_call_at": "2026-10-08T08:30:00-07:00",
                 "url": "https://app.close.com/lead/lead_VWjdS3JKZURH5nAfrK5x4DamR8Esc1dHw73xW4utyh1/",
                 "status_label": "\ud83d\udcde HOT- Follow Up"
-              },
-              {
-                "id": "lead_VNsp3n6qolJE8RK2b8TAIDbM0JXk2blcypDf7BrtkeQ",
-                "name": "Alexis Ramirez",
-                "booked_date": "2026-10-09",
-                "scored_call_at": "2026-10-09T14:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_VNsp3n6qolJE8RK2b8TAIDbM0JXk2blcypDf7BrtkeQ/",
-                "status_label": "\ud83d\udd3b Canceled (by Lead)"
               },
               {
                 "id": "lead_R2rHk9UzVam6Ajtg8rItr1RErjrg8o52w42iz1z2dwv",
@@ -11114,11 +11162,11 @@
       "deals": 0,
       "quota": 100000,
       "pct_to_quota": 0.0,
-      "booked": 34,
+      "booked": 35,
       "shown": 16,
       "qualified": 10,
       "close_rate": 0.0,
-      "show_rate": 47.1,
+      "show_rate": 45.7,
       "revenue_per_lead": 0.0,
       "aov": null,
       "is_manager": false,
@@ -12950,27 +12998,27 @@
   "adherence_meta": {
     "schema_version": 6,
     "source": "close_crm",
-    "generated_at": "2026-10-12T17:02:35.352981-07:00",
+    "generated_at": "2026-10-12T21:06:51.395463-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
       "basis": "latest_sales_call_booked_date_with_first_date_fallback"
     },
     "cohort": {
-      "raw": 319,
-      "included": 292,
-      "excluded": 27,
+      "raw": 323,
+      "included": 294,
+      "excluded": 29,
       "exclusion_counts": {
         "do_not_contact": 1,
         "disqualified": 1,
-        "meeting_rep_not_visible": 25
+        "meeting_rep_not_visible": 27
       },
       "attribution_counts": {
-        "meeting_rep": 292
+        "meeting_rep": 294
       },
       "includes_lost": true
     },
-    "api_requests": 651,
+    "api_requests": 648,
     "preview_only": false
   }
 }
