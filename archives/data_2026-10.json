@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-10-12 21:02:57 PDT",
+  "updated_at": "2026-10-13 00:01:14 PDT",
   "month_label": "October 2026",
-  "day_of_month": 12,
+  "day_of_month": 13,
   "days_in_month": 31,
   "working_days_total": 22,
-  "working_days_elapsed": 8,
-  "pct_month_passed": 36.4,
+  "working_days_elapsed": 9,
+  "pct_month_passed": 40.9,
   "team_quota": 750000,
   "pct_team_quota": 16.2,
   "total_revenue": 121814.0,
@@ -16,15 +16,9 @@
   "team_aov": 8120.93,
   "team_close_rate": 7.1,
   "team_show_rate": 59.4,
-  "today_revenue": 6897.0,
-  "today_deals": 1,
-  "today_closers": [
-    {
-      "name": "Luke Herman",
-      "deals": 1,
-      "total": 6897.0
-    }
-  ],
+  "today_revenue": 0.0,
+  "today_deals": 0,
+  "today_closers": [],
   "reps": [
     {
       "name": "Luke Herman",
@@ -4864,7 +4858,7 @@
       "rep_owner_id": "user_rJngzi4LOFXzpNb0bLi1ZtKRlRkga2fYuf4QrYpAmIc",
       "adherence": {
         "pre_call_pct": 68,
-        "post_call_pct": 51,
+        "post_call_pct": 50,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -4894,25 +4888,25 @@
             "label": "Task created",
             "phase": "post_call",
             "done": 12,
-            "eligible": 24,
-            "exempt": 3,
-            "pct": 50
+            "eligible": 23,
+            "exempt": 4,
+            "pct": 52
           },
           "fu_meeting_created": {
             "label": "FU meeting created",
             "phase": "post_call",
-            "done": 7,
-            "eligible": 24,
-            "exempt": 3,
-            "pct": 29
+            "done": 6,
+            "eligible": 23,
+            "exempt": 4,
+            "pct": 26
           },
           "recap_email": {
             "label": "Recap email sent",
             "phase": "post_call",
-            "done": 17,
-            "eligible": 23,
-            "exempt": 3,
-            "pct": 74
+            "done": 16,
+            "eligible": 22,
+            "exempt": 4,
+            "pct": 73
           }
         },
         "lead_cohorts": {
@@ -5028,7 +5022,7 @@
                 "booked_date": "2026-10-11",
                 "scored_call_at": "2026-10-11T13:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_TXymBokq0Fds8IYFMBrlVqjWQeWtonsNAQ4E3lwKrHC/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
+                "status_label": "\ud83d\udc94 Lost"
               },
               {
                 "id": "lead_lhgrig80q8LBaG2GjmQ4AWn9l3sAS2mQJB0rNntBez1",
@@ -5283,7 +5277,7 @@
                 "booked_date": "2026-10-11",
                 "scored_call_at": "2026-10-11T13:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_TXymBokq0Fds8IYFMBrlVqjWQeWtonsNAQ4E3lwKrHC/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
+                "status_label": "\ud83d\udc94 Lost"
               },
               {
                 "id": "lead_XEdFIQm2KKumYtipofU00riz95aAEXzX42kh9qV0Io1",
@@ -5490,7 +5484,7 @@
                 "booked_date": "2026-10-11",
                 "scored_call_at": "2026-10-11T13:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_TXymBokq0Fds8IYFMBrlVqjWQeWtonsNAQ4E3lwKrHC/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
+                "status_label": "\ud83d\udc94 Lost"
               },
               {
                 "id": "lead_XEdFIQm2KKumYtipofU00riz95aAEXzX42kh9qV0Io1",
@@ -5766,14 +5760,6 @@
                 "status_label": "\ud83d\udd3b Canceled (by Lead)"
               },
               {
-                "id": "lead_TXymBokq0Fds8IYFMBrlVqjWQeWtonsNAQ4E3lwKrHC",
-                "name": "Jose Quinones",
-                "booked_date": "2026-10-11",
-                "scored_call_at": "2026-10-11T13:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_TXymBokq0Fds8IYFMBrlVqjWQeWtonsNAQ4E3lwKrHC/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
-              },
-              {
                 "id": "lead_4sPT7R6atur3xI8SQJn2vqDwtkXjQbAs37wHu0v5EDj",
                 "name": "Brenda",
                 "booked_date": "2026-10-12",
@@ -5805,6 +5791,14 @@
                 "booked_date": "2026-10-08",
                 "scored_call_at": "2026-10-08T11:30:00-07:00",
                 "url": "https://app.close.com/lead/lead_QJ723pZmFSE1prtpfE9fUjaQyJ0ngj2EBBrgh0D5mye/",
+                "status_label": "\ud83d\udc94 Lost"
+              },
+              {
+                "id": "lead_TXymBokq0Fds8IYFMBrlVqjWQeWtonsNAQ4E3lwKrHC",
+                "name": "Jose Quinones",
+                "booked_date": "2026-10-11",
+                "scored_call_at": "2026-10-11T13:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_TXymBokq0Fds8IYFMBrlVqjWQeWtonsNAQ4E3lwKrHC/",
                 "status_label": "\ud83d\udc94 Lost"
               }
             ]
@@ -5850,14 +5844,6 @@
                 "scored_call_at": "2026-10-09T11:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_tDopqrlvLaI9LpYLA9Tdd8fCCJfMVL3z9bPHdt3gmvP/",
                 "status_label": "\u260e\ufe0f Call Booked"
-              },
-              {
-                "id": "lead_TXymBokq0Fds8IYFMBrlVqjWQeWtonsNAQ4E3lwKrHC",
-                "name": "Jose Quinones",
-                "booked_date": "2026-10-11",
-                "scored_call_at": "2026-10-11T13:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_TXymBokq0Fds8IYFMBrlVqjWQeWtonsNAQ4E3lwKrHC/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
               },
               {
                 "id": "lead_lhgrig80q8LBaG2GjmQ4AWn9l3sAS2mQJB0rNntBez1",
@@ -6029,6 +6015,14 @@
                 "booked_date": "2026-10-08",
                 "scored_call_at": "2026-10-08T11:30:00-07:00",
                 "url": "https://app.close.com/lead/lead_QJ723pZmFSE1prtpfE9fUjaQyJ0ngj2EBBrgh0D5mye/",
+                "status_label": "\ud83d\udc94 Lost"
+              },
+              {
+                "id": "lead_TXymBokq0Fds8IYFMBrlVqjWQeWtonsNAQ4E3lwKrHC",
+                "name": "Jose Quinones",
+                "booked_date": "2026-10-11",
+                "scored_call_at": "2026-10-11T13:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_TXymBokq0Fds8IYFMBrlVqjWQeWtonsNAQ4E3lwKrHC/",
                 "status_label": "\ud83d\udc94 Lost"
               }
             ]
@@ -6148,14 +6142,6 @@
                 "status_label": "\ud83d\udd3b Canceled (by Lead)"
               },
               {
-                "id": "lead_TXymBokq0Fds8IYFMBrlVqjWQeWtonsNAQ4E3lwKrHC",
-                "name": "Jose Quinones",
-                "booked_date": "2026-10-11",
-                "scored_call_at": "2026-10-11T13:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_TXymBokq0Fds8IYFMBrlVqjWQeWtonsNAQ4E3lwKrHC/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
-              },
-              {
                 "id": "lead_XEdFIQm2KKumYtipofU00riz95aAEXzX42kh9qV0Io1",
                 "name": "Luis Pocasangre",
                 "booked_date": "2026-10-11",
@@ -6245,6 +6231,14 @@
                 "booked_date": "2026-10-08",
                 "scored_call_at": "2026-10-08T11:30:00-07:00",
                 "url": "https://app.close.com/lead/lead_QJ723pZmFSE1prtpfE9fUjaQyJ0ngj2EBBrgh0D5mye/",
+                "status_label": "\ud83d\udc94 Lost"
+              },
+              {
+                "id": "lead_TXymBokq0Fds8IYFMBrlVqjWQeWtonsNAQ4E3lwKrHC",
+                "name": "Jose Quinones",
+                "booked_date": "2026-10-11",
+                "scored_call_at": "2026-10-11T13:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_TXymBokq0Fds8IYFMBrlVqjWQeWtonsNAQ4E3lwKrHC/",
                 "status_label": "\ud83d\udc94 Lost"
               }
             ]
@@ -12998,7 +12992,7 @@
   "adherence_meta": {
     "schema_version": 6,
     "source": "close_crm",
-    "generated_at": "2026-10-12T21:06:51.395463-07:00",
+    "generated_at": "2026-10-13T00:05:02.842820-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
