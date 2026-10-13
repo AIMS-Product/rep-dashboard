@@ -87,13 +87,18 @@ match the updater's qualifying sales-call titles. It does not require First or L
 Sales Call Booked Date on the lead. The EOD Booked / Shown / Qualified totals still
 use First Sales Call Booked Date.
 
-The Booked / Shown / Qualified board counts a lead as qualified when its Close `Qualified (Opp)`
-field is `Yes`, using the same month, exclusions, and Lead Owner attribution as the per-rep booked
-count. This matches the sales manager scorecard rule; qualification is not gated on the Show Up
-field. Team funnel totals come from the published MTD Funnel dashboard and can differ from the sum
-of rep rows. On Revenue Closed, Rev / Lead is each rep's month-to-date revenue divided by their
-booked leads; AOV is month-to-date revenue divided by closed deals. A zero denominator displays
-`N/A`. Team Rev / Lead is omitted because its booked denominator uses the separate MTD source.
+The Booked / Shown / Qualified board counts leads whose Close `BTC Business Line` is blank or
+`Vendingpreneurs (VP)`; TLG, PPA, Ben Kelly, and all other nonblank values are excluded. It uses
+the same month, status, funnel exclusions, and current Lead Owner attribution for Booked, Shown,
+and Qualified. Booked is
+the number of eligible leads with `First Sales Call Booked Date` in the month; it is not a count of
+calls actually completed. Shown checks `First Call Show Up (Opp) = Yes`, while Qualified checks
+`Qualified (Opp) = Yes` and is not gated on Show Up. Lead Owner is current state, so transfers can
+change which rep receives the booked lead after the call. Team meeting totals sum the displayed
+VP-filtered rep rows; the published MTD Funnel total is logged only as a comparison because it
+does not apply this exact business-line allowlist. On Revenue Closed, Rev / Lead is each
+rep's month-to-date revenue divided by their booked leads; AOV is month-to-date revenue divided by
+closed deals. A zero denominator displays `N/A`. Team Rev / Lead is not displayed.
 
 Process Adherence has three pre-call and three post-call steps. All SMS evidence must come from the
 current Lead Owner, including texts used for Loom evidence and post-call follow-up. Day-of

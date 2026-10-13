@@ -33,7 +33,7 @@ class ProductionAdherenceIntegrationTests(unittest.TestCase):
         self.assertEqual(joe["close_rate"], 50.0)
         self.assertEqual(joe["revenue_per_lead"], 50.0)
         self.assertEqual(joe["aov"], 100.0)
-        self.assertEqual(data["total_qualified"], 3)
+        self.assertEqual(data["total_qualified"], 1)
         self.assertFalse(joe["exclude_meetings"])
         self.assertTrue(joe["is_manager"])
 
@@ -51,6 +51,7 @@ class ProductionAdherenceIntegrationTests(unittest.TestCase):
             "status_id": "active",
             f"custom.{fetch_data.CF_LEAD_OWNER_ID}": owner,
             f"custom.{fetch_data.CF_FIRST_SALES_CALL_BOOKED_ID}": "2026-10-02",
+            f"custom.{fetch_data.CF_BTC_BUSINESS_LINE_ID}": fetch_data.VP_BUSINESS_LINE,
         }
         api_get.return_value = {"data": [
             {**base, f"custom.{fetch_data.CF_FIRST_CALL_SHOW_ID}": "Yes",

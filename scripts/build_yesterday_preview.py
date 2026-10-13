@@ -194,9 +194,8 @@ def build(
     seed = json.loads((ROOT / "data.json").read_text())
     dashboard = deepcopy(seed)
     name_to_id = {name: user_id for user_id, name in users.items()}
-    booked, shown, qualified, excluded_status, excluded_funnel = aggregate_meeting_leads(
-        leads, users, name_to_id
-    )
+    (booked, shown, qualified, excluded_status, excluded_funnel,
+     excluded_business_line) = aggregate_meeting_leads(leads, users, name_to_id)
     metric_leads = {
         rep["name"]: {"booked": [], "shown": [], "qualified": []}
         for rep in dashboard.get("reps", [])
@@ -255,6 +254,7 @@ def build(
             "raw_leads": len(leads),
             "excluded_status": excluded_status,
             "excluded_funnel": excluded_funnel,
+            "excluded_business_line": excluded_business_line,
             "team_booked": sum(booked.values()),
             "team_shown": sum(shown.values()),
             "team_qualified": sum(qualified.values()),

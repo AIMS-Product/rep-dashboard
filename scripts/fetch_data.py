@@ -58,6 +58,9 @@ CF_LEAD_OWNER_ID         = "cf_gOfS9pFwext58oberEegLyix8hZzeHrxhCZOVh3P3rd"
 CF_LEAD_OWNER_NAME       = "Lead Owner"
 
 CF_BTC_BUSINESS_LINE_ID  = "cf_aJlNlilQZIgLLuhcymNN8fiOzewnFxrbWjLZFPmsucO"
+CF_BTC_BUSINESS_LINE_NAME = "BTC Business Line"
+VP_BUSINESS_LINE = "Vendingpreneurs (VP)"
+ALLOWED_MEETING_BUSINESS_LINES = {VP_BUSINESS_LINE, ""}
 
 # Allowed BTC Business Line values for REVENUE_ONLY_USERS (blank also allowed)
 ALLOWED_BUSINESS_LINES = {"Vendingpreneurs (VP)", ""}
@@ -260,6 +263,7 @@ def aggregate_meeting_leads(all_leads, user_map, name_to_id):
     rep_qualified = {}
     excluded_status = 0
     excluded_funnel = 0
+    excluded_business_line = 0
 
     for row in meeting_lead_rows(all_leads, user_map, name_to_id):
         if row["excluded"] == "status":
@@ -268,17 +272,21 @@ def aggregate_meeting_leads(all_leads, user_map, name_to_id):
         if row["excluded"] == "funnel":
             excluded_funnel += 1
             continue
+        if row["excluded"] == "business_line":
+            excluded_business_line += 1
+            continue
         rep_name = row["rep"]
         rep_booked[rep_name] = rep_booked.get(rep_name, 0) + 1
         if row["shown"]:
             rep_shown[rep_name] = rep_shown.get(rep_name, 0) + 1
         if row["qualified"]:
             rep_qualified[rep_name] = rep_qualified.get(rep_name, 0) + 1
-    return rep_booked, rep_shown, rep_qualified, excluded_status, excluded_funnel
+    return (rep_booked, rep_shown, rep_qualified, excluded_status,
+            excluded_funnel, excluded_business_line)
 
 
 def meeting_lead_rows(all_leads, user_map, name_to_id):
-    """Return per-lead detail using the same inclusion and attribution rules as aggregate_meeting_leads."""
+    """Return per-lead detail for VP leads using current Lead Owner attribution."""
     rows = []
     for lead in all_leads:
         if lead.get("status_id", "") in EXCLUDED_LEAD_STATUSES:
@@ -290,6 +298,16 @@ def meeting_lead_rows(all_leads, user_map, name_to_id):
             if key.startswith("custom."):
                 merged[key] = value
                 merged[key.replace("custom.", "")] = value
+        business_line = get_custom_value(
+            merged, CF_BTC_BUSINESS_LINE_ID, CF_BTC_BUSINESS_LINE_NAME
+        )
+        if isinstance(business_line, list):
+            business_line = business_line[0] if business_line else ""
+        if isinstance(business_line, dict):
+            business_line = business_line.get("value") or business_line.get("name") or ""
+        if str(business_line).strip() not in ALLOWED_MEETING_BUSINESS_LINES:
+            rows.append({"lead": lead, "excluded": "business_line"})
+            continue
         funnel = get_custom_value(merged, CF_FUNNEL_NAME_DEAL_ID, "Funnel Name DEAL (Opp)")
         if str(funnel).strip() in EXCLUDED_FUNNELS:
             rows.append({"lead": lead, "excluded": "funnel"})
@@ -311,8 +329,8 @@ def meeting_lead_rows(all_leads, user_map, name_to_id):
 def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
     """Source 1: Query leads by "First Sales Call Booked Date" field.
 
-    Covers all funnels. Per-rep attribution via Lead Owner field.
-    Team totals come from the MTD dashboard instead.
+    Keeps leads with blank or Vendingpreneurs (VP) business line. Per-rep attribution
+    uses current Lead Owner. Team meeting totals sum the filtered rep rows.
     One lead = one booked count. Full month window (matches MTD Funnel dashboard).
     Returns (rep_booked, rep_shown, rep_qualified) dicts.
     """
@@ -345,21 +363,24 @@ def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
 
     print(f"  Found {len(all_leads)} leads with First Sales Call Booked Date in range.", flush=True)
 
-    rep_booked, rep_shown, rep_qualified, excluded_status, excluded_funnel = aggregate_meeting_leads(
-        all_leads, user_map, name_to_id
-    )
+    (rep_booked, rep_shown, rep_qualified, excluded_status, excluded_funnel,
+     excluded_business_line) = aggregate_meeting_leads(all_leads, user_map, name_to_id)
 
     print(f"  Source 1: {sum(rep_booked.values())} booked, {sum(rep_shown.values())} shown, {sum(rep_qualified.values())} qualified", flush=True)
-    print(f"  Excluded: {excluded_status} status, {excluded_funnel} funnel", flush=True)
+    print(
+        f"  Excluded: {excluded_status} status, {excluded_funnel} funnel, "
+        f"{excluded_business_line} disallowed business line",
+        flush=True,
+    )
 
     return rep_booked, rep_shown, rep_qualified
 
 
 def fetch_mtd_totals(year, month):
-    """Fetch team booked/shown/qualified totals from the MTD Funnel Dashboard.
+    """Fetch comparison booked/shown/qualified totals from the MTD Funnel Dashboard.
 
-    The MTD dashboard is the source of truth for total funnel counts.
-    Using its published data guarantees the rep dashboard matches exactly.
+    The rep dashboard's displayed team meeting totals are calculated from its
+    business-line-filtered rep rows. These values are retained as a cross-check.
     Returns (total_booked, total_shown, total_qualified) or nulls if unavailable.
     """
     url = f"https://aims-product.github.io/mtd-funnel-dashboard/archives/data-{year}-{month:02d}.json"
@@ -478,13 +499,13 @@ def build_dashboard_data():
     if bl_excluded:
         print(f"  Excluded {bl_excluded} opps from REVENUE_ONLY users (non-VP business line)", flush=True)
 
-    # Step 3: Meetings
-    # Per-rep breakdowns from FSCBD field (all funnels — no scraper exclusion needed)
+    # Step 3: VP meetings
+    # Booked/shown/qualified rows use the first-call date and allowed business lines.
     print("  === Fetching per-rep meeting data (FSCBD field) ===", flush=True)
     rep_booked, rep_shown, rep_qualified = fetch_meeting_data(year, month, today_str, user_map, name_to_id)
 
-    # Team totals from MTD Funnel Dashboard (single source of truth)
-    print("  === Fetching team totals from MTD dashboard ===", flush=True)
+    # Keep the published MTD total as a comparison only; it does not apply this allowlist.
+    print("  === Fetching MTD comparison totals ===", flush=True)
     mtd_booked, mtd_shown, mtd_qualified = fetch_mtd_totals(year, month)
 
     # Step 4: Build per-rep data (WHITELIST — only approved closers get rows)
@@ -529,22 +550,23 @@ def build_dashboard_data():
         })
 
     # Step 5: Team totals
-    # Revenue/deals from raw dicts; booked/shown from MTD dashboard (source of truth)
+    # Revenue/deals from raw dicts; meeting totals sum the visible VP-only scorecard rows.
     all_counted = set(rep_revenue.keys()) | set(rep_deals.keys())
     all_counted -= EXCLUDE_USERS
     total_revenue = round(sum(rep_revenue.get(n, 0) for n in all_counted), 2)
     total_deals = sum(rep_deals.get(n, 0) for n in all_counted)
 
-    # Use MTD totals if available, otherwise fall back to local FSCBD counts
+    visible_meeting_rows = [r for r in reps if not r["exclude_meetings"]]
+    total_booked = sum(r["booked"] for r in visible_meeting_rows)
+    total_shown = sum(r["shown"] for r in visible_meeting_rows)
+    total_qualified = sum(r["qualified"] for r in visible_meeting_rows)
     if mtd_booked is not None:
-        total_booked = mtd_booked
-        total_shown = mtd_shown
-        print(f"  Team totals: using MTD dashboard ({total_booked} booked, {total_shown} shown)", flush=True)
-    else:
-        total_booked = sum(rep_booked.values())
-        total_shown = sum(rep_shown.values())
-        print(f"  Team totals: using local FSCBD fallback ({total_booked} booked, {total_shown} shown)", flush=True)
-    total_qualified = mtd_qualified if mtd_qualified is not None else sum(rep_qualified.values())
+        print(
+            f"  VP-only team rows: {total_booked} booked, {total_shown} shown, "
+            f"{total_qualified} qualified; MTD comparison: {mtd_booked} booked, "
+            f"{mtd_shown} shown, {mtd_qualified} qualified",
+            flush=True,
+        )
 
     team_close_rate = round(total_deals / total_booked * 100, 1) if total_booked > 0 else 0
     team_show_rate = round(total_shown / total_booked * 100, 1) if total_booked > 0 else 0
@@ -638,6 +660,6 @@ if __name__ == "__main__":
     print(f"   Total Revenue: ${data['total_revenue']:,.2f}")
     print(f"   Today Revenue: ${data['today_revenue']:,.2f}")
     print(f"   Total Deals: {data['total_deals']}")
-    print(f"   Meetings Booked: {data['total_booked']} (from MTD dashboard)")
+    print(f"   Meetings Booked: {data['total_booked']} (from VP-filtered rep rows)")
     print(f"   Meetings Shown: {data['total_shown']}")
     print(f"   Reps tracked: {len(data['reps'])}")
