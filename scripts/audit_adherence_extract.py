@@ -25,8 +25,7 @@ STEP_LABELS = {
     "loom_usage": ("Pre-call", "Pre-Call Loom"),
     "precall_text": ("Pre-call", "Pre-call text"),
     "day_of_confirmation_text": ("Pre-call", "Day-of confirmation"),
-    "task_created": ("Post-call", "Task created"),
-    "fu_meeting_created": ("Post-call", "FU meeting created"),
+    "follow_up_created": ("Post-call", "Task or follow-up meeting"),
     "recap_email": ("Post-call", "Recap email sent"),
 }
 EXCLUDED_STATUSES = {
@@ -279,15 +278,11 @@ def classify(lead: dict, rep: str, booked: str, lead_owner: str | None,
     task_evidence = [event("task", task, pacific(task.get("date"), end_of_day=True)) for task in qualifying_tasks]
     meeting_evidence = [event("meeting", mtg, pacific(mtg.get("starts_at") or mtg.get("activity_at")))
                         for mtg in later_meetings]
-    result["task_created"] = {
-        "result": ("Completed" if task_evidence else "Missed") if set_eligible else "Neutral",
-        "support": task_evidence,
-        "basis": "Scheduled first-call anchor has passed; show outcome does not gate this step. A dated task assigned to the credited closer and due at/after or created after the anchor counts.",
-    }
-    result["fu_meeting_created"] = {
-        "result": ("Completed" if meeting_evidence else "Missed") if set_eligible else "Neutral",
-        "support": meeting_evidence,
-        "basis": "Scheduled first-call anchor has passed; show outcome does not gate this step. Any later non-canceled or non-declined meeting for the lead counts, regardless of assignee.",
+    follow_up_evidence = task_evidence + meeting_evidence
+    result["follow_up_created"] = {
+        "result": ("Completed" if follow_up_evidence else "Missed") if set_eligible else "Neutral",
+        "support": follow_up_evidence,
+        "basis": "Scheduled first-call anchor has passed; show outcome does not gate this step. A dated task assigned to the credited closer and due at/after or created after the anchor, or any later non-canceled or non-declined meeting for the lead, completes this step.",
     }
 
     window_end = anchor + timedelta(hours=24)
@@ -312,7 +307,7 @@ def classify(lead: dict, rep: str, booked: str, lead_owner: str | None,
                          "status": lead.get("status_label"), "user_id": None}
         basis = ("Lead is Closed/Won in the fixed Close extract; all post-call checks are exempt after a successful close."
                  if is_won else "Lead is Lost in the fixed Close extract; all post-call checks are exempt after loss.")
-        for key in ("task_created", "fu_meeting_created", "recap_email"):
+        for key in ("follow_up_created", "recap_email"):
             result[key] = {"result": "Exempt", "support": [status_record], "basis": basis}
     return result, deadline, first
 

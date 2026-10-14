@@ -215,10 +215,9 @@ class AdherencePreviewCohortTests(unittest.TestCase):
         )
         adherence = result["reps"][0]["adherence"]
         lead_result = adherence["lead_results"][0]
-        self.assertEqual(lead_result["steps"]["task_created"], "Exempt")
-        self.assertEqual(lead_result["steps"]["fu_meeting_created"], "Exempt")
+        self.assertEqual(lead_result["steps"]["follow_up_created"], "Exempt")
         self.assertEqual(lead_result["steps"]["recap_email"], "Exempt")
-        self.assertEqual(adherence["steps"]["task_created"]["exempt"], 1)
+        self.assertEqual(adherence["steps"]["follow_up_created"]["exempt"], 1)
 
     def test_lead_lists_match_completed_missed_and_exempt_counts_without_neutral_leads(self):
         def evidence(**overrides):
@@ -295,7 +294,7 @@ class AdherencePreviewCohortTests(unittest.TestCase):
         self.assertEqual([row["name"] for row in listed], ["Private Customer"])
         self.assertEqual(listed[0]["url"], "https://app.close.com/lead/lead_private/")
         self.assertEqual(listed[0]["scored_call_at"], "2026-10-01T10:00:00-07:00")
-        self.assertEqual(preview["reps"][0]["adherence"]["lead_results"][0]["steps"]["task_created"], "Missed")
+        self.assertEqual(preview["reps"][0]["adherence"]["lead_results"][0]["steps"]["follow_up_created"], "Missed")
         self.assertNotIn("lead_results", production["reps"][0]["adherence"])
 
     def test_terminal_lead_statuses_are_excluded(self):

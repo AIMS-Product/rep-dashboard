@@ -249,10 +249,9 @@ class AdherenceRulesTests(unittest.TestCase):
         self.assertFalse(result["loom_usage"]["eligible"])
         self.assertFalse(result["precall_text"]["eligible"])
         self.assertFalse(result["day_of_confirmation_text"]["eligible"])
-        self.assertFalse(result["task_created"]["eligible"])
-        self.assertFalse(result["fu_meeting_created"]["eligible"])
+        self.assertFalse(result["follow_up_created"]["eligible"])
 
-    def test_task_and_fu_meeting_are_independent_steps(self):
+    def test_task_or_fu_meeting_completes_one_combined_step(self):
         base = dict(
             booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
             lead_owner_id=OWNER, meetings=[meeting("2026-09-10T17:00:00Z")], now=NOW,
@@ -266,10 +265,8 @@ class AdherenceRulesTests(unittest.TestCase):
                 meeting("2026-09-15T17:00:00Z", status="upcoming")
             ]}
         )
-        self.assertEqual(via_task["task_created"], {"eligible": True, "done": True})
-        self.assertEqual(via_task["fu_meeting_created"], {"eligible": True, "done": False})
-        self.assertEqual(via_meeting["task_created"], {"eligible": True, "done": False})
-        self.assertEqual(via_meeting["fu_meeting_created"], {"eligible": True, "done": True})
+        self.assertEqual(via_task["follow_up_created"], {"eligible": True, "done": True})
+        self.assertEqual(via_meeting["follow_up_created"], {"eligible": True, "done": True})
 
     def test_post_call_steps_do_not_depend_on_show_outcome(self):
         kwargs = dict(
@@ -280,10 +277,10 @@ class AdherenceRulesTests(unittest.TestCase):
             now=NOW,
         )
         results = [score_lead(show_state=state, **kwargs) for state in ("Yes", "No", "")]
-        for key in ("task_created", "fu_meeting_created", "recap_email"):
+        for key in ("follow_up_created", "recap_email"):
             self.assertEqual(results[0][key], results[1][key])
             self.assertEqual(results[1][key], results[2][key])
-        for key in ("task_created", "fu_meeting_created", "recap_email"):
+        for key in ("follow_up_created", "recap_email"):
             self.assertEqual(results[2][key], {"eligible": True, "done": True})
 
     def test_later_meeting_does_not_shift_post_call_anchor_by_show_outcome(self):
@@ -291,10 +288,10 @@ class AdherenceRulesTests(unittest.TestCase):
             booked_date="2026-09-10", show_state=state, owner_id=OWNER,
             meetings=[meeting("2026-09-12T17:00:00Z", status="upcoming")], now=NOW,
         ) for state in ("Yes", "No", "")]
-        for key in ("task_created", "fu_meeting_created", "recap_email"):
+        for key in ("follow_up_created", "recap_email"):
             self.assertEqual(results[0][key], results[1][key])
             self.assertEqual(results[1][key], results[2][key])
-        self.assertEqual(results[2]["fu_meeting_created"], {"eligible": True, "done": True})
+        self.assertEqual(results[2]["follow_up_created"], {"eligible": True, "done": True})
 
     def test_later_meeting_counts_regardless_of_assignee(self):
         result = score_lead(
@@ -303,7 +300,7 @@ class AdherenceRulesTests(unittest.TestCase):
                       meeting("2026-09-15T17:00:00Z", status="upcoming", user_id="another_rep")],
             now=NOW,
         )
-        self.assertTrue(result["fu_meeting_created"]["done"])
+        self.assertTrue(result["follow_up_created"]["done"])
 
     def test_task_must_be_explicitly_assigned_to_credited_closer(self):
         base = dict(booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
@@ -313,14 +310,14 @@ class AdherenceRulesTests(unittest.TestCase):
                 "id": f"task_{assigned_to}", "lead_id": "lead_1",
                 "assigned_to": assigned_to, "date": "2026-09-15",
             }])
-            self.assertFalse(result["task_created"]["done"], assigned_to)
+            self.assertFalse(result["follow_up_created"]["done"], assigned_to)
         assigned = score_lead(**base, tasks=[{
             "id": "closer_task", "lead_id": "lead_1", "assigned_to": OWNER,
             "date": "2026-09-15",
         }])
-        self.assertTrue(assigned["task_created"]["done"])
+        self.assertTrue(assigned["follow_up_created"]["done"])
 
-    def test_old_overdue_task_does_not_count_but_later_task_created_does(self):
+    def test_old_overdue_task_does_not_count_but_later_created_task_does(self):
         base = dict(booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
                     meetings=[meeting("2026-09-10T17:00:00Z")], now=NOW)
         old = score_lead(**base, tasks=[{
@@ -331,26 +328,24 @@ class AdherenceRulesTests(unittest.TestCase):
             "id": "new", "lead_id": "lead_1", "assigned_to": OWNER,
             "date": "2026-09-09", "date_created": "2026-09-10T18:00:00Z",
         }])
-        self.assertEqual(old["task_created"], {"eligible": True, "done": False})
-        self.assertEqual(new["task_created"], {"eligible": True, "done": True})
+        self.assertEqual(old["follow_up_created"], {"eligible": True, "done": False})
+        self.assertEqual(new["follow_up_created"], {"eligible": True, "done": True})
 
-    def test_task_created_counts_open_task_without_completion_evidence(self):
+    def test_qualifying_open_task_counts_without_completion_evidence(self):
         result = score_lead(
             booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
             meetings=[meeting("2026-09-10T17:00:00Z")],
             tasks=[{"id": "open", "lead_id": "lead_1", "assigned_to": OWNER, "date": "2026-09-15"}],
             now=NOW,
         )
-        self.assertTrue(result["task_created"]["done"])
-        self.assertFalse(result["fu_meeting_created"]["done"])
+        self.assertTrue(result["follow_up_created"]["done"])
 
     def test_no_next_steps_misses_both_task_and_meeting(self):
         result = score_lead(
             booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
             meetings=[meeting("2026-09-10T17:00:00Z")], now=NOW,
         )
-        self.assertEqual(result["task_created"], {"eligible": True, "done": False})
-        self.assertEqual(result["fu_meeting_created"], {"eligible": True, "done": False})
+        self.assertEqual(result["follow_up_created"], {"eligible": True, "done": False})
         self.assertTrue(result["recap_email"]["eligible"])
 
     def test_terminal_statuses_exempt_all_three_post_call_steps(self):
@@ -359,7 +354,7 @@ class AdherenceRulesTests(unittest.TestCase):
                 booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
                 **{terminal: True}, meetings=[meeting("2026-09-10T17:00:00Z")], now=NOW,
             )
-            for key in ("task_created", "fu_meeting_created", "recap_email"):
+            for key in ("follow_up_created", "recap_email"):
                 self.assertTrue(result[key]["exempt"])
                 self.assertFalse(result[key]["eligible"])
                 self.assertFalse(result[key]["done"])
@@ -455,24 +450,22 @@ class AdherenceRulesTests(unittest.TestCase):
     def test_phase_is_equal_average_of_step_percentages(self):
         yes = {key: {"eligible": True, "done": True} for key in (
             "loom_usage", "precall_text", "day_of_confirmation_text",
-            "task_created", "fu_meeting_created", "recap_email"
+            "follow_up_created", "recap_email"
         )}
         no = {key: {"eligible": True, "done": False} for key in yes}
         neutral_post = {
             "loom_usage": {"eligible": True, "done": True},
             "precall_text": {"eligible": True, "done": False},
             "day_of_confirmation_text": {"eligible": True, "done": False},
-            "task_created": {"eligible": True, "done": True},
-            "fu_meeting_created": {"eligible": False, "done": False},
+            "follow_up_created": {"eligible": True, "done": True},
             "recap_email": {"eligible": False, "done": False},
         }
         agg = aggregate_rep_scores({OWNER: [yes, no, neutral_post]})[OWNER]
         self.assertEqual(agg["steps"]["day_of_confirmation_text"]["pct"], 33)
         self.assertEqual(agg["pre_call_pct"], 44)
-        self.assertEqual(agg["steps"]["task_created"]["pct"], 67)
-        self.assertEqual(agg["steps"]["fu_meeting_created"]["pct"], 50)
+        self.assertEqual(agg["steps"]["follow_up_created"]["pct"], 67)
         self.assertEqual(agg["steps"]["recap_email"]["pct"], 50)
-        self.assertEqual(agg["post_call_pct"], 56)
+        self.assertEqual(agg["post_call_pct"], 59)
 
 
 if __name__ == "__main__":

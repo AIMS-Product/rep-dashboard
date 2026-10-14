@@ -100,23 +100,24 @@ does not apply this exact business-line allowlist. On Revenue Closed, Rev / Lead
 rep's month-to-date revenue divided by their booked leads; AOV is month-to-date revenue divided by
 closed deals. A zero denominator displays `N/A`. Team Rev / Lead is not displayed.
 
-Process Adherence has three pre-call and three post-call steps. All SMS evidence must come from the
+Process Adherence has three pre-call and two post-call steps. All SMS evidence must come from the
 current Lead Owner, including texts used for Loom evidence and post-call follow-up. Day-of
 confirmation requires an outbound SMS with a message body or any outbound dial,
 both from the current Lead Owner and on the meeting's Pacific date before it begins. An
 SMS may also count for Pre-call text. Missing meeting or owner evidence leaves the confirmation
 step unscored.
 
-The post-call average is split into three separate requirements: Task created, FU meeting created,
-and Recap email sent. A qualifying task must have a date, be assigned to the rep credited with the
-first call, and be due at or after the call or created after it. A later non-canceled meeting for the
+The post-call average uses two requirements: Task or follow-up meeting, and Recap email sent. A
+qualifying task or later qualifying meeting completes the combined next-step requirement. A task
+must have a date, be assigned to the rep credited with the first call, and be due at or after the call
+or created after it. A later non-canceled meeting for the
 lead can be assigned to anyone and counts regardless of its outcome. Recap email sent accepts a sent
 outbound email or a sent SMS from the current Lead Owner within 24 hours of the call. Post-call
 eligibility does not depend on the First Call Show Up outcome. Closed / Won and Lost leads remain
-visible, with all three post-call checks marked Exempt. This uses status at the time the local
+visible, with both post-call checks marked Exempt. This uses status at the time the local
 preview is generated, so a later status or task change appears after the preview is regenerated.
 Post-call uses the earliest live meeting on the booked date, or the booked-date fallback when none
-exists; later meetings count only for FU meeting created.
+exists; later meetings count toward the combined next-step requirement.
 
 The local adherence drawer has expandable Completed and Missed lead lists for each step. Neutral
 leads appear in neither list. Lead names link to their Close records, and each row shows the scored

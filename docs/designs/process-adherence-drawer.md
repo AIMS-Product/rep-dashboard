@@ -9,7 +9,7 @@ Related: SteelTrap `docs/reference/process-adherence-criteria.md`
 Add two scan-friendly adherence percentages to every sales-rep row:
 
 - Pre-call = the equal-weight average of Pre-Call Loom, Pre-call text, and Day-of confirmation.
-- Post-call = the equal-weight average of Task created, FU meeting created, and Recap email sent.
+- Post-call = the equal-weight average of Task or follow-up meeting, and Recap email sent.
 
 Clicking either percentage opens a right-side drawer with the percentage, completed count, and
 eligible count for every step in that phase.
@@ -50,8 +50,7 @@ timed text signal for local review. The new key requires a future source mapping
 | Pre-call | `loom_usage` | Pre-Call Loom | Any active Close note or email, or a Close SMS from the current Lead Owner, containing `loom.com` at or before the first-call deadline. No lower time bound or content-quality requirement. |
 | Pre-call | `precall_text` | Pre-call text | A non-empty sent outbound SMS from the current Lead Owner at or before the first-call deadline. |
 | Pre-call | `day_of_confirmation_text` | Day-of confirmation | A non-empty sent outbound SMS, or any outbound dial, whose Close `user_id` matches the lead's current Lead Owner and which occurs on the scored first call's Pacific calendar date before the meeting start. The same SMS may also satisfy Pre-call text. |
-| Post-call | `task_created` | Task created | Once the scheduled first-call anchor has passed, a dated Close task explicitly assigned to the credited closer, whose due date is at or after the call or which was created after the call. A qualifying task counts once created, whether open or complete. Show-up outcome does not affect eligibility. |
-| Post-call | `fu_meeting_created` | FU meeting created | Once the scheduled first-call anchor has passed, a later meeting for the lead that is not canceled or declined, regardless of its assigned user or meeting outcome. Show-up outcome does not affect eligibility. |
+| Post-call | `follow_up_created` | Task or follow-up meeting | Once the scheduled first-call anchor has passed, either a dated Close task explicitly assigned to the credited closer and due at or after the call or created after it, or a later meeting for the lead that is not canceled or declined. Later meetings may be assigned to anyone. Show-up outcome does not affect eligibility. |
 | Post-call | `recap_email` | Recap email sent | A sent outbound email, or a sent outbound SMS from the current Lead Owner, from the scheduled first-call anchor through 24 hours after it. A missing message stays neutral until the 24-hour window closes. Show-up outcome does not affect eligibility. |
 
 For a lead currently in Close's Closed / Won or Lost status, all post-call steps are exempt from
@@ -94,7 +93,7 @@ are equal-weight averages of the available step percentages, not pooled-volume r
 
 ```text
 pre_call_pct  = round(mean(loom_usage_pct, precall_text_pct, day_of_confirmation_text_pct))
-post_call_pct = round(mean(task_created_pct, fu_meeting_created_pct, recap_email_pct))
+post_call_pct = round(mean(follow_up_created_pct, recap_email_pct))
 ```
 
 ## Architecture
@@ -127,13 +126,12 @@ still write `data.preview.json` for local verification:
       "rep_owner_id": "user_123",
       "adherence": {
         "pre_call_pct": 84,
-        "post_call_pct": 74,
+        "post_call_pct": 76,
         "steps": {
           "loom_usage": { "pct": 80, "done": 16, "eligible": 20 },
           "precall_text": { "pct": 90, "done": 18, "eligible": 20 },
           "day_of_confirmation_text": { "pct": 85, "done": 17, "eligible": 20 },
-          "task_created": { "pct": 90, "done": 18, "eligible": 20 },
-          "fu_meeting_created": { "pct": 70, "done": 7, "eligible": 10 },
+          "follow_up_created": { "pct": 90, "done": 18, "eligible": 20 },
           "recap_email": { "pct": 62, "done": 5, "eligible": 8 }
         }
       }

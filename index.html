@@ -819,9 +819,8 @@
     return 'score-low';
   }
   function adherenceButton(r, phase, repIndex) {
-    const key = phase === 'pre_call' ? 'pre_call_pct' : 'post_call_pct';
     const label = phase === 'pre_call' ? 'pre-call' : 'post-call';
-    const value = r.adherence && r.adherence[key];
+    const value = r.adherence && adherencePhasePct(r.adherence, phase);
     if (value == null) {
       return `<button class="adherence-btn" type="button" disabled aria-label="No ${label} adherence data for ${r.name}">—</button>`;
     }
@@ -829,10 +828,54 @@
   }
 
   function adherenceStepValue(r, key) {
-    const cell = r.adherence && r.adherence.steps && r.adherence.steps[key];
+    const cell = r.adherence && adherenceStep(r.adherence, key);
     const value = cell && cell.pct;
     const label = cell ? cell.label : key;
     return `<span class="adherence-step-value ${scoreTone(value)}" aria-label="${label}: ${value == null ? 'no data' : value + ' percent'}">${pctText(value)}</span>`;
+  }
+
+  function cohortIdentity(lead) {
+    return String(lead.id || lead.url || `${lead.name || ''}|${lead.booked_date || ''}`);
+  }
+
+  function adherenceStep(adherence, key) {
+    const steps = adherence.steps || {};
+    if (steps[key]) return steps[key];
+    if (key !== 'follow_up_created') return null;
+
+    const taskCohort = adherence.lead_cohorts?.task_created || adherence.lead_cohorts?.followup_task;
+    const meetingCohort = adherence.lead_cohorts?.fu_meeting_created || adherence.lead_cohorts?.followup_completed;
+    if (!taskCohort && !meetingCohort) return null;
+
+    const cohorts = { completed: new Map(), missed: new Map(), exempt: new Map() };
+    for (const source of [taskCohort, meetingCohort]) {
+      if (!source) continue;
+      for (const bucket of Object.keys(cohorts)) {
+        for (const lead of source[bucket] || []) cohorts[bucket].set(cohortIdentity(lead), lead);
+      }
+    }
+    for (const id of cohorts.completed.keys()) cohorts.missed.delete(id);
+    for (const id of cohorts.exempt.keys()) {
+      cohorts.completed.delete(id);
+      cohorts.missed.delete(id);
+    }
+    const completed = [...cohorts.completed.values()];
+    const missed = [...cohorts.missed.values()];
+    const exempt = [...cohorts.exempt.values()];
+    const eligible = completed.length + missed.length;
+    return {
+      label: 'Task or follow-up meeting', done: completed.length, eligible, exempt: exempt.length,
+      pct: eligible ? Math.floor(completed.length / eligible * 100 + 0.5) : null,
+      leadCohorts: { completed, missed, exempt }
+    };
+  }
+
+  function adherencePhasePct(adherence, phase) {
+    if (phase === 'pre_call') return adherence.pre_call_pct;
+    const values = ['follow_up_created', 'recap_email']
+      .map(key => adherenceStep(adherence, key)?.pct)
+      .filter(value => value != null);
+    return values.length ? Math.floor(values.reduce((sum, value) => sum + value, 0) / values.length + 0.5) : null;
   }
 
   function renderAdherenceBoard(D, daily = false) {
@@ -850,8 +893,7 @@
         <td>${adherenceStepValue(r, 'precall_text')}</td>
         <td>${adherenceStepValue(r, 'day_of_confirmation_text')}</td>
         <td class="adherence-average-cell adherence-post-start">${adherenceButton(r, 'post_call', sourceIndex)}</td>
-        <td>${adherenceStepValue(r, 'task_created')}</td>
-        <td>${adherenceStepValue(r, 'fu_meeting_created')}</td>
+        <td>${adherenceStepValue(r, 'follow_up_created')}</td>
         <td>${adherenceStepValue(r, 'recap_email')}</td>
       </tr>`;
     }).join('');
@@ -865,23 +907,23 @@
         <div class="adherence-table-wrap">
           <table>
             <colgroup>
-              <col style="width:16%"><col style="width:8%"><col style="width:11%"><col style="width:11%"><col style="width:14%"><col style="width:8%"><col style="width:10.67%"><col style="width:10.66%"><col style="width:10.67%">
+              <col style="width:16%"><col style="width:8%"><col style="width:11%"><col style="width:11%"><col style="width:14%"><col style="width:8%"><col style="width:16%"><col style="width:16%">
             </colgroup>
             <thead>
               <tr class="adherence-group-row">
                 <th class="adherence-rep-head" scope="col" rowspan="2">Rep</th>
                 <th scope="colgroup" colspan="4">Pre-call</th>
-                <th class="adherence-post-group" scope="colgroup" colspan="4">Post-call</th>
+                <th class="adherence-post-group" scope="colgroup" colspan="3">Post-call</th>
               </tr>
               <tr class="adherence-column-row">
                 <th scope="col">Average</th><th scope="col">Pre-Call Loom</th><th scope="col">Pre-call text</th><th scope="col">Day-of confirmation</th>
-                <th class="adherence-post-start" scope="col">Average</th><th scope="col">Task created</th><th scope="col">FU meeting created</th><th scope="col">Recap email sent</th>
+                <th class="adherence-post-start" scope="col">Average</th><th scope="col">Task or follow-up meeting</th><th scope="col">Recap email sent</th>
               </tr>
             </thead>
             <tbody>${adherenceRows}</tbody>
             <tfoot>
-              <tr><td>Scored cohort</td><td colspan="8">${cohort.included || 0} first calls${cohort.includes_lost ? ', including Lost leads' : ''} &middot; ${period}</td></tr>
-              <tr><td colspan="9">— means no eligible steps yet. Calls that are still upcoming remain pending until their scheduled start.</td></tr>
+              <tr><td>Scored cohort</td><td colspan="7">${cohort.included || 0} first calls${cohort.includes_lost ? ', including Lost leads' : ''} &middot; ${period}</td></tr>
+              <tr><td colspan="8">— means no eligible steps yet. Calls that are still upcoming remain pending until their scheduled start.</td></tr>
             </tfoot>
           </table>
         </div>
@@ -1095,8 +1137,7 @@
     loom_usage: 'Loom link recorded at or before the first-call deadline.',
     precall_text: 'Non-empty outbound SMS recorded at or before the first-call deadline.',
     day_of_confirmation_text: 'The current lead owner sends an outbound SMS with a message body or makes an outbound call lasting at least 45 seconds on the meeting’s Pacific calendar day before it begins.',
-    task_created: 'A dated task assigned to the credited closer, due at or after the scheduled first-call anchor or created after it. Show-up outcome does not affect eligibility; Closed/Won and Lost leads are exempt.',
-    fu_meeting_created: 'A later meeting for the lead that is not canceled or declined; it may be assigned to anyone. Show-up outcome does not affect eligibility; Closed/Won and Lost leads are exempt.',
+    follow_up_created: 'A dated task assigned to the credited closer, due at or after the scheduled first-call anchor or created after it, or a later meeting that is not canceled or declined and may be assigned to anyone. Either one completes this step. Show-up outcome does not affect eligibility; Closed/Won and Lost leads are exempt.',
     recap_email: 'A sent outbound email or owner-sent SMS within 24 hours of the scheduled first-call anchor. Show-up outcome does not affect eligibility; Closed/Won and Lost leads are exempt.'
   };
 
@@ -1144,18 +1185,18 @@
     drawerTrigger = trigger;
     const isPre = phase === 'pre_call';
     const phaseLabel = isPre ? 'Pre-call adherence' : 'Post-call adherence';
-    const phaseValue = rep.adherence[isPre ? 'pre_call_pct' : 'post_call_pct'];
+    const phaseValue = adherencePhasePct(rep.adherence, isPre ? 'pre_call' : 'post_call');
     const keys = isPre
       ? ['loom_usage', 'precall_text', 'day_of_confirmation_text']
-      : ['task_created', 'fu_meeting_created', 'recap_email'];
+      : ['follow_up_created', 'recap_email'];
     const cards = keys.map(key => {
-      const cell = rep.adherence.steps[key] || {
+      const cell = adherenceStep(rep.adherence, key) || {
         label: key === 'day_of_confirmation_text' ? 'Day-of confirmation' : key,
         pct: null, done: 0, eligible: 0
       };
       const displayLabel = cell.label;
       const pct = cell.pct;
-      const cohorts = rep.adherence.lead_cohorts && rep.adherence.lead_cohorts[key];
+      const cohorts = cell.leadCohorts || (rep.adherence.lead_cohorts && rep.adherence.lead_cohorts[key]);
       const leadLists = cohorts ? `<div class="step-cohorts">
         ${renderStepCohort('Completed', cohorts.completed || [])}
         ${renderStepCohort('Missed', cohorts.missed || [])}
@@ -1176,7 +1217,7 @@
         <div><div class="drawer-score-label">${phaseLabel}</div><p class="drawer-score-note" id="drawerDescription">Equal average of the available step percentages below. Neutral steps are excluded.</p></div>
       </div>
       <div class="step-list">${cards}</div>
-      <p class="drawer-rule-note">This calculation uses first calls scheduled in the dashboard month. Post-call steps are Task created, FU meeting created, and Recap email sent; they do not depend on the show-up outcome. Tasks must be assigned to the closer; later meetings can be assigned to anyone. Closed/Won and Lost leads remain visible as Exempt for post-call checks.${rep.adherence.lead_cohorts ? ' Lead lists, including exempt leads, are shown below.' : ''}</p>`;
+      <p class="drawer-rule-note">This calculation uses first calls scheduled in the dashboard month. Post-call steps are Task or follow-up meeting, and Recap email sent; they do not depend on the show-up outcome. A dated task must be assigned to the closer; a later meeting can be assigned to anyone. Closed/Won and Lost leads remain visible as Exempt for post-call checks.${rep.adherence.lead_cohorts ? ' Lead lists, including exempt leads, are shown below.' : ''}</p>`;
     drawer.hidden = false;
     document.body.classList.add('drawer-open');
     app.inert = true;
@@ -1273,7 +1314,7 @@
         r.exclude_meetings || !r.booked ? 'N/A' : r.close_rate + '%',
         r.exclude_meetings || !r.booked ? 'N/A' : r.show_rate + '%',
         r.adherence ? pctText(r.adherence.pre_call_pct) : 'N/A',
-        r.adherence ? pctText(r.adherence.post_call_pct) : 'N/A',
+        r.adherence ? pctText(adherencePhasePct(r.adherence, 'post_call')) : 'N/A',
       ]);
     }
     rows.push([

@@ -27,8 +27,7 @@ STEP_META = {
     "loom_usage": {"phase": "pre_call", "label": "Pre-Call Loom"},
     "precall_text": {"phase": "pre_call", "label": "Pre-call text"},
     "day_of_confirmation_text": {"phase": "pre_call", "label": "Day-of confirmation"},
-    "task_created": {"phase": "post_call", "label": "Task created"},
-    "fu_meeting_created": {"phase": "post_call", "label": "FU meeting created"},
+    "follow_up_created": {"phase": "post_call", "label": "Task or follow-up meeting"},
     "recap_email": {"phase": "post_call", "label": "Recap email sent"},
 }
 
@@ -281,19 +280,12 @@ def score_lead(
             continue
         later_meetings.append(meeting)
 
-    result["task_created"] = {
+    result["follow_up_created"] = {
         "eligible": set_eligible and not exempt_post_call,
-        "done": set_eligible and not exempt_post_call and bool(qualified_tasks),
+        "done": set_eligible and not exempt_post_call and bool(qualified_tasks or later_meetings),
     }
     if exempt_post_call:
-        result["task_created"]["exempt"] = True
-
-    result["fu_meeting_created"] = {
-        "eligible": set_eligible and not exempt_post_call,
-        "done": set_eligible and not exempt_post_call and bool(later_meetings),
-    }
-    if exempt_post_call:
-        result["fu_meeting_created"]["exempt"] = True
+        result["follow_up_created"]["exempt"] = True
 
     window_end = anchor + timedelta(hours=24)
     post_call_message = any(
@@ -365,8 +357,7 @@ def aggregate_rep_scores(
             ),
             "post_call_pct": round_mean(
                 [
-                    steps["task_created"]["pct"],
-                    steps["fu_meeting_created"]["pct"],
+                    steps["follow_up_created"]["pct"],
                     steps["recap_email"]["pct"],
                 ]
             ),

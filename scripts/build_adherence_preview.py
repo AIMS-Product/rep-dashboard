@@ -379,7 +379,7 @@ def build_lead_cohorts(
 def build_lead_results(
     scored_leads: list[tuple[dict[str, Any], dict[str, dict[str, bool]]]],
 ) -> list[dict[str, Any]]:
-    """Keep every lead and all seven outcomes available in the private preview."""
+    """Keep every lead and all five step outcomes available in the private preview."""
     results = []
     for lead, evidence in scored_leads:
         results.append({
@@ -599,7 +599,7 @@ def add_adherence_to_dashboard(
         })
 
     dashboard["adherence_meta"] = {
-        "schema_version": 9 if preview_only else 6,
+        "schema_version": 10 if preview_only else 7,
         "source": source,
         "generated_at": now.isoformat(),
         "period": {

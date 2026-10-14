@@ -185,7 +185,7 @@ def run(extract_path: Path, preview_path: Path, out_dir: Path) -> dict:
         metric_mismatches.append({"scope": "team", "metric": "show_rate",
                                   "independent": expected_team_rate, "preview": preview_team_rate})
 
-    # Independently determine the scored call/credited rep and all six process outcomes.
+    # Independently determine the scored call/credited rep and all five process outcomes.
     actual_results = {}
     for rep in preview.get("reps", []):
         for lead_result in (rep.get("adherence") or {}).get("lead_results", []):
@@ -407,8 +407,8 @@ def run(extract_path: Path, preview_path: Path, out_dir: Path) -> dict:
     lines.extend([
         "## Process adherence by rep",
         "",
-        "| Rep | Pre avg | Loom | Pre-call text | Day confirmation | Post avg | Task created | FU meeting created | Recap email sent |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| Rep | Pre avg | Loom | Pre-call text | Day confirmation | Post avg | Task or follow-up meeting | Recap email sent |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ])
     for rep_name, summary in rep_adherence_summary.items():
         steps = summary["steps"]
@@ -418,8 +418,7 @@ def run(extract_path: Path, preview_path: Path, out_dir: Path) -> dict:
             f"| {pct(steps['precall_text']['pct']['independent'])} "
             f"| {pct(steps['day_of_confirmation_text']['pct']['independent'])} "
             f"| {pct(summary['post_call_pct']['independent'])} "
-            f"| {pct(steps['task_created']['pct']['independent'])} "
-            f"| {pct(steps['fu_meeting_created']['pct']['independent'])} "
+            f"| {pct(steps['follow_up_created']['pct']['independent'])} "
             f"| {pct(steps['recap_email']['pct']['independent'])} |"
         )
     lines.extend([

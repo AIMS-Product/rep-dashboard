@@ -22,13 +22,12 @@ STEP_LABELS = {
     "loom_usage": "Pre-Call Loom",
     "precall_text": "Pre-call text",
     "day_of_confirmation_text": "Day-of confirmation",
-    "task_created": "Task created",
-    "fu_meeting_created": "FU meeting created",
+    "follow_up_created": "Task or follow-up meeting",
     "recap_email": "Recap email sent",
 }
 PHASE_STEPS = {
     "Pre-call": ("loom_usage", "precall_text", "day_of_confirmation_text"),
-    "Post-call": ("task_created", "fu_meeting_created", "recap_email"),
+    "Post-call": ("follow_up_created", "recap_email"),
 }
 
 
