@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-15 06:08:55 PDT",
+  "updated_at": "2026-10-15 07:27:31 PDT",
   "month_label": "October 2026",
   "day_of_month": 15,
   "days_in_month": 31,
@@ -10,12 +10,12 @@
   "pct_team_quota": 23.2,
   "total_revenue": 174305.0,
   "total_deals": 20,
-  "total_booked": 287,
+  "total_booked": 289,
   "total_shown": 151,
   "total_qualified": 109,
   "team_aov": 8715.25,
-  "team_close_rate": 7.0,
-  "team_show_rate": 52.6,
+  "team_close_rate": 6.9,
+  "team_show_rate": 52.2,
   "today_revenue": 0.0,
   "today_deals": 0,
   "today_closers": [],
@@ -26,12 +26,12 @@
       "deals": 5,
       "quota": 100000,
       "pct_to_quota": 37.0,
-      "booked": 51,
+      "booked": 52,
       "shown": 21,
       "qualified": 19,
-      "close_rate": 9.8,
-      "show_rate": 41.2,
-      "revenue_per_lead": 726.18,
+      "close_rate": 9.6,
+      "show_rate": 40.4,
+      "revenue_per_lead": 712.21,
       "aov": 7407.0,
       "is_manager": false,
       "is_lead": false,
@@ -6933,7 +6933,7 @@
                 "booked_date": "2026-10-01",
                 "scored_call_at": "2026-10-01T08:30:00-07:00",
                 "url": "https://app.close.com/lead/lead_iSYbq1vVxqbhTxjckcdZ83wtb5YcIzG9G83YuoC5rDw/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "\ud83d\udd3b Canceled (by Lead)"
               },
               {
                 "id": "lead_ydyYTg4N8ochm9JbrDD4ntSz9AzMWri8zE22WFPG8SW",
@@ -7196,7 +7196,7 @@
                 "booked_date": "2026-10-01",
                 "scored_call_at": "2026-10-01T08:30:00-07:00",
                 "url": "https://app.close.com/lead/lead_iSYbq1vVxqbhTxjckcdZ83wtb5YcIzG9G83YuoC5rDw/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "\ud83d\udd3b Canceled (by Lead)"
               },
               {
                 "id": "lead_ydyYTg4N8ochm9JbrDD4ntSz9AzMWri8zE22WFPG8SW",
@@ -7451,7 +7451,7 @@
                 "booked_date": "2026-10-01",
                 "scored_call_at": "2026-10-01T08:30:00-07:00",
                 "url": "https://app.close.com/lead/lead_iSYbq1vVxqbhTxjckcdZ83wtb5YcIzG9G83YuoC5rDw/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "\ud83d\udd3b Canceled (by Lead)"
               },
               {
                 "id": "lead_ydyYTg4N8ochm9JbrDD4ntSz9AzMWri8zE22WFPG8SW",
@@ -7706,7 +7706,7 @@
                 "booked_date": "2026-10-01",
                 "scored_call_at": "2026-10-01T08:30:00-07:00",
                 "url": "https://app.close.com/lead/lead_iSYbq1vVxqbhTxjckcdZ83wtb5YcIzG9G83YuoC5rDw/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "\ud83d\udd3b Canceled (by Lead)"
               },
               {
                 "id": "lead_ydyYTg4N8ochm9JbrDD4ntSz9AzMWri8zE22WFPG8SW",
@@ -7962,7 +7962,7 @@
                 "booked_date": "2026-10-01",
                 "scored_call_at": "2026-10-01T08:30:00-07:00",
                 "url": "https://app.close.com/lead/lead_iSYbq1vVxqbhTxjckcdZ83wtb5YcIzG9G83YuoC5rDw/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "\ud83d\udd3b Canceled (by Lead)"
               },
               {
                 "id": "lead_ydyYTg4N8ochm9JbrDD4ntSz9AzMWri8zE22WFPG8SW",
@@ -8301,12 +8301,12 @@
       "deals": 2,
       "quota": 100000,
       "pct_to_quota": 12.0,
-      "booked": 36,
+      "booked": 37,
       "shown": 21,
       "qualified": 17,
-      "close_rate": 5.6,
-      "show_rate": 58.3,
-      "revenue_per_lead": 333.17,
+      "close_rate": 5.4,
+      "show_rate": 56.8,
+      "revenue_per_lead": 324.16,
       "aov": 5997.0,
       "is_manager": false,
       "is_lead": false,
@@ -12875,26 +12875,26 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-10-15T06:14:06.827957-07:00",
+    "generated_at": "2026-10-15T07:33:02.995626-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
       "basis": "latest_sales_call_booked_date_with_first_date_fallback"
     },
     "cohort": {
-      "raw": 377,
-      "included": 351,
+      "raw": 379,
+      "included": 353,
       "excluded": 26,
       "exclusion_counts": {
         "do_not_contact": 1,
         "meeting_rep_not_visible": 25
       },
       "attribution_counts": {
-        "meeting_rep": 351
+        "meeting_rep": 353
       },
       "includes_lost": true
     },
-    "api_requests": 740,
+    "api_requests": 741,
     "preview_only": false
   }
 }
