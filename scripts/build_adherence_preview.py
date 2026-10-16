@@ -24,7 +24,7 @@ from urllib.parse import urlencode, urlparse
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
-from adherence_rules import LOST_STATUS_ID, STEP_META, WON_STATUS_ID, aggregate_rep_scores, first_call_deadline, parse_datetime, score_lead, validate_aggregate
+from adherence_rules import LOST_STATUS_ID, STEP_META, WON_STATUS_ID, aggregate_rep_scores, first_call_deadline, is_post_call_exempt_status, parse_datetime, score_lead, validate_aggregate
 from qualifying_meeting_rules import latest_qualifying_dates_in_period
 
 
@@ -44,9 +44,7 @@ CF_FUNNEL_NAME_DEAL_ID = "cf_xqDQE8fkPsWa0RNEve7hcaxKblCe6489XeZGRDzyPdX"
 
 EXCLUDED_LEAD_STATUSES = {
     "stat_hWIGHjzyNpl4YjIFSFz3VK4fp2ny10SFJLKAihmo4KT": "canceled_by_lead",
-    "stat_p3oblSTnbsyDAw4rWqZDePGYMOlKBgV2FjbqIMDrfvF": "disqualified",
     "stat_YV4ZngDB4IGjLjlOf0YTFEWuKZJ6fhNxVkzQkvKYfdB": "outside_us",
-    "stat_U9MI7pqsvIjceTv3pCU7b1EghO8Q83h1HUcL6fGVyi6": "do_not_contact",
 }
 EXCLUDED_FUNNELS = {"LTF - Quiz Funnel"}
 ACTIVITY_ENDPOINTS = {
@@ -492,6 +490,10 @@ def add_adherence_to_dashboard(
             or "closed / won" in str(lead.get("status_label") or "").lower(),
             "closed_lost": lead.get("status_id") == LOST_STATUS_ID
             or str(lead.get("status_label") or "").strip().lower().endswith("lost"),
+            "post_call_exempt": is_post_call_exempt_status(
+                lead.get("status_id"), lead.get("status_label"),
+                opportunity_status_label(lead),
+            ),
             "current_owner_id": owner_id,
             "booked_date": booked_date,
             "date_source": date_source,
@@ -515,6 +517,11 @@ def add_adherence_to_dashboard(
         first_call_at, first_meeting = first_call_deadline(
             lead["booked_date"], meetings_by_lead.get(lead["id"], []),
             show_state=lead["show_state"],
+        )
+        lead["post_call_exempt"] = lead["post_call_exempt"] or is_post_call_exempt_status(
+            lead.get("status_id"), lead.get("status_label"),
+            lead.get("opportunity_status_label"),
+            meeting_outcome_id=(first_meeting or {}).get("outcome_id"),
         )
         rep_id, reason = scoring_rep_for_meeting(
             first_meeting, lead["current_owner_id"], visible_rep_ids
@@ -563,6 +570,7 @@ def add_adherence_to_dashboard(
             lead_owner_id=lead["current_owner_id"],
             closed_won=lead["closed_won"],
             closed_lost=lead["closed_lost"],
+            post_call_exempt=lead["post_call_exempt"],
             emails=activity["emails"].get(lead_id, []),
             sms=activity["sms"].get(lead_id, []),
             calls=activity.get("calls", {}).get(lead_id, []),
