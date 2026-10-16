@@ -1,40 +1,24 @@
 {
-  "updated_at": "2026-10-15 23:40:43 PDT",
+  "updated_at": "2026-10-16 00:54:38 PDT",
   "month_label": "October 2026",
-  "day_of_month": 15,
+  "day_of_month": 16,
   "days_in_month": 31,
   "working_days_total": 22,
-  "working_days_elapsed": 11,
-  "pct_month_passed": 50.0,
+  "working_days_elapsed": 12,
+  "pct_month_passed": 54.5,
   "team_quota": 750000,
   "pct_team_quota": 27.9,
   "total_revenue": 209299.0,
   "total_deals": 23,
-  "total_booked": 309,
-  "total_shown": 163,
-  "total_qualified": 117,
+  "total_booked": 308,
+  "total_shown": 162,
+  "total_qualified": 116,
   "team_aov": 9099.96,
-  "team_close_rate": 7.4,
-  "team_show_rate": 52.8,
-  "today_revenue": 34994.0,
-  "today_deals": 4,
-  "today_closers": [
-    {
-      "name": "Ariella Irvine",
-      "deals": 2,
-      "total": 19497.0
-    },
-    {
-      "name": "Eric Piccione",
-      "deals": 1,
-      "total": 9497.0
-    },
-    {
-      "name": "Oscar Pugh",
-      "deals": 1,
-      "total": 6000.0
-    }
-  ],
+  "team_close_rate": 7.5,
+  "team_show_rate": 52.6,
+  "today_revenue": 0.0,
+  "today_deals": 0,
+  "today_closers": [],
   "reps": [
     {
       "name": "Luke Herman",
@@ -42,44 +26,44 @@
       "deals": 5,
       "quota": 100000,
       "pct_to_quota": 37.0,
-      "booked": 56,
-      "shown": 22,
-      "qualified": 20,
-      "close_rate": 8.9,
-      "show_rate": 39.3,
-      "revenue_per_lead": 661.34,
+      "booked": 55,
+      "shown": 21,
+      "qualified": 19,
+      "close_rate": 9.1,
+      "show_rate": 38.2,
+      "revenue_per_lead": 673.36,
       "aov": 7407.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
       "rep_owner_id": "user_6kp6k4OcqKqFNrxGjgMUncedjiCYC6JHU8EI28F7etV",
       "adherence": {
-        "pre_call_pct": 95,
+        "pre_call_pct": 93,
         "post_call_pct": 86,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 55,
+            "done": 54,
             "eligible": 56,
             "exempt": 0,
-            "pct": 98
+            "pct": 96
           },
           "precall_text": {
             "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 51,
+            "eligible": 56,
+            "exempt": 0,
+            "pct": 91
+          },
+          "day_of_confirmation_text": {
+            "label": "Day-of confirmation",
             "phase": "pre_call",
             "done": 52,
             "eligible": 56,
             "exempt": 0,
             "pct": 93
-          },
-          "day_of_confirmation_text": {
-            "label": "Day-of confirmation",
-            "phase": "pre_call",
-            "done": 53,
-            "eligible": 56,
-            "exempt": 0,
-            "pct": 95
           },
           "follow_up_created": {
             "label": "Task or follow-up meeting",
@@ -526,14 +510,6 @@
                 "status_label": "\ud83d\udc7b No Show"
               },
               {
-                "id": "lead_6plFmnwjaxgFXtnhVB5kmcd4iXw6S43pWXTb9EN9cMo",
-                "name": "Mikita Hawkins",
-                "booked_date": "2026-10-15",
-                "scored_call_at": "2026-10-15T10:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_6plFmnwjaxgFXtnhVB5kmcd4iXw6S43pWXTb9EN9cMo/",
-                "status_label": "\ud83d\udc94 Lost"
-              },
-              {
                 "id": "lead_srsCLjfSibPEtfgjzcR9QjFkoU7tnOM46VCFEgxQpjD",
                 "name": "Thomas Tinsley",
                 "booked_date": "2026-10-15",
@@ -549,6 +525,14 @@
                 "booked_date": "2026-10-11",
                 "scored_call_at": "2026-10-11T08:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_JtePHixPDPaVADmYUq5d0UsV0OP252JuOy2NT9TSDf2/",
+                "status_label": "\ud83d\udc94 Lost"
+              },
+              {
+                "id": "lead_6plFmnwjaxgFXtnhVB5kmcd4iXw6S43pWXTb9EN9cMo",
+                "name": "Mikita Hawkins",
+                "booked_date": "2026-10-15",
+                "scored_call_at": "2026-10-15T10:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_6plFmnwjaxgFXtnhVB5kmcd4iXw6S43pWXTb9EN9cMo/",
                 "status_label": "\ud83d\udc94 Lost"
               }
             ],
@@ -957,14 +941,6 @@
                 "status_label": "\ud83d\udc7b No Show"
               },
               {
-                "id": "lead_6plFmnwjaxgFXtnhVB5kmcd4iXw6S43pWXTb9EN9cMo",
-                "name": "Mikita Hawkins",
-                "booked_date": "2026-10-15",
-                "scored_call_at": "2026-10-15T10:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_6plFmnwjaxgFXtnhVB5kmcd4iXw6S43pWXTb9EN9cMo/",
-                "status_label": "\ud83d\udc94 Lost"
-              },
-              {
                 "id": "lead_srsCLjfSibPEtfgjzcR9QjFkoU7tnOM46VCFEgxQpjD",
                 "name": "Thomas Tinsley",
                 "booked_date": "2026-10-15",
@@ -1005,6 +981,14 @@
                 "scored_call_at": "2026-10-12T14:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_Mo9RWHktzlfjZsVIbfV8AKfgWm3UcorhmI1FkjRMr8l/",
                 "status_label": "\ud83d\udc7b No Show"
+              },
+              {
+                "id": "lead_6plFmnwjaxgFXtnhVB5kmcd4iXw6S43pWXTb9EN9cMo",
+                "name": "Mikita Hawkins",
+                "booked_date": "2026-10-15",
+                "scored_call_at": "2026-10-15T10:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_6plFmnwjaxgFXtnhVB5kmcd4iXw6S43pWXTb9EN9cMo/",
+                "status_label": "\ud83d\udc94 Lost"
               }
             ],
             "exempt": []
@@ -1420,14 +1404,6 @@
                 "status_label": "\ud83d\udc7b No Show"
               },
               {
-                "id": "lead_6plFmnwjaxgFXtnhVB5kmcd4iXw6S43pWXTb9EN9cMo",
-                "name": "Mikita Hawkins",
-                "booked_date": "2026-10-15",
-                "scored_call_at": "2026-10-15T10:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_6plFmnwjaxgFXtnhVB5kmcd4iXw6S43pWXTb9EN9cMo/",
-                "status_label": "\ud83d\udc94 Lost"
-              },
-              {
                 "id": "lead_srsCLjfSibPEtfgjzcR9QjFkoU7tnOM46VCFEgxQpjD",
                 "name": "Thomas Tinsley",
                 "booked_date": "2026-10-15",
@@ -1459,6 +1435,14 @@
                 "booked_date": "2026-10-11",
                 "scored_call_at": "2026-10-11T08:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_JtePHixPDPaVADmYUq5d0UsV0OP252JuOy2NT9TSDf2/",
+                "status_label": "\ud83d\udc94 Lost"
+              },
+              {
+                "id": "lead_6plFmnwjaxgFXtnhVB5kmcd4iXw6S43pWXTb9EN9cMo",
+                "name": "Mikita Hawkins",
+                "booked_date": "2026-10-15",
+                "scored_call_at": "2026-10-15T10:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_6plFmnwjaxgFXtnhVB5kmcd4iXw6S43pWXTb9EN9cMo/",
                 "status_label": "\ud83d\udc94 Lost"
               }
             ],
@@ -13611,7 +13595,7 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-10-15T23:44:54.999223-07:00",
+    "generated_at": "2026-10-16T00:58:53.476388-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
@@ -13630,7 +13614,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 765,
+    "api_requests": 768,
     "preview_only": false
   }
 }
