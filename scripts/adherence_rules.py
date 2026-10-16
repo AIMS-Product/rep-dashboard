@@ -18,6 +18,15 @@ from zoneinfo import ZoneInfo
 PACIFIC = ZoneInfo("America/Los_Angeles")
 WON_STATUS_ID = "stat_WnFc0uhjcjV0cc3bVzdFVqDz7av6rbsOmOvHUsO6s03"
 LOST_STATUS_ID = "stat_aR2jBa8YnTNZmHAnPsnlQuinBdaXpSBCkZGP3UvoBlV"
+CANCELED_LEAD_STATUS_ID = "stat_hWIGHjzyNpl4YjIFSFz3VK4fp2ny10SFJLKAihmo4KT"
+NO_SHOW_STATUS_ID = "stat_NCXVjokjo3VXirJx2eSAcRoKlEDg1WsO1sjeLfU8udO"
+NO_SHOW_LEAD_STATUS_ID = "stat_5CqIgNJnGYO357zXjSnH6BAkKyoCvYUOBxVvpYfDMZn"
+RESCHEDULE_LEAD_STATUS_ID = "stat_2SmOUMCp1vDFJF0TcJ011hNnpLYWDGwugyo4JyiRMEP"
+DISQUALIFIED_LEAD_STATUS_ID = "stat_p3oblSTnbsyDAw4rWqZDePGYMOlKBgV2FjbqIMDrfvF"
+DO_NOT_CONTACT_LEAD_STATUS_ID = "stat_U9MI7pqsvIjceTv3pCU7b1EghO8Q83h1HUcL6fGVyi6"
+NO_SHOW_MEETING_OUTCOME_ID = "outcome_032DjoyPo9BgPBdOF6DzqH"
+RESCHEDULED_MEETING_OUTCOME_ID = "outcome_032Djo72GJ2Lvw3Q296wxH"
+CANCELED_MEETING_OUTCOME_ID = "outcome_032DjpoQ9otqb8rGb7SIYt"
 CANCELED_MEETING_STATUSES = {"canceled", "declined-by-lead", "declined-by-org"}
 OUTBOUND_DIRECTIONS = {"outbound", "outgoing"}
 SENT_ACTIVITY_WEBHOOK_ROLLOUT_AT = datetime(2026, 7, 23, 18, 42, 25, tzinfo=ZoneInfo("UTC"))
@@ -30,6 +39,37 @@ STEP_META = {
     "follow_up_created": {"phase": "post_call", "label": "Task or follow-up meeting"},
     "recap_email": {"phase": "post_call", "label": "Recap email sent"},
 }
+
+
+def is_post_call_exempt_status(
+    status_id: Any,
+    *labels: Any,
+    meeting_outcome_id: Any = None,
+) -> bool:
+    """Exclude terminal, canceled, rescheduled, and no-show outcomes from post-call scoring."""
+    if status_id in {
+        WON_STATUS_ID, LOST_STATUS_ID, CANCELED_LEAD_STATUS_ID, NO_SHOW_STATUS_ID,
+        NO_SHOW_LEAD_STATUS_ID, RESCHEDULE_LEAD_STATUS_ID,
+        DISQUALIFIED_LEAD_STATUS_ID, DO_NOT_CONTACT_LEAD_STATUS_ID,
+    }:
+        return True
+    if meeting_outcome_id in {
+        NO_SHOW_MEETING_OUTCOME_ID, RESCHEDULED_MEETING_OUTCOME_ID,
+        CANCELED_MEETING_OUTCOME_ID,
+    }:
+        return True
+    normalized = {
+        " ".join(str(label or "").lower().replace("/", " ").replace("-", " ").split())
+        for label in labels
+    }
+    return any(
+        any(term in label for term in (
+            "no show", "reschedul", "cancel", "disqualif", "do not contact",
+            "closed won", "closed lost",
+        ))
+        or label.strip(" _") in {"dnc", "lost", "won"}
+        for label in normalized
+    )
 
 
 def parse_datetime(value: Any, *, date_at_end_of_day: bool = False) -> datetime | None:
@@ -178,6 +218,7 @@ def score_lead(
     owner_id: str | None,
     closed_won: bool = False,
     closed_lost: bool = False,
+    post_call_exempt: bool = False,
     lead_owner_id: str | None = None,
     emails: Iterable[dict[str, Any]] = (),
     sms: Iterable[dict[str, Any]] = (),
@@ -197,7 +238,7 @@ def score_lead(
     deadline, first_meeting = first_call_deadline(
         booked_date, meetings, show_state=show_state
     )
-    exempt_post_call = closed_won or closed_lost
+    exempt_post_call = closed_won or closed_lost or post_call_exempt
     result = {key: {"eligible": False, "done": False} for key in STEP_META}
     if not deadline:
         return result
