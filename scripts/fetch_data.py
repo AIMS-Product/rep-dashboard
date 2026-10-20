@@ -24,7 +24,8 @@ import time
 from datetime import datetime, timezone, date, timedelta
 from urllib.request import Request, urlopen
 from urllib.parse import urlencode
-from urllib.error import HTTPError
+from http.client import IncompleteRead
+from urllib.error import HTTPError, URLError
 from base64 import b64encode
 from calendar import monthrange
 
@@ -149,22 +150,31 @@ def api_get(endpoint, params=None):
         "Accept": "application/json",
     }
 
-    max_retries = 3
+    max_retries = 6
     for attempt in range(max_retries):
         try:
             _last_api_call = time.time()
             req = Request(url, headers=headers)
-            with urlopen(req) as resp:
+            with urlopen(req, timeout=60) as resp:
                 return json.loads(resp.read().decode())
         except HTTPError as e:
             if e.code == 429 and attempt < max_retries - 1:
-                wait = 2 ** (attempt + 1)
+                wait = min(2 ** (attempt + 1), 30)
                 print(f"  Rate limited (429), waiting {wait}s...", flush=True)
                 time.sleep(wait)
                 continue
             body = e.read().decode() if e.fp else ""
             print(f"API error {e.code} for {url}: {body}", file=sys.stderr, flush=True)
             raise
+        except (IncompleteRead, URLError, TimeoutError, OSError) as e:
+            if attempt == max_retries - 1:
+                raise
+            wait = 2 ** (attempt + 1)
+            print(
+                f"  Close response interrupted for {endpoint}; retrying in {wait}s...",
+                flush=True,
+            )
+            time.sleep(wait)
 
 
 def fetch_org_users():
@@ -346,7 +356,8 @@ def fetch_meeting_data(year, month, today_str, user_map, name_to_id):
     # Paginate lead query
     all_leads = []
     skip = 0
-    limit = 200
+    # Keep response bodies modest; lead records include nested custom-field data.
+    limit = 100
 
     while True:
         params = {

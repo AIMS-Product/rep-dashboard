@@ -13,6 +13,7 @@ import json
 import os
 import sys
 import time
+from http.client import IncompleteRead
 from base64 import b64encode
 from calendar import monthrange
 from collections import defaultdict
@@ -87,25 +88,26 @@ class CloseClient:
         url = f"{BASE_URL}{endpoint}" + (f"?{query}" if query else "")
         token = b64encode(f"{self.api_key}:".encode()).decode()
         request = Request(url, headers={"Authorization": f"Basic {token}", "Accept": "application/json"})
-        for attempt in range(4):
+        max_attempts = 6
+        for attempt in range(max_attempts):
             try:
                 self.last_call = time.monotonic()
                 self.request_count += 1
                 with urlopen(request, timeout=45) as response:
                     return json.loads(response.read().decode())
             except HTTPError as error:
-                if error.code == 429 and attempt < 3:
-                    wait = 2 ** (attempt + 1)
+                if error.code == 429 and attempt < max_attempts - 1:
+                    wait = min(2 ** (attempt + 1), 30)
                     print(f"    Rate limited; retrying in {wait}s", flush=True)
                     time.sleep(wait)
                     continue
                 body = error.read().decode(errors="replace")[:500] if error.fp else ""
                 raise RuntimeError(f"Close API {error.code} for {endpoint}: {body}") from error
-            except (URLError, TimeoutError, OSError) as error:
-                if attempt == 3:
+            except (IncompleteRead, URLError, TimeoutError, OSError) as error:
+                if attempt == max_attempts - 1:
                     raise RuntimeError(f"Close API connection failed for {endpoint} after retries") from error
-                wait = 2 ** (attempt + 1)
-                print(f"    Close connection interrupted; retrying in {wait}s", flush=True)
+                wait = min(2 ** (attempt + 1), 30)
+                print(f"    Close response interrupted; retrying in {wait}s", flush=True)
                 time.sleep(wait)
         raise RuntimeError(f"Close API retry budget exhausted for {endpoint}")
 
