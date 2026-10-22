@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-21 19:11:19 PDT",
+  "updated_at": "2026-10-21 20:34:29 PDT",
   "month_label": "October 2026",
   "day_of_month": 21,
   "days_in_month": 31,
@@ -17975,25 +17975,25 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-10-21T19:16:10.953868-07:00",
+    "generated_at": "2026-10-21T20:39:15.337416-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
       "basis": "latest_sales_call_booked_date_with_first_date_fallback"
     },
     "cohort": {
-      "raw": 502,
-      "included": 469,
+      "raw": 503,
+      "included": 470,
       "excluded": 33,
       "exclusion_counts": {
         "meeting_rep_not_visible": 33
       },
       "attribution_counts": {
-        "meeting_rep": 469
+        "meeting_rep": 470
       },
       "includes_lost": true
     },
-    "api_requests": 912,
+    "api_requests": 917,
     "preview_only": false
   }
 }
