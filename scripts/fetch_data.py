@@ -99,7 +99,6 @@ REP_QUOTAS = {
     "Shreya Bechra": 100_000,
     "Luke Herman": 100_000,
     "Ariella Irvine": 100_000,
-    "Oscar Pugh": 100_000,
 }
 
 # Lane 2 reps: shown on board individually but their booked/shown/deals
