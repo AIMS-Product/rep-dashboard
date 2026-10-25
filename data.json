@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-25 06:32:05 PDT",
+  "updated_at": "2026-10-25 07:48:48 PDT",
   "month_label": "October 2026",
   "day_of_month": 25,
   "days_in_month": 31,
@@ -4683,29 +4683,29 @@
       "rep_owner_id": "user_6kp6k4OcqKqFNrxGjgMUncedjiCYC6JHU8EI28F7etV",
       "adherence": {
         "pre_call_pct": 92,
-        "post_call_pct": 97,
+        "post_call_pct": 94,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 83,
-            "eligible": 87,
+            "done": 84,
+            "eligible": 88,
             "exempt": 0,
             "pct": 95
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 78,
-            "eligible": 87,
+            "done": 79,
+            "eligible": 88,
             "exempt": 0,
             "pct": 90
           },
           "day_of_confirmation_text": {
             "label": "Day-of confirmation",
             "phase": "pre_call",
-            "done": 79,
-            "eligible": 87,
+            "done": 80,
+            "eligible": 88,
             "exempt": 0,
             "pct": 91
           },
@@ -4713,9 +4713,9 @@
             "label": "Task or follow-up meeting",
             "phase": "post_call",
             "done": 16,
-            "eligible": 16,
+            "eligible": 17,
             "exempt": 71,
-            "pct": 100
+            "pct": 94
           },
           "recap_email": {
             "label": "Recap email sent",
@@ -5392,6 +5392,14 @@
                 "scored_call_at": "2026-10-24T09:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_QhqvNslxoSl5Jzrt31TPUjiO6PWnD9dS4nkcmTHIwKQ/",
                 "status_label": "\ud83d\udc7b No Show"
+              },
+              {
+                "id": "lead_UZBWlEFEhAco0d3XUkNocQausDDJYjZPnzlRosuun7D",
+                "name": "Quay Edwards",
+                "booked_date": "2026-10-25",
+                "scored_call_at": "2026-10-25T07:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_UZBWlEFEhAco0d3XUkNocQausDDJYjZPnzlRosuun7D/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [
@@ -6055,6 +6063,14 @@
                 "scored_call_at": "2026-10-24T09:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_QhqvNslxoSl5Jzrt31TPUjiO6PWnD9dS4nkcmTHIwKQ/",
                 "status_label": "\ud83d\udc7b No Show"
+              },
+              {
+                "id": "lead_UZBWlEFEhAco0d3XUkNocQausDDJYjZPnzlRosuun7D",
+                "name": "Quay Edwards",
+                "booked_date": "2026-10-25",
+                "scored_call_at": "2026-10-25T07:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_UZBWlEFEhAco0d3XUkNocQausDDJYjZPnzlRosuun7D/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [
@@ -6766,6 +6782,14 @@
                 "scored_call_at": "2026-10-24T09:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_QhqvNslxoSl5Jzrt31TPUjiO6PWnD9dS4nkcmTHIwKQ/",
                 "status_label": "\ud83d\udc7b No Show"
+              },
+              {
+                "id": "lead_UZBWlEFEhAco0d3XUkNocQausDDJYjZPnzlRosuun7D",
+                "name": "Quay Edwards",
+                "booked_date": "2026-10-25",
+                "scored_call_at": "2026-10-25T07:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_UZBWlEFEhAco0d3XUkNocQausDDJYjZPnzlRosuun7D/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [
@@ -6967,7 +6991,16 @@
                 "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               }
             ],
-            "missed": [],
+            "missed": [
+              {
+                "id": "lead_UZBWlEFEhAco0d3XUkNocQausDDJYjZPnzlRosuun7D",
+                "name": "Quay Edwards",
+                "booked_date": "2026-10-25",
+                "scored_call_at": "2026-10-25T07:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_UZBWlEFEhAco0d3XUkNocQausDDJYjZPnzlRosuun7D/",
+                "status_label": "\u260e\ufe0f Call Booked"
+              }
+            ],
             "exempt": [
               {
                 "id": "lead_ogqlt7pQvDCTmv6qOM123EWEbHcnWM2PI6N36aZLeq5",
@@ -18707,7 +18740,7 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-10-25T06:37:12.541814-07:00",
+    "generated_at": "2026-10-25T07:54:10.218141-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
@@ -18725,7 +18758,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 940,
+    "api_requests": 941,
     "preview_only": false
   }
 }
