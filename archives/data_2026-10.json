@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-24 18:22:35 PDT",
+  "updated_at": "2026-10-24 19:41:22 PDT",
   "month_label": "October 2026",
   "day_of_month": 24,
   "days_in_month": 31,
@@ -10,12 +10,12 @@
   "pct_team_quota": 43.5,
   "total_revenue": 325986.0,
   "total_deals": 39,
-  "total_booked": 401,
+  "total_booked": 402,
   "total_shown": 222,
   "total_qualified": 158,
   "team_aov": 8358.62,
   "team_close_rate": 9.7,
-  "team_show_rate": 55.4,
+  "team_show_rate": 55.2,
   "today_revenue": 0.0,
   "today_deals": 0,
   "today_closers": [],
@@ -15595,12 +15595,12 @@
       "deals": 2,
       "quota": 100000,
       "pct_to_quota": 18.0,
-      "booked": 66,
+      "booked": 67,
       "shown": 34,
       "qualified": 22,
       "close_rate": 3.0,
-      "show_rate": 51.5,
-      "revenue_per_lead": 272.73,
+      "show_rate": 50.7,
+      "revenue_per_lead": 268.66,
       "aov": 9000.0,
       "is_manager": false,
       "is_lead": false,
@@ -18707,25 +18707,25 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-10-24T18:27:37.791609-07:00",
+    "generated_at": "2026-10-24T19:46:22.695481-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
       "basis": "latest_sales_call_booked_date_with_first_date_fallback"
     },
     "cohort": {
-      "raw": 551,
-      "included": 481,
+      "raw": 552,
+      "included": 482,
       "excluded": 70,
       "exclusion_counts": {
         "meeting_rep_not_visible": 70
       },
       "attribution_counts": {
-        "meeting_rep": 481
+        "meeting_rep": 482
       },
       "includes_lost": true
     },
-    "api_requests": 943,
+    "api_requests": 944,
     "preview_only": false
   }
 }
