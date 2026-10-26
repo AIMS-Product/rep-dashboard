@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-10-25 23:51:35 PDT",
+  "updated_at": "2026-10-26 01:32:54 PDT",
   "month_label": "October 2026",
-  "day_of_month": 25,
+  "day_of_month": 26,
   "days_in_month": 31,
   "working_days_total": 22,
-  "working_days_elapsed": 17,
-  "pct_month_passed": 77.3,
+  "working_days_elapsed": 18,
+  "pct_month_passed": 81.8,
   "team_quota": 750000,
   "pct_team_quota": 45.3,
   "total_revenue": 339780.0,
@@ -16,15 +16,9 @@
   "team_aov": 8287.32,
   "team_close_rate": 10.1,
   "team_show_rate": 55.6,
-  "today_revenue": 13794.0,
-  "today_deals": 2,
-  "today_closers": [
-    {
-      "name": "Luke Herman",
-      "deals": 2,
-      "total": 13794.0
-    }
-  ],
+  "today_revenue": 0.0,
+  "today_deals": 0,
+  "today_closers": [],
   "reps": [
     {
       "name": "Luke Herman",
@@ -19017,25 +19011,25 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-10-25T23:56:51.463457-07:00",
+    "generated_at": "2026-10-26T01:38:00.911232-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
       "basis": "latest_sales_call_booked_date_with_first_date_fallback"
     },
     "cohort": {
-      "raw": 555,
-      "included": 485,
+      "raw": 556,
+      "included": 486,
       "excluded": 70,
       "exclusion_counts": {
         "meeting_rep_not_visible": 70
       },
       "attribution_counts": {
-        "meeting_rep": 485
+        "meeting_rep": 486
       },
       "includes_lost": true
     },
-    "api_requests": 948,
+    "api_requests": 950,
     "preview_only": false
   }
 }
