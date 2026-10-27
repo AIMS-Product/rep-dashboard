@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-27 11:00:20 PDT",
+  "updated_at": "2026-10-27 11:15:14 PDT",
   "month_label": "October 2026",
   "day_of_month": 27,
   "days_in_month": 31,
@@ -10,12 +10,12 @@
   "pct_team_quota": 50.2,
   "total_revenue": 376456.0,
   "total_deals": 47,
-  "total_booked": 423,
+  "total_booked": 424,
   "total_shown": 232,
-  "total_qualified": 168,
+  "total_qualified": 169,
   "team_aov": 8009.7,
   "team_close_rate": 11.1,
-  "team_show_rate": 54.8,
+  "team_show_rate": 54.7,
   "today_revenue": 8500.0,
   "today_deals": 1,
   "today_closers": [
@@ -2175,7 +2175,7 @@
       "pct_to_quota": 61.2,
       "booked": 84,
       "shown": 40,
-      "qualified": 33,
+      "qualified": 34,
       "close_rate": 9.5,
       "show_rate": 47.6,
       "revenue_per_lead": 728.29,
@@ -6028,12 +6028,12 @@
       "deals": 5,
       "quota": 100000,
       "pct_to_quota": 58.5,
-      "booked": 44,
+      "booked": 45,
       "shown": 27,
       "qualified": 9,
-      "close_rate": 11.4,
-      "show_rate": 61.4,
-      "revenue_per_lead": 1329.2,
+      "close_rate": 11.1,
+      "show_rate": 60.0,
+      "revenue_per_lead": 1299.67,
       "aov": 11697.0,
       "is_manager": false,
       "is_lead": false,
@@ -6041,7 +6041,7 @@
       "rep_owner_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
       "adherence": {
         "pre_call_pct": 75,
-        "post_call_pct": 79,
+        "post_call_pct": 80,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -6071,16 +6071,16 @@
             "label": "Task or follow-up meeting",
             "phase": "post_call",
             "done": 23,
-            "eligible": 35,
-            "exempt": 35,
-            "pct": 66
+            "eligible": 34,
+            "exempt": 36,
+            "pct": 68
           },
           "recap_email": {
             "label": "Recap email sent",
             "phase": "post_call",
-            "done": 32,
-            "eligible": 35,
-            "exempt": 35,
+            "done": 31,
+            "eligible": 34,
+            "exempt": 36,
             "pct": 91
           }
         },
@@ -6421,7 +6421,7 @@
                 "booked_date": "2026-10-27",
                 "scored_call_at": "2026-10-27T11:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_3VnReCCZSx88vl3zXU3B3acWdSKcA1btityWHwxMr2U/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "\ud83d\udc7b No Show"
               }
             ],
             "missed": [
@@ -7148,7 +7148,7 @@
                 "booked_date": "2026-10-27",
                 "scored_call_at": "2026-10-27T11:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_3VnReCCZSx88vl3zXU3B3acWdSKcA1btityWHwxMr2U/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "\ud83d\udc7b No Show"
               }
             ],
             "missed": [
@@ -7773,7 +7773,7 @@
                 "booked_date": "2026-10-27",
                 "scored_call_at": "2026-10-27T11:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_3VnReCCZSx88vl3zXU3B3acWdSKcA1btityWHwxMr2U/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "\ud83d\udc7b No Show"
               }
             ],
             "exempt": []
@@ -8053,14 +8053,6 @@
                 "scored_call_at": "2026-10-22T12:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_BUPfNHRHsTSOgZOImMfVcMblZHTLHHyf7Zzf4sp39WZ/",
                 "status_label": "\u260e\ufe0f Call Booked"
-              },
-              {
-                "id": "lead_3VnReCCZSx88vl3zXU3B3acWdSKcA1btityWHwxMr2U",
-                "name": "jairo rodriguez",
-                "booked_date": "2026-10-27",
-                "scored_call_at": "2026-10-27T11:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_3VnReCCZSx88vl3zXU3B3acWdSKcA1btityWHwxMr2U/",
-                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "exempt": [
@@ -8343,6 +8335,14 @@
                 "scored_call_at": "2026-10-26T14:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_WTAbLjd4pjKk6okObbpy8zIDbjVJ2tZQKUNOxCq2lHd/",
                 "status_label": "\ud83d\udc7b No Show"
+              },
+              {
+                "id": "lead_3VnReCCZSx88vl3zXU3B3acWdSKcA1btityWHwxMr2U",
+                "name": "jairo rodriguez",
+                "booked_date": "2026-10-27",
+                "scored_call_at": "2026-10-27T11:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_3VnReCCZSx88vl3zXU3B3acWdSKcA1btityWHwxMr2U/",
+                "status_label": "\ud83d\udc7b No Show"
               }
             ]
           },
@@ -8594,14 +8594,6 @@
                 "booked_date": "2026-10-26",
                 "scored_call_at": "2026-10-26T11:30:00-07:00",
                 "url": "https://app.close.com/lead/lead_xgFAEQe8JL8PgsuAwkFwZBdTdmZ0oTO7yIOwHhVaQhU/",
-                "status_label": "\u260e\ufe0f Call Booked"
-              },
-              {
-                "id": "lead_3VnReCCZSx88vl3zXU3B3acWdSKcA1btityWHwxMr2U",
-                "name": "jairo rodriguez",
-                "booked_date": "2026-10-27",
-                "scored_call_at": "2026-10-27T11:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_3VnReCCZSx88vl3zXU3B3acWdSKcA1btityWHwxMr2U/",
                 "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
@@ -8910,6 +8902,14 @@
                 "booked_date": "2026-10-26",
                 "scored_call_at": "2026-10-26T14:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_WTAbLjd4pjKk6okObbpy8zIDbjVJ2tZQKUNOxCq2lHd/",
+                "status_label": "\ud83d\udc7b No Show"
+              },
+              {
+                "id": "lead_3VnReCCZSx88vl3zXU3B3acWdSKcA1btityWHwxMr2U",
+                "name": "jairo rodriguez",
+                "booked_date": "2026-10-27",
+                "scored_call_at": "2026-10-27T11:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_3VnReCCZSx88vl3zXU3B3acWdSKcA1btityWHwxMr2U/",
                 "status_label": "\ud83d\udc7b No Show"
               }
             ]
@@ -20115,7 +20115,7 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-10-27T11:07:54.465411-07:00",
+    "generated_at": "2026-10-27T11:26:13.282576-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
