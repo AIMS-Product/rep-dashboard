@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-27 16:30:17 PDT",
+  "updated_at": "2026-10-27 16:45:14 PDT",
   "month_label": "October 2026",
   "day_of_month": 27,
   "days_in_month": 31,
@@ -10,12 +10,12 @@
   "pct_team_quota": 51.4,
   "total_revenue": 385453.0,
   "total_deals": 48,
-  "total_booked": 436,
-  "total_shown": 238,
+  "total_booked": 437,
+  "total_shown": 239,
   "total_qualified": 174,
   "team_aov": 8030.27,
   "team_close_rate": 11.0,
-  "team_show_rate": 54.6,
+  "team_show_rate": 54.7,
   "today_revenue": 17497.0,
   "today_deals": 2,
   "today_closers": [
@@ -37,12 +37,12 @@
       "deals": 8,
       "quota": 100000,
       "pct_to_quota": 79.5,
-      "booked": 39,
+      "booked": 40,
       "shown": 26,
       "qualified": 17,
-      "close_rate": 20.5,
-      "show_rate": 66.7,
-      "revenue_per_lead": 2037.92,
+      "close_rate": 20.0,
+      "show_rate": 65.0,
+      "revenue_per_lead": 1986.97,
       "aov": 9934.88,
       "is_manager": false,
       "is_lead": false,
@@ -6093,7 +6093,7 @@
       "rep_owner_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
       "adherence": {
         "pre_call_pct": 75,
-        "post_call_pct": 78,
+        "post_call_pct": 79,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -6122,17 +6122,17 @@
           "follow_up_created": {
             "label": "Task or follow-up meeting",
             "phase": "post_call",
-            "done": 22,
-            "eligible": 34,
-            "exempt": 37,
-            "pct": 65
+            "done": 23,
+            "eligible": 35,
+            "exempt": 36,
+            "pct": 66
           },
           "recap_email": {
             "label": "Recap email sent",
             "phase": "post_call",
-            "done": 31,
-            "eligible": 34,
-            "exempt": 37,
+            "done": 32,
+            "eligible": 35,
+            "exempt": 36,
             "pct": 91
           }
         },
@@ -6473,7 +6473,7 @@
                 "booked_date": "2026-10-27",
                 "scored_call_at": "2026-10-27T11:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_3VnReCCZSx88vl3zXU3B3acWdSKcA1btityWHwxMr2U/",
-                "status_label": "\ud83d\udc7b No Show"
+                "status_label": "Not interested"
               },
               {
                 "id": "lead_3Fllp1syDFcxgSj0OgyB6l5anC1WLV3nslSEAmjRHWL",
@@ -6481,7 +6481,7 @@
                 "booked_date": "2026-10-27",
                 "scored_call_at": "2026-10-27T15:45:00-07:00",
                 "url": "https://app.close.com/lead/lead_3Fllp1syDFcxgSj0OgyB6l5anC1WLV3nslSEAmjRHWL/",
-                "status_label": "\ud83d\udc7b No Show"
+                "status_label": "\ud83d\udcde HOT- Follow Up"
               }
             ],
             "missed": [
@@ -7208,7 +7208,7 @@
                 "booked_date": "2026-10-27",
                 "scored_call_at": "2026-10-27T11:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_3VnReCCZSx88vl3zXU3B3acWdSKcA1btityWHwxMr2U/",
-                "status_label": "\ud83d\udc7b No Show"
+                "status_label": "Not interested"
               },
               {
                 "id": "lead_3Fllp1syDFcxgSj0OgyB6l5anC1WLV3nslSEAmjRHWL",
@@ -7216,7 +7216,7 @@
                 "booked_date": "2026-10-27",
                 "scored_call_at": "2026-10-27T15:45:00-07:00",
                 "url": "https://app.close.com/lead/lead_3Fllp1syDFcxgSj0OgyB6l5anC1WLV3nslSEAmjRHWL/",
-                "status_label": "\ud83d\udc7b No Show"
+                "status_label": "\ud83d\udcde HOT- Follow Up"
               }
             ],
             "missed": [
@@ -7711,7 +7711,7 @@
                 "booked_date": "2026-10-27",
                 "scored_call_at": "2026-10-27T15:45:00-07:00",
                 "url": "https://app.close.com/lead/lead_3Fllp1syDFcxgSj0OgyB6l5anC1WLV3nslSEAmjRHWL/",
-                "status_label": "\ud83d\udc7b No Show"
+                "status_label": "\ud83d\udcde HOT- Follow Up"
               }
             ],
             "missed": [
@@ -7849,7 +7849,7 @@
                 "booked_date": "2026-10-27",
                 "scored_call_at": "2026-10-27T11:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_3VnReCCZSx88vl3zXU3B3acWdSKcA1btityWHwxMr2U/",
-                "status_label": "\ud83d\udc7b No Show"
+                "status_label": "Not interested"
               }
             ],
             "exempt": []
@@ -8030,6 +8030,14 @@
                 "booked_date": "2026-10-26",
                 "scored_call_at": "2026-10-26T11:30:00-07:00",
                 "url": "https://app.close.com/lead/lead_xgFAEQe8JL8PgsuAwkFwZBdTdmZ0oTO7yIOwHhVaQhU/",
+                "status_label": "\ud83d\udcde HOT- Follow Up"
+              },
+              {
+                "id": "lead_3Fllp1syDFcxgSj0OgyB6l5anC1WLV3nslSEAmjRHWL",
+                "name": "Kytzia",
+                "booked_date": "2026-10-27",
+                "scored_call_at": "2026-10-27T15:45:00-07:00",
+                "url": "https://app.close.com/lead/lead_3Fllp1syDFcxgSj0OgyB6l5anC1WLV3nslSEAmjRHWL/",
                 "status_label": "\ud83d\udcde HOT- Follow Up"
               }
             ],
@@ -8418,15 +8426,7 @@
                 "booked_date": "2026-10-27",
                 "scored_call_at": "2026-10-27T11:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_3VnReCCZSx88vl3zXU3B3acWdSKcA1btityWHwxMr2U/",
-                "status_label": "\ud83d\udc7b No Show"
-              },
-              {
-                "id": "lead_3Fllp1syDFcxgSj0OgyB6l5anC1WLV3nslSEAmjRHWL",
-                "name": "Kytzia",
-                "booked_date": "2026-10-27",
-                "scored_call_at": "2026-10-27T15:45:00-07:00",
-                "url": "https://app.close.com/lead/lead_3Fllp1syDFcxgSj0OgyB6l5anC1WLV3nslSEAmjRHWL/",
-                "status_label": "\ud83d\udc7b No Show"
+                "status_label": "Not interested"
               }
             ]
           },
@@ -8679,6 +8679,14 @@
                 "scored_call_at": "2026-10-26T11:30:00-07:00",
                 "url": "https://app.close.com/lead/lead_xgFAEQe8JL8PgsuAwkFwZBdTdmZ0oTO7yIOwHhVaQhU/",
                 "status_label": "\ud83d\udcde HOT- Follow Up"
+              },
+              {
+                "id": "lead_3Fllp1syDFcxgSj0OgyB6l5anC1WLV3nslSEAmjRHWL",
+                "name": "Kytzia",
+                "booked_date": "2026-10-27",
+                "scored_call_at": "2026-10-27T15:45:00-07:00",
+                "url": "https://app.close.com/lead/lead_3Fllp1syDFcxgSj0OgyB6l5anC1WLV3nslSEAmjRHWL/",
+                "status_label": "\ud83d\udcde HOT- Follow Up"
               }
             ],
             "missed": [
@@ -8994,15 +9002,7 @@
                 "booked_date": "2026-10-27",
                 "scored_call_at": "2026-10-27T11:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_3VnReCCZSx88vl3zXU3B3acWdSKcA1btityWHwxMr2U/",
-                "status_label": "\ud83d\udc7b No Show"
-              },
-              {
-                "id": "lead_3Fllp1syDFcxgSj0OgyB6l5anC1WLV3nslSEAmjRHWL",
-                "name": "Kytzia",
-                "booked_date": "2026-10-27",
-                "scored_call_at": "2026-10-27T15:45:00-07:00",
-                "url": "https://app.close.com/lead/lead_3Fllp1syDFcxgSj0OgyB6l5anC1WLV3nslSEAmjRHWL/",
-                "status_label": "\ud83d\udc7b No Show"
+                "status_label": "Not interested"
               }
             ]
           }
@@ -9016,10 +9016,10 @@
       "quota": 100000,
       "pct_to_quota": 47.4,
       "booked": 62,
-      "shown": 35,
+      "shown": 36,
       "qualified": 33,
       "close_rate": 12.9,
-      "show_rate": 56.5,
+      "show_rate": 58.1,
       "revenue_per_lead": 763.84,
       "aov": 5919.75,
       "is_manager": false,
@@ -20438,7 +20438,7 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-10-27T16:36:31.099459-07:00",
+    "generated_at": "2026-10-27T16:53:11.908713-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
@@ -20456,7 +20456,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 1004,
+    "api_requests": 1002,
     "preview_only": false
   }
 }
