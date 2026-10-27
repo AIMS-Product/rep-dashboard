@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-27 05:36:22 PDT",
+  "updated_at": "2026-10-27 07:01:53 PDT",
   "month_label": "October 2026",
   "day_of_month": 27,
   "days_in_month": 31,
@@ -10,12 +10,12 @@
   "pct_team_quota": 49.1,
   "total_revenue": 367956.0,
   "total_deals": 46,
-  "total_booked": 419,
+  "total_booked": 418,
   "total_shown": 230,
   "total_qualified": 167,
   "team_aov": 7999.04,
   "team_close_rate": 11.0,
-  "team_show_rate": 54.9,
+  "team_show_rate": 55.0,
   "today_revenue": 0.0,
   "today_deals": 0,
   "today_closers": [],
@@ -13321,12 +13321,12 @@
       "deals": 3,
       "quota": 100000,
       "pct_to_quota": 26.5,
-      "booked": 58,
+      "booked": 57,
       "shown": 31,
       "qualified": 24,
-      "close_rate": 5.2,
-      "show_rate": 53.4,
-      "revenue_per_lead": 456.74,
+      "close_rate": 5.3,
+      "show_rate": 54.4,
+      "revenue_per_lead": 464.75,
       "aov": 8830.33,
       "is_manager": false,
       "is_lead": false,
@@ -16373,24 +16373,24 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 57,
-            "eligible": 78,
+            "done": 58,
+            "eligible": 79,
             "exempt": 0,
             "pct": 73
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 60,
-            "eligible": 78,
+            "done": 61,
+            "eligible": 79,
             "exempt": 0,
             "pct": 77
           },
           "day_of_confirmation_text": {
             "label": "Day-of confirmation",
             "phase": "pre_call",
-            "done": 49,
-            "eligible": 78,
+            "done": 50,
+            "eligible": 79,
             "exempt": 0,
             "pct": 63
           },
@@ -16398,9 +16398,9 @@
             "label": "Task or follow-up meeting",
             "phase": "post_call",
             "done": 16,
-            "eligible": 36,
+            "eligible": 37,
             "exempt": 42,
-            "pct": 44
+            "pct": 43
           },
           "recap_email": {
             "label": "Recap email sent",
@@ -16863,12 +16863,20 @@
                 "status_label": "WARM - Follow up"
               },
               {
-                "id": "lead_u3CX0tfy7F7PDowRMpoUKKWncJxUyQCtYIj7urYSL2m",
-                "name": "Rodney McDowell",
-                "booked_date": "2026-10-25",
-                "scored_call_at": "2026-10-25T14:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_u3CX0tfy7F7PDowRMpoUKKWncJxUyQCtYIj7urYSL2m/",
-                "status_label": "\ud83d\udd3b Canceled (by Lead)"
+                "id": "lead_xB21PGBSgsD7d4taBH7Ux3HzgnUMybKu91J0LKmi1Un",
+                "name": "Christian Nunez",
+                "booked_date": "2026-10-27",
+                "scored_call_at": "2026-10-27T06:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_xB21PGBSgsD7d4taBH7Ux3HzgnUMybKu91J0LKmi1Un/",
+                "status_label": "Deposit collected"
+              },
+              {
+                "id": "lead_1IMsyp4FegV7bPts6Mrb2aMw4ppMDLtguNN3fr3P62n",
+                "name": "Eric Aponte",
+                "booked_date": "2026-10-27",
+                "scored_call_at": "2026-10-27T07:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_1IMsyp4FegV7bPts6Mrb2aMw4ppMDLtguNN3fr3P62n/",
+                "status_label": "Reschedule Requested"
               }
             ],
             "missed": [
@@ -17510,20 +17518,28 @@
                 "status_label": "WARM - Follow up"
               },
               {
-                "id": "lead_u3CX0tfy7F7PDowRMpoUKKWncJxUyQCtYIj7urYSL2m",
-                "name": "Rodney McDowell",
-                "booked_date": "2026-10-25",
-                "scored_call_at": "2026-10-25T14:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_u3CX0tfy7F7PDowRMpoUKKWncJxUyQCtYIj7urYSL2m/",
-                "status_label": "\ud83d\udd3b Canceled (by Lead)"
-              },
-              {
                 "id": "lead_vTtdDMpsPNzgKyNqUunFN2NbxEbjjYzerUS33RFcfrA",
                 "name": "Kay Williams",
                 "booked_date": "2026-10-26",
                 "scored_call_at": "2026-10-26T14:30:00-07:00",
                 "url": "https://app.close.com/lead/lead_vTtdDMpsPNzgKyNqUunFN2NbxEbjjYzerUS33RFcfrA/",
                 "status_label": "\u260e\ufe0f Call Booked"
+              },
+              {
+                "id": "lead_xB21PGBSgsD7d4taBH7Ux3HzgnUMybKu91J0LKmi1Un",
+                "name": "Christian Nunez",
+                "booked_date": "2026-10-27",
+                "scored_call_at": "2026-10-27T06:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_xB21PGBSgsD7d4taBH7Ux3HzgnUMybKu91J0LKmi1Un/",
+                "status_label": "Deposit collected"
+              },
+              {
+                "id": "lead_1IMsyp4FegV7bPts6Mrb2aMw4ppMDLtguNN3fr3P62n",
+                "name": "Eric Aponte",
+                "booked_date": "2026-10-27",
+                "scored_call_at": "2026-10-27T07:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_1IMsyp4FegV7bPts6Mrb2aMw4ppMDLtguNN3fr3P62n/",
+                "status_label": "Reschedule Requested"
               }
             ],
             "missed": [
@@ -18053,20 +18069,28 @@
                 "status_label": "\ud83d\udc7b No Show"
               },
               {
-                "id": "lead_u3CX0tfy7F7PDowRMpoUKKWncJxUyQCtYIj7urYSL2m",
-                "name": "Rodney McDowell",
-                "booked_date": "2026-10-25",
-                "scored_call_at": "2026-10-25T14:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_u3CX0tfy7F7PDowRMpoUKKWncJxUyQCtYIj7urYSL2m/",
-                "status_label": "\ud83d\udd3b Canceled (by Lead)"
-              },
-              {
                 "id": "lead_vTtdDMpsPNzgKyNqUunFN2NbxEbjjYzerUS33RFcfrA",
                 "name": "Kay Williams",
                 "booked_date": "2026-10-26",
                 "scored_call_at": "2026-10-26T14:30:00-07:00",
                 "url": "https://app.close.com/lead/lead_vTtdDMpsPNzgKyNqUunFN2NbxEbjjYzerUS33RFcfrA/",
                 "status_label": "\u260e\ufe0f Call Booked"
+              },
+              {
+                "id": "lead_xB21PGBSgsD7d4taBH7Ux3HzgnUMybKu91J0LKmi1Un",
+                "name": "Christian Nunez",
+                "booked_date": "2026-10-27",
+                "scored_call_at": "2026-10-27T06:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_xB21PGBSgsD7d4taBH7Ux3HzgnUMybKu91J0LKmi1Un/",
+                "status_label": "Deposit collected"
+              },
+              {
+                "id": "lead_1IMsyp4FegV7bPts6Mrb2aMw4ppMDLtguNN3fr3P62n",
+                "name": "Eric Aponte",
+                "booked_date": "2026-10-27",
+                "scored_call_at": "2026-10-27T07:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_1IMsyp4FegV7bPts6Mrb2aMw4ppMDLtguNN3fr3P62n/",
+                "status_label": "Reschedule Requested"
               }
             ],
             "missed": [
@@ -18596,6 +18620,14 @@
                 "scored_call_at": "2026-10-25T08:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_8aqY72HdDgmUoVhGBQzLlZKn3iHxg7XrwHw8rEhHRJW/",
                 "status_label": "WARM - Follow up"
+              },
+              {
+                "id": "lead_xB21PGBSgsD7d4taBH7Ux3HzgnUMybKu91J0LKmi1Un",
+                "name": "Christian Nunez",
+                "booked_date": "2026-10-27",
+                "scored_call_at": "2026-10-27T06:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_xB21PGBSgsD7d4taBH7Ux3HzgnUMybKu91J0LKmi1Un/",
+                "status_label": "Deposit collected"
               }
             ],
             "exempt": [
@@ -18928,12 +18960,12 @@
                 "status_label": "\ud83d\udc7b No Show"
               },
               {
-                "id": "lead_u3CX0tfy7F7PDowRMpoUKKWncJxUyQCtYIj7urYSL2m",
-                "name": "Rodney McDowell",
-                "booked_date": "2026-10-25",
-                "scored_call_at": "2026-10-25T14:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_u3CX0tfy7F7PDowRMpoUKKWncJxUyQCtYIj7urYSL2m/",
-                "status_label": "\ud83d\udd3b Canceled (by Lead)"
+                "id": "lead_1IMsyp4FegV7bPts6Mrb2aMw4ppMDLtguNN3fr3P62n",
+                "name": "Eric Aponte",
+                "booked_date": "2026-10-27",
+                "scored_call_at": "2026-10-27T07:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_1IMsyp4FegV7bPts6Mrb2aMw4ppMDLtguNN3fr3P62n/",
+                "status_label": "Reschedule Requested"
               }
             ]
           },
@@ -19552,12 +19584,12 @@
                 "status_label": "\ud83d\udc7b No Show"
               },
               {
-                "id": "lead_u3CX0tfy7F7PDowRMpoUKKWncJxUyQCtYIj7urYSL2m",
-                "name": "Rodney McDowell",
-                "booked_date": "2026-10-25",
-                "scored_call_at": "2026-10-25T14:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_u3CX0tfy7F7PDowRMpoUKKWncJxUyQCtYIj7urYSL2m/",
-                "status_label": "\ud83d\udd3b Canceled (by Lead)"
+                "id": "lead_1IMsyp4FegV7bPts6Mrb2aMw4ppMDLtguNN3fr3P62n",
+                "name": "Eric Aponte",
+                "booked_date": "2026-10-27",
+                "scored_call_at": "2026-10-27T07:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_1IMsyp4FegV7bPts6Mrb2aMw4ppMDLtguNN3fr3P62n/",
+                "status_label": "Reschedule Requested"
               }
             ]
           }
@@ -19659,7 +19691,7 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-10-27T05:41:48.493907-07:00",
+    "generated_at": "2026-10-27T07:08:18.132139-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
@@ -19667,13 +19699,13 @@
     },
     "cohort": {
       "raw": 574,
-      "included": 504,
-      "excluded": 70,
+      "included": 503,
+      "excluded": 71,
       "exclusion_counts": {
-        "meeting_rep_not_visible": 70
+        "meeting_rep_not_visible": 71
       },
       "attribution_counts": {
-        "meeting_rep": 504
+        "meeting_rep": 503
       },
       "includes_lost": true
     },
