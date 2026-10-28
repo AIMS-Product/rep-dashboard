@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-28 09:00:22 PDT",
+  "updated_at": "2026-10-28 09:37:02 PDT",
   "month_label": "October 2026",
   "day_of_month": 28,
   "days_in_month": 31,
@@ -7,18 +7,24 @@
   "working_days_elapsed": 20,
   "pct_month_passed": 90.9,
   "team_quota": 750000,
-  "pct_team_quota": 51.4,
-  "total_revenue": 385453.0,
-  "total_deals": 48,
+  "pct_team_quota": 52.6,
+  "total_revenue": 394450.0,
+  "total_deals": 49,
   "total_booked": 463,
   "total_shown": 242,
   "total_qualified": 176,
-  "team_aov": 8030.27,
-  "team_close_rate": 10.4,
+  "team_aov": 8050.0,
+  "team_close_rate": 10.6,
   "team_show_rate": 52.3,
-  "today_revenue": 0.0,
-  "today_deals": 0,
-  "today_closers": [],
+  "today_revenue": 8997.0,
+  "today_deals": 1,
+  "today_closers": [
+    {
+      "name": "Christian Hartwell",
+      "deals": 1,
+      "total": 8997.0
+    }
+  ],
   "reps": [
     {
       "name": "Scott Seymour",
@@ -291,7 +297,7 @@
                 "booked_date": "2026-10-21",
                 "scored_call_at": "2026-10-21T10:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_pxGCJQ8JcUM881MlDtmwZfOiJL0l9NjU3F9noHBSzRS/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
                 "id": "lead_YYQ6H3CittniPb27lvD3jxGFm2WlbNLXg3Njf8jLLhJ",
@@ -738,7 +744,7 @@
                 "booked_date": "2026-10-21",
                 "scored_call_at": "2026-10-21T10:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_pxGCJQ8JcUM881MlDtmwZfOiJL0l9NjU3F9noHBSzRS/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
                 "id": "lead_YYQ6H3CittniPb27lvD3jxGFm2WlbNLXg3Njf8jLLhJ",
@@ -1153,7 +1159,7 @@
                 "booked_date": "2026-10-21",
                 "scored_call_at": "2026-10-21T10:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_pxGCJQ8JcUM881MlDtmwZfOiJL0l9NjU3F9noHBSzRS/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
                 "id": "lead_YYQ6H3CittniPb27lvD3jxGFm2WlbNLXg3Njf8jLLhJ",
@@ -1432,7 +1438,7 @@
                 "booked_date": "2026-10-21",
                 "scored_call_at": "2026-10-21T10:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_pxGCJQ8JcUM881MlDtmwZfOiJL0l9NjU3F9noHBSzRS/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
                 "id": "lead_YYQ6H3CittniPb27lvD3jxGFm2WlbNLXg3Njf8jLLhJ",
@@ -1863,7 +1869,7 @@
                 "booked_date": "2026-10-21",
                 "scored_call_at": "2026-10-21T10:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_pxGCJQ8JcUM881MlDtmwZfOiJL0l9NjU3F9noHBSzRS/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
                 "id": "lead_YYQ6H3CittniPb27lvD3jxGFm2WlbNLXg3Njf8jLLhJ",
@@ -9081,17 +9087,17 @@
     },
     {
       "name": "Christian Hartwell",
-      "revenue": 47358.0,
-      "deals": 8,
+      "revenue": 56355.0,
+      "deals": 9,
       "quota": 100000,
-      "pct_to_quota": 47.4,
+      "pct_to_quota": 56.4,
       "booked": 66,
       "shown": 37,
       "qualified": 34,
-      "close_rate": 12.1,
+      "close_rate": 13.6,
       "show_rate": 56.1,
-      "revenue_per_lead": 717.55,
-      "aov": 5919.75,
+      "revenue_per_lead": 853.86,
+      "aov": 6261.67,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
@@ -20516,18 +20522,18 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-10-28T09:12:43.830046-07:00",
+    "generated_at": "2026-10-28T09:43:50.739463-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
       "basis": "latest_sales_call_booked_date_with_first_date_fallback"
     },
     "cohort": {
-      "raw": 619,
+      "raw": 620,
       "included": 544,
-      "excluded": 75,
+      "excluded": 76,
       "exclusion_counts": {
-        "meeting_rep_not_visible": 75
+        "meeting_rep_not_visible": 76
       },
       "attribution_counts": {
         "meeting_rep": 544
