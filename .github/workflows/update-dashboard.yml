@@ -6,6 +6,11 @@ on:
 permissions:
   contents: write
 
+# A refresh can take longer than the 15-minute dispatch interval.
+concurrency:
+  group: rep-dashboard-publication
+  cancel-in-progress: false
+
 jobs:
   update-dashboard:
     runs-on: ubuntu-latest
@@ -16,32 +21,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Fetch data from Close API
+      - name: Refresh and publish dashboard data
         env:
           CLOSE_API_KEY: ${{ secrets.CLOSE_API_KEY }}
-        run: python3 -u scripts/fetch_data.py
-
-      - name: Archive completed daily scorecards
-        env:
-          CLOSE_API_KEY: ${{ secrets.CLOSE_API_KEY }}
-        run: python3 -u scripts/build_yesterday_preview.py --archive-missing
-
-      - name: Build yesterday daily scorecard
-        env:
-          CLOSE_API_KEY: ${{ secrets.CLOSE_API_KEY }}
-        run: python3 -u scripts/build_yesterday_preview.py
-
-      - name: Commit and push updated data
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data.json archives/ daily-preview.html
-          # Only commit if there are changes
-          git diff --staged --quiet || git commit -m "📊 Update dashboard data - $(date -u +'%Y-%m-%d %H:%M UTC')"
-          git push
+        run: bash scripts/refresh_and_publish.sh
