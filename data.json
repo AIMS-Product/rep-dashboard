@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-27 17:00:20 PDT",
+  "updated_at": "2026-10-27 17:15:14 PDT",
   "month_label": "October 2026",
   "day_of_month": 27,
   "days_in_month": 31,
@@ -9028,7 +9028,7 @@
       "rep_owner_id": "user_wHm1vcLde4RExd3vv9UOjnms5Oz8ssXg8600mQuxMPb",
       "adherence": {
         "pre_call_pct": 60,
-        "post_call_pct": 86,
+        "post_call_pct": 88,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -9057,10 +9057,10 @@
           "follow_up_created": {
             "label": "Task or follow-up meeting",
             "phase": "post_call",
-            "done": 26,
+            "done": 27,
             "eligible": 32,
             "exempt": 26,
-            "pct": 81
+            "pct": 84
           },
           "recap_email": {
             "label": "Recap email sent",
@@ -10694,6 +10694,14 @@
                 "scored_call_at": "2026-10-27T12:45:00-07:00",
                 "url": "https://app.close.com/lead/lead_ai25quzPrLZCxEw3n3njER2BhUEJdY6odW7A8oFI3Qu/",
                 "status_label": "WARM - Follow up"
+              },
+              {
+                "id": "lead_6at4uxoX3lnHY6qTn2XhvAjIui8P5tKcIIiRCDbtVwP",
+                "name": "Nathanael Rogers",
+                "booked_date": "2026-10-27",
+                "scored_call_at": "2026-10-27T16:15:00-07:00",
+                "url": "https://app.close.com/lead/lead_6at4uxoX3lnHY6qTn2XhvAjIui8P5tKcIIiRCDbtVwP/",
+                "status_label": "\ud83d\udcde HOT- Follow Up"
               }
             ],
             "missed": [
@@ -10736,14 +10744,6 @@
                 "scored_call_at": "2026-10-23T10:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_t1VABYSJfrpZGcvtHuniLP1oK8Obo9ouDhK9Zxpa3ox/",
                 "status_label": "\u260e\ufe0f Call Booked"
-              },
-              {
-                "id": "lead_6at4uxoX3lnHY6qTn2XhvAjIui8P5tKcIIiRCDbtVwP",
-                "name": "Nathanael Rogers",
-                "booked_date": "2026-10-27",
-                "scored_call_at": "2026-10-27T16:15:00-07:00",
-                "url": "https://app.close.com/lead/lead_6at4uxoX3lnHY6qTn2XhvAjIui8P5tKcIIiRCDbtVwP/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
               }
             ],
             "exempt": [
@@ -20438,7 +20438,7 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-10-27T17:06:49.017874-07:00",
+    "generated_at": "2026-10-27T17:25:25.908973-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
@@ -20456,7 +20456,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 1004,
+    "api_requests": 1008,
     "preview_only": false
   }
 }
