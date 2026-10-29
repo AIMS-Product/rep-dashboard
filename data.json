@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-29 12:31:49 PDT",
+  "updated_at": "2026-10-29 12:45:18 PDT",
   "month_label": "October 2026",
   "day_of_month": 29,
   "days_in_month": 31,
@@ -10,12 +10,12 @@
   "pct_team_quota": 53.4,
   "total_revenue": 400447.0,
   "total_deals": 50,
-  "total_booked": 479,
-  "total_shown": 255,
+  "total_booked": 480,
+  "total_shown": 256,
   "total_qualified": 187,
   "team_aov": 8008.94,
   "team_close_rate": 10.4,
-  "team_show_rate": 53.2,
+  "team_show_rate": 53.3,
   "today_revenue": 0.0,
   "today_deals": 0,
   "today_closers": [],
@@ -2439,12 +2439,12 @@
       "deals": 8,
       "quota": 100000,
       "pct_to_quota": 61.2,
-      "booked": 99,
+      "booked": 100,
       "shown": 44,
       "qualified": 36,
-      "close_rate": 8.1,
-      "show_rate": 44.4,
-      "revenue_per_lead": 617.94,
+      "close_rate": 8.0,
+      "show_rate": 44.0,
+      "revenue_per_lead": 611.76,
       "aov": 7647.0,
       "is_manager": false,
       "is_lead": false,
@@ -15356,10 +15356,10 @@
       "quota": 100000,
       "pct_to_quota": 32.2,
       "booked": 69,
-      "shown": 39,
+      "shown": 40,
       "qualified": 33,
       "close_rate": 5.8,
-      "show_rate": 56.5,
+      "show_rate": 58.0,
       "revenue_per_lead": 467.22,
       "aov": 8059.5,
       "is_manager": false,
@@ -21637,25 +21637,25 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-10-29T12:39:46.928102-07:00",
+    "generated_at": "2026-10-29T12:50:54.521972-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
       "basis": "latest_sales_call_booked_date_with_first_date_fallback"
     },
     "cohort": {
-      "raw": 636,
-      "included": 560,
+      "raw": 637,
+      "included": 561,
       "excluded": 76,
       "exclusion_counts": {
         "meeting_rep_not_visible": 76
       },
       "attribution_counts": {
-        "meeting_rep": 560
+        "meeting_rep": 561
       },
       "includes_lost": true
     },
-    "api_requests": 1065,
+    "api_requests": 1064,
     "preview_only": false
   }
 }
