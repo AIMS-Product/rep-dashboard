@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-29 04:45:16 PDT",
+  "updated_at": "2026-10-29 05:00:25 PDT",
   "month_label": "October 2026",
   "day_of_month": 29,
   "days_in_month": 31,
@@ -11998,18 +11998,18 @@
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 32,
+            "done": 31,
             "eligible": 71,
             "exempt": 0,
-            "pct": 45
+            "pct": 44
           },
           "day_of_confirmation_text": {
             "label": "Day-of confirmation",
             "phase": "pre_call",
             "done": 6,
-            "eligible": 71,
+            "eligible": 70,
             "exempt": 0,
-            "pct": 8
+            "pct": 9
           },
           "follow_up_created": {
             "label": "Task or follow-up meeting",
@@ -12623,14 +12623,6 @@
                 "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
-                "id": "lead_ejd1NbWFKEf5X0G3pExNXzup4cCszZUPNwRuqVTXLsa",
-                "name": "Kellie HUTCHINSON",
-                "booked_date": "2026-10-01",
-                "scored_call_at": "2026-10-01T10:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_ejd1NbWFKEf5X0G3pExNXzup4cCszZUPNwRuqVTXLsa/",
-                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
-              },
-              {
                 "id": "lead_CBDgRUER5PWK2zR3NP87n15q1YHTZaCqRBvxpmioxu8",
                 "name": "Megan Melaku",
                 "booked_date": "2026-10-01",
@@ -12864,6 +12856,14 @@
               }
             ],
             "missed": [
+              {
+                "id": "lead_ejd1NbWFKEf5X0G3pExNXzup4cCszZUPNwRuqVTXLsa",
+                "name": "Kellie HUTCHINSON",
+                "booked_date": "2026-10-01",
+                "scored_call_at": "2026-10-01T10:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_ejd1NbWFKEf5X0G3pExNXzup4cCszZUPNwRuqVTXLsa/",
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
+              },
               {
                 "id": "lead_e7K6WDBpr7uWG4SyBIGmvB8jBZPoLjJXNQvrHB9u34y",
                 "name": "Lorenzo Gaudenzi",
@@ -13245,14 +13245,6 @@
                 "booked_date": "2026-10-01",
                 "scored_call_at": "2026-10-01T06:30:00-07:00",
                 "url": "https://app.close.com/lead/lead_8YLGeACznVN4mZ0dDEdvDt5cjzHyGfKdfUIwXbjBna4/",
-                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
-              },
-              {
-                "id": "lead_ejd1NbWFKEf5X0G3pExNXzup4cCszZUPNwRuqVTXLsa",
-                "name": "Kellie HUTCHINSON",
-                "booked_date": "2026-10-01",
-                "scored_call_at": "2026-10-01T10:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_ejd1NbWFKEf5X0G3pExNXzup4cCszZUPNwRuqVTXLsa/",
                 "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
@@ -21140,25 +21132,25 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-10-29T04:51:45.587611-07:00",
+    "generated_at": "2026-10-29T05:10:55.945427-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
       "basis": "latest_sales_call_booked_date_with_first_date_fallback"
     },
     "cohort": {
-      "raw": 629,
-      "included": 553,
+      "raw": 630,
+      "included": 554,
       "excluded": 76,
       "exclusion_counts": {
         "meeting_rep_not_visible": 76
       },
       "attribution_counts": {
-        "meeting_rep": 553
+        "meeting_rep": 554
       },
       "includes_lost": true
     },
-    "api_requests": 1052,
+    "api_requests": 1055,
     "preview_only": false
   }
 }
