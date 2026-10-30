@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-30 09:30:22 PDT",
+  "updated_at": "2026-10-30 09:45:15 PDT",
   "month_label": "October 2026",
   "day_of_month": 30,
   "days_in_month": 31,
@@ -82,8 +82,8 @@
           "recap_email": {
             "label": "Recap email sent",
             "phase": "post_call",
-            "done": 16,
-            "eligible": 16,
+            "done": 17,
+            "eligible": 17,
             "exempt": 45,
             "pct": 100
           }
@@ -2213,6 +2213,14 @@
                 "booked_date": "2026-10-28",
                 "scored_call_at": "2026-10-28T13:30:00-07:00",
                 "url": "https://app.close.com/lead/lead_bzchHscqf5KD0tXrhGPgw3hhkEckO6Zr1RR9hNE9WZd/",
+                "status_label": "\ud83d\udcde HOT- Follow Up"
+              },
+              {
+                "id": "lead_SCfiAJJ7XMl8jyKuWCcDKxjUiS4K3M9NFzgqIme3pik",
+                "name": "John Lim",
+                "booked_date": "2026-10-29",
+                "scored_call_at": "2026-10-29T10:30:00-07:00",
+                "url": "https://app.close.com/lead/lead_SCfiAJJ7XMl8jyKuWCcDKxjUiS4K3M9NFzgqIme3pik/",
                 "status_label": "\ud83d\udcde HOT- Follow Up"
               },
               {
@@ -22418,7 +22426,7 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-10-30T09:36:06.479739-07:00",
+    "generated_at": "2026-10-30T09:56:26.626737-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
@@ -22436,7 +22444,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 1075,
+    "api_requests": 1076,
     "preview_only": false
   }
 }
