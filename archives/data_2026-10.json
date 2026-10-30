@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-30 06:15:17 PDT",
+  "updated_at": "2026-10-30 06:30:21 PDT",
   "month_label": "October 2026",
   "day_of_month": 30,
   "days_in_month": 31,
@@ -10095,9 +10095,9 @@
             "label": "Day-of confirmation",
             "phase": "pre_call",
             "done": 36,
-            "eligible": 67,
+            "eligible": 68,
             "exempt": 0,
-            "pct": 54
+            "pct": 53
           },
           "follow_up_created": {
             "label": "Task or follow-up meeting",
@@ -11590,6 +11590,14 @@
                 "scored_call_at": "2026-10-07T15:45:00-07:00",
                 "url": "https://app.close.com/lead/lead_4wzi2zhvEn41dNNQqRZ5ZxcY1sNCHRXqDib3eFEUb0y/",
                 "status_label": "\ud83d\udcf5 Do Not Contact"
+              },
+              {
+                "id": "lead_hAovtLxsKkAv1I8wsAKJ97zxAKz4g5CknZqpWuu50X6",
+                "name": "Jen Heinrichs",
+                "booked_date": "2026-10-07",
+                "scored_call_at": "2026-10-07T11:15:00-07:00",
+                "url": "https://app.close.com/lead/lead_hAovtLxsKkAv1I8wsAKJ97zxAKz4g5CknZqpWuu50X6/",
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
                 "id": "lead_8TSaSMW0MwLSQRPtCPMvuin9MFv4OIxITyNSKYmsh0a",
@@ -15862,7 +15870,7 @@
             "phase": "post_call",
             "done": 27,
             "eligible": 27,
-            "exempt": 37,
+            "exempt": 36,
             "pct": 100
           },
           "recap_email": {
@@ -15870,7 +15878,7 @@
             "phase": "post_call",
             "done": 25,
             "eligible": 27,
-            "exempt": 37,
+            "exempt": 36,
             "pct": 93
           }
         },
@@ -17886,14 +17894,6 @@
                 "status_label": "\ud83d\udc7b No Show"
               },
               {
-                "id": "lead_S0g4HQAnE8SEtpGKRmespHZJ5eVPGyeHZhCiDyko6iO",
-                "name": "Cassandra Harper",
-                "booked_date": "2026-10-30",
-                "scored_call_at": "2026-10-30T09:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_S0g4HQAnE8SEtpGKRmespHZJ5eVPGyeHZhCiDyko6iO/",
-                "status_label": "\ud83d\udd3b Canceled (by Lead)"
-              },
-              {
                 "id": "lead_TPrhQN2bWrXVcXT96r7gqycb9qKnLMOT1fqcd455dYG",
                 "name": "Mae Banks",
                 "booked_date": "2026-10-30",
@@ -18406,14 +18406,6 @@
                 "status_label": "\ud83d\udc7b No Show"
               },
               {
-                "id": "lead_S0g4HQAnE8SEtpGKRmespHZJ5eVPGyeHZhCiDyko6iO",
-                "name": "Cassandra Harper",
-                "booked_date": "2026-10-30",
-                "scored_call_at": "2026-10-30T09:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_S0g4HQAnE8SEtpGKRmespHZJ5eVPGyeHZhCiDyko6iO/",
-                "status_label": "\ud83d\udd3b Canceled (by Lead)"
-              },
-              {
                 "id": "lead_TPrhQN2bWrXVcXT96r7gqycb9qKnLMOT1fqcd455dYG",
                 "name": "Mae Banks",
                 "booked_date": "2026-10-30",
@@ -18445,7 +18437,7 @@
       "rep_owner_id": "user_7HSxi55O8q5jO11khvrTcAGoL2nlcoa3kZ6loAY6i78",
       "adherence": {
         "pre_call_pct": 73,
-        "post_call_pct": 46,
+        "post_call_pct": 47,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -18482,10 +18474,10 @@
           "recap_email": {
             "label": "Recap email sent",
             "phase": "post_call",
-            "done": 20,
-            "eligible": 39,
+            "done": 21,
+            "eligible": 40,
             "exempt": 47,
-            "pct": 51
+            "pct": 53
           }
         },
         "lead_cohorts": {
@@ -21439,6 +21431,14 @@
                 "scored_call_at": "2026-10-27T11:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_l7uVIzgghuwtneEA2iMApOPdn3t9WSoKJY6dFfHNGGR/",
                 "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
+              },
+              {
+                "id": "lead_RXfT2dmJTOkFNhfyT9ME1Z21BFVfiPHfjASxgdsMHTj",
+                "name": "Rory Gallegos",
+                "booked_date": "2026-10-30",
+                "scored_call_at": "2026-10-30T06:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_RXfT2dmJTOkFNhfyT9ME1Z21BFVfiPHfjASxgdsMHTj/",
+                "status_label": "\ud83d\udcde HOT- Follow Up"
               }
             ],
             "missed": [
@@ -22163,7 +22163,7 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-10-30T06:20:52.090643-07:00",
+    "generated_at": "2026-10-30T06:39:58.664611-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
@@ -22181,7 +22181,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 1072,
+    "api_requests": 1071,
     "preview_only": false
   }
 }
