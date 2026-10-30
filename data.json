@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-30 12:30:19 PDT",
+  "updated_at": "2026-10-30 12:45:18 PDT",
   "month_label": "October 2026",
   "day_of_month": 30,
   "days_in_month": 31,
@@ -11,11 +11,11 @@
   "total_revenue": 415441.0,
   "total_deals": 52,
   "total_booked": 483,
-  "total_shown": 266,
+  "total_shown": 268,
   "total_qualified": 192,
   "team_aov": 7989.25,
   "team_close_rate": 10.8,
-  "team_show_rate": 55.1,
+  "team_show_rate": 55.5,
   "today_revenue": 5997.0,
   "today_deals": 1,
   "today_closers": [
@@ -2695,10 +2695,10 @@
       "quota": 100000,
       "pct_to_quota": 64.5,
       "booked": 52,
-      "shown": 29,
+      "shown": 30,
       "qualified": 10,
       "close_rate": 11.5,
-      "show_rate": 55.8,
+      "show_rate": 57.7,
       "revenue_per_lead": 1240.04,
       "aov": 10747.0,
       "is_manager": false,
@@ -2707,7 +2707,7 @@
       "rep_owner_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
       "adherence": {
         "pre_call_pct": 75,
-        "post_call_pct": 78,
+        "post_call_pct": 79,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -2736,16 +2736,16 @@
           "follow_up_created": {
             "label": "Task or follow-up meeting",
             "phase": "post_call",
-            "done": 22,
+            "done": 23,
             "eligible": 36,
             "exempt": 44,
-            "pct": 61
+            "pct": 64
           },
           "recap_email": {
             "label": "Recap email sent",
             "phase": "post_call",
-            "done": 33,
-            "eligible": 35,
+            "done": 34,
+            "eligible": 36,
             "exempt": 44,
             "pct": 94
           }
@@ -4861,6 +4861,14 @@
                 "scored_call_at": "2026-10-29T13:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_wtoN8qLPqJMf9DZowmWAjxVFKnMaUNJ5vJpLBMDYplS/",
                 "status_label": "\ud83d\udcde HOT- Follow Up"
+              },
+              {
+                "id": "lead_Eqfqy6kWCs5Ddo0PPIqIS8fuddgCqB9UGLg8HcjahUH",
+                "name": "Dexter Barnes",
+                "booked_date": "2026-10-30",
+                "scored_call_at": "2026-10-30T12:30:00-07:00",
+                "url": "https://app.close.com/lead/lead_Eqfqy6kWCs5Ddo0PPIqIS8fuddgCqB9UGLg8HcjahUH/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [
@@ -4966,14 +4974,6 @@
                 "booked_date": "2026-10-29",
                 "scored_call_at": "2026-10-29T12:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_HylcMaqFzL090pmS39gD1VFHzuFo5A9ZbJSxQAsX8nW/",
-                "status_label": "\u260e\ufe0f Call Booked"
-              },
-              {
-                "id": "lead_Eqfqy6kWCs5Ddo0PPIqIS8fuddgCqB9UGLg8HcjahUH",
-                "name": "Dexter Barnes",
-                "booked_date": "2026-10-30",
-                "scored_call_at": "2026-10-30T12:30:00-07:00",
-                "url": "https://app.close.com/lead/lead_Eqfqy6kWCs5Ddo0PPIqIS8fuddgCqB9UGLg8HcjahUH/",
                 "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
@@ -5597,6 +5597,14 @@
                 "scored_call_at": "2026-10-29T13:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_wtoN8qLPqJMf9DZowmWAjxVFKnMaUNJ5vJpLBMDYplS/",
                 "status_label": "\ud83d\udcde HOT- Follow Up"
+              },
+              {
+                "id": "lead_Eqfqy6kWCs5Ddo0PPIqIS8fuddgCqB9UGLg8HcjahUH",
+                "name": "Dexter Barnes",
+                "booked_date": "2026-10-30",
+                "scored_call_at": "2026-10-30T12:30:00-07:00",
+                "url": "https://app.close.com/lead/lead_Eqfqy6kWCs5Ddo0PPIqIS8fuddgCqB9UGLg8HcjahUH/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [
@@ -18912,10 +18920,10 @@
       "quota": 100000,
       "pct_to_quota": 26.5,
       "booked": 76,
-      "shown": 38,
+      "shown": 39,
       "qualified": 23,
       "close_rate": 3.9,
-      "show_rate": 50.0,
+      "show_rate": 51.3,
       "revenue_per_lead": 348.68,
       "aov": 8833.33,
       "is_manager": false,
@@ -22754,21 +22762,21 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-10-30T12:38:55.335691-07:00",
+    "generated_at": "2026-10-30T12:52:48.274808-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
       "basis": "latest_sales_call_booked_date_with_first_date_fallback"
     },
     "cohort": {
-      "raw": 642,
-      "included": 566,
+      "raw": 643,
+      "included": 567,
       "excluded": 76,
       "exclusion_counts": {
         "meeting_rep_not_visible": 76
       },
       "attribution_counts": {
-        "meeting_rep": 566
+        "meeting_rep": 567
       },
       "includes_lost": true
     },
