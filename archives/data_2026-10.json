@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-31 07:00:22 PDT",
+  "updated_at": "2026-10-31 07:15:17 PDT",
   "month_label": "October 2026",
   "day_of_month": 31,
   "days_in_month": 31,
@@ -6195,7 +6195,7 @@
       "rep_owner_id": "user_6kp6k4OcqKqFNrxGjgMUncedjiCYC6JHU8EI28F7etV",
       "adherence": {
         "pre_call_pct": 94,
-        "post_call_pct": 95,
+        "post_call_pct": 98,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -6225,16 +6225,16 @@
             "label": "Task or follow-up meeting",
             "phase": "post_call",
             "done": 21,
-            "eligible": 22,
-            "exempt": 88,
-            "pct": 95
+            "eligible": 21,
+            "exempt": 89,
+            "pct": 100
           },
           "recap_email": {
             "label": "Recap email sent",
             "phase": "post_call",
             "done": 20,
             "eligible": 21,
-            "exempt": 88,
+            "exempt": 89,
             "pct": 95
           }
         },
@@ -9047,16 +9047,7 @@
                 "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
-            "missed": [
-              {
-                "id": "lead_2YCRisiud6gseuna1Exd9VYHr66pcQe4AnQYMc5OLug",
-                "name": "Kelii Chow",
-                "booked_date": "2026-10-31",
-                "scored_call_at": "2026-10-31T07:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_2YCRisiud6gseuna1Exd9VYHr66pcQe4AnQYMc5OLug/",
-                "status_label": "\u260e\ufe0f Call Booked"
-              }
-            ],
+            "missed": [],
             "exempt": [
               {
                 "id": "lead_ogqlt7pQvDCTmv6qOM123EWEbHcnWM2PI6N36aZLeq5",
@@ -9753,6 +9744,14 @@
                 "scored_call_at": "2026-10-30T09:15:00-07:00",
                 "url": "https://app.close.com/lead/lead_YURwxPyqaGHslydqOkMuJZXF06yJZtMoeDVP5hMq7ET/",
                 "status_label": "\ud83d\udc7b No Show"
+              },
+              {
+                "id": "lead_2YCRisiud6gseuna1Exd9VYHr66pcQe4AnQYMc5OLug",
+                "name": "Kelii Chow",
+                "booked_date": "2026-10-31",
+                "scored_call_at": "2026-10-31T07:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_2YCRisiud6gseuna1Exd9VYHr66pcQe4AnQYMc5OLug/",
+                "status_label": "\u260e\ufe0f Call Booked"
               },
               {
                 "id": "lead_Za9p2Ea3tIglh92bnkA79OJfGk0QghUG1HyBhOqTVT2",
@@ -10633,6 +10632,14 @@
                 "scored_call_at": "2026-10-30T09:15:00-07:00",
                 "url": "https://app.close.com/lead/lead_YURwxPyqaGHslydqOkMuJZXF06yJZtMoeDVP5hMq7ET/",
                 "status_label": "\ud83d\udc7b No Show"
+              },
+              {
+                "id": "lead_2YCRisiud6gseuna1Exd9VYHr66pcQe4AnQYMc5OLug",
+                "name": "Kelii Chow",
+                "booked_date": "2026-10-31",
+                "scored_call_at": "2026-10-31T07:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_2YCRisiud6gseuna1Exd9VYHr66pcQe4AnQYMc5OLug/",
+                "status_label": "\u260e\ufe0f Call Booked"
               },
               {
                 "id": "lead_Za9p2Ea3tIglh92bnkA79OJfGk0QghUG1HyBhOqTVT2",
@@ -23332,7 +23339,7 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-10-31T07:10:07.907721-07:00",
+    "generated_at": "2026-10-31T07:23:20.434823-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
@@ -23350,7 +23357,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 1083,
+    "api_requests": 1079,
     "preview_only": false
   }
 }
