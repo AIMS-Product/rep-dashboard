@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-30 17:30:19 PDT",
+  "updated_at": "2026-10-30 17:45:28 PDT",
   "month_label": "October 2026",
   "day_of_month": 30,
   "days_in_month": 31,
@@ -2796,7 +2796,7 @@
       "rep_owner_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
       "adherence": {
         "pre_call_pct": 74,
-        "post_call_pct": 78,
+        "post_call_pct": 79,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -2825,10 +2825,10 @@
           "follow_up_created": {
             "label": "Task or follow-up meeting",
             "phase": "post_call",
-            "done": 23,
+            "done": 24,
             "eligible": 38,
             "exempt": 45,
-            "pct": 61
+            "pct": 63
           },
           "recap_email": {
             "label": "Recap email sent",
@@ -3240,7 +3240,7 @@
                 "booked_date": "2026-10-30",
                 "scored_call_at": "2026-10-30T17:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_dKYD3OXlKM4exomoJUseT5d7vDcTjZEANY7wK1GhwnS/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
+                "status_label": "\u260e\ufe0f Call Booked"
               },
               {
                 "id": "lead_Eqfqy6kWCs5Ddo0PPIqIS8fuddgCqB9UGLg8HcjahUH",
@@ -4087,7 +4087,7 @@
                 "booked_date": "2026-10-30",
                 "scored_call_at": "2026-10-30T17:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_dKYD3OXlKM4exomoJUseT5d7vDcTjZEANY7wK1GhwnS/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
+                "status_label": "\u260e\ufe0f Call Booked"
               },
               {
                 "id": "lead_Eqfqy6kWCs5Ddo0PPIqIS8fuddgCqB9UGLg8HcjahUH",
@@ -4670,7 +4670,7 @@
                 "booked_date": "2026-10-30",
                 "scored_call_at": "2026-10-30T17:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_dKYD3OXlKM4exomoJUseT5d7vDcTjZEANY7wK1GhwnS/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [
@@ -5024,6 +5024,14 @@
                 "status_label": "\ud83d\udcde HOT- Follow Up"
               },
               {
+                "id": "lead_dKYD3OXlKM4exomoJUseT5d7vDcTjZEANY7wK1GhwnS",
+                "name": "Alylan Thompson",
+                "booked_date": "2026-10-30",
+                "scored_call_at": "2026-10-30T17:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_dKYD3OXlKM4exomoJUseT5d7vDcTjZEANY7wK1GhwnS/",
+                "status_label": "\u260e\ufe0f Call Booked"
+              },
+              {
                 "id": "lead_Eqfqy6kWCs5Ddo0PPIqIS8fuddgCqB9UGLg8HcjahUH",
                 "name": "Dexter Barnes",
                 "booked_date": "2026-10-30",
@@ -5144,14 +5152,6 @@
                 "scored_call_at": "2026-10-30T15:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_mVVmnpt22oknoU08UFvmJGjNfiiWjucZs3t5uvli3Ap/",
                 "status_label": "\u260e\ufe0f Call Booked"
-              },
-              {
-                "id": "lead_dKYD3OXlKM4exomoJUseT5d7vDcTjZEANY7wK1GhwnS",
-                "name": "Alylan Thompson",
-                "booked_date": "2026-10-30",
-                "scored_call_at": "2026-10-30T17:00:00-07:00",
-                "url": "https://app.close.com/lead/lead_dKYD3OXlKM4exomoJUseT5d7vDcTjZEANY7wK1GhwnS/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
               }
             ],
             "exempt": [
@@ -5797,7 +5797,7 @@
                 "booked_date": "2026-10-30",
                 "scored_call_at": "2026-10-30T17:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_dKYD3OXlKM4exomoJUseT5d7vDcTjZEANY7wK1GhwnS/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
+                "status_label": "\u260e\ufe0f Call Booked"
               },
               {
                 "id": "lead_Eqfqy6kWCs5Ddo0PPIqIS8fuddgCqB9UGLg8HcjahUH",
@@ -23275,7 +23275,7 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-10-30T17:40:57.308354-07:00",
+    "generated_at": "2026-10-30T17:55:54.052943-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
@@ -23293,7 +23293,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 1080,
+    "api_requests": 1079,
     "preview_only": false
   }
 }
