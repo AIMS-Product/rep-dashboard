@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-31 13:45:20 PDT",
+  "updated_at": "2026-10-31 14:00:23 PDT",
   "month_label": "October 2026",
   "day_of_month": 31,
   "days_in_month": 31,
@@ -16829,7 +16829,7 @@
       "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
       "adherence": {
         "pre_call_pct": 90,
-        "post_call_pct": 96,
+        "post_call_pct": 95,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -16867,9 +16867,9 @@
             "label": "Recap email sent",
             "phase": "post_call",
             "done": 24,
-            "eligible": 26,
+            "eligible": 27,
             "exempt": 40,
-            "pct": 92
+            "pct": 89
           }
         },
         "lead_cohorts": {
@@ -19256,6 +19256,14 @@
                 "scored_call_at": "2026-10-23T15:00:00-07:00",
                 "url": "https://app.close.com/lead/lead_LGSFV6mLHhCW0zOhBZHNwHOK0VYpQM12bFl6eG1djac/",
                 "status_label": "WARM - Follow up"
+              },
+              {
+                "id": "lead_ZGv9jdtRPnpylCGpvcw8taLm2CR9twD7FIAMwhPQbr2",
+                "name": "Phil Pinkus",
+                "booked_date": "2026-10-30",
+                "scored_call_at": "2026-10-30T14:00:00-07:00",
+                "url": "https://app.close.com/lead/lead_ZGv9jdtRPnpylCGpvcw8taLm2CR9twD7FIAMwhPQbr2/",
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               }
             ],
             "exempt": [
@@ -23553,7 +23561,7 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-10-31T13:53:48.740040-07:00",
+    "generated_at": "2026-10-31T14:11:41.678740-07:00",
     "period": {
       "month": "2026-10",
       "timezone": "America/Los_Angeles",
@@ -23571,7 +23579,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 1090,
+    "api_requests": 1091,
     "preview_only": false
   }
 }
