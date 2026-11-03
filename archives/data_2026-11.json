@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-02 16:45:17 PST",
+  "updated_at": "2026-11-02 17:00:23 PST",
   "month_label": "November 2026",
   "day_of_month": 2,
   "days_in_month": 30,
@@ -21,109 +21,85 @@
   "today_closers": [],
   "reps": [
     {
-      "name": "Robin Perkins",
+      "name": "Christian Hartwell",
       "revenue": 0,
       "deals": 0,
       "quota": 100000,
       "pct_to_quota": 0.0,
-      "booked": 10,
-      "shown": 3,
-      "qualified": 2,
+      "booked": 5,
+      "shown": 1,
+      "qualified": 0,
       "close_rate": 0.0,
-      "show_rate": 30.0,
+      "show_rate": 20.0,
       "revenue_per_lead": 0.0,
       "aov": null,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
-      "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
+      "rep_owner_id": "user_wHm1vcLde4RExd3vv9UOjnms5Oz8ssXg8600mQuxMPb",
       "adherence": {
-        "pre_call_pct": 87,
-        "post_call_pct": 100,
+        "pre_call_pct": 100,
+        "post_call_pct": null,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 5,
-            "eligible": 5,
+            "done": 2,
+            "eligible": 2,
             "exempt": 0,
             "pct": 100
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 4,
-            "eligible": 5,
+            "done": 2,
+            "eligible": 2,
             "exempt": 0,
-            "pct": 80
+            "pct": 100
           },
           "day_of_confirmation_text": {
             "label": "Day-of confirmation",
             "phase": "pre_call",
-            "done": 4,
-            "eligible": 5,
+            "done": 2,
+            "eligible": 2,
             "exempt": 0,
-            "pct": 80
+            "pct": 100
           },
           "follow_up_created": {
             "label": "Task or follow-up meeting",
             "phase": "post_call",
-            "done": 3,
-            "eligible": 3,
+            "done": 0,
+            "eligible": 0,
             "exempt": 2,
-            "pct": 100
+            "pct": null
           },
           "recap_email": {
             "label": "Recap email sent",
             "phase": "post_call",
-            "done": 3,
-            "eligible": 3,
+            "done": 0,
+            "eligible": 0,
             "exempt": 2,
-            "pct": 100
+            "pct": null
           }
         },
         "lead_cohorts": {
           "loom_usage": {
             "completed": [
               {
-                "id": "lead_I2zUO5JAqLOSTQZPnQlMuzagVDXZNLbrzDIzkh51xi1",
-                "name": "Bryce Patterson",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T14:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_I2zUO5JAqLOSTQZPnQlMuzagVDXZNLbrzDIzkh51xi1/",
-                "status_label": "WARM - Follow up"
-              },
-              {
-                "id": "lead_5RJKOOISx9ihqB7In5oZX863tNgch35kvJ9OZcNoEAv",
-                "name": "Dustin Plowman",
+                "id": "lead_DbeXdXBLN7xEiKiQ8VQfEgLKgJl0vJHraWmouEOqNjd",
+                "name": "Creola Jones",
                 "booked_date": "2026-11-02",
                 "scored_call_at": "2026-11-02T09:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_5RJKOOISx9ihqB7In5oZX863tNgch35kvJ9OZcNoEAv/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
+                "url": "https://app.close.com/lead/lead_DbeXdXBLN7xEiKiQ8VQfEgLKgJl0vJHraWmouEOqNjd/",
+                "status_label": "\ud83d\udc94 Lost"
               },
               {
-                "id": "lead_nXvZYA4UQ5CjaxwZU42XshSaC5vIcHaXxTxt1lgKhnw",
-                "name": "Jerry King",
+                "id": "lead_8Mhm5D4b7joDx1i0kogIToTpD7Np3QNxYdmQCUuBEeM",
+                "name": "Randy Jones",
                 "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T15:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_nXvZYA4UQ5CjaxwZU42XshSaC5vIcHaXxTxt1lgKhnw/",
-                "status_label": "\ud83d\udcf5 Do Not Contact"
-              },
-              {
-                "id": "lead_em2FPirJGLbUXiWeP3kw7QMmwumZ4nsshZ0xydcFRCG",
-                "name": "Jerry King King",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T15:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_em2FPirJGLbUXiWeP3kw7QMmwumZ4nsshZ0xydcFRCG/",
-                "status_label": "\ud83d\udd5b Call Rescheduled"
-              },
-              {
-                "id": "lead_m09atJP2FWrsqduE2pMRBBOr2KWkGLOypA7DUzNxy7U",
-                "name": "Lawrence Senna",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T10:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_m09atJP2FWrsqduE2pMRBBOr2KWkGLOypA7DUzNxy7U/",
-                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
+                "scored_call_at": "2026-11-02T10:30:00-08:00",
+                "url": "https://app.close.com/lead/lead_8Mhm5D4b7joDx1i0kogIToTpD7Np3QNxYdmQCUuBEeM/",
+                "status_label": "\ud83d\udc94 Lost"
               }
             ],
             "missed": [],
@@ -132,188 +108,88 @@
           "precall_text": {
             "completed": [
               {
-                "id": "lead_I2zUO5JAqLOSTQZPnQlMuzagVDXZNLbrzDIzkh51xi1",
-                "name": "Bryce Patterson",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T14:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_I2zUO5JAqLOSTQZPnQlMuzagVDXZNLbrzDIzkh51xi1/",
-                "status_label": "WARM - Follow up"
-              },
-              {
-                "id": "lead_5RJKOOISx9ihqB7In5oZX863tNgch35kvJ9OZcNoEAv",
-                "name": "Dustin Plowman",
+                "id": "lead_DbeXdXBLN7xEiKiQ8VQfEgLKgJl0vJHraWmouEOqNjd",
+                "name": "Creola Jones",
                 "booked_date": "2026-11-02",
                 "scored_call_at": "2026-11-02T09:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_5RJKOOISx9ihqB7In5oZX863tNgch35kvJ9OZcNoEAv/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
+                "url": "https://app.close.com/lead/lead_DbeXdXBLN7xEiKiQ8VQfEgLKgJl0vJHraWmouEOqNjd/",
+                "status_label": "\ud83d\udc94 Lost"
               },
               {
-                "id": "lead_em2FPirJGLbUXiWeP3kw7QMmwumZ4nsshZ0xydcFRCG",
-                "name": "Jerry King King",
+                "id": "lead_8Mhm5D4b7joDx1i0kogIToTpD7Np3QNxYdmQCUuBEeM",
+                "name": "Randy Jones",
                 "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T15:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_em2FPirJGLbUXiWeP3kw7QMmwumZ4nsshZ0xydcFRCG/",
-                "status_label": "\ud83d\udd5b Call Rescheduled"
-              },
-              {
-                "id": "lead_m09atJP2FWrsqduE2pMRBBOr2KWkGLOypA7DUzNxy7U",
-                "name": "Lawrence Senna",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T10:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_m09atJP2FWrsqduE2pMRBBOr2KWkGLOypA7DUzNxy7U/",
-                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
+                "scored_call_at": "2026-11-02T10:30:00-08:00",
+                "url": "https://app.close.com/lead/lead_8Mhm5D4b7joDx1i0kogIToTpD7Np3QNxYdmQCUuBEeM/",
+                "status_label": "\ud83d\udc94 Lost"
               }
             ],
-            "missed": [
-              {
-                "id": "lead_nXvZYA4UQ5CjaxwZU42XshSaC5vIcHaXxTxt1lgKhnw",
-                "name": "Jerry King",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T15:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_nXvZYA4UQ5CjaxwZU42XshSaC5vIcHaXxTxt1lgKhnw/",
-                "status_label": "\ud83d\udcf5 Do Not Contact"
-              }
-            ],
+            "missed": [],
             "exempt": []
           },
           "day_of_confirmation_text": {
             "completed": [
               {
-                "id": "lead_I2zUO5JAqLOSTQZPnQlMuzagVDXZNLbrzDIzkh51xi1",
-                "name": "Bryce Patterson",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T14:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_I2zUO5JAqLOSTQZPnQlMuzagVDXZNLbrzDIzkh51xi1/",
-                "status_label": "WARM - Follow up"
-              },
-              {
-                "id": "lead_5RJKOOISx9ihqB7In5oZX863tNgch35kvJ9OZcNoEAv",
-                "name": "Dustin Plowman",
+                "id": "lead_DbeXdXBLN7xEiKiQ8VQfEgLKgJl0vJHraWmouEOqNjd",
+                "name": "Creola Jones",
                 "booked_date": "2026-11-02",
                 "scored_call_at": "2026-11-02T09:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_5RJKOOISx9ihqB7In5oZX863tNgch35kvJ9OZcNoEAv/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
+                "url": "https://app.close.com/lead/lead_DbeXdXBLN7xEiKiQ8VQfEgLKgJl0vJHraWmouEOqNjd/",
+                "status_label": "\ud83d\udc94 Lost"
               },
               {
-                "id": "lead_em2FPirJGLbUXiWeP3kw7QMmwumZ4nsshZ0xydcFRCG",
-                "name": "Jerry King King",
+                "id": "lead_8Mhm5D4b7joDx1i0kogIToTpD7Np3QNxYdmQCUuBEeM",
+                "name": "Randy Jones",
                 "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T15:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_em2FPirJGLbUXiWeP3kw7QMmwumZ4nsshZ0xydcFRCG/",
-                "status_label": "\ud83d\udd5b Call Rescheduled"
-              },
-              {
-                "id": "lead_m09atJP2FWrsqduE2pMRBBOr2KWkGLOypA7DUzNxy7U",
-                "name": "Lawrence Senna",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T10:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_m09atJP2FWrsqduE2pMRBBOr2KWkGLOypA7DUzNxy7U/",
-                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
-              }
-            ],
-            "missed": [
-              {
-                "id": "lead_nXvZYA4UQ5CjaxwZU42XshSaC5vIcHaXxTxt1lgKhnw",
-                "name": "Jerry King",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T15:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_nXvZYA4UQ5CjaxwZU42XshSaC5vIcHaXxTxt1lgKhnw/",
-                "status_label": "\ud83d\udcf5 Do Not Contact"
-              }
-            ],
-            "exempt": []
-          },
-          "follow_up_created": {
-            "completed": [
-              {
-                "id": "lead_I2zUO5JAqLOSTQZPnQlMuzagVDXZNLbrzDIzkh51xi1",
-                "name": "Bryce Patterson",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T14:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_I2zUO5JAqLOSTQZPnQlMuzagVDXZNLbrzDIzkh51xi1/",
-                "status_label": "WARM - Follow up"
-              },
-              {
-                "id": "lead_5RJKOOISx9ihqB7In5oZX863tNgch35kvJ9OZcNoEAv",
-                "name": "Dustin Plowman",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T09:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_5RJKOOISx9ihqB7In5oZX863tNgch35kvJ9OZcNoEAv/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
-              },
-              {
-                "id": "lead_m09atJP2FWrsqduE2pMRBBOr2KWkGLOypA7DUzNxy7U",
-                "name": "Lawrence Senna",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T10:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_m09atJP2FWrsqduE2pMRBBOr2KWkGLOypA7DUzNxy7U/",
-                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
+                "scored_call_at": "2026-11-02T10:30:00-08:00",
+                "url": "https://app.close.com/lead/lead_8Mhm5D4b7joDx1i0kogIToTpD7Np3QNxYdmQCUuBEeM/",
+                "status_label": "\ud83d\udc94 Lost"
               }
             ],
             "missed": [],
+            "exempt": []
+          },
+          "follow_up_created": {
+            "completed": [],
+            "missed": [],
             "exempt": [
               {
-                "id": "lead_nXvZYA4UQ5CjaxwZU42XshSaC5vIcHaXxTxt1lgKhnw",
-                "name": "Jerry King",
+                "id": "lead_DbeXdXBLN7xEiKiQ8VQfEgLKgJl0vJHraWmouEOqNjd",
+                "name": "Creola Jones",
                 "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T15:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_nXvZYA4UQ5CjaxwZU42XshSaC5vIcHaXxTxt1lgKhnw/",
-                "status_label": "\ud83d\udcf5 Do Not Contact"
+                "scored_call_at": "2026-11-02T09:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_DbeXdXBLN7xEiKiQ8VQfEgLKgJl0vJHraWmouEOqNjd/",
+                "status_label": "\ud83d\udc94 Lost"
               },
               {
-                "id": "lead_em2FPirJGLbUXiWeP3kw7QMmwumZ4nsshZ0xydcFRCG",
-                "name": "Jerry King King",
+                "id": "lead_8Mhm5D4b7joDx1i0kogIToTpD7Np3QNxYdmQCUuBEeM",
+                "name": "Randy Jones",
                 "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T15:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_em2FPirJGLbUXiWeP3kw7QMmwumZ4nsshZ0xydcFRCG/",
-                "status_label": "\ud83d\udd5b Call Rescheduled"
+                "scored_call_at": "2026-11-02T10:30:00-08:00",
+                "url": "https://app.close.com/lead/lead_8Mhm5D4b7joDx1i0kogIToTpD7Np3QNxYdmQCUuBEeM/",
+                "status_label": "\ud83d\udc94 Lost"
               }
             ]
           },
           "recap_email": {
-            "completed": [
-              {
-                "id": "lead_I2zUO5JAqLOSTQZPnQlMuzagVDXZNLbrzDIzkh51xi1",
-                "name": "Bryce Patterson",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T14:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_I2zUO5JAqLOSTQZPnQlMuzagVDXZNLbrzDIzkh51xi1/",
-                "status_label": "WARM - Follow up"
-              },
-              {
-                "id": "lead_5RJKOOISx9ihqB7In5oZX863tNgch35kvJ9OZcNoEAv",
-                "name": "Dustin Plowman",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T09:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_5RJKOOISx9ihqB7In5oZX863tNgch35kvJ9OZcNoEAv/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
-              },
-              {
-                "id": "lead_m09atJP2FWrsqduE2pMRBBOr2KWkGLOypA7DUzNxy7U",
-                "name": "Lawrence Senna",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T10:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_m09atJP2FWrsqduE2pMRBBOr2KWkGLOypA7DUzNxy7U/",
-                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
-              }
-            ],
+            "completed": [],
             "missed": [],
             "exempt": [
               {
-                "id": "lead_nXvZYA4UQ5CjaxwZU42XshSaC5vIcHaXxTxt1lgKhnw",
-                "name": "Jerry King",
+                "id": "lead_DbeXdXBLN7xEiKiQ8VQfEgLKgJl0vJHraWmouEOqNjd",
+                "name": "Creola Jones",
                 "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T15:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_nXvZYA4UQ5CjaxwZU42XshSaC5vIcHaXxTxt1lgKhnw/",
-                "status_label": "\ud83d\udcf5 Do Not Contact"
+                "scored_call_at": "2026-11-02T09:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_DbeXdXBLN7xEiKiQ8VQfEgLKgJl0vJHraWmouEOqNjd/",
+                "status_label": "\ud83d\udc94 Lost"
               },
               {
-                "id": "lead_em2FPirJGLbUXiWeP3kw7QMmwumZ4nsshZ0xydcFRCG",
-                "name": "Jerry King King",
+                "id": "lead_8Mhm5D4b7joDx1i0kogIToTpD7Np3QNxYdmQCUuBEeM",
+                "name": "Randy Jones",
                 "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T15:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_em2FPirJGLbUXiWeP3kw7QMmwumZ4nsshZ0xydcFRCG/",
-                "status_label": "\ud83d\udd5b Call Rescheduled"
+                "scored_call_at": "2026-11-02T10:30:00-08:00",
+                "url": "https://app.close.com/lead/lead_8Mhm5D4b7joDx1i0kogIToTpD7Np3QNxYdmQCUuBEeM/",
+                "status_label": "\ud83d\udc94 Lost"
               }
             ]
           }
@@ -500,22 +376,22 @@
       }
     },
     {
-      "name": "Joe Dysert",
+      "name": "Eric Piccione",
       "revenue": 0,
       "deals": 0,
-      "quota": 0,
-      "pct_to_quota": 0,
+      "quota": 100000,
+      "pct_to_quota": 0.0,
       "booked": 1,
-      "shown": 1,
+      "shown": 0,
       "qualified": 0,
       "close_rate": 0.0,
-      "show_rate": 100.0,
+      "show_rate": 0.0,
       "revenue_per_lead": 0.0,
       "aov": null,
-      "is_manager": true,
+      "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
-      "rep_owner_id": "user_lUjlATIIgFg8mELa0GFzZUj0lG4Cs7PwQsxbi34I6Su",
+      "rep_owner_id": "user_wF5aATmDljO6g6AHqehRPVmfCmH5j9VszbO6Q6Pjzm4",
       "adherence": {
         "pre_call_pct": null,
         "post_call_pct": null,
@@ -586,6 +462,115 @@
             "completed": [],
             "missed": [],
             "exempt": []
+          }
+        }
+      }
+    },
+    {
+      "name": "Joe Vaughan",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 100000,
+      "pct_to_quota": 0.0,
+      "booked": 2,
+      "shown": 1,
+      "qualified": 0,
+      "close_rate": 0.0,
+      "show_rate": 50.0,
+      "revenue_per_lead": 0.0,
+      "aov": null,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "rep_owner_id": "user_7HSxi55O8q5jO11khvrTcAGoL2nlcoa3kZ6loAY6i78",
+      "adherence": {
+        "pre_call_pct": null,
+        "post_call_pct": null,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "day_of_confirmation_text": {
+            "label": "Day-of confirmation",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "follow_up_created": {
+            "label": "Task or follow-up meeting",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 1,
+            "pct": null
+          },
+          "recap_email": {
+            "label": "Recap email sent",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 1,
+            "pct": null
+          }
+        },
+        "lead_cohorts": {
+          "loom_usage": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "precall_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "day_of_confirmation_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "follow_up_created": {
+            "completed": [],
+            "missed": [],
+            "exempt": [
+              {
+                "id": "lead_vTtdDMpsPNzgKyNqUunFN2NbxEbjjYzerUS33RFcfrA",
+                "name": "Kay Williams",
+                "booked_date": "2026-11-06",
+                "scored_call_at": "2026-11-06T13:30:00-08:00",
+                "url": "https://app.close.com/lead/lead_vTtdDMpsPNzgKyNqUunFN2NbxEbjjYzerUS33RFcfrA/",
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
+              }
+            ]
+          },
+          "recap_email": {
+            "completed": [],
+            "missed": [],
+            "exempt": [
+              {
+                "id": "lead_vTtdDMpsPNzgKyNqUunFN2NbxEbjjYzerUS33RFcfrA",
+                "name": "Kay Williams",
+                "booked_date": "2026-11-06",
+                "scored_call_at": "2026-11-06T13:30:00-08:00",
+                "url": "https://app.close.com/lead/lead_vTtdDMpsPNzgKyNqUunFN2NbxEbjjYzerUS33RFcfrA/",
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
+              }
+            ]
           }
         }
       }
@@ -764,6 +749,97 @@
                 "status_label": "\ud83d\udc7b No Show"
               }
             ]
+          }
+        }
+      }
+    },
+    {
+      "name": "Joe Dysert",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 0,
+      "pct_to_quota": 0,
+      "booked": 1,
+      "shown": 1,
+      "qualified": 0,
+      "close_rate": 0.0,
+      "show_rate": 100.0,
+      "revenue_per_lead": 0.0,
+      "aov": null,
+      "is_manager": true,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "rep_owner_id": "user_lUjlATIIgFg8mELa0GFzZUj0lG4Cs7PwQsxbi34I6Su",
+      "adherence": {
+        "pre_call_pct": null,
+        "post_call_pct": null,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "day_of_confirmation_text": {
+            "label": "Day-of confirmation",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "follow_up_created": {
+            "label": "Task or follow-up meeting",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "recap_email": {
+            "label": "Recap email sent",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          }
+        },
+        "lead_cohorts": {
+          "loom_usage": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "precall_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "day_of_confirmation_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "follow_up_created": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "recap_email": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
           }
         }
       }
@@ -1110,6 +1186,306 @@
       }
     },
     {
+      "name": "Robin Perkins",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 100000,
+      "pct_to_quota": 0.0,
+      "booked": 10,
+      "shown": 3,
+      "qualified": 2,
+      "close_rate": 0.0,
+      "show_rate": 30.0,
+      "revenue_per_lead": 0.0,
+      "aov": null,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
+      "adherence": {
+        "pre_call_pct": 87,
+        "post_call_pct": 100,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 5,
+            "eligible": 5,
+            "exempt": 0,
+            "pct": 100
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 4,
+            "eligible": 5,
+            "exempt": 0,
+            "pct": 80
+          },
+          "day_of_confirmation_text": {
+            "label": "Day-of confirmation",
+            "phase": "pre_call",
+            "done": 4,
+            "eligible": 5,
+            "exempt": 0,
+            "pct": 80
+          },
+          "follow_up_created": {
+            "label": "Task or follow-up meeting",
+            "phase": "post_call",
+            "done": 3,
+            "eligible": 3,
+            "exempt": 2,
+            "pct": 100
+          },
+          "recap_email": {
+            "label": "Recap email sent",
+            "phase": "post_call",
+            "done": 3,
+            "eligible": 3,
+            "exempt": 2,
+            "pct": 100
+          }
+        },
+        "lead_cohorts": {
+          "loom_usage": {
+            "completed": [
+              {
+                "id": "lead_I2zUO5JAqLOSTQZPnQlMuzagVDXZNLbrzDIzkh51xi1",
+                "name": "Bryce Patterson",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T14:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_I2zUO5JAqLOSTQZPnQlMuzagVDXZNLbrzDIzkh51xi1/",
+                "status_label": "WARM - Follow up"
+              },
+              {
+                "id": "lead_5RJKOOISx9ihqB7In5oZX863tNgch35kvJ9OZcNoEAv",
+                "name": "Dustin Plowman",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T09:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_5RJKOOISx9ihqB7In5oZX863tNgch35kvJ9OZcNoEAv/",
+                "status_label": "\ud83d\udcde HOT- Follow Up"
+              },
+              {
+                "id": "lead_nXvZYA4UQ5CjaxwZU42XshSaC5vIcHaXxTxt1lgKhnw",
+                "name": "Jerry King",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T15:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_nXvZYA4UQ5CjaxwZU42XshSaC5vIcHaXxTxt1lgKhnw/",
+                "status_label": "\ud83d\udcf5 Do Not Contact"
+              },
+              {
+                "id": "lead_em2FPirJGLbUXiWeP3kw7QMmwumZ4nsshZ0xydcFRCG",
+                "name": "Jerry King King",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T15:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_em2FPirJGLbUXiWeP3kw7QMmwumZ4nsshZ0xydcFRCG/",
+                "status_label": "\ud83d\udd5b Call Rescheduled"
+              },
+              {
+                "id": "lead_m09atJP2FWrsqduE2pMRBBOr2KWkGLOypA7DUzNxy7U",
+                "name": "Lawrence Senna",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T10:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_m09atJP2FWrsqduE2pMRBBOr2KWkGLOypA7DUzNxy7U/",
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
+              }
+            ],
+            "missed": [],
+            "exempt": []
+          },
+          "precall_text": {
+            "completed": [
+              {
+                "id": "lead_I2zUO5JAqLOSTQZPnQlMuzagVDXZNLbrzDIzkh51xi1",
+                "name": "Bryce Patterson",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T14:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_I2zUO5JAqLOSTQZPnQlMuzagVDXZNLbrzDIzkh51xi1/",
+                "status_label": "WARM - Follow up"
+              },
+              {
+                "id": "lead_5RJKOOISx9ihqB7In5oZX863tNgch35kvJ9OZcNoEAv",
+                "name": "Dustin Plowman",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T09:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_5RJKOOISx9ihqB7In5oZX863tNgch35kvJ9OZcNoEAv/",
+                "status_label": "\ud83d\udcde HOT- Follow Up"
+              },
+              {
+                "id": "lead_em2FPirJGLbUXiWeP3kw7QMmwumZ4nsshZ0xydcFRCG",
+                "name": "Jerry King King",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T15:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_em2FPirJGLbUXiWeP3kw7QMmwumZ4nsshZ0xydcFRCG/",
+                "status_label": "\ud83d\udd5b Call Rescheduled"
+              },
+              {
+                "id": "lead_m09atJP2FWrsqduE2pMRBBOr2KWkGLOypA7DUzNxy7U",
+                "name": "Lawrence Senna",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T10:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_m09atJP2FWrsqduE2pMRBBOr2KWkGLOypA7DUzNxy7U/",
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
+              }
+            ],
+            "missed": [
+              {
+                "id": "lead_nXvZYA4UQ5CjaxwZU42XshSaC5vIcHaXxTxt1lgKhnw",
+                "name": "Jerry King",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T15:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_nXvZYA4UQ5CjaxwZU42XshSaC5vIcHaXxTxt1lgKhnw/",
+                "status_label": "\ud83d\udcf5 Do Not Contact"
+              }
+            ],
+            "exempt": []
+          },
+          "day_of_confirmation_text": {
+            "completed": [
+              {
+                "id": "lead_I2zUO5JAqLOSTQZPnQlMuzagVDXZNLbrzDIzkh51xi1",
+                "name": "Bryce Patterson",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T14:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_I2zUO5JAqLOSTQZPnQlMuzagVDXZNLbrzDIzkh51xi1/",
+                "status_label": "WARM - Follow up"
+              },
+              {
+                "id": "lead_5RJKOOISx9ihqB7In5oZX863tNgch35kvJ9OZcNoEAv",
+                "name": "Dustin Plowman",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T09:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_5RJKOOISx9ihqB7In5oZX863tNgch35kvJ9OZcNoEAv/",
+                "status_label": "\ud83d\udcde HOT- Follow Up"
+              },
+              {
+                "id": "lead_em2FPirJGLbUXiWeP3kw7QMmwumZ4nsshZ0xydcFRCG",
+                "name": "Jerry King King",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T15:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_em2FPirJGLbUXiWeP3kw7QMmwumZ4nsshZ0xydcFRCG/",
+                "status_label": "\ud83d\udd5b Call Rescheduled"
+              },
+              {
+                "id": "lead_m09atJP2FWrsqduE2pMRBBOr2KWkGLOypA7DUzNxy7U",
+                "name": "Lawrence Senna",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T10:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_m09atJP2FWrsqduE2pMRBBOr2KWkGLOypA7DUzNxy7U/",
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
+              }
+            ],
+            "missed": [
+              {
+                "id": "lead_nXvZYA4UQ5CjaxwZU42XshSaC5vIcHaXxTxt1lgKhnw",
+                "name": "Jerry King",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T15:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_nXvZYA4UQ5CjaxwZU42XshSaC5vIcHaXxTxt1lgKhnw/",
+                "status_label": "\ud83d\udcf5 Do Not Contact"
+              }
+            ],
+            "exempt": []
+          },
+          "follow_up_created": {
+            "completed": [
+              {
+                "id": "lead_I2zUO5JAqLOSTQZPnQlMuzagVDXZNLbrzDIzkh51xi1",
+                "name": "Bryce Patterson",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T14:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_I2zUO5JAqLOSTQZPnQlMuzagVDXZNLbrzDIzkh51xi1/",
+                "status_label": "WARM - Follow up"
+              },
+              {
+                "id": "lead_5RJKOOISx9ihqB7In5oZX863tNgch35kvJ9OZcNoEAv",
+                "name": "Dustin Plowman",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T09:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_5RJKOOISx9ihqB7In5oZX863tNgch35kvJ9OZcNoEAv/",
+                "status_label": "\ud83d\udcde HOT- Follow Up"
+              },
+              {
+                "id": "lead_m09atJP2FWrsqduE2pMRBBOr2KWkGLOypA7DUzNxy7U",
+                "name": "Lawrence Senna",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T10:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_m09atJP2FWrsqduE2pMRBBOr2KWkGLOypA7DUzNxy7U/",
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
+              }
+            ],
+            "missed": [],
+            "exempt": [
+              {
+                "id": "lead_nXvZYA4UQ5CjaxwZU42XshSaC5vIcHaXxTxt1lgKhnw",
+                "name": "Jerry King",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T15:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_nXvZYA4UQ5CjaxwZU42XshSaC5vIcHaXxTxt1lgKhnw/",
+                "status_label": "\ud83d\udcf5 Do Not Contact"
+              },
+              {
+                "id": "lead_em2FPirJGLbUXiWeP3kw7QMmwumZ4nsshZ0xydcFRCG",
+                "name": "Jerry King King",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T15:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_em2FPirJGLbUXiWeP3kw7QMmwumZ4nsshZ0xydcFRCG/",
+                "status_label": "\ud83d\udd5b Call Rescheduled"
+              }
+            ]
+          },
+          "recap_email": {
+            "completed": [
+              {
+                "id": "lead_I2zUO5JAqLOSTQZPnQlMuzagVDXZNLbrzDIzkh51xi1",
+                "name": "Bryce Patterson",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T14:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_I2zUO5JAqLOSTQZPnQlMuzagVDXZNLbrzDIzkh51xi1/",
+                "status_label": "WARM - Follow up"
+              },
+              {
+                "id": "lead_5RJKOOISx9ihqB7In5oZX863tNgch35kvJ9OZcNoEAv",
+                "name": "Dustin Plowman",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T09:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_5RJKOOISx9ihqB7In5oZX863tNgch35kvJ9OZcNoEAv/",
+                "status_label": "\ud83d\udcde HOT- Follow Up"
+              },
+              {
+                "id": "lead_m09atJP2FWrsqduE2pMRBBOr2KWkGLOypA7DUzNxy7U",
+                "name": "Lawrence Senna",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T10:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_m09atJP2FWrsqduE2pMRBBOr2KWkGLOypA7DUzNxy7U/",
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
+              }
+            ],
+            "missed": [],
+            "exempt": [
+              {
+                "id": "lead_nXvZYA4UQ5CjaxwZU42XshSaC5vIcHaXxTxt1lgKhnw",
+                "name": "Jerry King",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T15:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_nXvZYA4UQ5CjaxwZU42XshSaC5vIcHaXxTxt1lgKhnw/",
+                "status_label": "\ud83d\udcf5 Do Not Contact"
+              },
+              {
+                "id": "lead_em2FPirJGLbUXiWeP3kw7QMmwumZ4nsshZ0xydcFRCG",
+                "name": "Jerry King King",
+                "booked_date": "2026-11-02",
+                "scored_call_at": "2026-11-02T15:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_em2FPirJGLbUXiWeP3kw7QMmwumZ4nsshZ0xydcFRCG/",
+                "status_label": "\ud83d\udd5b Call Rescheduled"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
       "name": "Ariella Irvine",
       "revenue": 0,
       "deals": 0,
@@ -1361,407 +1737,31 @@
           }
         }
       }
-    },
-    {
-      "name": "Joe Vaughan",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 2,
-      "shown": 1,
-      "qualified": 0,
-      "close_rate": 0.0,
-      "show_rate": 50.0,
-      "revenue_per_lead": 0.0,
-      "aov": null,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "rep_owner_id": "user_7HSxi55O8q5jO11khvrTcAGoL2nlcoa3kZ6loAY6i78",
-      "adherence": {
-        "pre_call_pct": null,
-        "post_call_pct": null,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 0,
-            "pct": null
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 0,
-            "pct": null
-          },
-          "day_of_confirmation_text": {
-            "label": "Day-of confirmation",
-            "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 0,
-            "pct": null
-          },
-          "follow_up_created": {
-            "label": "Task or follow-up meeting",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 1,
-            "pct": null
-          },
-          "recap_email": {
-            "label": "Recap email sent",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 1,
-            "pct": null
-          }
-        },
-        "lead_cohorts": {
-          "loom_usage": {
-            "completed": [],
-            "missed": [],
-            "exempt": []
-          },
-          "precall_text": {
-            "completed": [],
-            "missed": [],
-            "exempt": []
-          },
-          "day_of_confirmation_text": {
-            "completed": [],
-            "missed": [],
-            "exempt": []
-          },
-          "follow_up_created": {
-            "completed": [],
-            "missed": [],
-            "exempt": [
-              {
-                "id": "lead_vTtdDMpsPNzgKyNqUunFN2NbxEbjjYzerUS33RFcfrA",
-                "name": "Kay Williams",
-                "booked_date": "2026-11-06",
-                "scored_call_at": "2026-11-06T13:30:00-08:00",
-                "url": "https://app.close.com/lead/lead_vTtdDMpsPNzgKyNqUunFN2NbxEbjjYzerUS33RFcfrA/",
-                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
-              }
-            ]
-          },
-          "recap_email": {
-            "completed": [],
-            "missed": [],
-            "exempt": [
-              {
-                "id": "lead_vTtdDMpsPNzgKyNqUunFN2NbxEbjjYzerUS33RFcfrA",
-                "name": "Kay Williams",
-                "booked_date": "2026-11-06",
-                "scored_call_at": "2026-11-06T13:30:00-08:00",
-                "url": "https://app.close.com/lead/lead_vTtdDMpsPNzgKyNqUunFN2NbxEbjjYzerUS33RFcfrA/",
-                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "name": "Eric Piccione",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 1,
-      "shown": 0,
-      "qualified": 0,
-      "close_rate": 0.0,
-      "show_rate": 0.0,
-      "revenue_per_lead": 0.0,
-      "aov": null,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "rep_owner_id": "user_wF5aATmDljO6g6AHqehRPVmfCmH5j9VszbO6Q6Pjzm4",
-      "adherence": {
-        "pre_call_pct": null,
-        "post_call_pct": null,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 0,
-            "pct": null
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 0,
-            "pct": null
-          },
-          "day_of_confirmation_text": {
-            "label": "Day-of confirmation",
-            "phase": "pre_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 0,
-            "pct": null
-          },
-          "follow_up_created": {
-            "label": "Task or follow-up meeting",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 0,
-            "pct": null
-          },
-          "recap_email": {
-            "label": "Recap email sent",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 0,
-            "pct": null
-          }
-        },
-        "lead_cohorts": {
-          "loom_usage": {
-            "completed": [],
-            "missed": [],
-            "exempt": []
-          },
-          "precall_text": {
-            "completed": [],
-            "missed": [],
-            "exempt": []
-          },
-          "day_of_confirmation_text": {
-            "completed": [],
-            "missed": [],
-            "exempt": []
-          },
-          "follow_up_created": {
-            "completed": [],
-            "missed": [],
-            "exempt": []
-          },
-          "recap_email": {
-            "completed": [],
-            "missed": [],
-            "exempt": []
-          }
-        }
-      }
-    },
-    {
-      "name": "Christian Hartwell",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 5,
-      "shown": 1,
-      "qualified": 0,
-      "close_rate": 0.0,
-      "show_rate": 20.0,
-      "revenue_per_lead": 0.0,
-      "aov": null,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "rep_owner_id": "user_wHm1vcLde4RExd3vv9UOjnms5Oz8ssXg8600mQuxMPb",
-      "adherence": {
-        "pre_call_pct": 100,
-        "post_call_pct": null,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 2,
-            "eligible": 2,
-            "exempt": 0,
-            "pct": 100
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 2,
-            "eligible": 2,
-            "exempt": 0,
-            "pct": 100
-          },
-          "day_of_confirmation_text": {
-            "label": "Day-of confirmation",
-            "phase": "pre_call",
-            "done": 2,
-            "eligible": 2,
-            "exempt": 0,
-            "pct": 100
-          },
-          "follow_up_created": {
-            "label": "Task or follow-up meeting",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 2,
-            "pct": null
-          },
-          "recap_email": {
-            "label": "Recap email sent",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 0,
-            "exempt": 2,
-            "pct": null
-          }
-        },
-        "lead_cohorts": {
-          "loom_usage": {
-            "completed": [
-              {
-                "id": "lead_DbeXdXBLN7xEiKiQ8VQfEgLKgJl0vJHraWmouEOqNjd",
-                "name": "Creola Jones",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T09:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_DbeXdXBLN7xEiKiQ8VQfEgLKgJl0vJHraWmouEOqNjd/",
-                "status_label": "\ud83d\udc94 Lost"
-              },
-              {
-                "id": "lead_8Mhm5D4b7joDx1i0kogIToTpD7Np3QNxYdmQCUuBEeM",
-                "name": "Randy Jones",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T10:30:00-08:00",
-                "url": "https://app.close.com/lead/lead_8Mhm5D4b7joDx1i0kogIToTpD7Np3QNxYdmQCUuBEeM/",
-                "status_label": "\ud83d\udc94 Lost"
-              }
-            ],
-            "missed": [],
-            "exempt": []
-          },
-          "precall_text": {
-            "completed": [
-              {
-                "id": "lead_DbeXdXBLN7xEiKiQ8VQfEgLKgJl0vJHraWmouEOqNjd",
-                "name": "Creola Jones",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T09:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_DbeXdXBLN7xEiKiQ8VQfEgLKgJl0vJHraWmouEOqNjd/",
-                "status_label": "\ud83d\udc94 Lost"
-              },
-              {
-                "id": "lead_8Mhm5D4b7joDx1i0kogIToTpD7Np3QNxYdmQCUuBEeM",
-                "name": "Randy Jones",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T10:30:00-08:00",
-                "url": "https://app.close.com/lead/lead_8Mhm5D4b7joDx1i0kogIToTpD7Np3QNxYdmQCUuBEeM/",
-                "status_label": "\ud83d\udc94 Lost"
-              }
-            ],
-            "missed": [],
-            "exempt": []
-          },
-          "day_of_confirmation_text": {
-            "completed": [
-              {
-                "id": "lead_DbeXdXBLN7xEiKiQ8VQfEgLKgJl0vJHraWmouEOqNjd",
-                "name": "Creola Jones",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T09:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_DbeXdXBLN7xEiKiQ8VQfEgLKgJl0vJHraWmouEOqNjd/",
-                "status_label": "\ud83d\udc94 Lost"
-              },
-              {
-                "id": "lead_8Mhm5D4b7joDx1i0kogIToTpD7Np3QNxYdmQCUuBEeM",
-                "name": "Randy Jones",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T10:30:00-08:00",
-                "url": "https://app.close.com/lead/lead_8Mhm5D4b7joDx1i0kogIToTpD7Np3QNxYdmQCUuBEeM/",
-                "status_label": "\ud83d\udc94 Lost"
-              }
-            ],
-            "missed": [],
-            "exempt": []
-          },
-          "follow_up_created": {
-            "completed": [],
-            "missed": [],
-            "exempt": [
-              {
-                "id": "lead_DbeXdXBLN7xEiKiQ8VQfEgLKgJl0vJHraWmouEOqNjd",
-                "name": "Creola Jones",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T09:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_DbeXdXBLN7xEiKiQ8VQfEgLKgJl0vJHraWmouEOqNjd/",
-                "status_label": "\ud83d\udc94 Lost"
-              },
-              {
-                "id": "lead_8Mhm5D4b7joDx1i0kogIToTpD7Np3QNxYdmQCUuBEeM",
-                "name": "Randy Jones",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T10:30:00-08:00",
-                "url": "https://app.close.com/lead/lead_8Mhm5D4b7joDx1i0kogIToTpD7Np3QNxYdmQCUuBEeM/",
-                "status_label": "\ud83d\udc94 Lost"
-              }
-            ]
-          },
-          "recap_email": {
-            "completed": [],
-            "missed": [],
-            "exempt": [
-              {
-                "id": "lead_DbeXdXBLN7xEiKiQ8VQfEgLKgJl0vJHraWmouEOqNjd",
-                "name": "Creola Jones",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T09:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_DbeXdXBLN7xEiKiQ8VQfEgLKgJl0vJHraWmouEOqNjd/",
-                "status_label": "\ud83d\udc94 Lost"
-              },
-              {
-                "id": "lead_8Mhm5D4b7joDx1i0kogIToTpD7Np3QNxYdmQCUuBEeM",
-                "name": "Randy Jones",
-                "booked_date": "2026-11-02",
-                "scored_call_at": "2026-11-02T10:30:00-08:00",
-                "url": "https://app.close.com/lead/lead_8Mhm5D4b7joDx1i0kogIToTpD7Np3QNxYdmQCUuBEeM/",
-                "status_label": "\ud83d\udc94 Lost"
-              }
-            ]
-          }
-        }
-      }
     }
   ],
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-11-02T16:47:22.755482-08:00",
+    "generated_at": "2026-11-02T17:04:36.262396-08:00",
     "period": {
       "month": "2026-11",
       "timezone": "America/Los_Angeles",
       "basis": "latest_sales_call_booked_date_with_first_date_fallback"
     },
     "cohort": {
-      "raw": 58,
-      "included": 56,
+      "raw": 59,
+      "included": 57,
       "excluded": 2,
       "exclusion_counts": {
         "outside_us": 1,
         "meeting_rep_not_visible": 1
       },
       "attribution_counts": {
-        "meeting_rep": 56
+        "meeting_rep": 57
       },
       "includes_lost": true
     },
-    "api_requests": 313,
+    "api_requests": 316,
     "preview_only": false
   }
 }
