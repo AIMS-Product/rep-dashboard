@@ -698,6 +698,7 @@
       transition-duration: .01ms !important;
     }
   }
+@media (min-width:1201px) { .boards { grid-template-columns:1fr 1fr 1.25fr; } }
 </style>
 </head>
 <body>
@@ -880,6 +881,7 @@
 
   function renderAdherenceBoard(D, daily = false) {
     const reps = D.reps || [];
+
     if (!D.adherence_meta || !reps.some(r => r.adherence)) return '';
     const adherenceSorted = reps
       .filter(r => !r.exclude_meetings && !r.is_manager && r.adherence)
@@ -978,6 +980,7 @@
   }
 
   function render(D) {
+    const outcomeBased = D.metric_definitions?.booked === 'native_completed_plus_no_show';
     window._dashData = D;
     const reps = D.reps || [];
     const remaining = Math.max(0, D.team_quota - D.total_revenue);
@@ -1054,19 +1057,19 @@
         <td><span class="${rkC(i)}">${i+1}</span>${repLabel(r)}${badge}</td>
         <td>${fmt$(r.revenue)}</td>
         <td>${qH}</td>
-        <td>${moneyOrNA(r.revenue_per_lead)}</td>
+        <td>${moneyOrNA((r.revenue_per_occurred ?? r.revenue_per_lead))}</td>
       </tr>`;
     }).join('');
     const [,tqTc] = qCol(D.pct_team_quota);
     const board1 = `
       <div class="board performance-board revenue-board fade d2">
-        <div class="board-head"><div class="board-title">Revenue Closed</div><div class="board-sub">Rev / Lead = revenue ÷ booked leads</div></div>
+        <div class="board-head"><div class="board-title">Revenue Closed</div><div class="board-sub">Revenue / Booked = date-won revenue ÷ booked calls (shows + no shows)</div></div>
         <div class="board-table-scroll">
         <table>
           <colgroup><col style="width:44%"><col style="width:18%"><col style="width:16%"><col style="width:22%"></colgroup>
-          <thead><tr><th>Rep</th><th>Revenue</th><th>% Quota</th><th title="Month-to-date revenue divided by leads booked this month">Rev / Lead</th></tr></thead>
+          <thead><tr><th>Rep</th><th>Revenue</th><th>% Quota</th><th title="Revenue won in period divided by calls occurred; independent date cohorts">Rev / Booked</th></tr></thead>
           <tbody>${b1Rows}</tbody>
-          <tfoot><tr><td>Team Total</td><td>${fmt$(D.total_revenue)}</td><td><span class="pv ${tqTc}">${D.pct_team_quota}%</span></td><td title="Per-rep only: team booked count comes from the separate MTD funnel source">N/A</td></tr></tfoot>
+          <tfoot><tr><td>Team Total</td><td>${fmt$(D.total_revenue)}</td><td><span class="pv ${tqTc}">${D.pct_team_quota}%</span></td><td title="Revenue per booked call is shown per rep">N/A</td></tr></tfoot>
         </table>
         </div>
       </div>`;
@@ -1076,7 +1079,7 @@
     const b2Rows = dealSorted.map((r,i) => `<tr>
       <td><span class="${rkC(i)}">${i+1}</span>${repLabel(r)}</td>
       <td>${r.deals}</td>
-      <td>${r.exclude_meetings || !r.booked ? '<span style="color:var(--text-faint)">N/A</span>' : `<span class="${rc(r.close_rate,20,10)}">${r.close_rate}%</span>`}</td>
+      <td>${r.exclude_meetings || !(r.occurred_calls ?? r.booked) ? '<span style="color:var(--text-faint)">N/A</span>' : `<span class="${rc(r.close_rate,20,10)}">${r.close_rate}%</span>`}</td>
       <td>${moneyOrNA(r.aov)}</td>
     </tr>`).join('');
     const board2 = `
@@ -1085,9 +1088,9 @@
         <div class="board-table-scroll">
         <table>
           <colgroup><col style="width:44%"><col style="width:14%"><col style="width:20%"><col style="width:22%"></colgroup>
-          <thead><tr><th>Rep</th><th>Deals</th><th>Close %</th><th title="Month-to-date revenue divided by deals closed this month">AOV</th></tr></thead>
+          <thead><tr><th>Rep</th><th>Deals</th><th title="Leads closed by date won divided by Calls Occurred">Close %</th><th title="Month-to-date revenue divided by deals closed this month">AOV</th></tr></thead>
           <tbody>${b2Rows}</tbody>
-          <tfoot><tr><td>Team Total</td><td>${D.total_deals}</td><td><span class="${rc(D.team_close_rate||0,20,10)}">${D.team_close_rate||0}%</span></td><td>${moneyOrNA(D.team_aov)}</td></tr></tfoot>
+          <tfoot><tr><td>Team Total</td><td>${D.total_deals}</td><td><span class="${rc(D.team_close_rate||0,20,10)}">${D.team_close_rate == null ? '—' : D.team_close_rate + '%'}</span></td><td>${moneyOrNA(D.team_aov)}</td></tr></tfoot>
         </table>
         </div>
       </div>`;
@@ -1100,17 +1103,18 @@
       <td>${r.exclude_meetings ? na : r.booked}</td>
       <td>${r.exclude_meetings ? na : r.shown}</td>
       <td>${r.exclude_meetings ? na : (r.qualified ?? '—')}</td>
-      <td>${r.exclude_meetings || !r.booked ? na : `<span class="${rc(r.show_rate,65,45)}">${r.show_rate}%</span>`}</td>
+      <td>${r.exclude_meetings || !(r.occurred_calls ?? r.booked) ? na : `<span class="${rc(r.show_rate,65,45)}">${r.show_rate}%</span>`}</td>
+      <td>${r.exclude_meetings || !(r.occurred_calls ?? r.booked) ? na : (r.qualification_rate == null ? '—' : r.qualification_rate + '%')}</td>
     </tr>`).join('');
     const board3 = `
       <div class="board performance-board meeting-board fade d2">
-        <div class="board-head"><div class="board-title">Booked / Shown / Qualified</div><div class="board-sub">Qualified = Close field “Yes”</div></div>
+        <div class="board-head"><div class="board-title">Booked / Shown / Qualified</div><div class="board-sub">${outcomeBased ? 'Booked = showed + no show' : 'Booked = First Sales Call Booked Date'} · qualified uses Close “Yes”</div></div>
         <div class="board-table-scroll">
         <table>
-          <colgroup><col style="width:40%"><col style="width:15%"><col style="width:13%"><col style="width:17%"><col style="width:15%"></colgroup>
-          <thead><tr><th>Rep</th><th>Booked</th><th>Shown</th><th title="Booked leads with Qualified (Opp) set to Yes in Close">Qual.</th><th>Show %</th></tr></thead>
+          <colgroup><col style="width:32%"><col style="width:14%"><col style="width:13%"><col style="width:15%"><col style="width:13%"><col style="width:13%"></colgroup>
+          <thead><tr><th>Rep</th><th title="Qualifying calls scheduled in elapsed period with Completed or No Show outcome">Booked</th><th>Shown</th><th title="Distinct leads from occurred calls with Qualified (Opp) = Yes; current flag, no reset">Qual.</th><th title="Shows divided by Calls Occurred">Show %</th><th title="Qualified leads from occurred calls divided by Calls Occurred">Qual %</th></tr></thead>
           <tbody>${b3Rows}</tbody>
-          <tfoot><tr><td>Team Total</td><td>${D.total_booked}</td><td>${D.total_shown}</td><td>${D.total_qualified ?? 'N/A'}</td><td><span class="${rc(D.team_show_rate||0,65,45)}">${D.team_show_rate||0}%</span></td></tr></tfoot>
+          <tfoot><tr><td>Team Total</td><td>${D.total_booked}</td><td>${D.total_shown}</td><td>${D.total_qualified ?? 'N/A'}</td><td><span class="${rc(D.team_show_rate||0,65,45)}">${D.team_show_rate == null ? '—' : D.team_show_rate + '%'}</span></td><td>${D.team_qualification_rate == null ? '—' : D.team_qualification_rate + '%'}</td></tr></tfoot>
         </table>
         </div>
       </div>`;
@@ -1297,7 +1301,7 @@
   window.downloadCSV = function() {
     if (!window._dashData) return;
     const D = window._dashData;
-    const rows = [['Rep','Revenue','Deals','Quota','% to Quota','Revenue per Booked Lead','AOV','Booked','Shown','Qualified','Close Rate','Show Rate','Pre-call Adherence','Post-call Adherence']];
+    const rows = [['Rep','Revenue','Deals','Quota','% to Quota','Revenue per Booked Call','AOV','Booked','Shown','Qualified','Close Rate','Show Rate','Qualification Rate','No Shows','Unresolved Outcomes','Pre-call Adherence','Post-call Adherence']];
     const reps = (D.reps || []).slice().sort((a,b) => b.revenue - a.revenue);
     for (const r of reps) {
       rows.push([
@@ -1306,13 +1310,16 @@
         r.deals,
         r.quota || '',
         r.quota ? r.pct_to_quota + '%' : 'N/A',
-        r.revenue_per_lead == null ? '' : r.revenue_per_lead.toFixed(2),
+        (r.revenue_per_occurred ?? r.revenue_per_lead) == null ? '' : (r.revenue_per_occurred ?? r.revenue_per_lead).toFixed(2),
         r.aov == null ? '' : r.aov.toFixed(2),
         r.exclude_meetings ? 'N/A' : r.booked,
         r.exclude_meetings ? 'N/A' : r.shown,
         r.exclude_meetings ? 'N/A' : (r.qualified ?? ''),
-        r.exclude_meetings || !r.booked ? 'N/A' : r.close_rate + '%',
-        r.exclude_meetings || !r.booked ? 'N/A' : r.show_rate + '%',
+        r.exclude_meetings || !(r.occurred_calls ?? r.booked) ? 'N/A' : r.close_rate + '%',
+        r.exclude_meetings || !(r.occurred_calls ?? r.booked) ? 'N/A' : r.show_rate + '%',
+        r.qualification_rate == null ? '' : r.qualification_rate + '%',
+        r.no_shows,
+        r.unresolved_calls,
         r.adherence ? pctText(r.adherence.pre_call_pct) : 'N/A',
         r.adherence ? pctText(adherencePhasePct(r.adherence, 'post_call')) : 'N/A',
       ]);
@@ -1328,8 +1335,11 @@
       D.total_booked,
       D.total_shown,
       D.total_qualified ?? '',
-      D.team_close_rate + '%',
-      D.team_show_rate + '%',
+      D.team_close_rate == null ? '' : D.team_close_rate + '%',
+      D.team_show_rate == null ? '' : D.team_show_rate + '%',
+      D.team_qualification_rate == null ? '' : D.team_qualification_rate + '%',
+      D.total_no_shows,
+      D.total_unresolved_calls,
       '',
       '',
     ]);

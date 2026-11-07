@@ -1,0 +1,485 @@
+{
+  "version": "booked_calls.v2.8-naria-navigator-title-20261102",
+  "timezone": "America/Los_Angeles",
+  "repeat_days": 30,
+  "repeat_boundary": "A new qualifying credit is eligible only when scheduled-start time is strictly more than 720 elapsed hours after the prior non-canceled meeting.",
+  "historical_cutoff_exclusive": "2026-09-15T00:00:00-07:00",
+  "historical_cutoff_basis": "Close date_created",
+  "title_rules": [
+    {
+      "key": "charlie_ingram_vendingpreneurs_dash_next_steps_call_booked",
+      "pattern": "vendingpren[eu]+rs?\\s+-\\s+next\\s+steps\\s+call",
+      "setter_name": "Charlie Ingram",
+      "setter_user_id": "user_yZWJTiMjUBfJt8pUPQG6hS7QfKUxwt322aYEABSUrQb",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "vince_bartolini_vendingpreneurs_next_steps_call_booked",
+      "pattern": "vendingpren[eu]+rs?\\s+next\\s+steps\\s+call",
+      "setter_name": "Vince Bartolini",
+      "setter_user_id": "user_dQi0iL0igjCKtEXPSsv8ALDZMAz9orJxL60O7Q921jy",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "pearl_sathekge_vendingpreneurs_next_steps_session_booked",
+      "pattern": "vendingpren[eu]+rs?\\s+next\\s+steps\\s+session",
+      "setter_name": "Pearl Sathekge",
+      "setter_user_id": "user_0SuNg0OWd2reYMeyuDVqiVvjiGcRiFheKKOXXZpyaPZ",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "kelly_schrader_vendingpreneurs_discovery_dash_next_steps_booked",
+      "pattern": "vendingpren[eu]+rs?\\s+discovery\\s+-\\s+next\\s+steps",
+      "setter_name": "Kelly Schrader",
+      "setter_user_id": null,
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "william_nowak_vendingpreneur_next_steps_booked",
+      "pattern": "vendingpren[eu]+r\\s+next\\s+steps",
+      "setter_name": "William Nowak",
+      "setter_user_id": "user_ZNKG1S9eI71qxhSozBK4jskTVtJqXzfNCPWqmADRR9F",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "august_young_vending_discovery_call_dash_next_steps_booked",
+      "pattern": "vending\\s+discovery\\s+call\\s+-\\s+next\\s+steps",
+      "setter_name": "August Young",
+      "setter_user_id": "user_wH5PGq1Wm84UW6KrKCt6YCioWocmlffYkbadH6rN43H",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "spencer_reynolds_vending_discovery_dash_next_steps_booked",
+      "pattern": "vending\\s+discovery\\s+-\\s+next\\s+steps",
+      "setter_name": "Spencer Reynolds",
+      "setter_user_id": null,
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "ariella_irvine_vendingpreneurs_rescheduled_call_booked",
+      "pattern": "(vendingpreneurs\\s+rescheduled\\s+call.*ariella|ariella.*vendingpreneurs\\s+rescheduled\\s+call)",
+      "setter_name": "Ariella Irvine",
+      "setter_user_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "ariella_irvine_new_vendingpreneur_strategy_call_booked",
+      "pattern": "(new\\s+vendingpreneurs?\\s+strategy\\s+call.*ariella|ariella.*new\\s+vendingpreneurs?\\s+strategy\\s+call)",
+      "setter_name": "Ariella Irvine",
+      "setter_user_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "ariella_irvine_vendingpreneurs_follow_up_booked",
+      "pattern": "(vendingpreneurs\\s+follow-up.*ariella|ariella.*vendingpreneurs\\s+follow-up)",
+      "setter_name": "Ariella Irvine",
+      "setter_user_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "amy_mulch_vendingpreneurs_strategy_next_steps_booked",
+      "pattern": "vendingpren[eu]+rs?\\s+strategy\\s*-?\\s*next\\s+steps",
+      "setter_name": "Amy Mulch",
+      "setter_user_id": null,
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "cassie_caraballo_vending_opportunity_next_steps_booked",
+      "pattern": "vending\\s+opportunity\\s*-?\\s*next\\s+steps",
+      "setter_name": "Cassie Caraballo",
+      "setter_user_id": "user_Hoijs8g8hxab7NN7tMVvC4dpzwHcxSgkIuHeBRphyUL",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "jessica_zatkin_vendingpreneurs_connect_next_steps_booked",
+      "pattern": "vendingpren[eu]+rs?\\s+connect\\s*-?\\s*next\\s+steps",
+      "setter_name": "Jessica Zatkin",
+      "setter_user_id": "user_WmBJj4uIsE9WRLKMn5Y1i8MinIDJG5GjOHPeX2sUJCp",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "connor_george_vendingpreneurs_momentum_next_steps_booked",
+      "pattern": "vendingpren[eu]+rs?\\s+momentum\\s*-?\\s*next\\s+steps",
+      "setter_name": "Connor George",
+      "setter_user_id": "user_YlAbrpKa9iKWFt351Dk1BC4Cmr4SXHKDsSDMG4hnVHi",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "naria_torres_vendingpreneurs_pathway_next_steps_booked",
+      "pattern": "vendingpren[eu]+rs?\\s+pathway\\s*-?\\s*next\\s+steps",
+      "setter_name": "Naria Torres",
+      "setter_user_id": "user_PBMfAYkPSkMaYK58gXuG70Vu1SLd2bsG3Mvys6RZNgY",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "naria_torres_vendingpreneurs_navigator_next_steps_booked",
+      "pattern": "vendingpren[eu]+rs?\\s+navigator\\s*-?\\s*next\\s+steps",
+      "setter_name": "Naria Torres",
+      "setter_user_id": "user_PBMfAYkPSkMaYK58gXuG70Vu1SLd2bsG3Mvys6RZNgY",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "melia_king_vendingpreneurs_blueprint_next_steps_booked",
+      "pattern": "vendingpren[eu]+rs?\\s+blueprint\\s*-?\\s*next\\s+steps",
+      "setter_name": "Melia King",
+      "setter_user_id": "user_32021LR58tWOSl2MX2nFVMSP8PoaGV1DjZEF0v0yGXs",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "william_nowak_vending_consult_call_booked",
+      "pattern": "vending\\s+consult\\s+call",
+      "setter_name": "William Nowak",
+      "setter_user_id": "user_ZNKG1S9eI71qxhSozBK4jskTVtJqXzfNCPWqmADRR9F",
+      "required_setter": null,
+      "retired_at_exclusive": "2026-10-14T00:00:00-07:00",
+      "historical": false
+    },
+    {
+      "key": "william_nowak_vendingpreneurs_quick_discovery_title_match_booked",
+      "pattern": "^\\s*vendingpren[eu]+rs?\\s+quick\\s+discovery.*william\\s+nowak",
+      "setter_name": "William Nowak",
+      "setter_user_id": "user_ZNKG1S9eI71qxhSozBK4jskTVtJqXzfNCPWqmADRR9F",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "william_nowak_vendingpreneurs_quick_discovery_booked",
+      "pattern": "^\\s*vendingpren[eu]+rs?\\s+quick\\s+discovery",
+      "setter_name": "William Nowak",
+      "setter_user_id": "user_ZNKG1S9eI71qxhSozBK4jskTVtJqXzfNCPWqmADRR9F",
+      "required_setter": "William Nowak",
+      "historical": false
+    },
+    {
+      "key": "josh_stoffel_vendingpreneurs_compass_next_steps_booked",
+      "pattern": "tlg\\s+compass\\s*-?\\s*next\\s+steps",
+      "setter_name": "Josh Stoffel",
+      "setter_user_id": "user_WdDkCcFt7B6F7nPJJiWGi6vl5g5jeqbluErfy6Syrfs",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "beatrice_braescu_cojocaru_vendingpreneurs_horizon_next_steps_booked",
+      "pattern": "vendingpren[eu]+rs?\\s+horizon\\s*-?\\s*next\\s+steps",
+      "setter_name": "Beatrice Braescu Cojocaru",
+      "setter_user_id": null,
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "catalina_villalba_gallego_tlg_elevate_next_steps_booked",
+      "pattern": "tlg\\s+elevate\\s*-?\\s*next\\s+steps",
+      "setter_name": "Catalina Villalba-Gallego",
+      "setter_user_id": null,
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "luna_mattey_tlg_clarity_next_steps_booked",
+      "pattern": "tlg\\s+clarity\\s*-?\\s*next\\s+steps",
+      "setter_name": "Luna Mattey",
+      "setter_user_id": null,
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "owen_hart_vendingpreneurs_ascent_next_steps_booked",
+      "pattern": "vendingpren[eu]+rs?\\s+ascent\\s*-?\\s*next\\s+steps",
+      "setter_name": "Owen Hart",
+      "setter_user_id": "user_8UDC7WAhyYNxEyhrh3flGsYUqmXh9UVkn7Z1LOlY6Lm",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "brad_savage_vendingpreneurs_keystone_next_steps_booked",
+      "pattern": "vendingpren[eu]+rs?\\s+keystone\\s*-?\\s*next\\s+steps",
+      "setter_name": "Brad Savage",
+      "setter_user_id": "user_iYReXOSE5Mx1NlCsyASyZMBP5orKZjVFSvKonrtQRhF",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "jessica_hernandez_ppa_pinnacle_next_steps_booked",
+      "pattern": "ppa\\s+pinnacle\\s*-?\\s*next\\s+steps",
+      "setter_name": "Jessica Hernandez",
+      "setter_user_id": null,
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "rob_maxfield_vendingpreneurs_summit_next_steps_booked",
+      "pattern": "vendingpren[eu]+rs?\\s+summit\\s*-?\\s*next\\s+steps",
+      "setter_name": "Rob Maxfield",
+      "setter_user_id": "user_eX4cSEZl12Xns7Bvce6738CEXt9f81MiPkSPkYx1tgO",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "igor_trojanowski_vendingpreneurs_growth_next_steps_booked",
+      "pattern": "vendingpren[eu]+rs?\\s+growth\\s*-?\\s*next\\s+steps",
+      "setter_name": "Igor Trojanowski",
+      "setter_user_id": "user_m2KuqSrAVKIfcCb8IqSUNW64P2koKqxdSHq53zWvruZ",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "jonathan_quinn_tlg_northstar_next_steps_booked",
+      "pattern": "tlg\\s+northstar\\s*-?\\s*next\\s+steps",
+      "setter_name": "Jonathan Quinn",
+      "setter_user_id": "user_8cNzhmBZ12lhwqIrBPcVFheGSWdyw6ZDva2S1gysf3u",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "kaylane_nunes_tlg_pinnacle_next_steps_booked",
+      "pattern": "tlg\\s+pinnacle\\s*-?\\s*next\\s+steps",
+      "setter_name": "Kaylane Nunes",
+      "setter_user_id": "user_8SCBGk2kKZfioenvHC9dUNv0reDS5d6HkZQ1idDaf4j",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "tony_parton_ppa_growth_next_steps_booked",
+      "pattern": "ppa\\s+growth\\s*-?\\s*next\\s+steps",
+      "setter_name": "Tony Parton",
+      "setter_user_id": "user_vw2xwmG2n6zLu3pjkuZHS7ZPNlg1dyImRUguk60YCbN",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "ashley_atencio_vendingpreneurs_enterprise_next_steps_booked",
+      "pattern": "vendingpren[eu]+rs?\\s+enterprise\\s*-?\\s*next\\s+steps",
+      "setter_name": "Ashley Atencio",
+      "setter_user_id": "user_3VLmKDrh5OfMOmxRCBcxdYV6ltOhvXaB0tJSdV9LKS4",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "ibraheem_khan_vendingpreneurs_velocity_next_steps_booked",
+      "pattern": "vendingpren[eu]+rs?\\s+velocity\\s*-?\\s*next\\s+steps",
+      "setter_name": "Ibraheem Khan",
+      "setter_user_id": "user_bILw2ouCfAZbR607XP0TmUaSLEoFPbbE1eas85DanoI",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "finley_eastlake_vendingpreneurs_executive_next_steps_booked",
+      "pattern": "vendingpren[eu]+rs?\\s+executive\\s*-?\\s*next\\s+steps",
+      "setter_name": "Finley Eastlake",
+      "setter_user_id": "user_VFwRELQ3t8yDDI65IBHweYD4zlvxxSgNejm4oNPZTYd",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "monde_janzen_vendingpreneurs_pinnacle_next_steps_booked",
+      "pattern": "vendingpren[eu]+rs?\\s+pinnacle\\s*-?\\s*next\\s+steps",
+      "setter_name": "Monde Janzen",
+      "setter_user_id": null,
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "eduardo_santos_acquisition_ace_launch_next_steps",
+      "pattern": "acquisition\\s+ace\\s+launch\\s*-?\\s*next\\s+steps",
+      "setter_name": "Eduardo Santos",
+      "setter_user_id": null,
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "tara_hall_vendingpreneurs_visionary_next_steps",
+      "pattern": "vendingpren[eu]+rs?\\s+visionary\\s*[-–]?\\s*next\\s+steps",
+      "setter_name": "Tara Hall",
+      "setter_user_id": "user_eQU8NtY1DEGcWY0KikTakVlAxVG420UmEQGJV1I8UpV",
+      "required_setter": null,
+      "historical": false
+    },
+    {
+      "key": "pearl_sathekge_stewart_mcclain_vendingpreneurs_consultation",
+      "pattern": "stewart\\s+mcclain\\s+and\\s+vendingpren[eu]+rs?\\s+consultation$",
+      "setter_name": "Pearl Sathekge",
+      "setter_user_id": "user_0SuNg0OWd2reYMeyuDVqiVvjiGcRiFheKKOXXZpyaPZ",
+      "required_setter": null,
+      "historical": false
+    }
+  ],
+  "new_call_patterns": [
+    "vending\\s+strategy\\s+call",
+    "vendingpren[eu]+rs?\\s+consultation",
+    "vendingpren[eu]+rs?\\s+strategy\\s+call",
+    "new\\s+vendingpren[eu]+r\\s+strategy\\s+call",
+    "vending\\s+consult\\b",
+    "post\\s+masterclass\\s+strategy\\s+call",
+    "vending\\s+route\\s+consultation",
+    "cash[\\-\\s]flowing\\s+vending\\s+route\\s+advisory\\s+interview",
+    "vending\\s+route\\s+advisory\\s+call",
+    "vending\\s+route\\s+discovery",
+    "vending\\s+consultation\\s+&\\s+strategy\\s+session",
+    "vendhub\\s+consultation\\s+call"
+  ],
+  "excluded_callers": [
+    "user_5cZRqXu8kb4O1IeBVA98UMcMEhYZUhx1fnCHfSL0YMV",
+    "user_yRF070m26JE67J6CJqzkAB3IqY7btNm1K5RisCglKa6"
+  ],
+  "setter_only_callers": [
+    "user_4sfuKGMbv0LQZ4hpS8ipASv406kKTSNP5Xx79jOwSqM",
+    "user_EmhqCmaHERTfgfWnPADiLGEqQw3ENvRYd3u1VEmblIp"
+  ],
+  "lead_fields": {
+    "funnel": "cf_xqDQE8fkPsWa0RNEve7hcaxKblCe6489XeZGRDzyPdX",
+    "setter_name": "cf_vz6kNiu4ItFxRA8Y9HKlWIoQMq3TsdaQqKekQ2YuxVk",
+    "setter_user": "cf_7W3UCpJWWaIQsniF1upSxGO7rMX1yDT5qppHXBGJIhO",
+    "offer": "cf_aJlNlilQZIgLLuhcymNN8fiOzewnFxrbWjLZFPmsucO"
+  },
+  "marketing_sources": [
+    "Affiliate",
+    "Anthony IG",
+    "Anthony X",
+    "Direct Traffic",
+    "GoHighLevel",
+    "Google Ads",
+    "Instagram",
+    "Internal Webinar",
+    "Linkedin",
+    "LinkedIn Ads",
+    "Low Ticket Funnel",
+    "LTF - In-House",
+    "LTF - Quiz Funnel",
+    "Meta Ads",
+    "Mike Newsletter",
+    "OLD Organic - Misc - Cam",
+    "Passivepreneurs",
+    "Podcast - Paid",
+    "Q4 Misc Traffic Cam",
+    "Reactivation Email",
+    "Reactivation Email Setter",
+    "Referred",
+    "Sales Reactivation",
+    "Search - OG",
+    "Side Hustle Nation",
+    "TikTok",
+    "VSL",
+    "Website",
+    "Website - OG - Cam",
+    "WWWS",
+    "X",
+    "YouTube",
+    "YouTube Ads"
+  ],
+  "utm_source_map": {
+    "instagram": "Instagram",
+    "x": "X",
+    "twitter": "X",
+    "x-twitter": "X",
+    "linkedin": "Linkedin",
+    "li": "Linkedin",
+    "internal-webinar": "Internal Webinar",
+    "meta": "Meta Ads",
+    "newsletter": "Mike Newsletter",
+    "tiktok": "TikTok",
+    "ak-ig": "Anthony IG",
+    "anthony-ig": "Anthony IG",
+    "anthony-x": "Anthony X",
+    "anthony-li": "Linkedin",
+    "anthony-tt": "TikTok",
+    "ltf": "LTF - In-House",
+    "mike-ig": "Instagram",
+    "mike instagram": "Instagram",
+    "mike li": "Linkedin",
+    "mike-x": "X",
+    "chatbot": "Website",
+    "ghl": "GoHighLevel",
+    "google": "Google Ads",
+    "instantly": "Reactivation Email",
+    "activecampaign": "Reactivation Email",
+    "youtube": "YouTube",
+    "shn": "Side Hustle Nation",
+    "yt": "YouTube",
+    "fb": "Meta Ads",
+    "facebook": "Meta Ads",
+    "ig": "Instagram",
+    "internal_webinar": "Internal Webinar",
+    "website": "Website",
+    "web": "Website"
+  },
+  "source_medium_overrides": {},
+  "resource_tag_map": {},
+  "contact_utm_fields": {
+    "source": "cf_HA1ayKpXNvIKtmfTfLKWTZoEdBrpq5M35d19GinU5on"
+  },
+  "provenance": {
+    "title_authority": "User-specified current update_field.py SCRAPER_TITLE_MAP, plus user-specified Ariella Horizon",
+    "update_field_sha256": "6715b6b1018817a5f95abd3419fbe5c7d4c14eb38c05efd07e5e677667dcb0ec",
+    "deployed_notebook_sha256": "7aed48a3cdd068f9d5da7026c228d25012c285e18179d16cfe1a16ef1b7fa0e7",
+    "deployed_metric_version": "lane2_outreach_response.v5",
+    "deployed_title_count": 33,
+    "roster_count": 25,
+    "regular_title_count": 26,
+    "historical_exception_count": 5,
+    "william_setter_fallback_retired_before": "2026-09-15T00:00:00-07:00",
+    "ariella_horizon_reference": "https://calendly.com/d/d3pd-kx9-c6d/vendingpreneurs-horizon-next-steps",
+    "source_alias_revision": "User-approved alignment of yt, fb/facebook, ig, internal_webinar, website, and web with medium home; October 13, 2026. No Resource Tag or newsletter precedence change.",
+    "source_recovery_revision": "User instruction: recover sources using only contact utm_source. No Resource Tag or utm_medium fallback, override, or conflict. Keep all-contact conflict review and established valid origin authority. October 13, 2026.",
+    "naria_navigator_title_revision": "Added Naria Torres title “Vendingpreneurs Navigator - Next Steps” as a separate active Lane 2 mapping; November 2, 2026."
+  },
+  "repeat_reference_scope": "all_scheduled_close_meetings_for_lead",
+  "repeat_basis": "scheduled_meeting_start_elapsed_30x24h",
+  "pearl_source_title_patterns": [
+    "vendingpr(?:eneur|enuer)s? consultation$",
+    "new vendingpr(?:eneur|enuer) strategy call with\\s+.+"
+  ],
+  "candidate_policy": {
+    "cancellation_statuses": [
+      "canceled",
+      "cancelled",
+      "declined-by-lead",
+      "declined-by-org"
+    ],
+    "cancellation_outcomes": [
+      "canceled",
+      "cancelled"
+    ],
+    "canceled_title_prefix": true,
+    "rescheduled_outcome_preserves_original_credit": true,
+    "episode_days": 30,
+    "episode_timestamp_basis": "Close scheduled meeting start; exact 30 x 24 hours",
+    "simultaneous_tiebreak": "earliest date_created then activity id",
+    "social_dm_setter": "Pearl Sathekge",
+    "episode_anchor": "scheduled_at",
+    "repeat_reference_scope": "all_scheduled_close_meetings_for_lead",
+    "display_policy": "counted_first_call_credits_only_no_review_rows"
+  },
+  "pearl_accepted_utm_sources": [
+    "mike-ig",
+    "ghl",
+    "instagram"
+  ],
+  "excluded_closers": [
+    "user_yRF070m26JE67J6CJqzkAB3IqY7btNm1K5RisCglKa6",
+    "user_5cZRqXu8kb4O1IeBVA98UMcMEhYZUhx1fnCHfSL0YMV",
+    "user_4sfuKGMbv0LQZ4hpS8ipASv406kKTSNP5Xx79jOwSqM",
+    "user_SGISGe3kE7zhSm7LQgZ0Vrt7DKz5RVZ0JzFkI4S8llS",
+    "user_1BdSGJ3dJ8llCciTSwvV9X8vHpBq2rHp4meX7Wlzsh0"
+  ],
+  "excluded_lead_status_ids": [
+    "stat_hWIGHjzyNpl4YjIFSFz3VK4fp2ny10SFJLKAihmo4KT",
+    "stat_YV4ZngDB4IGjLjlOf0YTFEWuKZJ6fhNxVkzQkvKYfdB"
+  ]
+}

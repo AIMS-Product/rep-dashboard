@@ -117,7 +117,7 @@ class DailyPreviewMetricTests(unittest.TestCase):
              patch("build_yesterday_preview.fetch_latest_process_cohort", return_value=[process_lead]), \
              patch("build_yesterday_preview.fetch_activities", return_value=activities), \
              patch("build_yesterday_preview.fetch_tasks_by_lead", return_value={}), \
-             patch("build_yesterday_preview.aggregate_meeting_leads", return_value=({}, {}, {}, 0, 0)), \
+             patch("build_yesterday_preview.aggregate_meeting_leads", return_value=({}, {}, {}, 0, 0, 0)), \
              patch("build_yesterday_preview.meeting_lead_rows", return_value=[]), \
              patch("build_yesterday_preview.add_adherence_to_dashboard", side_effect=record_process):
             extract_path = Path(directory) / "extract.json"

@@ -1,20 +1,10 @@
 #!/usr/bin/env python3
-"""
-Fetch sales data from Close CRM and generate data.json for the GitHub Pages dashboard.
+"""Build the monthly Close dashboard with pinned v2.8 native meeting outcomes.
 
-Data collected:
-  1. Closed/Won opportunities (MTD + today) -> revenue & deal counts per rep
-  2. Leads with "First Sales Call Booked Date" in current month -> meetings booked per rep
-  3. Lead-level "First Call Show Up (Opp)" = "Yes" -> meetings shown per rep
-  4. Lead-level "Qualified (Opp)" = "Yes" -> qualified leads per rep
-  5. Close rate = deals closed / meetings booked
-
-Meeting methodology:
-  - Queries leads by "First Sales Call Booked Date" custom field (1st of month through today)
-  - This field is populated by a separate updater script using title classification
-  - One lead = one booked count (field is per-lead, no dedup needed)
-  - Excludes leads in "Canceled (by Lead)" or "Outside the US" status
-  - Attribution via Lead Owner custom field
+The live wrapper replaces Booked/Shown/Qualified using accepted scheduled calls
+with Completed or No Show outcomes. Wins/revenue use the independent native
+won-date selectors; process scoring is unchanged. The legacy lead-field builder
+remains available to unchanged daily/EOD generation.
 """
 
 import json
@@ -618,9 +608,22 @@ def build_dashboard_data():
     }
 
 
+def apply_outcome_metrics(dashboard, *, now=None, reader=None):
+    from mtd_v28.outcome_core import ReportingReader, apply_dashboard_outcomes, PACIFIC
+    now = now or datetime.now(timezone.utc).astimezone(PACIFIC)
+    reader = reader or ReportingReader(
+        lambda endpoint, params: api_get('/' + endpoint.lstrip('/'), params),
+        now.date().replace(day=1), now,
+    )
+    result = apply_dashboard_outcomes(dashboard, reader, surface='rep')
+    result['metric_definitions']['period_kind'] = 'month'
+    result['updated_at'] = reader.cutoff.strftime('%Y-%m-%d %H:%M:%S %Z')
+    return result
+
+
 def build_live_dashboard_data():
     """Build the complete production payload before it is written or archived."""
-    dashboard = build_dashboard_data()
+    dashboard = apply_outcome_metrics(build_dashboard_data())
     return add_adherence_to_dashboard(
         dashboard,
         source="close_crm",

@@ -1,0 +1,17 @@
+{
+  "repository": "AIMS-Product/mtd-funnel-dashboard",
+  "commit": "90f101255c30c3fd572ce3c2d0d1ee969cef10cf",
+  "rules_version": "booked_calls.v2.8-naria-navigator-title-20261102",
+  "files": {
+    "build.py": "38c37885217bc67b778f08ca1bc4255db6f78509b5d5af233226848ea1462af9",
+    "aggregates.py": "78ce4833e7b64e8f1b9faaaaeff166adc59515d064c815375898c856f0e641db",
+    "rules.json": "d335400f826a33d1b3e0b2a33bcff8bb2b0558fa001555f76029368af30d4e71",
+    "outcome_core.py": "11dc0e13e227745c7c0f5fb35ffa891448157e392045b254c151d7e9873ebc43"
+  },
+  "upstream_files": {
+    "build.py": "c7866c3551d00b54d23f724e002a4362c592d5c85dcf089f823bf8513cfffd83",
+    "aggregates.py": "78ce4833e7b64e8f1b9faaaaeff166adc59515d064c815375898c856f0e641db",
+    "rules.json": "d335400f826a33d1b3e0b2a33bcff8bb2b0558fa001555f76029368af30d4e71"
+  },
+  "adaptation": "build.py uses a package-relative aggregates import; all selector logic is unchanged. outcome_core.py is the shared occurred-call overlay."
+}

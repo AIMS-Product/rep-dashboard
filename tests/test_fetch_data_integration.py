@@ -67,9 +67,10 @@ class ProductionAdherenceIntegrationTests(unittest.TestCase):
         )
         self.assertEqual((booked["Joe Dysert"], shown["Joe Dysert"], qualified["Joe Dysert"]), (2, 1, 2))
 
+    @patch("fetch_data.apply_outcome_metrics", side_effect=lambda data: data)
     @patch("fetch_data.add_adherence_to_dashboard")
     @patch("fetch_data.build_dashboard_data")
-    def test_live_payload_is_enriched_before_writing(self, build_dashboard, add_adherence):
+    def test_live_payload_is_enriched_before_writing(self, build_dashboard, add_adherence, apply_outcomes):
         base_payload = {"month_label": "September 2026", "reps": []}
         enriched_payload = {**base_payload, "adherence_meta": {"preview_only": False}}
         build_dashboard.return_value = base_payload
@@ -78,6 +79,7 @@ class ProductionAdherenceIntegrationTests(unittest.TestCase):
         result = fetch_data.build_live_dashboard_data()
 
         self.assertIs(result, enriched_payload)
+        apply_outcomes.assert_called_once_with(base_payload)
         add_adherence.assert_called_once_with(
             base_payload,
             source="close_crm",

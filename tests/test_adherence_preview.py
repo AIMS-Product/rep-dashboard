@@ -297,11 +297,10 @@ class AdherencePreviewCohortTests(unittest.TestCase):
         self.assertEqual(preview["reps"][0]["adherence"]["lead_results"][0]["steps"]["follow_up_created"], "Missed")
         self.assertNotIn("lead_results", production["reps"][0]["adherence"])
 
-    def test_terminal_lead_statuses_are_excluded(self):
+    def test_native_process_status_exclusions_are_preserved(self):
         expected = {
-            "stat_p3oblSTnbsyDAw4rWqZDePGYMOlKBgV2FjbqIMDrfvF": "disqualified",
+            "stat_hWIGHjzyNpl4YjIFSFz3VK4fp2ny10SFJLKAihmo4KT": "canceled_by_lead",
             "stat_YV4ZngDB4IGjLjlOf0YTFEWuKZJ6fhNxVkzQkvKYfdB": "outside_us",
-            "stat_U9MI7pqsvIjceTv3pCU7b1EghO8Q83h1HUcL6fGVyi6": "do_not_contact",
         }
         for status_id, reason in expected.items():
             self.assertEqual(EXCLUDED_LEAD_STATUSES.get(status_id), reason)

@@ -30,6 +30,12 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Install reporting dependency
+        run: pip install requests
+
+      - name: Verify dashboard reporting rules
+        run: python3 -m unittest discover -s tests -p 'test*.py' -q
+
       - name: Refresh and publish dashboard data
         env:
           CLOSE_API_KEY: ${{ secrets.CLOSE_API_KEY }}
