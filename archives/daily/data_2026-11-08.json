@@ -1,0 +1,919 @@
+{
+  "daily_meta": {
+    "date": "2026-11-08",
+    "timezone": "America/Los_Angeles",
+    "period_label": "Sunday, November 8, 2026",
+    "archive_matured": true,
+    "extract": {
+      "started_at": "2026-11-10T00:06:29.754597-08:00",
+      "ended_at": "2026-11-10T00:08:45.376117-08:00"
+    },
+    "booked_shown_qualified": {
+      "raw_leads": 1,
+      "excluded_status": 0,
+      "excluded_funnel": 0,
+      "excluded_business_line": 0,
+      "team_booked": 1,
+      "team_shown": 0,
+      "team_qualified": 0
+    }
+  },
+  "adherence_meta": {
+    "schema_version": 10,
+    "source": "close_daily_fixed_extract",
+    "generated_at": "2026-11-10T00:08:45.376079-08:00",
+    "period": {
+      "month": "2026-11",
+      "timezone": "America/Los_Angeles",
+      "basis": "qualifying_meeting_activity_all_leads"
+    },
+    "cohort": {
+      "raw": 1,
+      "included": 1,
+      "excluded": 0,
+      "exclusion_counts": {},
+      "attribution_counts": {
+        "meeting_rep": 1
+      },
+      "includes_lost": true
+    },
+    "api_requests": 251,
+    "preview_only": true,
+    "extract": {
+      "started_at": "2026-11-10T00:06:29.754597-08:00",
+      "ended_at": "2026-11-10T00:08:45.376079-08:00",
+      "complete": true
+    }
+  },
+  "daily_metric_leads": {
+    "booked": [
+      {
+        "name": "Kiara Crawford",
+        "url": "https://app.close.com/lead/lead_YbSSduRAR8bTRKZF4TpjtiXqe1Sz3rwpGDRom6lz4j0/",
+        "booked_date": "2026-11-08",
+        "rep": "Shreya Bechra"
+      }
+    ],
+    "shown": [],
+    "qualified": []
+  },
+  "reps": [
+    {
+      "name": "Luke Herman",
+      "is_manager": false,
+      "exclude_meetings": false,
+      "booked": 0,
+      "shown": 0,
+      "qualified": 0,
+      "show_rate": 0,
+      "adherence": {
+        "pre_call_pct": null,
+        "post_call_pct": null,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "day_of_confirmation_text": {
+            "label": "Day-of confirmation",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "follow_up_created": {
+            "label": "Task or follow-up meeting",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "recap_email": {
+            "label": "Recap email sent",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          }
+        },
+        "lead_cohorts": {
+          "loom_usage": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "precall_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "day_of_confirmation_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "follow_up_created": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "recap_email": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          }
+        },
+        "lead_results": []
+      },
+      "daily_metric_leads": {
+        "booked": [],
+        "shown": [],
+        "qualified": []
+      }
+    },
+    {
+      "name": "Scott Seymour",
+      "is_manager": false,
+      "exclude_meetings": false,
+      "booked": 0,
+      "shown": 0,
+      "qualified": 0,
+      "show_rate": 0,
+      "adherence": {
+        "pre_call_pct": null,
+        "post_call_pct": null,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "day_of_confirmation_text": {
+            "label": "Day-of confirmation",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "follow_up_created": {
+            "label": "Task or follow-up meeting",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "recap_email": {
+            "label": "Recap email sent",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          }
+        },
+        "lead_cohorts": {
+          "loom_usage": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "precall_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "day_of_confirmation_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "follow_up_created": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "recap_email": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          }
+        },
+        "lead_results": []
+      },
+      "daily_metric_leads": {
+        "booked": [],
+        "shown": [],
+        "qualified": []
+      }
+    },
+    {
+      "name": "Christian Hartwell",
+      "is_manager": false,
+      "exclude_meetings": false,
+      "booked": 0,
+      "shown": 0,
+      "qualified": 0,
+      "show_rate": 0,
+      "adherence": {
+        "pre_call_pct": null,
+        "post_call_pct": null,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "day_of_confirmation_text": {
+            "label": "Day-of confirmation",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "follow_up_created": {
+            "label": "Task or follow-up meeting",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "recap_email": {
+            "label": "Recap email sent",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          }
+        },
+        "lead_cohorts": {
+          "loom_usage": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "precall_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "day_of_confirmation_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "follow_up_created": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "recap_email": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          }
+        },
+        "lead_results": []
+      },
+      "daily_metric_leads": {
+        "booked": [],
+        "shown": [],
+        "qualified": []
+      }
+    },
+    {
+      "name": "Shreya Bechra",
+      "is_manager": false,
+      "exclude_meetings": false,
+      "booked": 1,
+      "shown": 0,
+      "qualified": 0,
+      "show_rate": 0.0,
+      "adherence": {
+        "pre_call_pct": 100,
+        "post_call_pct": null,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 1,
+            "eligible": 1,
+            "exempt": 0,
+            "pct": 100
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 1,
+            "eligible": 1,
+            "exempt": 0,
+            "pct": 100
+          },
+          "day_of_confirmation_text": {
+            "label": "Day-of confirmation",
+            "phase": "pre_call",
+            "done": 1,
+            "eligible": 1,
+            "exempt": 0,
+            "pct": 100
+          },
+          "follow_up_created": {
+            "label": "Task or follow-up meeting",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 1,
+            "pct": null
+          },
+          "recap_email": {
+            "label": "Recap email sent",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 1,
+            "pct": null
+          }
+        },
+        "lead_cohorts": {
+          "loom_usage": {
+            "completed": [
+              {
+                "name": "Kiara Crawford",
+                "url": "https://app.close.com/lead/lead_YbSSduRAR8bTRKZF4TpjtiXqe1Sz3rwpGDRom6lz4j0/",
+                "booked_date": "2026-11-08",
+                "scored_call_at": "2026-11-08T08:30:00-08:00",
+                "status_label": "\ud83d\udc7b No Show"
+              }
+            ],
+            "missed": [],
+            "exempt": []
+          },
+          "precall_text": {
+            "completed": [
+              {
+                "name": "Kiara Crawford",
+                "url": "https://app.close.com/lead/lead_YbSSduRAR8bTRKZF4TpjtiXqe1Sz3rwpGDRom6lz4j0/",
+                "booked_date": "2026-11-08",
+                "scored_call_at": "2026-11-08T08:30:00-08:00",
+                "status_label": "\ud83d\udc7b No Show"
+              }
+            ],
+            "missed": [],
+            "exempt": []
+          },
+          "day_of_confirmation_text": {
+            "completed": [
+              {
+                "name": "Kiara Crawford",
+                "url": "https://app.close.com/lead/lead_YbSSduRAR8bTRKZF4TpjtiXqe1Sz3rwpGDRom6lz4j0/",
+                "booked_date": "2026-11-08",
+                "scored_call_at": "2026-11-08T08:30:00-08:00",
+                "status_label": "\ud83d\udc7b No Show"
+              }
+            ],
+            "missed": [],
+            "exempt": []
+          },
+          "follow_up_created": {
+            "completed": [],
+            "missed": [],
+            "exempt": [
+              {
+                "name": "Kiara Crawford",
+                "url": "https://app.close.com/lead/lead_YbSSduRAR8bTRKZF4TpjtiXqe1Sz3rwpGDRom6lz4j0/",
+                "booked_date": "2026-11-08",
+                "scored_call_at": "2026-11-08T08:30:00-08:00",
+                "status_label": "\ud83d\udc7b No Show"
+              }
+            ]
+          },
+          "recap_email": {
+            "completed": [],
+            "missed": [],
+            "exempt": [
+              {
+                "name": "Kiara Crawford",
+                "url": "https://app.close.com/lead/lead_YbSSduRAR8bTRKZF4TpjtiXqe1Sz3rwpGDRom6lz4j0/",
+                "booked_date": "2026-11-08",
+                "scored_call_at": "2026-11-08T08:30:00-08:00",
+                "status_label": "\ud83d\udc7b No Show"
+              }
+            ]
+          }
+        },
+        "lead_results": [
+          {
+            "id": "lead_YbSSduRAR8bTRKZF4TpjtiXqe1Sz3rwpGDRom6lz4j0",
+            "name": "Kiara Crawford",
+            "url": "https://app.close.com/lead/lead_YbSSduRAR8bTRKZF4TpjtiXqe1Sz3rwpGDRom6lz4j0/",
+            "status_label": "\ud83d\udc7b No Show",
+            "opportunity_status_label": "No Show",
+            "booked_date": "2026-11-08",
+            "scored_call_at": "2026-11-08T08:30:00-08:00",
+            "attribution": "meeting_rep",
+            "steps": {
+              "loom_usage": "Completed",
+              "precall_text": "Completed",
+              "day_of_confirmation_text": "Completed",
+              "follow_up_created": "Exempt",
+              "recap_email": "Exempt"
+            }
+          }
+        ]
+      },
+      "daily_metric_leads": {
+        "booked": [
+          {
+            "name": "Kiara Crawford",
+            "url": "https://app.close.com/lead/lead_YbSSduRAR8bTRKZF4TpjtiXqe1Sz3rwpGDRom6lz4j0/",
+            "booked_date": "2026-11-08",
+            "rep": "Shreya Bechra"
+          }
+        ],
+        "shown": [],
+        "qualified": []
+      }
+    },
+    {
+      "name": "Joe Dysert",
+      "is_manager": true,
+      "exclude_meetings": false,
+      "booked": 0,
+      "shown": 0,
+      "qualified": 0,
+      "show_rate": 0,
+      "adherence": {
+        "pre_call_pct": null,
+        "post_call_pct": null,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "day_of_confirmation_text": {
+            "label": "Day-of confirmation",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "follow_up_created": {
+            "label": "Task or follow-up meeting",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "recap_email": {
+            "label": "Recap email sent",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          }
+        },
+        "lead_cohorts": {
+          "loom_usage": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "precall_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "day_of_confirmation_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "follow_up_created": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "recap_email": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          }
+        },
+        "lead_results": []
+      },
+      "daily_metric_leads": {
+        "booked": [],
+        "shown": [],
+        "qualified": []
+      }
+    },
+    {
+      "name": "Robin Perkins",
+      "is_manager": false,
+      "exclude_meetings": false,
+      "booked": 0,
+      "shown": 0,
+      "qualified": 0,
+      "show_rate": 0,
+      "adherence": {
+        "pre_call_pct": null,
+        "post_call_pct": null,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "day_of_confirmation_text": {
+            "label": "Day-of confirmation",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "follow_up_created": {
+            "label": "Task or follow-up meeting",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "recap_email": {
+            "label": "Recap email sent",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          }
+        },
+        "lead_cohorts": {
+          "loom_usage": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "precall_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "day_of_confirmation_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "follow_up_created": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "recap_email": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          }
+        },
+        "lead_results": []
+      },
+      "daily_metric_leads": {
+        "booked": [],
+        "shown": [],
+        "qualified": []
+      }
+    },
+    {
+      "name": "Ariella Irvine",
+      "is_manager": false,
+      "exclude_meetings": false,
+      "booked": 0,
+      "shown": 0,
+      "qualified": 0,
+      "show_rate": 0,
+      "adherence": {
+        "pre_call_pct": null,
+        "post_call_pct": null,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "day_of_confirmation_text": {
+            "label": "Day-of confirmation",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "follow_up_created": {
+            "label": "Task or follow-up meeting",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "recap_email": {
+            "label": "Recap email sent",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          }
+        },
+        "lead_cohorts": {
+          "loom_usage": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "precall_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "day_of_confirmation_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "follow_up_created": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "recap_email": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          }
+        },
+        "lead_results": []
+      },
+      "daily_metric_leads": {
+        "booked": [],
+        "shown": [],
+        "qualified": []
+      }
+    },
+    {
+      "name": "Eric Piccione",
+      "is_manager": false,
+      "exclude_meetings": false,
+      "booked": 0,
+      "shown": 0,
+      "qualified": 0,
+      "show_rate": 0,
+      "adherence": {
+        "pre_call_pct": null,
+        "post_call_pct": null,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "day_of_confirmation_text": {
+            "label": "Day-of confirmation",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "follow_up_created": {
+            "label": "Task or follow-up meeting",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "recap_email": {
+            "label": "Recap email sent",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          }
+        },
+        "lead_cohorts": {
+          "loom_usage": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "precall_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "day_of_confirmation_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "follow_up_created": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "recap_email": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          }
+        },
+        "lead_results": []
+      },
+      "daily_metric_leads": {
+        "booked": [],
+        "shown": [],
+        "qualified": []
+      }
+    },
+    {
+      "name": "Joe Vaughan",
+      "is_manager": false,
+      "exclude_meetings": false,
+      "booked": 0,
+      "shown": 0,
+      "qualified": 0,
+      "show_rate": 0,
+      "adherence": {
+        "pre_call_pct": null,
+        "post_call_pct": null,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "day_of_confirmation_text": {
+            "label": "Day-of confirmation",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "follow_up_created": {
+            "label": "Task or follow-up meeting",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          },
+          "recap_email": {
+            "label": "Recap email sent",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 0,
+            "exempt": 0,
+            "pct": null
+          }
+        },
+        "lead_cohorts": {
+          "loom_usage": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "precall_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "day_of_confirmation_text": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "follow_up_created": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          },
+          "recap_email": {
+            "completed": [],
+            "missed": [],
+            "exempt": []
+          }
+        },
+        "lead_results": []
+      },
+      "daily_metric_leads": {
+        "booked": [],
+        "shown": [],
+        "qualified": []
+      }
+    }
+  ]
+}
