@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-11 05:45:29 PST",
+  "updated_at": "2026-11-11 06:00:36 PST",
   "month_label": "November 2026",
   "day_of_month": 11,
   "days_in_month": 30,
@@ -845,8 +845,8 @@
       "exclude_meetings": false,
       "occurred_calls": 19,
       "no_shows": 6,
-      "unresolved_calls": 4,
-      "scheduled_calls": 23,
+      "unresolved_calls": 5,
+      "scheduled_calls": 24,
       "qualification_rate": 52.6,
       "revenue_per_occurred": 836.53,
       "marketing": 7,
@@ -855,39 +855,39 @@
       "rep_owner_id": "user_6kp6k4OcqKqFNrxGjgMUncedjiCYC6JHU8EI28F7etV",
       "adherence": {
         "pre_call_pct": 96,
-        "post_call_pct": 94,
+        "post_call_pct": 95,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 25,
-            "eligible": 25,
+            "done": 26,
+            "eligible": 26,
             "exempt": 0,
             "pct": 100
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 24,
-            "eligible": 25,
+            "done": 25,
+            "eligible": 26,
             "exempt": 0,
             "pct": 96
           },
           "day_of_confirmation_text": {
             "label": "Day-of confirmation",
             "phase": "pre_call",
-            "done": 23,
-            "eligible": 25,
+            "done": 24,
+            "eligible": 26,
             "exempt": 0,
             "pct": 92
           },
           "follow_up_created": {
             "label": "Task or follow-up meeting",
             "phase": "post_call",
-            "done": 7,
-            "eligible": 8,
+            "done": 8,
+            "eligible": 9,
             "exempt": 17,
-            "pct": 88
+            "pct": 89
           },
           "recap_email": {
             "label": "Recap email sent",
@@ -931,7 +931,7 @@
                 "booked_date": "2026-11-03",
                 "scored_call_at": "2026-11-03T07:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_LoXht31ZROdgywnYwzGX7YwN7gGxzzwdLtqyXGYrE6s/",
-                "status_label": "Reschedule Requested"
+                "status_label": "\ud83d\udd5b Call Rescheduled"
               },
               {
                 "id": "lead_AnHdlgbvQPggveN1o5CnDl9jAu3itVgPJws8kBQtBux",
@@ -1100,6 +1100,14 @@
                 "scored_call_at": "2026-11-10T13:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_JDeLxt9EDya2RpQJqn8W42WeGd21LDPWcEt0xwtothg/",
                 "status_label": "\ud83d\udc94 Lost"
+              },
+              {
+                "id": "lead_1TLSfcEWl35UtX7ThyoPzzThrZwkUCNWjfSflTY5Ahj",
+                "name": "Mary DiBeneditto",
+                "booked_date": "2026-11-11",
+                "scored_call_at": "2026-11-11T06:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_1TLSfcEWl35UtX7ThyoPzzThrZwkUCNWjfSflTY5Ahj/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [],
@@ -1137,7 +1145,7 @@
                 "booked_date": "2026-11-03",
                 "scored_call_at": "2026-11-03T07:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_LoXht31ZROdgywnYwzGX7YwN7gGxzzwdLtqyXGYrE6s/",
-                "status_label": "Reschedule Requested"
+                "status_label": "\ud83d\udd5b Call Rescheduled"
               },
               {
                 "id": "lead_AnHdlgbvQPggveN1o5CnDl9jAu3itVgPJws8kBQtBux",
@@ -1298,6 +1306,14 @@
                 "scored_call_at": "2026-11-10T13:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_JDeLxt9EDya2RpQJqn8W42WeGd21LDPWcEt0xwtothg/",
                 "status_label": "\ud83d\udc94 Lost"
+              },
+              {
+                "id": "lead_1TLSfcEWl35UtX7ThyoPzzThrZwkUCNWjfSflTY5Ahj",
+                "name": "Mary DiBeneditto",
+                "booked_date": "2026-11-11",
+                "scored_call_at": "2026-11-11T06:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_1TLSfcEWl35UtX7ThyoPzzThrZwkUCNWjfSflTY5Ahj/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [
@@ -1344,7 +1360,7 @@
                 "booked_date": "2026-11-03",
                 "scored_call_at": "2026-11-03T07:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_LoXht31ZROdgywnYwzGX7YwN7gGxzzwdLtqyXGYrE6s/",
-                "status_label": "Reschedule Requested"
+                "status_label": "\ud83d\udd5b Call Rescheduled"
               },
               {
                 "id": "lead_AnHdlgbvQPggveN1o5CnDl9jAu3itVgPJws8kBQtBux",
@@ -1497,6 +1513,14 @@
                 "scored_call_at": "2026-11-10T13:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_JDeLxt9EDya2RpQJqn8W42WeGd21LDPWcEt0xwtothg/",
                 "status_label": "\ud83d\udc94 Lost"
+              },
+              {
+                "id": "lead_1TLSfcEWl35UtX7ThyoPzzThrZwkUCNWjfSflTY5Ahj",
+                "name": "Mary DiBeneditto",
+                "booked_date": "2026-11-11",
+                "scored_call_at": "2026-11-11T06:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_1TLSfcEWl35UtX7ThyoPzzThrZwkUCNWjfSflTY5Ahj/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [
@@ -1576,6 +1600,14 @@
                 "scored_call_at": "2026-11-09T13:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_mBREvRBl7BwyzzXrfkB0AYYKoT1fad1FW2Lcz4hVI5j/",
                 "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
+              },
+              {
+                "id": "lead_1TLSfcEWl35UtX7ThyoPzzThrZwkUCNWjfSflTY5Ahj",
+                "name": "Mary DiBeneditto",
+                "booked_date": "2026-11-11",
+                "scored_call_at": "2026-11-11T06:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_1TLSfcEWl35UtX7ThyoPzzThrZwkUCNWjfSflTY5Ahj/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [
@@ -1619,7 +1651,7 @@
                 "booked_date": "2026-11-03",
                 "scored_call_at": "2026-11-03T07:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_LoXht31ZROdgywnYwzGX7YwN7gGxzzwdLtqyXGYrE6s/",
-                "status_label": "Reschedule Requested"
+                "status_label": "\ud83d\udd5b Call Rescheduled"
               },
               {
                 "id": "lead_yRMb72DFJnySUSjrcdYL7FIUoQRLsqLyNcYMa7vPEOy",
@@ -1826,7 +1858,7 @@
                 "booked_date": "2026-11-03",
                 "scored_call_at": "2026-11-03T07:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_LoXht31ZROdgywnYwzGX7YwN7gGxzzwdLtqyXGYrE6s/",
-                "status_label": "Reschedule Requested"
+                "status_label": "\ud83d\udd5b Call Rescheduled"
               },
               {
                 "id": "lead_yRMb72DFJnySUSjrcdYL7FIUoQRLsqLyNcYMa7vPEOy",
@@ -6076,17 +6108,17 @@
       }
     }
   ],
-  "total_scheduled_calls": 133,
+  "total_scheduled_calls": 134,
   "total_occurred_calls": 111,
   "total_no_shows": 35,
-  "total_unresolved_calls": 22,
+  "total_unresolved_calls": 23,
   "team_qualification_rate": 47.7,
   "metric_definitions": {
     "version": "calls-occurred.v1",
     "booking_rules": "booked_calls.v2.8-naria-navigator-title-20261102",
     "booked": "native_completed_plus_no_show",
     "period_start": "2026-11-01",
-    "cutoff_exclusive": "2026-11-11T05:45:29.819931-08:00",
+    "cutoff_exclusive": "2026-11-11T06:00:36.596533-08:00",
     "timezone": "America/Los_Angeles",
     "qualification": "distinct_current_qualified_leads_in_occurred_cohort",
     "closed_won": "native_date_won_independent_of_meeting_dates",
@@ -6096,7 +6128,7 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-11-11T05:50:49.961199-08:00",
+    "generated_at": "2026-11-11T06:05:58.397487-08:00",
     "period": {
       "month": "2026-11",
       "timezone": "America/Los_Angeles",
