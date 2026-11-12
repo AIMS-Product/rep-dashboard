@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-12 07:45:32 PST",
+  "updated_at": "2026-11-12 08:00:36 PST",
   "month_label": "November 2026",
   "day_of_month": 12,
   "days_in_month": 30,
@@ -5613,7 +5613,7 @@
             "phase": "post_call",
             "done": 9,
             "eligible": 12,
-            "exempt": 13,
+            "exempt": 12,
             "pct": 75
           },
           "recap_email": {
@@ -5621,7 +5621,7 @@
             "phase": "post_call",
             "done": 10,
             "eligible": 12,
-            "exempt": 13,
+            "exempt": 12,
             "pct": 83
           }
         },
@@ -6420,14 +6420,6 @@
                 "scored_call_at": "2026-11-11T14:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_vKn4tpD24XnvSwZnnM6Fn0RCFUMgwFQ5r99E9kHvWMB/",
                 "status_label": "\ud83d\udc94 Lost"
-              },
-              {
-                "id": "lead_PSZIBJoReaTdkrgPcmqN614KN1b4PYyt5CEBcGcJxem",
-                "name": "Stephan Cordice",
-                "booked_date": "2026-11-12",
-                "scored_call_at": "2026-11-12T12:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_PSZIBJoReaTdkrgPcmqN614KN1b4PYyt5CEBcGcJxem/",
-                "status_label": "\ud83d\udd3b Canceled (by Lead)"
               }
             ]
           },
@@ -6628,14 +6620,6 @@
                 "scored_call_at": "2026-11-11T14:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_vKn4tpD24XnvSwZnnM6Fn0RCFUMgwFQ5r99E9kHvWMB/",
                 "status_label": "\ud83d\udc94 Lost"
-              },
-              {
-                "id": "lead_PSZIBJoReaTdkrgPcmqN614KN1b4PYyt5CEBcGcJxem",
-                "name": "Stephan Cordice",
-                "booked_date": "2026-11-12",
-                "scored_call_at": "2026-11-12T12:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_PSZIBJoReaTdkrgPcmqN614KN1b4PYyt5CEBcGcJxem/",
-                "status_label": "\ud83d\udd3b Canceled (by Lead)"
               }
             ]
           }
@@ -6798,7 +6782,7 @@
     "booking_rules": "booked_calls.v2.8-naria-navigator-title-20261102",
     "booked": "native_completed_plus_no_show",
     "period_start": "2026-11-01",
-    "cutoff_exclusive": "2026-11-12T07:45:32.177189-08:00",
+    "cutoff_exclusive": "2026-11-12T08:00:36.857176-08:00",
     "timezone": "America/Los_Angeles",
     "qualification": "distinct_current_qualified_leads_in_occurred_cohort",
     "closed_won": "native_date_won_independent_of_meeting_dates",
@@ -6808,22 +6792,22 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-11-12T07:51:28.011031-08:00",
+    "generated_at": "2026-11-12T08:10:13.416733-08:00",
     "period": {
       "month": "2026-11",
       "timezone": "America/Los_Angeles",
       "basis": "latest_sales_call_booked_date_with_first_date_fallback"
     },
     "cohort": {
-      "raw": 202,
-      "included": 200,
+      "raw": 201,
+      "included": 199,
       "excluded": 2,
       "exclusion_counts": {
         "outside_us": 1,
         "meeting_rep_not_visible": 1
       },
       "attribution_counts": {
-        "meeting_rep": 200
+        "meeting_rep": 199
       },
       "includes_lost": true
     },
