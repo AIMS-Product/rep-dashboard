@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-12 12:30:30 PST",
+  "updated_at": "2026-11-12 12:45:28 PST",
   "month_label": "November 2026",
   "day_of_month": 12,
   "days_in_month": 30,
@@ -3364,8 +3364,8 @@
       "exclude_meetings": false,
       "occurred_calls": 11,
       "no_shows": 4,
-      "unresolved_calls": 3,
-      "scheduled_calls": 14,
+      "unresolved_calls": 4,
+      "scheduled_calls": 15,
       "qualification_rate": 45.5,
       "revenue_per_occurred": 1363.09,
       "marketing": 3,
@@ -3373,46 +3373,46 @@
       "social_dms": 2,
       "rep_owner_id": "user_F0VeLnOQlWpkDncNW8rBl1V2QJ08fnDt6DcUjNATUJK",
       "adherence": {
-        "pre_call_pct": 81,
-        "post_call_pct": 100,
+        "pre_call_pct": 82,
+        "post_call_pct": 93,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 9,
-            "eligible": 12,
+            "done": 10,
+            "eligible": 13,
             "exempt": 0,
-            "pct": 75
+            "pct": 77
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 11,
-            "eligible": 12,
+            "done": 12,
+            "eligible": 13,
             "exempt": 0,
             "pct": 92
           },
           "day_of_confirmation_text": {
             "label": "Day-of confirmation",
             "phase": "pre_call",
-            "done": 9,
-            "eligible": 12,
+            "done": 10,
+            "eligible": 13,
             "exempt": 0,
-            "pct": 75
+            "pct": 77
           },
           "follow_up_created": {
             "label": "Task or follow-up meeting",
             "phase": "post_call",
             "done": 6,
-            "eligible": 6,
+            "eligible": 7,
             "exempt": 8,
-            "pct": 100
+            "pct": 86
           },
           "recap_email": {
             "label": "Recap email sent",
             "phase": "post_call",
-            "done": 6,
-            "eligible": 6,
+            "done": 7,
+            "eligible": 7,
             "exempt": 8,
             "pct": 100
           }
@@ -3491,6 +3491,14 @@
                 "scored_call_at": "2026-11-09T15:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_raSoPqNkqZZ6KXrZM3ZDQfVfh3o0F8ZAwxoo2wCwF8t/",
                 "status_label": "\ud83d\udc94 Lost"
+              },
+              {
+                "id": "lead_qKMhtsxVMFqLejLYVF30OK986FCr9SMFFoLubcvKbHy",
+                "name": "FELICIA DIXON",
+                "booked_date": "2026-11-12",
+                "scored_call_at": "2026-11-12T12:45:00-08:00",
+                "url": "https://app.close.com/lead/lead_qKMhtsxVMFqLejLYVF30OK986FCr9SMFFoLubcvKbHy/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [
@@ -3610,6 +3618,14 @@
                 "scored_call_at": "2026-11-09T15:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_raSoPqNkqZZ6KXrZM3ZDQfVfh3o0F8ZAwxoo2wCwF8t/",
                 "status_label": "\ud83d\udc94 Lost"
+              },
+              {
+                "id": "lead_qKMhtsxVMFqLejLYVF30OK986FCr9SMFFoLubcvKbHy",
+                "name": "FELICIA DIXON",
+                "booked_date": "2026-11-12",
+                "scored_call_at": "2026-11-12T12:45:00-08:00",
+                "url": "https://app.close.com/lead/lead_qKMhtsxVMFqLejLYVF30OK986FCr9SMFFoLubcvKbHy/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [
@@ -3697,6 +3713,14 @@
                 "scored_call_at": "2026-11-09T09:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_EIBAoowx5lmgV2MJKphgQc2AF1s2uBF6x1cF7fICf4H/",
                 "status_label": "\ud83d\udcde HOT- Follow Up"
+              },
+              {
+                "id": "lead_qKMhtsxVMFqLejLYVF30OK986FCr9SMFFoLubcvKbHy",
+                "name": "FELICIA DIXON",
+                "booked_date": "2026-11-12",
+                "scored_call_at": "2026-11-12T12:45:00-08:00",
+                "url": "https://app.close.com/lead/lead_qKMhtsxVMFqLejLYVF30OK986FCr9SMFFoLubcvKbHy/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [
@@ -3778,7 +3802,16 @@
                 "status_label": "\ud83d\udcde HOT- Follow Up"
               }
             ],
-            "missed": [],
+            "missed": [
+              {
+                "id": "lead_qKMhtsxVMFqLejLYVF30OK986FCr9SMFFoLubcvKbHy",
+                "name": "FELICIA DIXON",
+                "booked_date": "2026-11-12",
+                "scored_call_at": "2026-11-12T12:45:00-08:00",
+                "url": "https://app.close.com/lead/lead_qKMhtsxVMFqLejLYVF30OK986FCr9SMFFoLubcvKbHy/",
+                "status_label": "\u260e\ufe0f Call Booked"
+              }
+            ],
             "exempt": [
               {
                 "id": "lead_2OljINtujzL5PwxfLmcn84ItFNieTJ1zxnr2s2A6P7D",
@@ -3895,6 +3928,14 @@
                 "scored_call_at": "2026-11-09T09:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_EIBAoowx5lmgV2MJKphgQc2AF1s2uBF6x1cF7fICf4H/",
                 "status_label": "\ud83d\udcde HOT- Follow Up"
+              },
+              {
+                "id": "lead_qKMhtsxVMFqLejLYVF30OK986FCr9SMFFoLubcvKbHy",
+                "name": "FELICIA DIXON",
+                "booked_date": "2026-11-12",
+                "scored_call_at": "2026-11-12T12:45:00-08:00",
+                "url": "https://app.close.com/lead/lead_qKMhtsxVMFqLejLYVF30OK986FCr9SMFFoLubcvKbHy/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [],
@@ -7093,17 +7134,17 @@
       }
     }
   ],
-  "total_scheduled_calls": 157,
+  "total_scheduled_calls": 158,
   "total_occurred_calls": 131,
   "total_no_shows": 38,
-  "total_unresolved_calls": 26,
+  "total_unresolved_calls": 27,
   "team_qualification_rate": 46.6,
   "metric_definitions": {
     "version": "calls-occurred.v1",
     "booking_rules": "booked_calls.v2.8-naria-navigator-title-20261102",
     "booked": "native_completed_plus_no_show",
     "period_start": "2026-11-01",
-    "cutoff_exclusive": "2026-11-12T12:30:30.702051-08:00",
+    "cutoff_exclusive": "2026-11-12T12:45:28.404248-08:00",
     "timezone": "America/Los_Angeles",
     "qualification": "distinct_current_qualified_leads_in_occurred_cohort",
     "closed_won": "native_date_won_independent_of_meeting_dates",
@@ -7113,7 +7154,7 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-11-12T12:39:52.397153-08:00",
+    "generated_at": "2026-11-12T12:51:39.897843-08:00",
     "period": {
       "month": "2026-11",
       "timezone": "America/Los_Angeles",
@@ -7132,7 +7173,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 539,
+    "api_requests": 541,
     "preview_only": false
   }
 }
