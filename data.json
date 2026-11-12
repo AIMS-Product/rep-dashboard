@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-12 03:45:24 PST",
+  "updated_at": "2026-11-12 04:00:33 PST",
   "month_label": "November 2026",
   "day_of_month": 12,
   "days_in_month": 30,
@@ -1244,7 +1244,7 @@
                 "booked_date": "2026-11-11",
                 "scored_call_at": "2026-11-11T17:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_h1dJXWRk6m891enAXdsDapPz2mYmxjsS5VnTqRNy6JV/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "WARM - Follow up"
               },
               {
                 "id": "lead_LqaDs4Arz6t4vRjIy54oapXfHZt1c71CHHxEdAEajHf",
@@ -1427,7 +1427,7 @@
                 "booked_date": "2026-11-11",
                 "scored_call_at": "2026-11-11T17:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_h1dJXWRk6m891enAXdsDapPz2mYmxjsS5VnTqRNy6JV/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "WARM - Follow up"
               },
               {
                 "id": "lead_LqaDs4Arz6t4vRjIy54oapXfHZt1c71CHHxEdAEajHf",
@@ -1570,7 +1570,7 @@
                 "booked_date": "2026-11-11",
                 "scored_call_at": "2026-11-11T17:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_h1dJXWRk6m891enAXdsDapPz2mYmxjsS5VnTqRNy6JV/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "WARM - Follow up"
               }
             ],
             "missed": [
@@ -1714,7 +1714,7 @@
                 "booked_date": "2026-11-11",
                 "scored_call_at": "2026-11-11T17:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_h1dJXWRk6m891enAXdsDapPz2mYmxjsS5VnTqRNy6JV/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "WARM - Follow up"
               },
               {
                 "id": "lead_LqaDs4Arz6t4vRjIy54oapXfHZt1c71CHHxEdAEajHf",
@@ -6742,7 +6742,7 @@
     "booking_rules": "booked_calls.v2.8-naria-navigator-title-20261102",
     "booked": "native_completed_plus_no_show",
     "period_start": "2026-11-01",
-    "cutoff_exclusive": "2026-11-12T03:45:24.058282-08:00",
+    "cutoff_exclusive": "2026-11-12T04:00:33.874311-08:00",
     "timezone": "America/Los_Angeles",
     "qualification": "distinct_current_qualified_leads_in_occurred_cohort",
     "closed_won": "native_date_won_independent_of_meeting_dates",
@@ -6752,26 +6752,26 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-11-12T03:52:40.910676-08:00",
+    "generated_at": "2026-11-12T04:08:00.233283-08:00",
     "period": {
       "month": "2026-11",
       "timezone": "America/Los_Angeles",
       "basis": "latest_sales_call_booked_date_with_first_date_fallback"
     },
     "cohort": {
-      "raw": 200,
-      "included": 198,
+      "raw": 202,
+      "included": 200,
       "excluded": 2,
       "exclusion_counts": {
         "outside_us": 1,
         "meeting_rep_not_visible": 1
       },
       "attribution_counts": {
-        "meeting_rep": 198
+        "meeting_rep": 200
       },
       "includes_lost": true
     },
-    "api_requests": 529,
+    "api_requests": 531,
     "preview_only": false
   }
 }
