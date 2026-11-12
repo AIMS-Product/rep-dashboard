@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-12 13:30:30 PST",
+  "updated_at": "2026-11-12 13:45:24 PST",
   "month_label": "November 2026",
   "day_of_month": 12,
   "days_in_month": 30,
@@ -4807,7 +4807,7 @@
       "rep_owner_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
       "adherence": {
         "pre_call_pct": 84,
-        "post_call_pct": 57,
+        "post_call_pct": 58,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -4844,10 +4844,10 @@
           "recap_email": {
             "label": "Recap email sent",
             "phase": "post_call",
-            "done": 7,
-            "eligible": 9,
+            "done": 8,
+            "eligible": 10,
             "exempt": 13,
-            "pct": 78
+            "pct": 80
           }
         },
         "lead_cohorts": {
@@ -5680,6 +5680,14 @@
                 "booked_date": "2026-11-12",
                 "scored_call_at": "2026-11-12T11:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_F1bcT9xyV6eyX8FvZnjyOmvJePGCrH6a23QbrMJRXI4/",
+                "status_label": "\u260e\ufe0f Call Booked"
+              },
+              {
+                "id": "lead_c546LnaI0HdbZGDEBNMGhPXWNIhYebU0Z8H6KnJChUk",
+                "name": "Marian Streeter",
+                "booked_date": "2026-11-12",
+                "scored_call_at": "2026-11-12T13:30:00-08:00",
+                "url": "https://app.close.com/lead/lead_c546LnaI0HdbZGDEBNMGhPXWNIhYebU0Z8H6KnJChUk/",
                 "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
@@ -7191,7 +7199,7 @@
     "booking_rules": "booked_calls.v2.8-naria-navigator-title-20261102",
     "booked": "native_completed_plus_no_show",
     "period_start": "2026-11-01",
-    "cutoff_exclusive": "2026-11-12T13:30:30.066140-08:00",
+    "cutoff_exclusive": "2026-11-12T13:45:24.813166-08:00",
     "timezone": "America/Los_Angeles",
     "qualification": "distinct_current_qualified_leads_in_occurred_cohort",
     "closed_won": "native_date_won_independent_of_meeting_dates",
@@ -7201,26 +7209,26 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-11-12T13:38:27.738196-08:00",
+    "generated_at": "2026-11-12T13:53:07.693651-08:00",
     "period": {
       "month": "2026-11",
       "timezone": "America/Los_Angeles",
       "basis": "latest_sales_call_booked_date_with_first_date_fallback"
     },
     "cohort": {
-      "raw": 206,
-      "included": 204,
+      "raw": 207,
+      "included": 205,
       "excluded": 2,
       "exclusion_counts": {
         "outside_us": 1,
         "meeting_rep_not_visible": 1
       },
       "attribution_counts": {
-        "meeting_rep": 204
+        "meeting_rep": 205
       },
       "includes_lost": true
     },
-    "api_requests": 541,
+    "api_requests": 543,
     "preview_only": false
   }
 }
