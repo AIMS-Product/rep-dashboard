@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-13 15:15:25 PST",
+  "updated_at": "2026-11-13 15:30:38 PST",
   "month_label": "November 2026",
   "day_of_month": 13,
   "days_in_month": 30,
@@ -3712,28 +3712,28 @@
       "deals": 2,
       "quota": 100000,
       "pct_to_quota": 15.0,
-      "booked": 14,
+      "booked": 15,
       "shown": 9,
-      "qualified": 6,
-      "close_rate": 14.3,
-      "show_rate": 64.3,
-      "revenue_per_lead": 1071.0,
+      "qualified": 7,
+      "close_rate": 13.3,
+      "show_rate": 60.0,
+      "revenue_per_lead": 999.6,
       "aov": 7497.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
-      "occurred_calls": 14,
-      "no_shows": 5,
-      "unresolved_calls": 4,
+      "occurred_calls": 15,
+      "no_shows": 6,
+      "unresolved_calls": 3,
       "scheduled_calls": 18,
-      "qualification_rate": 42.9,
-      "revenue_per_occurred": 1071.0,
+      "qualification_rate": 46.7,
+      "revenue_per_occurred": 999.6,
       "marketing": 4,
-      "lane2": 8,
+      "lane2": 9,
       "social_dms": 2,
       "rep_owner_id": "user_F0VeLnOQlWpkDncNW8rBl1V2QJ08fnDt6DcUjNATUJK",
       "adherence": {
-        "pre_call_pct": 80,
+        "pre_call_pct": 82,
         "post_call_pct": 100,
         "steps": {
           "loom_usage": {
@@ -3755,10 +3755,10 @@
           "day_of_confirmation_text": {
             "label": "Day-of confirmation",
             "phase": "pre_call",
-            "done": 10,
+            "done": 11,
             "eligible": 15,
             "exempt": 0,
-            "pct": 67
+            "pct": 73
           },
           "follow_up_created": {
             "label": "Task or follow-up meeting",
@@ -4113,6 +4113,14 @@
                 "scored_call_at": "2026-11-12T12:45:00-08:00",
                 "url": "https://app.close.com/lead/lead_qKMhtsxVMFqLejLYVF30OK986FCr9SMFFoLubcvKbHy/",
                 "status_label": "\ud83d\udc7b No Show"
+              },
+              {
+                "id": "lead_BTGu3CH6tUZDhrrkayJAGkN4Wn8STAoNvRotK6XNpJ8",
+                "name": "Brian Williams",
+                "booked_date": "2026-11-13",
+                "scored_call_at": "2026-11-13T14:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_BTGu3CH6tUZDhrrkayJAGkN4Wn8STAoNvRotK6XNpJ8/",
+                "status_label": "\ud83d\udc7b No Show"
               }
             ],
             "missed": [
@@ -4139,14 +4147,6 @@
                 "scored_call_at": "2026-11-09T15:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_raSoPqNkqZZ6KXrZM3ZDQfVfh3o0F8ZAwxoo2wCwF8t/",
                 "status_label": "\ud83d\udc94 Lost"
-              },
-              {
-                "id": "lead_BTGu3CH6tUZDhrrkayJAGkN4Wn8STAoNvRotK6XNpJ8",
-                "name": "Brian Williams",
-                "booked_date": "2026-11-13",
-                "scored_call_at": "2026-11-13T14:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_BTGu3CH6tUZDhrrkayJAGkN4Wn8STAoNvRotK6XNpJ8/",
-                "status_label": "\ud83d\udc7b No Show"
               },
               {
                 "id": "lead_ghFujhRpD6r7zPQ0RZDtZScESNJB9zn1YCGBAxw9oWC",
@@ -5193,24 +5193,24 @@
       "deals": 1,
       "quota": 100000,
       "pct_to_quota": 0.2,
-      "booked": 18,
+      "booked": 17,
       "shown": 13,
-      "qualified": 8,
-      "close_rate": 5.6,
-      "show_rate": 72.2,
-      "revenue_per_lead": 11.11,
+      "qualified": 7,
+      "close_rate": 5.9,
+      "show_rate": 76.5,
+      "revenue_per_lead": 11.76,
       "aov": 200.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
-      "occurred_calls": 18,
-      "no_shows": 5,
+      "occurred_calls": 17,
+      "no_shows": 4,
       "unresolved_calls": 2,
-      "scheduled_calls": 20,
-      "qualification_rate": 44.4,
-      "revenue_per_occurred": 11.11,
+      "scheduled_calls": 19,
+      "qualification_rate": 41.2,
+      "revenue_per_occurred": 11.76,
       "marketing": 4,
-      "lane2": 14,
+      "lane2": 13,
       "social_dms": 0,
       "rep_owner_id": "user_BaN2TstWtyF34eaQSSLG11j6DhKKm67Y6JltbIYCafO",
       "adherence": {
@@ -6311,151 +6311,6 @@
                 "status_label": "\ud83d\udd3b Canceled (by Lead)"
               }
             ]
-          }
-        }
-      }
-    },
-    {
-      "name": "Eric Piccione",
-      "revenue": 0,
-      "deals": 0,
-      "quota": 100000,
-      "pct_to_quota": 0.0,
-      "booked": 0,
-      "shown": 0,
-      "qualified": 0,
-      "close_rate": null,
-      "show_rate": null,
-      "revenue_per_lead": null,
-      "aov": null,
-      "is_manager": false,
-      "is_lead": false,
-      "exclude_meetings": false,
-      "occurred_calls": 0,
-      "no_shows": 0,
-      "unresolved_calls": 1,
-      "scheduled_calls": 1,
-      "qualification_rate": null,
-      "revenue_per_occurred": null,
-      "marketing": 0,
-      "lane2": 0,
-      "social_dms": 0,
-      "rep_owner_id": "user_wF5aATmDljO6g6AHqehRPVmfCmH5j9VszbO6Q6Pjzm4",
-      "adherence": {
-        "pre_call_pct": 67,
-        "post_call_pct": 50,
-        "steps": {
-          "loom_usage": {
-            "label": "Pre-Call Loom",
-            "phase": "pre_call",
-            "done": 1,
-            "eligible": 1,
-            "exempt": 0,
-            "pct": 100
-          },
-          "precall_text": {
-            "label": "Pre-call text",
-            "phase": "pre_call",
-            "done": 1,
-            "eligible": 1,
-            "exempt": 0,
-            "pct": 100
-          },
-          "day_of_confirmation_text": {
-            "label": "Day-of confirmation",
-            "phase": "pre_call",
-            "done": 0,
-            "eligible": 1,
-            "exempt": 0,
-            "pct": 0
-          },
-          "follow_up_created": {
-            "label": "Task or follow-up meeting",
-            "phase": "post_call",
-            "done": 0,
-            "eligible": 1,
-            "exempt": 0,
-            "pct": 0
-          },
-          "recap_email": {
-            "label": "Recap email sent",
-            "phase": "post_call",
-            "done": 1,
-            "eligible": 1,
-            "exempt": 0,
-            "pct": 100
-          }
-        },
-        "lead_cohorts": {
-          "loom_usage": {
-            "completed": [
-              {
-                "id": "lead_XxRbJGHulKCQpRSzpKrlxVMuiydWhBj1SjolGTIAwTO",
-                "name": "Jacquelyn Roche",
-                "booked_date": "2026-11-03",
-                "scored_call_at": "2026-11-03T05:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_XxRbJGHulKCQpRSzpKrlxVMuiydWhBj1SjolGTIAwTO/",
-                "status_label": "\u260e\ufe0f Call Booked"
-              }
-            ],
-            "missed": [],
-            "exempt": []
-          },
-          "precall_text": {
-            "completed": [
-              {
-                "id": "lead_XxRbJGHulKCQpRSzpKrlxVMuiydWhBj1SjolGTIAwTO",
-                "name": "Jacquelyn Roche",
-                "booked_date": "2026-11-03",
-                "scored_call_at": "2026-11-03T05:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_XxRbJGHulKCQpRSzpKrlxVMuiydWhBj1SjolGTIAwTO/",
-                "status_label": "\u260e\ufe0f Call Booked"
-              }
-            ],
-            "missed": [],
-            "exempt": []
-          },
-          "day_of_confirmation_text": {
-            "completed": [],
-            "missed": [
-              {
-                "id": "lead_XxRbJGHulKCQpRSzpKrlxVMuiydWhBj1SjolGTIAwTO",
-                "name": "Jacquelyn Roche",
-                "booked_date": "2026-11-03",
-                "scored_call_at": "2026-11-03T05:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_XxRbJGHulKCQpRSzpKrlxVMuiydWhBj1SjolGTIAwTO/",
-                "status_label": "\u260e\ufe0f Call Booked"
-              }
-            ],
-            "exempt": []
-          },
-          "follow_up_created": {
-            "completed": [],
-            "missed": [
-              {
-                "id": "lead_XxRbJGHulKCQpRSzpKrlxVMuiydWhBj1SjolGTIAwTO",
-                "name": "Jacquelyn Roche",
-                "booked_date": "2026-11-03",
-                "scored_call_at": "2026-11-03T05:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_XxRbJGHulKCQpRSzpKrlxVMuiydWhBj1SjolGTIAwTO/",
-                "status_label": "\u260e\ufe0f Call Booked"
-              }
-            ],
-            "exempt": []
-          },
-          "recap_email": {
-            "completed": [
-              {
-                "id": "lead_XxRbJGHulKCQpRSzpKrlxVMuiydWhBj1SjolGTIAwTO",
-                "name": "Jacquelyn Roche",
-                "booked_date": "2026-11-03",
-                "scored_call_at": "2026-11-03T05:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_XxRbJGHulKCQpRSzpKrlxVMuiydWhBj1SjolGTIAwTO/",
-                "status_label": "\u260e\ufe0f Call Booked"
-              }
-            ],
-            "missed": [],
-            "exempt": []
           }
         }
       }
@@ -7803,19 +7658,164 @@
           }
         }
       }
+    },
+    {
+      "name": "Eric Piccione",
+      "revenue": 0,
+      "deals": 0,
+      "quota": 100000,
+      "pct_to_quota": 0.0,
+      "booked": 0,
+      "shown": 0,
+      "qualified": 0,
+      "close_rate": null,
+      "show_rate": null,
+      "revenue_per_lead": null,
+      "aov": null,
+      "is_manager": false,
+      "is_lead": false,
+      "exclude_meetings": false,
+      "occurred_calls": 0,
+      "no_shows": 0,
+      "unresolved_calls": 1,
+      "scheduled_calls": 1,
+      "qualification_rate": null,
+      "revenue_per_occurred": null,
+      "marketing": 0,
+      "lane2": 0,
+      "social_dms": 0,
+      "rep_owner_id": "user_wF5aATmDljO6g6AHqehRPVmfCmH5j9VszbO6Q6Pjzm4",
+      "adherence": {
+        "pre_call_pct": 67,
+        "post_call_pct": 50,
+        "steps": {
+          "loom_usage": {
+            "label": "Pre-Call Loom",
+            "phase": "pre_call",
+            "done": 1,
+            "eligible": 1,
+            "exempt": 0,
+            "pct": 100
+          },
+          "precall_text": {
+            "label": "Pre-call text",
+            "phase": "pre_call",
+            "done": 1,
+            "eligible": 1,
+            "exempt": 0,
+            "pct": 100
+          },
+          "day_of_confirmation_text": {
+            "label": "Day-of confirmation",
+            "phase": "pre_call",
+            "done": 0,
+            "eligible": 1,
+            "exempt": 0,
+            "pct": 0
+          },
+          "follow_up_created": {
+            "label": "Task or follow-up meeting",
+            "phase": "post_call",
+            "done": 0,
+            "eligible": 1,
+            "exempt": 0,
+            "pct": 0
+          },
+          "recap_email": {
+            "label": "Recap email sent",
+            "phase": "post_call",
+            "done": 1,
+            "eligible": 1,
+            "exempt": 0,
+            "pct": 100
+          }
+        },
+        "lead_cohorts": {
+          "loom_usage": {
+            "completed": [
+              {
+                "id": "lead_XxRbJGHulKCQpRSzpKrlxVMuiydWhBj1SjolGTIAwTO",
+                "name": "Jacquelyn Roche",
+                "booked_date": "2026-11-03",
+                "scored_call_at": "2026-11-03T05:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_XxRbJGHulKCQpRSzpKrlxVMuiydWhBj1SjolGTIAwTO/",
+                "status_label": "\u260e\ufe0f Call Booked"
+              }
+            ],
+            "missed": [],
+            "exempt": []
+          },
+          "precall_text": {
+            "completed": [
+              {
+                "id": "lead_XxRbJGHulKCQpRSzpKrlxVMuiydWhBj1SjolGTIAwTO",
+                "name": "Jacquelyn Roche",
+                "booked_date": "2026-11-03",
+                "scored_call_at": "2026-11-03T05:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_XxRbJGHulKCQpRSzpKrlxVMuiydWhBj1SjolGTIAwTO/",
+                "status_label": "\u260e\ufe0f Call Booked"
+              }
+            ],
+            "missed": [],
+            "exempt": []
+          },
+          "day_of_confirmation_text": {
+            "completed": [],
+            "missed": [
+              {
+                "id": "lead_XxRbJGHulKCQpRSzpKrlxVMuiydWhBj1SjolGTIAwTO",
+                "name": "Jacquelyn Roche",
+                "booked_date": "2026-11-03",
+                "scored_call_at": "2026-11-03T05:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_XxRbJGHulKCQpRSzpKrlxVMuiydWhBj1SjolGTIAwTO/",
+                "status_label": "\u260e\ufe0f Call Booked"
+              }
+            ],
+            "exempt": []
+          },
+          "follow_up_created": {
+            "completed": [],
+            "missed": [
+              {
+                "id": "lead_XxRbJGHulKCQpRSzpKrlxVMuiydWhBj1SjolGTIAwTO",
+                "name": "Jacquelyn Roche",
+                "booked_date": "2026-11-03",
+                "scored_call_at": "2026-11-03T05:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_XxRbJGHulKCQpRSzpKrlxVMuiydWhBj1SjolGTIAwTO/",
+                "status_label": "\u260e\ufe0f Call Booked"
+              }
+            ],
+            "exempt": []
+          },
+          "recap_email": {
+            "completed": [
+              {
+                "id": "lead_XxRbJGHulKCQpRSzpKrlxVMuiydWhBj1SjolGTIAwTO",
+                "name": "Jacquelyn Roche",
+                "booked_date": "2026-11-03",
+                "scored_call_at": "2026-11-03T05:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_XxRbJGHulKCQpRSzpKrlxVMuiydWhBj1SjolGTIAwTO/",
+                "status_label": "\u260e\ufe0f Call Booked"
+              }
+            ],
+            "missed": [],
+            "exempt": []
+          }
+        }
+      }
     }
   ],
-  "total_scheduled_calls": 177,
+  "total_scheduled_calls": 176,
   "total_occurred_calls": 145,
   "total_no_shows": 42,
-  "total_unresolved_calls": 32,
+  "total_unresolved_calls": 31,
   "team_qualification_rate": 48.3,
   "metric_definitions": {
     "version": "calls-occurred.v1",
     "booking_rules": "booked_calls.v2.8-naria-navigator-title-20261102",
     "booked": "native_completed_plus_no_show",
     "period_start": "2026-11-01",
-    "cutoff_exclusive": "2026-11-13T15:15:25.226588-08:00",
+    "cutoff_exclusive": "2026-11-13T15:30:38.003149-08:00",
     "timezone": "America/Los_Angeles",
     "qualification": "distinct_current_qualified_leads_in_occurred_cohort",
     "closed_won": "native_date_won_independent_of_meeting_dates",
@@ -7825,19 +7825,18 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-11-13T15:23:14.111628-08:00",
+    "generated_at": "2026-11-13T15:38:58.817138-08:00",
     "period": {
       "month": "2026-11",
       "timezone": "America/Los_Angeles",
       "basis": "latest_sales_call_booked_date_with_first_date_fallback"
     },
     "cohort": {
-      "raw": 216,
+      "raw": 215,
       "included": 213,
-      "excluded": 3,
+      "excluded": 2,
       "exclusion_counts": {
         "outside_us": 1,
-        "inactive_booked_meeting": 1,
         "meeting_rep_not_visible": 1
       },
       "attribution_counts": {
@@ -7845,7 +7844,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 556,
+    "api_requests": 553,
     "preview_only": false
   }
 }
