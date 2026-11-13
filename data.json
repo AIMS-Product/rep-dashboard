@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-13 06:00:32 PST",
+  "updated_at": "2026-11-13 06:15:26 PST",
   "month_label": "November 2026",
   "day_of_month": 13,
   "days_in_month": 30,
@@ -2077,8 +2077,8 @@
       "exclude_meetings": false,
       "occurred_calls": 24,
       "no_shows": 8,
-      "unresolved_calls": 5,
-      "scheduled_calls": 29,
+      "unresolved_calls": 6,
+      "scheduled_calls": 30,
       "qualification_rate": 45.8,
       "revenue_per_occurred": 662.25,
       "marketing": 9,
@@ -2092,24 +2092,24 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 32,
-            "eligible": 33,
+            "done": 33,
+            "eligible": 34,
             "exempt": 0,
             "pct": 97
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 32,
-            "eligible": 33,
+            "done": 33,
+            "eligible": 34,
             "exempt": 0,
             "pct": 97
           },
           "day_of_confirmation_text": {
             "label": "Day-of confirmation",
             "phase": "pre_call",
-            "done": 30,
-            "eligible": 33,
+            "done": 31,
+            "eligible": 34,
             "exempt": 0,
             "pct": 91
           },
@@ -2388,6 +2388,14 @@
                 "scored_call_at": "2026-11-12T09:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_K2LoMTxSzAdLpd1S79akqpmSAl5huH41aXYBzHxWRpe/",
                 "status_label": "\ud83d\udc94 Lost"
+              },
+              {
+                "id": "lead_tCP65krVudszQzrAnQhsPHWX8oZArIo0Bkm7xlQLILS",
+                "name": "Christopher Kelley",
+                "booked_date": "2026-11-13",
+                "scored_call_at": "2026-11-13T06:15:00-08:00",
+                "url": "https://app.close.com/lead/lead_tCP65krVudszQzrAnQhsPHWX8oZArIo0Bkm7xlQLILS/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [
@@ -2659,6 +2667,14 @@
                 "scored_call_at": "2026-11-12T09:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_K2LoMTxSzAdLpd1S79akqpmSAl5huH41aXYBzHxWRpe/",
                 "status_label": "\ud83d\udc94 Lost"
+              },
+              {
+                "id": "lead_tCP65krVudszQzrAnQhsPHWX8oZArIo0Bkm7xlQLILS",
+                "name": "Christopher Kelley",
+                "booked_date": "2026-11-13",
+                "scored_call_at": "2026-11-13T06:15:00-08:00",
+                "url": "https://app.close.com/lead/lead_tCP65krVudszQzrAnQhsPHWX8oZArIo0Bkm7xlQLILS/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [
@@ -2914,6 +2930,14 @@
                 "scored_call_at": "2026-11-12T07:15:00-08:00",
                 "url": "https://app.close.com/lead/lead_98Kg5SlOwiki0cDbKsYE5t4M44Sq5Y7lZIHoX99gBN7/",
                 "status_label": "\ud83d\udc94 Lost"
+              },
+              {
+                "id": "lead_tCP65krVudszQzrAnQhsPHWX8oZArIo0Bkm7xlQLILS",
+                "name": "Christopher Kelley",
+                "booked_date": "2026-11-13",
+                "scored_call_at": "2026-11-13T06:15:00-08:00",
+                "url": "https://app.close.com/lead/lead_tCP65krVudszQzrAnQhsPHWX8oZArIo0Bkm7xlQLILS/",
+                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [
@@ -7437,17 +7461,17 @@
       }
     }
   ],
-  "total_scheduled_calls": 166,
+  "total_scheduled_calls": 167,
   "total_occurred_calls": 141,
   "total_no_shows": 42,
-  "total_unresolved_calls": 25,
+  "total_unresolved_calls": 26,
   "team_qualification_rate": 45.4,
   "metric_definitions": {
     "version": "calls-occurred.v1",
     "booking_rules": "booked_calls.v2.8-naria-navigator-title-20261102",
     "booked": "native_completed_plus_no_show",
     "period_start": "2026-11-01",
-    "cutoff_exclusive": "2026-11-13T06:00:32.089755-08:00",
+    "cutoff_exclusive": "2026-11-13T06:15:26.196190-08:00",
     "timezone": "America/Los_Angeles",
     "qualification": "distinct_current_qualified_leads_in_occurred_cohort",
     "closed_won": "native_date_won_independent_of_meeting_dates",
@@ -7457,7 +7481,7 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-11-13T06:08:25.153148-08:00",
+    "generated_at": "2026-11-13T06:23:24.863378-08:00",
     "period": {
       "month": "2026-11",
       "timezone": "America/Los_Angeles",
