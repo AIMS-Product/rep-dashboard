@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-13 16:15:31 PST",
+  "updated_at": "2026-11-13 16:30:38 PST",
   "month_label": "November 2026",
   "day_of_month": 13,
   "days_in_month": 30,
@@ -2156,8 +2156,8 @@
           "recap_email": {
             "label": "Recap email sent",
             "phase": "post_call",
-            "done": 11,
-            "eligible": 11,
+            "done": 12,
+            "eligible": 12,
             "exempt": 26,
             "pct": 100
           }
@@ -2451,7 +2451,7 @@
                 "booked_date": "2026-11-13",
                 "scored_call_at": "2026-11-13T14:15:00-08:00",
                 "url": "https://app.close.com/lead/lead_3CsREusg45HAGqHsXQnFGiw3UxVHRAfCCxKW0hzu7F4/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
                 "id": "lead_ZYfGu0NqlP8ztb3J4TRa8aqCwsSMaTF35qLEyFsXKB4",
@@ -2762,7 +2762,7 @@
                 "booked_date": "2026-11-13",
                 "scored_call_at": "2026-11-13T14:15:00-08:00",
                 "url": "https://app.close.com/lead/lead_3CsREusg45HAGqHsXQnFGiw3UxVHRAfCCxKW0hzu7F4/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
                 "id": "lead_ZYfGu0NqlP8ztb3J4TRa8aqCwsSMaTF35qLEyFsXKB4",
@@ -3057,7 +3057,7 @@
                 "booked_date": "2026-11-13",
                 "scored_call_at": "2026-11-13T14:15:00-08:00",
                 "url": "https://app.close.com/lead/lead_3CsREusg45HAGqHsXQnFGiw3UxVHRAfCCxKW0hzu7F4/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
                 "id": "lead_ZYfGu0NqlP8ztb3J4TRa8aqCwsSMaTF35qLEyFsXKB4",
@@ -3194,7 +3194,7 @@
                 "booked_date": "2026-11-13",
                 "scored_call_at": "2026-11-13T14:15:00-08:00",
                 "url": "https://app.close.com/lead/lead_3CsREusg45HAGqHsXQnFGiw3UxVHRAfCCxKW0hzu7F4/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               }
             ],
             "exempt": [
@@ -3497,6 +3497,14 @@
                 "scored_call_at": "2026-11-13T15:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_SqxEc5AjfLAIYkG9zeC5TJpCZMbAOS7v9W7GAbA7adm/",
                 "status_label": "\u260e\ufe0f Call Booked"
+              },
+              {
+                "id": "lead_3CsREusg45HAGqHsXQnFGiw3UxVHRAfCCxKW0hzu7F4",
+                "name": "Devon Smith",
+                "booked_date": "2026-11-13",
+                "scored_call_at": "2026-11-13T14:15:00-08:00",
+                "url": "https://app.close.com/lead/lead_3CsREusg45HAGqHsXQnFGiw3UxVHRAfCCxKW0hzu7F4/",
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               }
             ],
             "missed": [],
@@ -7823,7 +7831,7 @@
     "booking_rules": "booked_calls.v2.8-naria-navigator-title-20261102",
     "booked": "native_completed_plus_no_show",
     "period_start": "2026-11-01",
-    "cutoff_exclusive": "2026-11-13T16:15:31.076494-08:00",
+    "cutoff_exclusive": "2026-11-13T16:30:38.937211-08:00",
     "timezone": "America/Los_Angeles",
     "qualification": "distinct_current_qualified_leads_in_occurred_cohort",
     "closed_won": "native_date_won_independent_of_meeting_dates",
@@ -7833,7 +7841,7 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-11-13T16:25:18.087295-08:00",
+    "generated_at": "2026-11-13T16:38:54.374776-08:00",
     "period": {
       "month": "2026-11",
       "timezone": "America/Los_Angeles",
@@ -7852,7 +7860,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 554,
+    "api_requests": 555,
     "preview_only": false
   }
 }
