@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-14 12:15:27 PST",
+  "updated_at": "2026-11-14 12:30:28 PST",
   "month_label": "November 2026",
   "day_of_month": 14,
   "days_in_month": 30,
@@ -10,12 +10,12 @@
   "pct_team_quota": 13.0,
   "total_revenue": 97863.0,
   "total_deals": 15,
-  "total_booked": 147,
+  "total_booked": 146,
   "total_shown": 105,
   "total_qualified": 72,
   "team_aov": 6524.2,
-  "team_close_rate": 10.2,
-  "team_show_rate": 71.4,
+  "team_close_rate": 10.3,
+  "team_show_rate": 71.9,
   "today_revenue": 9497.0,
   "today_deals": 1,
   "today_closers": [
@@ -2103,24 +2103,24 @@
       "deals": 2,
       "quota": 100000,
       "pct_to_quota": 15.9,
-      "booked": 29,
+      "booked": 28,
       "shown": 19,
       "qualified": 15,
-      "close_rate": 6.9,
-      "show_rate": 65.5,
-      "revenue_per_lead": 548.07,
+      "close_rate": 7.1,
+      "show_rate": 67.9,
+      "revenue_per_lead": 567.64,
       "aov": 7947.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
-      "occurred_calls": 29,
-      "no_shows": 10,
+      "occurred_calls": 28,
+      "no_shows": 9,
       "unresolved_calls": 6,
-      "scheduled_calls": 35,
-      "qualification_rate": 51.7,
-      "revenue_per_occurred": 548.07,
+      "scheduled_calls": 34,
+      "qualification_rate": 53.6,
+      "revenue_per_occurred": 567.64,
       "marketing": 12,
-      "lane2": 17,
+      "lane2": 16,
       "social_dms": 0,
       "rep_owner_id": "user_6kp6k4OcqKqFNrxGjgMUncedjiCYC6JHU8EI28F7etV",
       "adherence": {
@@ -2130,10 +2130,10 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 37,
+            "done": 36,
             "eligible": 38,
             "exempt": 0,
-            "pct": 97
+            "pct": 95
           },
           "precall_text": {
             "label": "Pre-call text",
@@ -2340,14 +2340,6 @@
                 "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
-                "id": "lead_M0Eo0ydL2WIbT997p8BPhQa3OeisX5wsrtdRJ2LFJlb",
-                "name": "Brandon Spratley",
-                "booked_date": "2026-11-10",
-                "scored_call_at": "2026-11-10T15:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_M0Eo0ydL2WIbT997p8BPhQa3OeisX5wsrtdRJ2LFJlb/",
-                "status_label": "\ud83d\udc7b No Show"
-              },
-              {
                 "id": "lead_a8riPzcecg2nm4YxdVgcp99eCAeAV4u8JEhFfdrblkC",
                 "name": "Eva Roche",
                 "booked_date": "2026-11-10",
@@ -2469,6 +2461,14 @@
               }
             ],
             "missed": [
+              {
+                "id": "lead_M0Eo0ydL2WIbT997p8BPhQa3OeisX5wsrtdRJ2LFJlb",
+                "name": "Brandon Spratley",
+                "booked_date": "2026-11-10",
+                "scored_call_at": "2026-11-10T15:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_M0Eo0ydL2WIbT997p8BPhQa3OeisX5wsrtdRJ2LFJlb/",
+                "status_label": "\ud83d\udc7b No Show"
+              },
               {
                 "id": "lead_9YWAOSqNxbtV8xVhsosmUKfyez1tKc0H2cWmx4psNSk",
                 "name": "Cordney Wade",
@@ -7835,17 +7835,17 @@
       }
     }
   ],
-  "total_scheduled_calls": 176,
-  "total_occurred_calls": 147,
-  "total_no_shows": 42,
+  "total_scheduled_calls": 175,
+  "total_occurred_calls": 146,
+  "total_no_shows": 41,
   "total_unresolved_calls": 29,
-  "team_qualification_rate": 49.0,
+  "team_qualification_rate": 49.3,
   "metric_definitions": {
     "version": "calls-occurred.v1",
     "booking_rules": "booked_calls.v2.8-naria-navigator-title-20261102",
     "booked": "native_completed_plus_no_show",
     "period_start": "2026-11-01",
-    "cutoff_exclusive": "2026-11-14T12:15:27.858080-08:00",
+    "cutoff_exclusive": "2026-11-14T12:30:28.110761-08:00",
     "timezone": "America/Los_Angeles",
     "qualification": "distinct_current_qualified_leads_in_occurred_cohort",
     "closed_won": "native_date_won_independent_of_meeting_dates",
@@ -7855,7 +7855,7 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-11-14T12:21:27.264324-08:00",
+    "generated_at": "2026-11-14T12:40:07.335834-08:00",
     "period": {
       "month": "2026-11",
       "timezone": "America/Los_Angeles",
