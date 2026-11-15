@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-15 12:45:34 PST",
+  "updated_at": "2026-11-15 13:00:31 PST",
   "month_label": "November 2026",
   "day_of_month": 15,
   "days_in_month": 30,
@@ -2117,8 +2117,8 @@
       "exclude_meetings": false,
       "occurred_calls": 29,
       "no_shows": 9,
-      "unresolved_calls": 6,
-      "scheduled_calls": 35,
+      "unresolved_calls": 7,
+      "scheduled_calls": 36,
       "qualification_rate": 51.7,
       "revenue_per_occurred": 548.07,
       "marketing": 13,
@@ -2132,24 +2132,24 @@
           "loom_usage": {
             "label": "Pre-Call Loom",
             "phase": "pre_call",
-            "done": 37,
-            "eligible": 40,
+            "done": 38,
+            "eligible": 41,
             "exempt": 0,
             "pct": 93
           },
           "precall_text": {
             "label": "Pre-call text",
             "phase": "pre_call",
-            "done": 38,
-            "eligible": 40,
+            "done": 39,
+            "eligible": 41,
             "exempt": 0,
             "pct": 95
           },
           "day_of_confirmation_text": {
             "label": "Day-of confirmation",
             "phase": "pre_call",
-            "done": 36,
-            "eligible": 40,
+            "done": 37,
+            "eligible": 41,
             "exempt": 0,
             "pct": 90
           },
@@ -2468,6 +2468,14 @@
                 "scored_call_at": "2026-11-15T09:15:00-08:00",
                 "url": "https://app.close.com/lead/lead_dXLunQWPOfHp8FXNW9avhiShLQbW9a4opKAqYkxrjfQ/",
                 "status_label": "\u260e\ufe0f Call Booked"
+              },
+              {
+                "id": "lead_nFrX6IRW5Sjpa9dHIhYwLXF7IJpdo7Jlosfqurry9Su",
+                "name": "Elvia Rosales",
+                "booked_date": "2026-11-15",
+                "scored_call_at": "2026-11-15T13:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_nFrX6IRW5Sjpa9dHIhYwLXF7IJpdo7Jlosfqurry9Su/",
+                "status_label": "Reschedule Requested"
               }
             ],
             "missed": [
@@ -2803,6 +2811,14 @@
                 "scored_call_at": "2026-11-15T09:15:00-08:00",
                 "url": "https://app.close.com/lead/lead_dXLunQWPOfHp8FXNW9avhiShLQbW9a4opKAqYkxrjfQ/",
                 "status_label": "\u260e\ufe0f Call Booked"
+              },
+              {
+                "id": "lead_nFrX6IRW5Sjpa9dHIhYwLXF7IJpdo7Jlosfqurry9Su",
+                "name": "Elvia Rosales",
+                "booked_date": "2026-11-15",
+                "scored_call_at": "2026-11-15T13:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_nFrX6IRW5Sjpa9dHIhYwLXF7IJpdo7Jlosfqurry9Su/",
+                "status_label": "Reschedule Requested"
               }
             ],
             "missed": [
@@ -3114,6 +3130,14 @@
                 "scored_call_at": "2026-11-15T09:15:00-08:00",
                 "url": "https://app.close.com/lead/lead_dXLunQWPOfHp8FXNW9avhiShLQbW9a4opKAqYkxrjfQ/",
                 "status_label": "\u260e\ufe0f Call Booked"
+              },
+              {
+                "id": "lead_nFrX6IRW5Sjpa9dHIhYwLXF7IJpdo7Jlosfqurry9Su",
+                "name": "Elvia Rosales",
+                "booked_date": "2026-11-15",
+                "scored_call_at": "2026-11-15T13:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_nFrX6IRW5Sjpa9dHIhYwLXF7IJpdo7Jlosfqurry9Su/",
+                "status_label": "Reschedule Requested"
               }
             ],
             "missed": [
@@ -3484,7 +3508,7 @@
                 "booked_date": "2026-11-15",
                 "scored_call_at": "2026-11-15T13:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_nFrX6IRW5Sjpa9dHIhYwLXF7IJpdo7Jlosfqurry9Su/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "Reschedule Requested"
               }
             ]
           },
@@ -3811,7 +3835,7 @@
                 "booked_date": "2026-11-15",
                 "scored_call_at": "2026-11-15T13:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_nFrX6IRW5Sjpa9dHIhYwLXF7IJpdo7Jlosfqurry9Su/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "Reschedule Requested"
               }
             ]
           }
@@ -7925,17 +7949,17 @@
       }
     }
   ],
-  "total_scheduled_calls": 176,
+  "total_scheduled_calls": 177,
   "total_occurred_calls": 146,
   "total_no_shows": 41,
-  "total_unresolved_calls": 30,
+  "total_unresolved_calls": 31,
   "team_qualification_rate": 49.3,
   "metric_definitions": {
     "version": "calls-occurred.v1",
     "booking_rules": "booked_calls.v2.8-naria-navigator-title-20261102",
     "booked": "native_completed_plus_no_show",
     "period_start": "2026-11-01",
-    "cutoff_exclusive": "2026-11-15T12:45:34.943619-08:00",
+    "cutoff_exclusive": "2026-11-15T13:00:31.818245-08:00",
     "timezone": "America/Los_Angeles",
     "qualification": "distinct_current_qualified_leads_in_occurred_cohort",
     "closed_won": "native_date_won_independent_of_meeting_dates",
@@ -7945,7 +7969,7 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-11-15T12:53:50.518339-08:00",
+    "generated_at": "2026-11-15T13:09:56.024576-08:00",
     "period": {
       "month": "2026-11",
       "timezone": "America/Los_Angeles",
