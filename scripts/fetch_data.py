@@ -20,6 +20,7 @@ from base64 import b64encode
 from calendar import monthrange
 
 from build_adherence_preview import LATEST_BOOKED_DATE_FIELD, add_adherence_to_dashboard
+from rep_roster import INACTIVE_CLOSERS
 
 # --- Configuration ---
 
@@ -85,11 +86,10 @@ REP_QUOTAS = {
     "Scott Seymour": 100_000,
     "Robin Perkins": 100_000,
     "Eric Piccione": 100_000,
-    "Joe Vaughan": 100_000,
-    "Shreya Bechra": 100_000,
     "Luke Herman": 100_000,
     "Ariella Irvine": 100_000,
 }
+# Departed closers have no active row; their earned revenue remains in team totals.
 
 # Lane 2 reps: shown on board individually but their booked/shown/deals
 # are excluded from team totals (so they don't affect team show/close rates)
@@ -511,7 +511,7 @@ def build_dashboard_data():
     # Step 4: Build per-rep data (WHITELIST — only approved closers get rows)
     # Reps with quotas, managers, and deals-only users can appear on the board.
     # Everyone else's data still counts in team totals via raw dicts.
-    approved = set(REP_QUOTAS.keys()) | MANAGER_USERS | DEALS_ONLY_USERS
+    approved = (set(REP_QUOTAS.keys()) | MANAGER_USERS | DEALS_ONLY_USERS) - INACTIVE_CLOSERS
 
     reps = []
     for name in approved:

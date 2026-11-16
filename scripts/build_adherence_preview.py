@@ -27,6 +27,7 @@ from zoneinfo import ZoneInfo
 
 from adherence_rules import LOST_STATUS_ID, STEP_META, WON_STATUS_ID, aggregate_rep_scores, first_call_deadline, is_post_call_exempt_status, parse_datetime, score_lead, validate_aggregate
 from qualifying_meeting_rules import latest_qualifying_dates_in_period
+from rep_roster import INACTIVE_CLOSERS
 
 
 BASE_URL = "https://api.close.com/api/v1"
@@ -452,6 +453,9 @@ def add_adherence_to_dashboard(
         if not row.get("exclude_meetings") and not row.get("is_manager")
     }
     visible_rep_ids = {user_id for user_id, name in users_by_id.items() if name in dashboard_reps}
+    historical_rep_ids = visible_rep_ids | {
+        user_id for user_id, name in users_by_id.items() if name in INACTIVE_CLOSERS
+    }
 
     candidates = []
     exclusion_counts = defaultdict(int)
@@ -526,10 +530,13 @@ def add_adherence_to_dashboard(
             meeting_outcome_id=(first_meeting or {}).get("outcome_id"),
         )
         rep_id, reason = scoring_rep_for_meeting(
-            first_meeting, lead["current_owner_id"], visible_rep_ids
+            first_meeting, lead["current_owner_id"], historical_rep_ids
         )
         if not rep_id:
             exclusion_counts[reason] += 1
+            continue
+        if rep_id not in visible_rep_ids:
+            exclusion_counts["meeting_rep_not_visible"] += 1
             continue
         lead["attribution"] = reason
         lead["rep_id"] = rep_id

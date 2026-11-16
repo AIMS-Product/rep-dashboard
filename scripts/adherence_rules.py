@@ -228,7 +228,12 @@ def score_lead(
     tasks: Iterable[dict[str, Any]] = (),
     now: datetime | None = None,
 ) -> dict[str, dict[str, bool]]:
-    """Score one monthly-cohort lead against the adherence signals."""
+    """Score evidence from the credited closer (owner_id).
+
+    The adapter resolves owner_id from the meeting, falling back to the lead owner
+    only without an identifiable meeting rep. lead_owner_id remains accepted for
+    compatibility with existing callers but does not gate historical evidence.
+    """
     now = (now or datetime.now(PACIFIC)).astimezone(PACIFIC)
     emails = list(emails)
     sms = list(sms)
@@ -253,7 +258,7 @@ def score_lead(
         (stamp := timestamp(activity)) is not None
         and stamp <= deadline
         and is_active_activity(activity)
-        and (kind != "sms" or (lead_owner_id and str(activity.get("user_id") or "") == lead_owner_id))
+        and (kind != "sms" or (owner_id and str(activity.get("user_id") or "") == owner_id))
         and bool(LOOM_PATTERN.search(activity_body(activity)))
         for kind, activity, timestamp in comms
     )
@@ -262,8 +267,8 @@ def score_lead(
         and stamp <= deadline
         and is_outbound(message)
         and is_sent_activity(message)
-        and lead_owner_id
-        and str(message.get("user_id") or "") == lead_owner_id
+        and owner_id
+        and str(message.get("user_id") or "") == owner_id
         and bool(activity_body(message))
         for message in sms
     )
@@ -272,12 +277,12 @@ def score_lead(
         "eligible": pre_eligible,
         "done": pre_eligible and precall_text_done,
     }
-    confirmation_eligible = bool(first_meeting and lead_owner_id and pre_eligible)
+    confirmation_eligible = bool(first_meeting and owner_id and pre_eligible)
     confirmation_done = any(
         (stamp := message_time(message)) is not None
         and stamp.date() == deadline.date()
         and stamp < deadline
-        and str(message.get("user_id") or "") == lead_owner_id
+        and str(message.get("user_id") or "") == owner_id
         and is_outbound(message)
         and is_sent_activity(message)
         and bool(activity_body(message))
@@ -286,7 +291,7 @@ def score_lead(
         (stamp := activity_time(call)) is not None
         and stamp.date() == deadline.date()
         and stamp < deadline
-        and str(call.get("user_id") or "") == lead_owner_id
+        and str(call.get("user_id") or "") == owner_id
         and str(call.get("direction") or "").strip().lower() in OUTBOUND_DIRECTIONS
         and is_active_activity(call)
         for call in calls
@@ -334,7 +339,7 @@ def score_lead(
         and anchor <= stamp <= min(window_end, now)
         and is_outbound(message)
         and is_sent_activity(message)
-        and (kind == "email" or (lead_owner_id and str(message.get("user_id") or "") == lead_owner_id))
+        and (kind == "email" or (owner_id and str(message.get("user_id") or "") == owner_id))
         for kind, messages in (("email", emails), ("sms", sms))
         for message in messages
     )

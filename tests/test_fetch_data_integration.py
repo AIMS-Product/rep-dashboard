@@ -10,6 +10,26 @@ import fetch_data  # noqa: E402
 
 
 class ProductionAdherenceIntegrationTests(unittest.TestCase):
+    @patch("fetch_data.fetch_mtd_totals", return_value=(0, 0, 0))
+    @patch("fetch_data.fetch_meeting_data", return_value=({}, {}, {}))
+    @patch("fetch_data.fetch_closed_won_opportunities")
+    @patch("fetch_data.fetch_org_users")
+    @patch.object(fetch_data, "CLOSE_API_KEY", "test-key")
+    def test_departed_closers_have_no_active_row_but_keep_earned_team_revenue(
+        self, fetch_users, fetch_opps, _fetch_meetings, _fetch_totals
+    ):
+        fetch_users.return_value = {"joe-v": "Joe Vaughan", "shreya": "Shreya Bechra"}
+        fetch_opps.return_value = [
+            {"user_id": "joe-v", "value": 10000, "lead_id": "lead-joe", "date_won": "2026-11-01"},
+            {"user_id": "shreya", "value": 20000, "lead_id": "lead-shreya", "date_won": "2026-11-01"},
+        ]
+        data = fetch_data.build_dashboard_data()
+        self.assertTrue({"Joe Vaughan", "Shreya Bechra"}.isdisjoint(
+            row["name"] for row in data["reps"]
+        ))
+        self.assertEqual(data["total_revenue"], 300)
+        self.assertEqual(data["total_deals"], 2)
+
     @patch("fetch_data.fetch_mtd_totals", return_value=(10, 4, 3))
     @patch("fetch_data.fetch_meeting_data", return_value=({"Joe Dysert": 2}, {"Joe Dysert": 1}, {"Joe Dysert": 1}))
     @patch("fetch_data.fetch_closed_won_opportunities")

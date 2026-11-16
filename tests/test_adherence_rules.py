@@ -80,7 +80,7 @@ class AdherenceRulesTests(unittest.TestCase):
         self.assertFalse(result["day_of_confirmation_text"]["done"])
         self.assertTrue(result["recap_email"]["done"])
 
-    def test_sms_evidence_requires_current_lead_owner_across_pre_and_post_call_steps(self):
+    def test_sms_evidence_requires_credited_closer_across_pre_and_post_call_steps(self):
         base = dict(
             booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
             lead_owner_id="user_lead_owner", meetings=[meeting("2026-09-10T17:00:00Z")],
@@ -88,18 +88,18 @@ class AdherenceRulesTests(unittest.TestCase):
         )
         other_owner_sms = [
             {"id": "wrong_owner_pre", "date_sent": "2026-09-10T16:00:00Z",
-             "direction": "outbound", "status": "sent", "user_id": OWNER,
+             "direction": "outbound", "status": "sent", "user_id": "user_lead_owner",
              "text": "Here is a loom.com/demo link"},
             {"id": "wrong_owner_post", "date_sent": "2026-09-10T18:00:00Z",
-             "direction": "outbound", "status": "sent", "user_id": OWNER, "text": "Following up"},
+             "direction": "outbound", "status": "sent", "user_id": "user_lead_owner", "text": "Following up"},
         ]
         rejected = score_lead(**base, sms=other_owner_sms)
         self.assertFalse(rejected["loom_usage"]["done"])
         self.assertFalse(rejected["precall_text"]["done"])
         self.assertFalse(rejected["recap_email"]["done"])
 
-        owner_sms = [dict(message, user_id="user_lead_owner") for message in other_owner_sms]
-        accepted = score_lead(**base, sms=owner_sms)
+        closer_sms = [dict(message, user_id=OWNER) for message in other_owner_sms]
+        accepted = score_lead(**base, sms=closer_sms)
         self.assertTrue(accepted["loom_usage"]["done"])
         self.assertTrue(accepted["precall_text"]["done"])
         self.assertTrue(accepted["recap_email"]["done"])
@@ -119,7 +119,7 @@ class AdherenceRulesTests(unittest.TestCase):
         self.assertEqual(result["precall_text"], {"eligible": True, "done": True})
         self.assertEqual(result["day_of_confirmation_text"], {"eligible": True, "done": True})
 
-    def test_day_of_text_uses_lead_owner_not_scoring_rep(self):
+    def test_day_of_text_uses_scoring_rep_not_current_lead_owner(self):
         lead_owner = "user_lead_owner"
         base = dict(
             booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
@@ -127,18 +127,38 @@ class AdherenceRulesTests(unittest.TestCase):
         )
         wrong_sender = score_lead(**base, sms=[{
             "activity_at": "2026-09-10T16:00:00Z", "direction": "outbound",
-            "status": "sent", "user_id": OWNER, "text": "See you soon",
+            "status": "sent", "user_id": lead_owner, "text": "See you soon",
         }])
         self.assertFalse(wrong_sender["precall_text"]["done"])
         self.assertEqual(
             wrong_sender["day_of_confirmation_text"], {"eligible": True, "done": False}
         )
-        lead_owner_sent = score_lead(**base, sms=[{
+        closer_sent = score_lead(**base, sms=[{
             "activity_at": "2026-09-10T16:00:00Z", "direction": "outbound",
-            "status": "sent", "user_id": lead_owner, "text": "See you soon",
+            "status": "sent", "user_id": OWNER, "text": "See you soon",
         }])
-        self.assertTrue(lead_owner_sent["day_of_confirmation_text"]["done"])
-        self.assertTrue(lead_owner_sent["precall_text"]["done"])
+        self.assertTrue(closer_sent["day_of_confirmation_text"]["done"])
+        self.assertTrue(closer_sent["precall_text"]["done"])
+
+    def test_clearing_lead_owner_preserves_closer_messages_and_confirmation_dial(self):
+        base = dict(
+            booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
+            lead_owner_id=None, meetings=[meeting("2026-09-10T17:00:00Z")], now=NOW,
+        )
+        result = score_lead(**base, sms=[
+            {"date_sent": "2026-09-10T16:00:00Z", "direction": "outbound",
+             "status": "sent", "user_id": OWNER, "text": "Watch https://loom.com/share/demo"},
+            {"date_sent": "2026-09-10T18:00:00Z", "direction": "outbound",
+             "status": "sent", "user_id": OWNER, "text": "Recap"},
+        ])
+        for step in ("loom_usage", "precall_text", "day_of_confirmation_text", "recap_email"):
+            self.assertTrue(result[step]["done"], step)
+        dial = {"activity_at": "2026-09-10T16:00:00Z", "direction": "outbound",
+                "status": "no-answer", "user_id": OWNER}
+        self.assertTrue(score_lead(**base, calls=[dial])["day_of_confirmation_text"]["done"])
+        self.assertFalse(score_lead(
+            **base, calls=[dial | {"user_id": "user_new_owner"}]
+        )["day_of_confirmation_text"]["done"])
 
     def test_day_of_confirmation_counts_any_owner_outbound_dial_before_call(self):
         base = dict(
@@ -229,7 +249,7 @@ class AdherenceRulesTests(unittest.TestCase):
         ]
         result = score_lead(**base, lead_owner_id=OWNER, sms=invalid)
         self.assertEqual(result["day_of_confirmation_text"], {"eligible": True, "done": False})
-        unknown_owner = score_lead(**base, sms=invalid)
+        unknown_owner = score_lead(**(base | {"owner_id": None}), sms=invalid)
         self.assertEqual(unknown_owner["day_of_confirmation_text"], {"eligible": False, "done": False})
 
     def test_day_of_text_is_neutral_without_same_day_meeting(self):

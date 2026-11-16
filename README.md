@@ -70,6 +70,8 @@ GitHub Pages (serves index.html)
 
 **Schedule**: Runs every hour Mon–Fri, 7 AM – 5 PM PST. Also runs on manual trigger.
 
+Joe Vaughan and Shreya Bechra are inactive closers and have no active dashboard rows. Their earned revenue remains in team totals. Historical archives are retained; their calls are not reassigned to another attendee when building the active process cohort.
+
 ## Process Adherence
 
 The production refresh adds aggregate process-adherence metrics to `data.json` before writing the
@@ -101,10 +103,12 @@ rep's month-to-date revenue divided by their booked leads; AOV is month-to-date 
 closed deals. A zero denominator displays `N/A`. Team Rev / Lead is not displayed.
 
 Process Adherence has three pre-call and two post-call steps. All SMS evidence must come from the
-current Lead Owner, including texts used for Loom evidence and post-call follow-up. Day-of
+closer credited with the scored call, including texts used for Loom evidence and post-call follow-up.
+The current Lead Owner is used only when no meeting rep can be identified; later ownership changes
+do not remove credit for the meeting closer. Day-of
 confirmation requires an outbound SMS with a message body or any outbound dial,
-both from the current Lead Owner and on the meeting's Pacific date before it begins. An
-SMS may also count for Pre-call text. Missing meeting or owner evidence leaves the confirmation
+both from the credited closer and on the meeting's Pacific date before it begins. An
+SMS may also count for Pre-call text. Missing meeting or credited-rep evidence leaves the confirmation
 step unscored.
 
 The post-call average uses two requirements: Task or follow-up meeting, and Recap email sent. A
@@ -112,7 +116,7 @@ qualifying task or later qualifying meeting completes the combined next-step req
 must have a date, be assigned to the rep credited with the first call, and be due at or after the call
 or created after it. A later non-canceled meeting for the
 lead can be assigned to anyone and counts regardless of its outcome. Recap email sent accepts a sent
-outbound email or a sent SMS from the current Lead Owner within 24 hours of the call. Post-call
+outbound email or a sent SMS from the credited closer within 24 hours of the call. Post-call
 eligibility does not depend on the First Call Show Up outcome. Closed / Won and Lost leads remain
 visible, with both post-call checks marked Exempt. This uses status at the time the local
 preview is generated, so a later status or task change appears after the preview is regenerated.

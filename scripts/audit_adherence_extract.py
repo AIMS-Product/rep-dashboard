@@ -227,20 +227,20 @@ def classify(lead: dict, rep: str, booked: str, lead_owner: str | None,
     all_comms = [("email", x, message_stamp(x)) for x in emails] + [("sms", x, message_stamp(x)) for x in sms] + [("note", x, stamp(x)) for x in notes]
     loom_evidence = [event(kind, row, at) for kind, row, at in all_comms
                      if at and at <= deadline and live(row) and LOOM.search(body(row))
-                     and (kind != "sms" or (lead_owner and str(row.get("user_id") or "") == lead_owner))]
+                     and (kind != "sms" or (rep and str(row.get("user_id") or "") == rep))]
     result["loom_usage"] = {"result": ("Completed" if loom_evidence else "Missed") if eligible else "Neutral",
-                            "support": loom_evidence, "basis": "Pre-call deadline has passed; any active note/email body containing loom.com, or owner-sent SMS body containing loom.com, by deadline counts."}
+                            "support": loom_evidence, "basis": "Pre-call deadline has passed; any active note/email body containing loom.com, or credited-closer-sent SMS body containing loom.com, by deadline counts."}
 
     precall = [event("sms", msg, at) for msg in sms if (at := message_stamp(msg)) and at <= deadline
                and str(msg.get("direction") or "").lower() in OUTBOUND and sent(msg) and body(msg)
-               and lead_owner and str(msg.get("user_id") or "") == lead_owner]
+               and rep and str(msg.get("user_id") or "") == rep]
     result["precall_text"] = {"result": ("Completed" if precall else "Missed") if eligible else "Neutral",
-                               "support": precall, "basis": "Pre-call deadline has passed; non-empty sent outbound SMS from the current Lead Owner at or before deadline counts."}
+                               "support": precall, "basis": "Pre-call deadline has passed; non-empty sent outbound SMS from the credited closer at or before deadline counts."}
 
-    confirmation_eligible = bool(first and lead_owner and eligible)
+    confirmation_eligible = bool(first and rep and eligible)
     confirmation = [event("sms", msg, at) for msg in sms if (at := message_stamp(msg))
                     and at.date() == deadline.date() and at < deadline
-                    and str(msg.get("user_id") or "") == lead_owner
+                    and str(msg.get("user_id") or "") == rep
                     and str(msg.get("direction") or "").lower() in OUTBOUND and sent(msg) and body(msg)]
     confirmation.extend(
         event("call", call, at)
@@ -248,13 +248,13 @@ def classify(lead: dict, rep: str, booked: str, lead_owner: str | None,
         if (at := stamp(call))
         and at.date() == deadline.date()
         and at < deadline
-        and str(call.get("user_id") or "") == lead_owner
+        and str(call.get("user_id") or "") == rep
         and str(call.get("direction") or "").strip().lower() in OUTBOUND
         and live(call)
     )
     result["day_of_confirmation_text"] = {
         "result": ("Completed" if confirmation else "Missed") if confirmation_eligible else "Neutral",
-        "support": confirmation, "basis": "Eligible at first call start when same-day meeting and current lead owner are known; a non-empty owner-sent outbound SMS or any owner-made outbound call on that Pacific date before start counts."}
+        "support": confirmation, "basis": "Eligible at first call start when same-day meeting and credited closer are known; a non-empty credited-closer-sent outbound SMS or any credited-closer-made outbound call on that Pacific date before start counts."}
 
     # Keep post-call eligibility and its anchor independent of the show-up field.
     # Later meetings are next-step evidence, not a reason to delay this anchor.
@@ -292,11 +292,11 @@ def classify(lead: dict, rep: str, booked: str, lead_owner: str | None,
             at = message_stamp(msg)
             if (at and anchor <= at <= min(window_end, now)
                     and str(msg.get("direction") or "").lower() in OUTBOUND and sent(msg)
-                    and (kind == "email" or (lead_owner and str(msg.get("user_id") or "") == lead_owner))):
+                    and (kind == "email" or (rep and str(msg.get("user_id") or "") == rep))):
                 messages.append(event(kind, msg, at))
     recap_eligible = anchor <= now and (window_end <= now or bool(messages))
     result["recap_email"] = {"result": ("Completed" if messages else "Missed") if recap_eligible else "Neutral",
-                             "support": messages, "basis": "Show outcome does not gate this step; sent outbound email, or owner-sent SMS, from anchor through the earlier of 24 hours after anchor or extract end counts; absent message is neutral until window closes."}
+                             "support": messages, "basis": "Show outcome does not gate this step; sent outbound email, or credited-closer-sent SMS, from anchor through the earlier of 24 hours after anchor or extract end counts; absent message is neutral until window closes."}
     status_label = str(lead.get("status_label") or "").lower()
     is_won = lead.get("status_id") == WON_STATUS_ID or "closed / won" in status_label
     is_lost = lead.get("status_id") == LOST_STATUS_ID or status_label.strip().endswith("lost")

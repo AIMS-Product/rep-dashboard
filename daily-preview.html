@@ -1139,11 +1139,11 @@
   let drawerTrigger = null;
   let closeTimer = null;
   const stepHelp = {
-    loom_usage: 'Loom link recorded at or before the first-call deadline.',
-    precall_text: 'Non-empty outbound SMS recorded at or before the first-call deadline.',
-    day_of_confirmation_text: 'The current lead owner sends an outbound SMS with a message body or makes an outbound call lasting at least 45 seconds on the meeting’s Pacific calendar day before it begins.',
+    loom_usage: 'Loom link recorded at or before the first-call deadline. SMS evidence must come from the credited closer.',
+    precall_text: 'Non-empty sent outbound SMS from the credited closer at or before the first-call deadline.',
+    day_of_confirmation_text: 'The credited closer sends an outbound SMS with a message body or makes an outbound call on the meeting’s Pacific calendar day before it begins.',
     follow_up_created: 'A dated task assigned to the credited closer, due at or after the scheduled first-call anchor or created after it, or a later meeting that is not canceled or declined and may be assigned to anyone. Either one completes this step. Show-up outcome does not affect eligibility; Closed/Won and Lost leads are exempt.',
-    recap_email: 'A sent outbound email or owner-sent SMS within 24 hours of the scheduled first-call anchor. Show-up outcome does not affect eligibility; Closed/Won and Lost leads are exempt.'
+    recap_email: 'A sent outbound email or SMS sent by the credited closer within 24 hours of the scheduled first-call anchor. Show-up outcome does not affect eligibility; Closed/Won and Lost leads are exempt.'
   };
 
   function escapeHtml(value) {
