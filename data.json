@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-16 10:35:13 PST",
+  "updated_at": "2026-11-16 10:45:27 PST",
   "month_label": "November 2026",
   "day_of_month": 16,
   "days_in_month": 30,
@@ -10,12 +10,12 @@
   "pct_team_quota": 13.0,
   "total_revenue": 97863.0,
   "total_deals": 15,
-  "total_booked": 128,
+  "total_booked": 129,
   "total_shown": 99,
   "total_qualified": 69,
   "team_aov": 6524.2,
-  "team_close_rate": 11.7,
-  "team_show_rate": 77.3,
+  "team_close_rate": 11.6,
+  "team_show_rate": 76.7,
   "today_revenue": 0.0,
   "today_deals": 0,
   "today_closers": [],
@@ -26,29 +26,29 @@
       "deals": 4,
       "quota": 100000,
       "pct_to_quota": 23.4,
-      "booked": 27,
+      "booked": 28,
       "shown": 23,
       "qualified": 18,
-      "close_rate": 14.8,
-      "show_rate": 85.2,
-      "revenue_per_lead": 866.22,
+      "close_rate": 14.3,
+      "show_rate": 82.1,
+      "revenue_per_lead": 835.29,
       "aov": 5847.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
-      "occurred_calls": 27,
-      "no_shows": 4,
-      "unresolved_calls": 6,
+      "occurred_calls": 28,
+      "no_shows": 5,
+      "unresolved_calls": 5,
       "scheduled_calls": 33,
-      "qualification_rate": 66.7,
-      "revenue_per_occurred": 866.22,
-      "marketing": 12,
+      "qualification_rate": 64.3,
+      "revenue_per_occurred": 835.29,
+      "marketing": 13,
       "lane2": 15,
       "social_dms": 0,
       "rep_owner_id": "user_wHm1vcLde4RExd3vv9UOjnms5Oz8ssXg8600mQuxMPb",
       "adherence": {
         "pre_call_pct": 57,
-        "post_call_pct": 64,
+        "post_call_pct": 65,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -78,17 +78,17 @@
             "label": "Task or follow-up meeting",
             "phase": "post_call",
             "done": 7,
-            "eligible": 15,
-            "exempt": 9,
-            "pct": 47
+            "eligible": 14,
+            "exempt": 10,
+            "pct": 50
           },
           "recap_email": {
             "label": "Recap email sent",
             "phase": "post_call",
-            "done": 12,
-            "eligible": 15,
-            "exempt": 9,
-            "pct": 80
+            "done": 11,
+            "eligible": 14,
+            "exempt": 10,
+            "pct": 79
           }
         },
         "lead_cohorts": {
@@ -212,7 +212,7 @@
                 "booked_date": "2026-11-16",
                 "scored_call_at": "2026-11-16T10:30:00-08:00",
                 "url": "https://app.close.com/lead/lead_ZfSOgnahrdnJLD5UjNSyUFZhv7goPHjWnp5pxIWTmCw/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "\ud83d\udc7b No Show"
               }
             ],
             "missed": [
@@ -419,7 +419,7 @@
                 "booked_date": "2026-11-16",
                 "scored_call_at": "2026-11-16T10:30:00-08:00",
                 "url": "https://app.close.com/lead/lead_ZfSOgnahrdnJLD5UjNSyUFZhv7goPHjWnp5pxIWTmCw/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "\ud83d\udc7b No Show"
               }
             ],
             "missed": [
@@ -570,7 +570,7 @@
                 "booked_date": "2026-11-16",
                 "scored_call_at": "2026-11-16T10:30:00-08:00",
                 "url": "https://app.close.com/lead/lead_ZfSOgnahrdnJLD5UjNSyUFZhv7goPHjWnp5pxIWTmCw/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "\ud83d\udc7b No Show"
               }
             ],
             "missed": [
@@ -804,14 +804,6 @@
                 "scored_call_at": "2026-11-11T11:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_pAi3IPGgGkNESb28Jlx8GmrkLJNJH0PxIB4X0SD1XQm/",
                 "status_label": "\ud83d\udcde HOT- Follow Up"
-              },
-              {
-                "id": "lead_ZfSOgnahrdnJLD5UjNSyUFZhv7goPHjWnp5pxIWTmCw",
-                "name": "Hakim Robinson",
-                "booked_date": "2026-11-16",
-                "scored_call_at": "2026-11-16T10:30:00-08:00",
-                "url": "https://app.close.com/lead/lead_ZfSOgnahrdnJLD5UjNSyUFZhv7goPHjWnp5pxIWTmCw/",
-                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "exempt": [
@@ -886,6 +878,14 @@
                 "scored_call_at": "2026-11-11T16:15:00-08:00",
                 "url": "https://app.close.com/lead/lead_YQpsZs0JIHyrbmqecJKJgcaOwmy3rynIetKzCGL1njz/",
                 "status_label": "\ud83d\udd5b Call Rescheduled"
+              },
+              {
+                "id": "lead_ZfSOgnahrdnJLD5UjNSyUFZhv7goPHjWnp5pxIWTmCw",
+                "name": "Hakim Robinson",
+                "booked_date": "2026-11-16",
+                "scored_call_at": "2026-11-16T10:30:00-08:00",
+                "url": "https://app.close.com/lead/lead_ZfSOgnahrdnJLD5UjNSyUFZhv7goPHjWnp5pxIWTmCw/",
+                "status_label": "\ud83d\udc7b No Show"
               }
             ]
           },
@@ -978,14 +978,6 @@
                 "scored_call_at": "2026-11-11T11:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_pAi3IPGgGkNESb28Jlx8GmrkLJNJH0PxIB4X0SD1XQm/",
                 "status_label": "\ud83d\udcde HOT- Follow Up"
-              },
-              {
-                "id": "lead_ZfSOgnahrdnJLD5UjNSyUFZhv7goPHjWnp5pxIWTmCw",
-                "name": "Hakim Robinson",
-                "booked_date": "2026-11-16",
-                "scored_call_at": "2026-11-16T10:30:00-08:00",
-                "url": "https://app.close.com/lead/lead_ZfSOgnahrdnJLD5UjNSyUFZhv7goPHjWnp5pxIWTmCw/",
-                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "missed": [
@@ -1086,6 +1078,14 @@
                 "scored_call_at": "2026-11-11T16:15:00-08:00",
                 "url": "https://app.close.com/lead/lead_YQpsZs0JIHyrbmqecJKJgcaOwmy3rynIetKzCGL1njz/",
                 "status_label": "\ud83d\udd5b Call Rescheduled"
+              },
+              {
+                "id": "lead_ZfSOgnahrdnJLD5UjNSyUFZhv7goPHjWnp5pxIWTmCw",
+                "name": "Hakim Robinson",
+                "booked_date": "2026-11-16",
+                "scored_call_at": "2026-11-16T10:30:00-08:00",
+                "url": "https://app.close.com/lead/lead_ZfSOgnahrdnJLD5UjNSyUFZhv7goPHjWnp5pxIWTmCw/",
+                "status_label": "\ud83d\udc7b No Show"
               }
             ]
           }
@@ -7966,16 +7966,16 @@
     }
   ],
   "total_scheduled_calls": 154,
-  "total_occurred_calls": 128,
-  "total_no_shows": 29,
-  "total_unresolved_calls": 26,
-  "team_qualification_rate": 53.9,
+  "total_occurred_calls": 129,
+  "total_no_shows": 30,
+  "total_unresolved_calls": 25,
+  "team_qualification_rate": 53.5,
   "metric_definitions": {
     "version": "calls-occurred.v1",
     "booking_rules": "booked_calls.v2.8-naria-navigator-title-20261102",
     "booked": "native_completed_plus_no_show",
     "period_start": "2026-11-01",
-    "cutoff_exclusive": "2026-11-16T10:35:13.984345-08:00",
+    "cutoff_exclusive": "2026-11-16T10:45:27.335346-08:00",
     "timezone": "America/Los_Angeles",
     "qualification": "distinct_current_qualified_leads_in_occurred_cohort",
     "closed_won": "native_date_won_independent_of_meeting_dates",
@@ -7985,7 +7985,7 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-11-16T10:41:30.751296-08:00",
+    "generated_at": "2026-11-16T10:52:57.850364-08:00",
     "period": {
       "month": "2026-11",
       "timezone": "America/Los_Angeles",
