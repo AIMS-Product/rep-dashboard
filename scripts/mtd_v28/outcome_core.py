@@ -230,6 +230,10 @@ def use_occurred_as_booked(payload, occurred, source_map=None):
 def apply_dashboard_outcomes(payload, reader, *, surface, source_map=None):
     """Replace call metrics only; retain native date-won and process measures."""
     scheduled = scheduled_dataset(reader)
+    if surface == 'rep':
+        active_names = {rep['name'] for rep in payload['reps'] if not rep.get('exclude_meetings')}
+        rows = [row for row in scheduled['rows'] if row['owner'] in active_names]
+        scheduled = {**scheduled, 'rows': rows, 'totals': rollup(rows)}
     occurred = occurred_dataset(scheduled)
     base = copy.deepcopy(payload)
     base.setdefault('alignment_metadata', {})

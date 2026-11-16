@@ -6,6 +6,30 @@ from mtd_v28.outcome_core import *
 
 
 class OccurredRulesTests(unittest.TestCase):
+    def test_rep_roster_removal_filters_call_totals_but_preserves_earned_revenue(self):
+        from types import SimpleNamespace
+        from unittest.mock import patch
+        previous = {
+            'reps': [{'name': 'Scott Seymour', 'booked': 1, 'deals': 1, 'revenue': 100}],
+            'total_booked': 3, 'total_deals': 3, 'total_revenue': 300,
+        }
+        scheduled = self.dataset([
+            self.row(bucket='Marketing'),
+            self.row(meeting_id='joe', lead_id='joe', owner='Joe Vaughan'),
+            self.row(meeting_id='shreya', lead_id='shreya', owner='Shreya Bechra'),
+        ])
+        scheduled['placement'] = 'scheduled fixture'
+        reader = SimpleNamespace(start='2026-11-01', cutoff=datetime(2026, 11, 5, tzinfo=PACIFIC))
+        with patch('mtd_v28.outcome_core.scheduled_dataset', return_value=scheduled):
+            result = apply_dashboard_outcomes(previous, reader, surface='rep')
+        self.assertEqual(result['total_booked'], 1)
+        self.assertEqual(result['total_scheduled_calls'], 1)
+        self.assertEqual(result['total_shown'], 1)
+        self.assertEqual(result['total_qualified'], 1)
+        self.assertEqual(result['total_deals'], 3)
+        self.assertEqual(result['total_revenue'], 300)
+        self.assertEqual([rep['name'] for rep in result['reps']], ['Scott Seymour'])
+
     def row(self, **extra):
         return {'meeting_id': 'meeting', 'lead_id': 'lead', 'channel': 'YouTube', 'owner': 'Scott Seymour',
                 'lead_name': 'Fixture', 'showed': True, 'qualified': True, 'outcome': 'Completed', 'status': 'completed',
