@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-17 10:30:27 PST",
+  "updated_at": "2026-11-17 10:45:32 PST",
   "month_label": "November 2026",
   "day_of_month": 17,
   "days_in_month": 30,
@@ -12,7 +12,7 @@
   "total_deals": 14,
   "total_booked": 139,
   "total_shown": 105,
-  "total_qualified": 70,
+  "total_qualified": 71,
   "team_aov": 6975.93,
   "team_close_rate": 10.1,
   "team_show_rate": 75.5,
@@ -28,7 +28,7 @@
       "pct_to_quota": 23.4,
       "booked": 29,
       "shown": 24,
-      "qualified": 18,
+      "qualified": 19,
       "close_rate": 13.8,
       "show_rate": 82.8,
       "revenue_per_lead": 806.48,
@@ -40,7 +40,7 @@
       "no_shows": 5,
       "unresolved_calls": 6,
       "scheduled_calls": 35,
-      "qualification_rate": 62.1,
+      "qualification_rate": 65.5,
       "revenue_per_occurred": 806.48,
       "marketing": 14,
       "lane2": 15,
@@ -262,7 +262,7 @@
                 "booked_date": "2026-11-03",
                 "scored_call_at": "2026-11-03T11:45:00-08:00",
                 "url": "https://app.close.com/lead/lead_YZ8Np181HfXcibTFFyvsnrK3yVt1S5SgP49gnOY7jH4/",
-                "status_label": "WARM - Follow up"
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
                 "id": "lead_Bt7oMcJa7YVeqcdJFKNW97iDUIfRa6sE6fDmF0DO7lp",
@@ -469,7 +469,7 @@
                 "booked_date": "2026-11-03",
                 "scored_call_at": "2026-11-03T11:45:00-08:00",
                 "url": "https://app.close.com/lead/lead_YZ8Np181HfXcibTFFyvsnrK3yVt1S5SgP49gnOY7jH4/",
-                "status_label": "WARM - Follow up"
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
                 "id": "lead_vBmjVxAtqyNbj3nbxy51GpG5oX69KdJidbQNrwNG0gi",
@@ -652,7 +652,7 @@
                 "booked_date": "2026-11-03",
                 "scored_call_at": "2026-11-03T11:45:00-08:00",
                 "url": "https://app.close.com/lead/lead_YZ8Np181HfXcibTFFyvsnrK3yVt1S5SgP49gnOY7jH4/",
-                "status_label": "WARM - Follow up"
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
                 "id": "lead_vBmjVxAtqyNbj3nbxy51GpG5oX69KdJidbQNrwNG0gi",
@@ -745,7 +745,7 @@
                 "booked_date": "2026-11-03",
                 "scored_call_at": "2026-11-03T11:45:00-08:00",
                 "url": "https://app.close.com/lead/lead_YZ8Np181HfXcibTFFyvsnrK3yVt1S5SgP49gnOY7jH4/",
-                "status_label": "WARM - Follow up"
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
                 "id": "lead_15pwGCuiq0lA4OcLLLgUy0PY1ffLQLrQlNc0ljhjA8q",
@@ -961,7 +961,7 @@
                 "booked_date": "2026-11-03",
                 "scored_call_at": "2026-11-03T11:45:00-08:00",
                 "url": "https://app.close.com/lead/lead_YZ8Np181HfXcibTFFyvsnrK3yVt1S5SgP49gnOY7jH4/",
-                "status_label": "WARM - Follow up"
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
                 "id": "lead_vBmjVxAtqyNbj3nbxy51GpG5oX69KdJidbQNrwNG0gi",
@@ -6970,13 +6970,13 @@
   "total_occurred_calls": 139,
   "total_no_shows": 34,
   "total_unresolved_calls": 27,
-  "team_qualification_rate": 50.4,
+  "team_qualification_rate": 51.1,
   "metric_definitions": {
     "version": "calls-occurred.v1",
     "booking_rules": "booked_calls.v2.8-naria-navigator-title-20261102",
     "booked": "native_completed_plus_no_show",
     "period_start": "2026-11-01",
-    "cutoff_exclusive": "2026-11-17T10:30:27.710222-08:00",
+    "cutoff_exclusive": "2026-11-17T10:45:32.476551-08:00",
     "timezone": "America/Los_Angeles",
     "qualification": "distinct_current_qualified_leads_in_occurred_cohort",
     "closed_won": "native_date_won_independent_of_meeting_dates",
@@ -6986,19 +6986,19 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-11-17T10:39:05.520394-08:00",
+    "generated_at": "2026-11-17T10:52:31.900701-08:00",
     "period": {
       "month": "2026-11",
       "timezone": "America/Los_Angeles",
       "basis": "latest_sales_call_booked_date_with_first_date_fallback"
     },
     "cohort": {
-      "raw": 238,
+      "raw": 239,
       "included": 195,
-      "excluded": 43,
+      "excluded": 44,
       "exclusion_counts": {
         "outside_us": 1,
-        "meeting_rep_not_visible": 42
+        "meeting_rep_not_visible": 43
       },
       "attribution_counts": {
         "meeting_rep": 195
