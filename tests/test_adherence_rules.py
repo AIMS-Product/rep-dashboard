@@ -119,6 +119,35 @@ class AdherenceRulesTests(unittest.TestCase):
         self.assertEqual(result["precall_text"], {"eligible": True, "done": True})
         self.assertEqual(result["day_of_confirmation_text"], {"eligible": True, "done": True})
 
+    def test_day_of_confirmation_counts_sent_email_from_credited_closer(self):
+        base = dict(
+            booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
+            lead_owner_id="user_other", meetings=[meeting("2026-09-10T17:00:00Z")],
+            now=NOW,
+        )
+        email = {
+            "activity_at": "2026-09-10T17:05:00Z",
+            "date_sent": "2026-09-10T16:59:00Z",
+            "direction": "outgoing",
+            "status": "sent",
+            "user_id": OWNER,
+            "body_text": "Are we still on for today?",
+        }
+        steps = score_lead(**base, emails=[email])
+        self.assertEqual(steps["day_of_confirmation_text"], {"eligible": True, "done": True})
+        self.assertFalse(steps["precall_text"]["done"])
+        for change in (
+            {"user_id": "user_other"},
+            {"direction": "incoming"},
+            {"status": "draft"},
+            {"body_text": ""},
+            {"date_sent": "2026-09-10T17:00:00Z"},
+            {"date_sent": "2026-09-10T06:59:00Z"},
+        ):
+            with self.subTest(change=change):
+                steps = score_lead(**base, emails=[dict(email, **change)])
+                self.assertEqual(steps["day_of_confirmation_text"], {"eligible": True, "done": False})
+
     def test_day_of_text_uses_scoring_rep_not_current_lead_owner(self):
         lead_owner = "user_lead_owner"
         base = dict(

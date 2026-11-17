@@ -286,7 +286,7 @@ def score_lead(
         and is_outbound(message)
         and is_sent_activity(message)
         and bool(activity_body(message))
-        for message in sms
+        for message in (*sms, *emails)
     ) or any(
         (stamp := activity_time(call)) is not None
         and stamp.date() == deadline.date()

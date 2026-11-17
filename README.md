@@ -106,7 +106,7 @@ Process Adherence has three pre-call and two post-call steps. All SMS evidence m
 closer credited with the scored call, including texts used for Loom evidence and post-call follow-up.
 The current Lead Owner is used only when no meeting rep can be identified; later ownership changes
 do not remove credit for the meeting closer. Day-of
-confirmation requires an outbound SMS with a message body or any outbound dial,
+confirmation requires an outbound SMS or email with a message body, or an outbound call,
 both from the credited closer and on the meeting's Pacific date before it begins. An
 SMS may also count for Pre-call text. Missing meeting or credited-rep evidence leaves the confirmation
 step unscored.
