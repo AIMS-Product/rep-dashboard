@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-18 07:45:30 PST",
+  "updated_at": "2026-11-18 08:00:41 PST",
   "month_label": "November 2026",
   "day_of_month": 18,
   "days_in_month": 30,
@@ -7240,7 +7240,7 @@
     "booking_rules": "booked_calls.v2.8-naria-navigator-title-20261102",
     "booked": "native_completed_plus_no_show",
     "period_start": "2026-11-01",
-    "cutoff_exclusive": "2026-11-18T07:45:30.292826-08:00",
+    "cutoff_exclusive": "2026-11-18T08:00:41.646444-08:00",
     "timezone": "America/Los_Angeles",
     "qualification": "distinct_current_qualified_leads_in_occurred_cohort",
     "closed_won": "native_date_won_independent_of_meeting_dates",
@@ -7250,28 +7250,27 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-11-18T07:54:57.879391-08:00",
+    "generated_at": "2026-11-18T08:07:46.325826-08:00",
     "period": {
       "month": "2026-11",
       "timezone": "America/Los_Angeles",
       "basis": "latest_sales_call_booked_date_with_first_date_fallback"
     },
     "cohort": {
-      "raw": 258,
-      "included": 210,
+      "raw": 257,
+      "included": 209,
       "excluded": 48,
       "exclusion_counts": {
         "outside_us": 1,
-        "meeting_rep_not_visible": 46,
-        "not_visible_rep": 1
+        "meeting_rep_not_visible": 47
       },
       "attribution_counts": {
         "meeting_rep": 208,
-        "owner_fallback": 2
+        "owner_fallback": 1
       },
       "includes_lost": true
     },
-    "api_requests": 562,
+    "api_requests": 566,
     "preview_only": false
   }
 }
