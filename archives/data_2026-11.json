@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-17 16:15:25 PST",
+  "updated_at": "2026-11-17 16:30:39 PST",
   "month_label": "November 2026",
   "day_of_month": 17,
   "days_in_month": 30,
@@ -4371,7 +4371,7 @@
                 "booked_date": "2026-11-13",
                 "scored_call_at": "2026-11-13T12:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_OrFRcylmeP60ArdeVFvMDlle0QWBCoVuxhu8INAdrfy/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
                 "id": "lead_lEyOXfMVqtHcKQ48XXpU38KZWP1GByaMP3E1E9lRJyg",
@@ -4658,7 +4658,7 @@
                 "booked_date": "2026-11-13",
                 "scored_call_at": "2026-11-13T12:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_OrFRcylmeP60ArdeVFvMDlle0QWBCoVuxhu8INAdrfy/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
                 "id": "lead_lEyOXfMVqtHcKQ48XXpU38KZWP1GByaMP3E1E9lRJyg",
@@ -4953,7 +4953,7 @@
                 "booked_date": "2026-11-13",
                 "scored_call_at": "2026-11-13T12:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_OrFRcylmeP60ArdeVFvMDlle0QWBCoVuxhu8INAdrfy/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
                 "id": "lead_lEyOXfMVqtHcKQ48XXpU38KZWP1GByaMP3E1E9lRJyg",
@@ -5096,7 +5096,7 @@
                 "booked_date": "2026-11-13",
                 "scored_call_at": "2026-11-13T12:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_OrFRcylmeP60ArdeVFvMDlle0QWBCoVuxhu8INAdrfy/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
                 "id": "lead_46iULhAEjQIpvmzKD25TRClKYpGPFKqS1Z6wUjYHlgu",
@@ -5432,7 +5432,7 @@
                 "booked_date": "2026-11-13",
                 "scored_call_at": "2026-11-13T12:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_OrFRcylmeP60ArdeVFvMDlle0QWBCoVuxhu8INAdrfy/",
-                "status_label": "\ud83d\udcde HOT- Follow Up"
+                "status_label": "\ud83d\uddd3\ufe0fGENERAL - Follow Up"
               },
               {
                 "id": "lead_46iULhAEjQIpvmzKD25TRClKYpGPFKqS1Z6wUjYHlgu",
@@ -7230,7 +7230,7 @@
     "booking_rules": "booked_calls.v2.8-naria-navigator-title-20261102",
     "booked": "native_completed_plus_no_show",
     "period_start": "2026-11-01",
-    "cutoff_exclusive": "2026-11-17T16:15:25.833020-08:00",
+    "cutoff_exclusive": "2026-11-17T16:30:39.806150-08:00",
     "timezone": "America/Los_Angeles",
     "qualification": "distinct_current_qualified_leads_in_occurred_cohort",
     "closed_won": "native_date_won_independent_of_meeting_dates",
@@ -7240,22 +7240,22 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-11-17T16:24:08.266922-08:00",
+    "generated_at": "2026-11-17T16:36:24.736963-08:00",
     "period": {
       "month": "2026-11",
       "timezone": "America/Los_Angeles",
       "basis": "latest_sales_call_booked_date_with_first_date_fallback"
     },
     "cohort": {
-      "raw": 242,
-      "included": 198,
+      "raw": 243,
+      "included": 199,
       "excluded": 44,
       "exclusion_counts": {
         "outside_us": 1,
         "meeting_rep_not_visible": 43
       },
       "attribution_counts": {
-        "meeting_rep": 198
+        "meeting_rep": 199
       },
       "includes_lost": true
     },
