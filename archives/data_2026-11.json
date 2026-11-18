@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-18 10:10:00 PST",
+  "updated_at": "2026-11-18 10:28:23 PST",
   "month_label": "November 2026",
   "day_of_month": 18,
   "days_in_month": 30,
@@ -4103,8 +4103,8 @@
       "exclude_meetings": false,
       "occurred_calls": 27,
       "no_shows": 6,
-      "unresolved_calls": 4,
-      "scheduled_calls": 31,
+      "unresolved_calls": 5,
+      "scheduled_calls": 32,
       "qualification_rate": 44.4,
       "revenue_per_occurred": 383.22,
       "marketing": 16,
@@ -7262,17 +7262,17 @@
       }
     }
   ],
-  "total_scheduled_calls": 176,
+  "total_scheduled_calls": 177,
   "total_occurred_calls": 149,
   "total_no_shows": 36,
-  "total_unresolved_calls": 27,
+  "total_unresolved_calls": 28,
   "team_qualification_rate": 50.3,
   "metric_definitions": {
     "version": "calls-occurred.v1",
     "booking_rules": "booked_calls.v2.8-naria-navigator-title-20261102",
     "booked": "native_completed_plus_no_show",
     "period_start": "2026-11-01",
-    "cutoff_exclusive": "2026-11-18T10:10:00.508242-08:00",
+    "cutoff_exclusive": "2026-11-18T10:28:23.473907-08:00",
     "timezone": "America/Los_Angeles",
     "qualification": "distinct_current_qualified_leads_in_occurred_cohort",
     "closed_won": "native_date_won_independent_of_meeting_dates",
@@ -7282,7 +7282,7 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-11-18T10:24:06.415476-08:00",
+    "generated_at": "2026-11-18T10:34:50.964658-08:00",
     "period": {
       "month": "2026-11",
       "timezone": "America/Los_Angeles",
@@ -7302,7 +7302,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 608,
+    "api_requests": 563,
     "preview_only": false
   }
 }
