@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-18 19:00:37 PST",
+  "updated_at": "2026-11-18 19:15:29 PST",
   "month_label": "November 2026",
   "day_of_month": 18,
   "days_in_month": 30,
@@ -10,12 +10,12 @@
   "pct_team_quota": 15.2,
   "total_revenue": 114007.0,
   "total_deals": 16,
-  "total_booked": 152,
-  "total_shown": 115,
+  "total_booked": 153,
+  "total_shown": 116,
   "total_qualified": 74,
   "team_aov": 7125.44,
   "team_close_rate": 10.5,
-  "team_show_rate": 75.7,
+  "team_show_rate": 75.8,
   "today_revenue": 5997.0,
   "today_deals": 1,
   "today_closers": [
@@ -54,7 +54,7 @@
       "rep_owner_id": "user_wHm1vcLde4RExd3vv9UOjnms5Oz8ssXg8600mQuxMPb",
       "adherence": {
         "pre_call_pct": 70,
-        "post_call_pct": 66,
+        "post_call_pct": 69,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -83,18 +83,18 @@
           "follow_up_created": {
             "label": "Task or follow-up meeting",
             "phase": "post_call",
-            "done": 9,
+            "done": 10,
             "eligible": 18,
             "exempt": 13,
-            "pct": 50
+            "pct": 56
           },
           "recap_email": {
             "label": "Recap email sent",
             "phase": "post_call",
-            "done": 13,
-            "eligible": 16,
+            "done": 14,
+            "eligible": 17,
             "exempt": 13,
-            "pct": 81
+            "pct": 82
           }
         },
         "lead_cohorts": {
@@ -282,7 +282,7 @@
                 "booked_date": "2026-11-18",
                 "scored_call_at": "2026-11-18T17:30:00-08:00",
                 "url": "https://app.close.com/lead/lead_AFrlSYD5D8oWrekZnai2MxXSoSuTTv42iFCwGqnIMVx/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "WARM - Follow up"
               }
             ],
             "missed": [
@@ -513,7 +513,7 @@
                 "booked_date": "2026-11-18",
                 "scored_call_at": "2026-11-18T17:30:00-08:00",
                 "url": "https://app.close.com/lead/lead_AFrlSYD5D8oWrekZnai2MxXSoSuTTv42iFCwGqnIMVx/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "WARM - Follow up"
               }
             ],
             "missed": [
@@ -810,7 +810,7 @@
                 "booked_date": "2026-11-18",
                 "scored_call_at": "2026-11-18T17:30:00-08:00",
                 "url": "https://app.close.com/lead/lead_AFrlSYD5D8oWrekZnai2MxXSoSuTTv42iFCwGqnIMVx/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "WARM - Follow up"
               }
             ],
             "exempt": []
@@ -888,6 +888,14 @@
                 "scored_call_at": "2026-11-16T16:15:00-08:00",
                 "url": "https://app.close.com/lead/lead_fPSJXg0wn9UGzuAzeOYyr4VzIDyO8U7foesBLbySQUK/",
                 "status_label": "\ud83d\udcde HOT- Follow Up"
+              },
+              {
+                "id": "lead_AFrlSYD5D8oWrekZnai2MxXSoSuTTv42iFCwGqnIMVx",
+                "name": "Shayla Pratt",
+                "booked_date": "2026-11-18",
+                "scored_call_at": "2026-11-18T17:30:00-08:00",
+                "url": "https://app.close.com/lead/lead_AFrlSYD5D8oWrekZnai2MxXSoSuTTv42iFCwGqnIMVx/",
+                "status_label": "WARM - Follow up"
               }
             ],
             "missed": [
@@ -953,14 +961,6 @@
                 "booked_date": "2026-11-18",
                 "scored_call_at": "2026-11-18T18:15:00-08:00",
                 "url": "https://app.close.com/lead/lead_B9te8MLxtGHd5SnOxBTarGntFnOuMD2Li32T2mhvuZ2/",
-                "status_label": "\u260e\ufe0f Call Booked"
-              },
-              {
-                "id": "lead_AFrlSYD5D8oWrekZnai2MxXSoSuTTv42iFCwGqnIMVx",
-                "name": "Shayla Pratt",
-                "booked_date": "2026-11-18",
-                "scored_call_at": "2026-11-18T17:30:00-08:00",
-                "url": "https://app.close.com/lead/lead_AFrlSYD5D8oWrekZnai2MxXSoSuTTv42iFCwGqnIMVx/",
                 "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
@@ -1176,6 +1176,14 @@
                 "scored_call_at": "2026-11-16T16:15:00-08:00",
                 "url": "https://app.close.com/lead/lead_fPSJXg0wn9UGzuAzeOYyr4VzIDyO8U7foesBLbySQUK/",
                 "status_label": "\ud83d\udcde HOT- Follow Up"
+              },
+              {
+                "id": "lead_AFrlSYD5D8oWrekZnai2MxXSoSuTTv42iFCwGqnIMVx",
+                "name": "Shayla Pratt",
+                "booked_date": "2026-11-18",
+                "scored_call_at": "2026-11-18T17:30:00-08:00",
+                "url": "https://app.close.com/lead/lead_AFrlSYD5D8oWrekZnai2MxXSoSuTTv42iFCwGqnIMVx/",
+                "status_label": "WARM - Follow up"
               }
             ],
             "missed": [
@@ -5672,23 +5680,23 @@
       "deals": 1,
       "quota": 100000,
       "pct_to_quota": 10.3,
-      "booked": 29,
-      "shown": 23,
+      "booked": 30,
+      "shown": 24,
       "qualified": 12,
-      "close_rate": 3.4,
-      "show_rate": 79.3,
-      "revenue_per_lead": 356.79,
+      "close_rate": 3.3,
+      "show_rate": 80.0,
+      "revenue_per_lead": 344.9,
       "aov": 10347.0,
       "is_manager": false,
       "is_lead": false,
       "exclude_meetings": false,
-      "occurred_calls": 29,
+      "occurred_calls": 30,
       "no_shows": 6,
-      "unresolved_calls": 6,
+      "unresolved_calls": 5,
       "scheduled_calls": 35,
-      "qualification_rate": 41.4,
-      "revenue_per_occurred": 356.79,
-      "marketing": 16,
+      "qualification_rate": 40.0,
+      "revenue_per_occurred": 344.9,
+      "marketing": 17,
       "lane2": 12,
       "social_dms": 1,
       "rep_owner_id": "user_7F059xEinVentOEvkRMP77fWZyvwUiTRTUOuhD11J0e",
@@ -7581,16 +7589,16 @@
     }
   ],
   "total_scheduled_calls": 179,
-  "total_occurred_calls": 152,
+  "total_occurred_calls": 153,
   "total_no_shows": 37,
-  "total_unresolved_calls": 27,
-  "team_qualification_rate": 48.7,
+  "total_unresolved_calls": 26,
+  "team_qualification_rate": 48.4,
   "metric_definitions": {
     "version": "calls-occurred.v1",
     "booking_rules": "booked_calls.v2.8-naria-navigator-title-20261102",
     "booked": "native_completed_plus_no_show",
     "period_start": "2026-11-01",
-    "cutoff_exclusive": "2026-11-18T19:00:37.476318-08:00",
+    "cutoff_exclusive": "2026-11-18T19:15:29.197380-08:00",
     "timezone": "America/Los_Angeles",
     "qualification": "distinct_current_qualified_leads_in_occurred_cohort",
     "closed_won": "native_date_won_independent_of_meeting_dates",
@@ -7600,7 +7608,7 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-11-18T19:06:27.173771-08:00",
+    "generated_at": "2026-11-18T19:28:25.950428-08:00",
     "period": {
       "month": "2026-11",
       "timezone": "America/Los_Angeles",
@@ -7619,7 +7627,7 @@
       },
       "includes_lost": true
     },
-    "api_requests": 574,
+    "api_requests": 629,
     "preview_only": false
   }
 }
