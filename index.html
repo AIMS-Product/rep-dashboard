@@ -939,7 +939,7 @@
     return `
       <div class="board adherence-board fade d2">
         <div class="board-head">
-          <div><div class="board-title">Process Adherence</div><div class="board-sub">${D.scorecard_meta ? 'Pre-call average · Post-call adherence: recap AND a follow-up meeting or task created within 12 hours · click for details' : 'Equal-weight step averages · click a percentage for the breakdown'}</div></div>
+          <div><div class="board-title">Process Adherence</div><div class="board-sub">${D.scorecard_meta ? 'Pre-call average · 12-hour recap and next-step rates · click for details' : 'Equal-weight step averages · click a percentage for the breakdown'}</div></div>
         </div>
         <div class="adherence-table-wrap">
           <table>
@@ -1094,7 +1094,7 @@
     return `<section class="board scorecard-board" id="rep-scorecard"><div class="board-head"><div class="board-title">Rep Scorecard</div><div class="board-sub">Monthly results + current follow-up coverage · click process, follow-up, close rate or cash collected for lead details</div></div>
       <div class="board-table-scroll"><table><thead><tr><th>Rep</th><th>Show-up process<small>Target 90%</small></th><th>Show rate<small>Target 75%</small></th><th>Post-call adherence<small>Target 95%</small></th><th>Hot ≤72h<small>Target 95%</small></th><th>Warm/general ≤5d<small>Target 90%</small></th><th>Close rate<small>First calls · target 18%</small></th><th>Cash collected<small>Scorecard target $90k</small></th><th>QA / 5<small>Target 4 / 5 · 80%</small></th></tr></thead>
       <tbody>${rows}${historicalScorecardRow(D)}</tbody><tfoot><tr><td>Team Total</td><td>${rate(pre,90)}</td><td>${rate(D.team_show_rate,75)}</td><td>${rate(post.pct,95)}</td>${followupCell('team','hot_followup_72h')}${followupCell('team','warm_followup_5d')}<td>${financialButton('close','team',pctText(D.team_close_rate),scoreTone(D.team_close_rate,18))}<small>${D.total_deals} closed / ${D.total_booked} first calls</small></td>${cashCell(D.team_cash_collected,'team')}${qaScoreCell(D.team_qa_score,D.team_qa_score_count)}</tr></tfoot></table></div>
-      <div class="scorecard-note"><strong>Post-call adherence:</strong> Within 12 hours, send a recap AND either create a follow-up meeting OR create a task. Emails sent during the call count. Pending calls are excluded until their full window expires. Existing post-call exemptions are retained.<br>Follow-up: current lead owner’s last outbound call attempt or sent SMS/email; assignment dates do not reset the clock. Percentages describe current-book coverage, with all booking dates included.<br>Cash: the Close Cash Collected field on this month’s won opportunities; missing values stay blank. This is grouped by date won, not payment receipt date. Close rate uses the shared MTD calculation: won opportunities ÷ booked first calls (shown + no-show), with MTD’s booking and repeat-call rules. Call and win totals include the historical subtotal; departed closers stay out of the active roster. Other scorecard aggregates use their displayed eligible rows.<br>Post-call and cash snapshot: ${escapeHtml(previewStamp(D.scorecard_meta.as_of))} · Follow-up: ${escapeHtml(previewStamp(D.scorecard_meta.followup_as_of))} · QA: ${escapeHtml(previewStamp(D.qa_score_meta?.generated_at))}. Pre-call process snapshot: ${escapeHtml(previewStamp(D.adherence_meta?.generated_at))}. Call metrics use the reporting cutoff above.</div></section>`;
+      <div class="scorecard-note"><strong>Post-call adherence</strong> ${D.scorecard_meta.post_call_scoring === 'category_average' ? 'averages the recap email and next-step completion rates.' : 'counts calls with a recap email and a completed next step.'} Both checks use the 12-hour window, and actions during the call count. Pending calls are excluded until their full window expires. Existing post-call exemptions are retained.<br>Follow-up: current lead owner’s last outbound call attempt or sent SMS/email; assignment dates do not reset the clock. Percentages describe current-book coverage, with all booking dates included.<br>Cash: the Close Cash Collected field on this month’s won opportunities; missing values stay blank. This is grouped by date won, not payment receipt date. Close rate uses the shared MTD calculation: won opportunities ÷ booked first calls (shown + no-show), with MTD’s booking and repeat-call rules. Call and win totals include the historical subtotal; departed closers stay out of the active roster. Other scorecard aggregates use their displayed eligible rows.<br>Post-call and cash snapshot: ${escapeHtml(previewStamp(D.scorecard_meta.as_of))} · Follow-up: ${escapeHtml(previewStamp(D.scorecard_meta.followup_as_of))} · QA: ${escapeHtml(previewStamp(D.qa_score_meta?.generated_at))}. Pre-call process snapshot: ${escapeHtml(previewStamp(D.adherence_meta?.generated_at))}. Call metrics use the reporting cutoff above.</div></section>`;
   }
 
   function openFollowupDrawer(D, trigger) {
@@ -1334,12 +1334,12 @@
     document.querySelectorAll('[data-adherence-rep]').forEach(button => {
       button.addEventListener('click', () => {
         const rep = (D.reps || [])[Number(button.dataset.adherenceRep)];
-        openAdherenceDrawer(rep, button.dataset.adherencePhase, button);
+        openAdherenceDrawer(rep, button.dataset.adherencePhase, button, D.scorecard_meta?.post_call_scoring);
       });
     });
   }
 
-  function openAdherenceDrawer(rep, phase, trigger) {
+  function openAdherenceDrawer(rep, phase, trigger, postCallScoring) {
     if (!rep || !rep.adherence) return;
     if (closeTimer) clearTimeout(closeTimer);
     drawerTrigger = trigger;
@@ -1376,7 +1376,7 @@
     drawerContent.innerHTML = `
       <div class="drawer-score">
         <div class="drawer-score-value ${scoreTone(phaseValue, is12h ? 95 : 90)}">${pctText(phaseValue)}</div>
-        <div><div class="drawer-score-label">${phaseLabel}</div><p class="drawer-score-note" id="drawerDescription">${is12h ? 'Email within 12 hours AND task-or-meeting creation within 12 hours must both pass on the same call. Both actions have the same deadline; pending windows are excluded.' : 'Equal average of the available step percentages below. Neutral steps are excluded.'}</p></div>
+        <div><div class="drawer-score-label">${phaseLabel}</div><p class="drawer-score-note" id="drawerDescription">${is12h ? (postCallScoring === 'category_average' ? 'The average of the 12-hour recap email rate and the 12-hour follow-up meeting or task rate. Pending calls are excluded.' : 'The share of eligible calls with both a recap email and a next step created within the 12-hour window. Pending calls are excluded.') : 'Equal average of the available step percentages below. Neutral steps are excluded.'}</p></div>
       </div>
       <div class="step-list">${cards}</div>
       <p class="drawer-rule-note">${is12h ? 'The email deadline is 12 hours after Close’s scheduled meeting end. Any outbound email sent from the call start through that deadline qualifies; SMS does not. The task or follow-up meeting must be created within the same 12-hour window. Current post-call exemptions are retained, including terminal, no-show, canceled and rescheduled calls. Calls without an end time are Unknown, not failed.' : 'This calculation uses first calls scheduled in the dashboard month. Post-call steps are Task or follow-up meeting, and Recap email sent; they do not depend on the show-up outcome. A dated task must be assigned to the closer; a later meeting can be assigned to anyone. Closed/Won and Lost leads remain visible as Exempt for post-call checks.'}${rep.adherence.lead_cohorts ? ' Lead lists, including exempt leads, are shown below.' : ''}</p>`;
@@ -1464,7 +1464,7 @@
   window.downloadCSV = function() {
     if (!window._dashData) return;
     const D = window._dashData;
-    const rows = [['Rep','Revenue','Deals','Quota','% to Quota','Revenue per Booked Call','AOV','Booked','Shown','Qualified','Close Rate / First Calls (%)','Show Rate','Qualification Rate','No Shows','Unresolved Outcomes','Pre-call Adherence','Post-call Email <=12h AND Next Step Created <=12h (%)','QA Score MTD (/5)','QA Scored Calls MTD','QA Score MTD (%)','Email <=12h AND Next Step Created <=12h (%)','12h Completed Calls','12h Eligible Calls','12h Pending Calls','Hot <=72h (%)','Hot Overdue Leads','Warm General <=5d (%)','Warm General Overdue Leads','Cash Collected ($)','Cash Fields Filled','Cash Fields Missing']];
+    const rows = [['Rep','Revenue','Deals','Quota','% to Quota','Revenue per Booked Call','AOV','Booked','Shown','Qualified','Close Rate / First Calls (%)','Show Rate','Qualification Rate','No Shows','Unresolved Outcomes','Pre-call Adherence','Post-call Adherence (%)','QA Score MTD (/5)','QA Scored Calls MTD','QA Score MTD (%)','Email <=12h AND Next Step Created <=12h (%)','12h Calls With Both Actions','12h Eligible Calls','12h Pending Calls','Hot <=72h (%)','Hot Overdue Leads','Warm General <=5d (%)','Warm General Overdue Leads','Cash Collected ($)','Cash Fields Filled','Cash Fields Missing']];
     const reps = (D.reps || []).slice().sort((a,b) => b.revenue - a.revenue);
     for (const r of reps) {
       rows.push([
@@ -1488,7 +1488,7 @@
         r.qa_score == null ? '' : Number(r.qa_score).toFixed(2),
         r.qa_score_count ?? 0,
         r.qa_score == null ? '' : (r.qa_score / 5 * 100).toFixed(1),
-        r.post_call_12h?.pct ?? '', r.post_call_12h?.done ?? '', r.post_call_12h?.eligible ?? '', r.post_call_12h?.pending ?? '',
+        r.post_call_12h?.both_pct ?? r.post_call_12h?.pct ?? '', r.post_call_12h?.done ?? '', r.post_call_12h?.eligible ?? '', r.post_call_12h?.pending ?? '',
         D.hot_followup_72h?.groups.find(g=>g.id === r.rep_owner_id)?.pct ?? '', D.hot_followup_72h?.groups.find(g=>g.id === r.rep_owner_id)?.overdue ?? '',
         D.warm_followup_5d?.groups.find(g=>g.id === r.rep_owner_id)?.pct ?? '', D.warm_followup_5d?.groups.find(g=>g.id === r.rep_owner_id)?.overdue ?? '',
         r.cash_collected?.amount ?? '',r.cash_collected?.recorded ?? '',r.cash_collected?.missing ?? '',
@@ -1522,7 +1522,7 @@
       D.team_qa_score == null ? '' : Number(D.team_qa_score).toFixed(2),
       D.team_qa_score_count ?? 0,
       D.team_qa_score == null ? '' : (D.team_qa_score / 5 * 100).toFixed(1),
-      D.team_post_call_12h?.pct ?? '', D.team_post_call_12h?.done ?? '', D.team_post_call_12h?.eligible ?? '', D.team_post_call_12h?.pending ?? '',
+      D.team_post_call_12h?.both_pct ?? D.team_post_call_12h?.pct ?? '', D.team_post_call_12h?.done ?? '', D.team_post_call_12h?.eligible ?? '', D.team_post_call_12h?.pending ?? '',
       D.hot_followup_72h?.pct ?? '',D.hot_followup_72h?.overdue ?? '',D.warm_followup_5d?.pct ?? '',D.warm_followup_5d?.overdue ?? '',
       D.team_cash_collected?.amount ?? '',D.team_cash_collected?.recorded ?? '',D.team_cash_collected?.missing ?? '',
     ]);

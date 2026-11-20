@@ -1,6 +1,7 @@
 import copy,json,tempfile,unittest
 from pathlib import Path
 from test_shared_sales_release import fixture,html_for
+from scorecard_rules import aggregate_post_call
 from shared_manager import derive_manager,validate_manager
 from shared_sales_release import stage_release,accept_release,verify_release
 
@@ -10,8 +11,9 @@ def three():
     for i,row in enumerate(c['occurred_rows']):row['qualified_contribution']=i==0
     c['scheduled_rows']=[*c['occurred_rows'],{'meeting_id':'unresolved','lead_id':'pending','owner':'Scott Seymour'}]
     for o in c['opportunities']:o['reporting_revenue']=50
-    rep['month_label']='November 2026';rep['reps'][0]['adherence']={'post_call_12h':{'done':0,'eligible':1,'pct':0}}
-    rep['reps'][0]['post_call_12h']={'done':0,'eligible':1,'pct':0}
+    post = aggregate_post_call([{'state': 'missed', 'recap_done': True, 'next_step_done': False}])
+    rep['month_label']='November 2026';rep['reps'][0]['adherence']={'post_call_12h':post}
+    rep['reps'][0]['post_call_12h']=post
     base={'reps':[{'name':'Scott Seymour','lane':1},{'name':'Eric Piccione','lane':1}],'targets':{'booked':15,'close_rate':20,'post_call_adherence':90}}
     manager=derive_manager(base,rep,c,{});return rep,mtd,c,manager
 
@@ -26,6 +28,9 @@ class ThreeDashboardReleaseTests(unittest.TestCase):
         self.assertEqual(manager['targets']['close_rate'],20)
         self.assertEqual(manager['targets']['post_call_adherence'],90)
         self.assertEqual([r['name'] for r in manager['reps']],['Scott Seymour'])
+        self.assertEqual(manager['reps'][0]['post_call_adherence'], 50)
+        self.assertEqual(manager['team_post_call_adherence'], 50)
+        self.assertEqual(manager['lane_post_call_adherence'], {'1': 50, '2': None})
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);m=stage_release(rep,mtd,c,html_for(mtd),root/'stage',manager=manager,manager_html=manager_html(manager))
             self.assertEqual(m['schema_version'],2);self.assertEqual(len(m['files']),5)

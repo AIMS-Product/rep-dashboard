@@ -11,7 +11,7 @@ CASH_FIELD = 'cf_JP6Zdnv1ClODfctK5iwY9XseSeXEE9ZXbyopPw45OqZ'
 
 def post_call_result(*, call_end, owner_id, now, call_start=None, emails=(), sms=(),
                      tasks=(), meetings=(), exempt=False):
-    """Require email within 12h AND a task or follow-up meeting created within 12h.
+    """Evaluate recap and next-step completion against the same 12-hour window.
 
     Actions completed during the call count. Any sent outbound email qualifies,
     matching the user's recap definition; SMS is not email and does not count.
@@ -65,12 +65,20 @@ def post_call_result(*, call_end, owner_id, now, call_start=None, emails=(), sms
     }
 
 
+def post_call_average(recap_done, next_step_done, eligible):
+    # Both categories use the same cohort, so average before rounding.
+    return round_percent(recap_done + next_step_done, 2 * eligible)
+
+
 def aggregate_post_call(rows):
     due = [r for r in rows if r['state'] in {'completed', 'missed'}]
     done = sum(r['state'] == 'completed' for r in due)
-    return {'done': done, 'eligible': len(due), 'pct': round_percent(done, len(due)),
-            'recap_done': sum(r['recap_done'] for r in due),
-            'next_step_done': sum(r['next_step_done'] for r in due),
+    eligible = len(due)
+    recap_done = sum(r['recap_done'] for r in due)
+    next_step_done = sum(r['next_step_done'] for r in due)
+    return {'done': done, 'eligible': eligible, 'pct': post_call_average(recap_done, next_step_done, eligible),
+            'both_pct': round_percent(done, eligible),
+            'recap_done': recap_done, 'next_step_done': next_step_done,
             **{state: sum(r['state'] == state for r in rows)
                for state in ('pending', 'exempt', 'unknown')}, 'leads': rows}
 

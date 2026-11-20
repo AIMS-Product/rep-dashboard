@@ -71,7 +71,21 @@ class PostCallScorecardTests(unittest.TestCase):
         early = self.evaluate(now=parse_datetime('2026-11-17T17:00:00-08:00'))
         self.assertEqual(early['state'], 'pending')
         totals = aggregate_post_call([early, self.evaluate(), self.evaluate(emails=[])])
-        self.assertEqual((totals['done'], totals['eligible'], totals['pct'], totals['pending']), (1, 2, 50, 1))
+        self.assertEqual((totals['done'], totals['eligible'], totals['pct'], totals['pending']), (1, 2, 75, 1))
+        self.assertEqual(totals['both_pct'], 50)
+
+    def test_post_call_average_credits_each_completed_category(self):
+        totals = aggregate_post_call([
+            *[self.evaluate(tasks=[])] * 7,
+            self.evaluate(emails=[]),
+            self.evaluate(emails=[], tasks=[]),
+            self.evaluate(emails=[], tasks=[]),
+            self.evaluate(exempt=True),
+            self.evaluate(call_end=None),
+        ])
+        self.assertEqual((totals['recap_done'], totals['next_step_done'], totals['eligible']), (7, 1, 10))
+        self.assertEqual((totals['pct'], totals['both_pct']), (40, 0))
+        self.assertIsNone(aggregate_post_call([self.evaluate(exempt=True)])['pct'])
 
     def test_missing_end_is_unknown_and_existing_exemptions_stay_exempt(self):
         self.assertEqual(self.evaluate(call_end=None)['state'], 'unknown')

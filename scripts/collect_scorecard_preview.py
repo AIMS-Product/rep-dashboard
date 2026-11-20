@@ -128,6 +128,7 @@ def enrich(dashboard, capture):
         adherence = rep.get('adherence')
         if adherence is not None:
             adherence['post_call_12h'] = rep['post_call_12h']
+            adherence['post_call_pct'] = rep['post_call_12h']['pct']
             for key, label, flag in [('post_call_complete_12h', 'Email ≤12h AND next step', None),
                                      ('recap_12h', 'Recap sent ≤12h', 'recap_done'),
                                      ('next_step_12h', 'Task or follow-up meeting created ≤12h', 'next_step_done')]:
@@ -159,6 +160,7 @@ def enrich(dashboard, capture):
     }
     dashboard['scorecard_meta'] = {
         **capture['meta'], 'preview_only': True, 'post_call_hours': 12,
+        'post_call_scoring': 'category_average',
         'anchor': 'Actions count from meeting starts_at; deadline is 12 elapsed hours after ends_at (scheduled end)',
         'recap_basis': 'Any sent outbound email on the lead; no content/template/sender restriction; SMS excluded',
         'next_step_basis': 'Existing task-or-follow-up-meeting eligibility, plus creation within the same 12-hour response window',

@@ -1,6 +1,7 @@
 """Project the manager presentation from the same accepted rep/MTD records."""
 from copy import deepcopy
 from collections import Counter
+from scorecard_rules import post_call_average
 from shared_sales_contract import rate, validate_pair
 
 
@@ -46,6 +47,19 @@ def derive_manager(base, rep, canonical, source_map):
         return int(sum(values)/len(values)+0.5) if values else None
     result['team_pre_call_adherence']=pre_average(active)
     result['lane_pre_call_adherence']={str(lane):pre_average([r for r in active if r['lane']==lane]) for lane in [1,2]}
+
+    def post_average(group):
+        scores = [r.get('post_call_12h', {}) for r in group]
+        return post_call_average(
+            sum(score.get('recap_done', 0) for score in scores),
+            sum(score.get('next_step_done', 0) for score in scores),
+            sum(score.get('eligible', 0) for score in scores),
+        )
+
+    result['team_post_call_adherence'] = post_average([r for r in active if r['lane'] in (1, 2)])
+    result['lane_post_call_adherence'] = {
+        str(lane): post_average([r for r in active if r['lane'] == lane]) for lane in (1, 2)
+    }
     tasks=[r for r in active if r.get('tasks_incomplete') is not None]
     incomplete=sum(r['tasks_incomplete'] for r in tasks);overdue=sum(r.get('tasks_overdue',0) for r in tasks)
     result.update(team_overdue=overdue,team_task_adherence=round(100*(incomplete-overdue)/incomplete,1) if incomplete else 100.0)
