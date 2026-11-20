@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-19 16:00:31 PST",
+  "updated_at": "2026-11-19 16:15:27 PST",
   "month_label": "November 2026",
   "day_of_month": 19,
   "days_in_month": 30,
@@ -54,7 +54,7 @@
       "rep_owner_id": "user_wHm1vcLde4RExd3vv9UOjnms5Oz8ssXg8600mQuxMPb",
       "adherence": {
         "pre_call_pct": 68,
-        "post_call_pct": 76,
+        "post_call_pct": 77,
         "steps": {
           "loom_usage": {
             "label": "Pre-Call Loom",
@@ -84,16 +84,16 @@
             "label": "Task or follow-up meeting",
             "phase": "post_call",
             "done": 14,
-            "eligible": 21,
-            "exempt": 15,
-            "pct": 67
+            "eligible": 20,
+            "exempt": 16,
+            "pct": 70
           },
           "recap_email": {
             "label": "Recap email sent",
             "phase": "post_call",
             "done": 16,
             "eligible": 19,
-            "exempt": 15,
+            "exempt": 16,
             "pct": 84
           }
         },
@@ -314,7 +314,7 @@
                 "booked_date": "2026-11-19",
                 "scored_call_at": "2026-11-19T16:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_qKTapnf53Dl3J8cCWgE5DnkNQZ7Y5nI7Fq4ZVomJ8SJ/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "\ud83d\udc7b No Show"
               },
               {
                 "id": "lead_u06HnUqWRE4YeHstnkI0Uwp2dMqB42OU9Ea8SPDQG94",
@@ -593,7 +593,7 @@
                 "booked_date": "2026-11-19",
                 "scored_call_at": "2026-11-19T16:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_qKTapnf53Dl3J8cCWgE5DnkNQZ7Y5nI7Fq4ZVomJ8SJ/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "\ud83d\udc7b No Show"
               },
               {
                 "id": "lead_u06HnUqWRE4YeHstnkI0Uwp2dMqB42OU9Ea8SPDQG94",
@@ -946,7 +946,7 @@
                 "booked_date": "2026-11-19",
                 "scored_call_at": "2026-11-19T16:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_qKTapnf53Dl3J8cCWgE5DnkNQZ7Y5nI7Fq4ZVomJ8SJ/",
-                "status_label": "\u260e\ufe0f Call Booked"
+                "status_label": "\ud83d\udc7b No Show"
               },
               {
                 "id": "lead_u06HnUqWRE4YeHstnkI0Uwp2dMqB42OU9Ea8SPDQG94",
@@ -1122,14 +1122,6 @@
                 "scored_call_at": "2026-11-11T11:00:00-08:00",
                 "url": "https://app.close.com/lead/lead_pAi3IPGgGkNESb28Jlx8GmrkLJNJH0PxIB4X0SD1XQm/",
                 "status_label": "WARM - Follow up"
-              },
-              {
-                "id": "lead_qKTapnf53Dl3J8cCWgE5DnkNQZ7Y5nI7Fq4ZVomJ8SJ",
-                "name": "Eunice Pierre-Canel",
-                "booked_date": "2026-11-19",
-                "scored_call_at": "2026-11-19T16:00:00-08:00",
-                "url": "https://app.close.com/lead/lead_qKTapnf53Dl3J8cCWgE5DnkNQZ7Y5nI7Fq4ZVomJ8SJ/",
-                "status_label": "\u260e\ufe0f Call Booked"
               }
             ],
             "exempt": [
@@ -1244,6 +1236,14 @@
                 "scored_call_at": "2026-11-19T12:45:00-08:00",
                 "url": "https://app.close.com/lead/lead_uWutweQXLpKOdXYQNKjCbOCHHkuiwnkrerKAjzlpRhP/",
                 "status_label": "\ud83d\udc94 Lost"
+              },
+              {
+                "id": "lead_qKTapnf53Dl3J8cCWgE5DnkNQZ7Y5nI7Fq4ZVomJ8SJ",
+                "name": "Eunice Pierre-Canel",
+                "booked_date": "2026-11-19",
+                "scored_call_at": "2026-11-19T16:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_qKTapnf53Dl3J8cCWgE5DnkNQZ7Y5nI7Fq4ZVomJ8SJ/",
+                "status_label": "\ud83d\udc7b No Show"
               },
               {
                 "id": "lead_Blen7tqea2NPii3Fu6tBwmyfHmakb48C4z76IwZ8Djh",
@@ -1524,6 +1524,14 @@
                 "scored_call_at": "2026-11-19T12:45:00-08:00",
                 "url": "https://app.close.com/lead/lead_uWutweQXLpKOdXYQNKjCbOCHHkuiwnkrerKAjzlpRhP/",
                 "status_label": "\ud83d\udc94 Lost"
+              },
+              {
+                "id": "lead_qKTapnf53Dl3J8cCWgE5DnkNQZ7Y5nI7Fq4ZVomJ8SJ",
+                "name": "Eunice Pierre-Canel",
+                "booked_date": "2026-11-19",
+                "scored_call_at": "2026-11-19T16:00:00-08:00",
+                "url": "https://app.close.com/lead/lead_qKTapnf53Dl3J8cCWgE5DnkNQZ7Y5nI7Fq4ZVomJ8SJ/",
+                "status_label": "\ud83d\udc7b No Show"
               },
               {
                 "id": "lead_Blen7tqea2NPii3Fu6tBwmyfHmakb48C4z76IwZ8Djh",
@@ -8032,7 +8040,7 @@
     "booking_rules": "booked_calls.v2.8-naria-navigator-title-20261102",
     "booked": "native_completed_plus_no_show",
     "period_start": "2026-11-01",
-    "cutoff_exclusive": "2026-11-19T16:00:31.568248-08:00",
+    "cutoff_exclusive": "2026-11-19T16:15:27.232722-08:00",
     "timezone": "America/Los_Angeles",
     "qualification": "distinct_current_qualified_leads_in_occurred_cohort",
     "closed_won": "native_date_won_independent_of_meeting_dates",
@@ -8042,26 +8050,26 @@
   "adherence_meta": {
     "schema_version": 7,
     "source": "close_crm",
-    "generated_at": "2026-11-19T16:09:00.765277-08:00",
+    "generated_at": "2026-11-19T16:24:05.145674-08:00",
     "period": {
       "month": "2026-11",
       "timezone": "America/Los_Angeles",
       "basis": "latest_sales_call_booked_date_with_first_date_fallback"
     },
     "cohort": {
-      "raw": 290,
-      "included": 234,
+      "raw": 291,
+      "included": 235,
       "excluded": 56,
       "exclusion_counts": {
         "outside_us": 1,
         "meeting_rep_not_visible": 55
       },
       "attribution_counts": {
-        "meeting_rep": 234
+        "meeting_rep": 235
       },
       "includes_lost": true
     },
-    "api_requests": 596,
+    "api_requests": 598,
     "preview_only": false
   }
 }
