@@ -186,3 +186,17 @@ Edit the `EXCLUDE_USERS` set in `scripts/fetch_data.py`.
 ## Avoma QA score
 
 The Rep Dashboard uses the same month-to-date Avoma VP Closing Call Scorecard integration as the Sales Manager Dashboard. Scores follow meetings held this month in Pacific time, matched to Close user email, and show the mean out of 5, percentage and scored-call count. The target is 4/5 (80%). Team QA is weighted by scored-call count across visible reps; users outside the active roster are excluded from that total. Missing scores display a dash. GitHub Actions requires AVOMA_API_KEY alongside CLOSE_API_KEY.
+
+## Joint live publication
+
+The live Rep, Sales Manager and MTD dashboards use the accepted release under
+`shared/current.json`. The cron-job.org trigger dispatches `update-dashboard.yml`,
+which runs `scripts/refresh_shared_sales.sh` to calculate, validate and publish the
+three views together. The canonical MTD engine supplies call and won-opportunity
+metrics; Rep supplies the shared process and Avoma evidence. Existing dashboard
+goals remain separate configuration and are preserved.
+
+Live pages check for a new accepted release every five minutes. MTD and Sales
+Manager verify the next HTML hash before navigation; a failed check keeps the last
+verified report visible. Use the stable dashboard entrypoints to open the current
+release. The release manifest records the common cutoff and source fingerprints.

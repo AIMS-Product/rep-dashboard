@@ -1456,6 +1456,11 @@
     else render(initialData);
   }
 
+  // Keep the existing five-minute live dashboard refresh on the shared reporting path.
+  if (initialData?.publication && !initialDailyView) {
+    setInterval(() => location.reload(), 5 * 60 * 1000);
+  }
+
   window.downloadCSV = function() {
     if (!window._dashData) return;
     const D = window._dashData;

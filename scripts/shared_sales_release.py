@@ -36,6 +36,37 @@ def check_manager_html(html,manager):
     if not match or json.loads(match.group(1))!=manager:raise ValueError('Manager HTML does not match shared data')
 
 
+
+def with_shared_refresh(html,release_id,surface):
+    """Preserve automatic refresh after a viewer opens its verified full-page release."""
+    script='''<script data-shared-refresh>
+(function(){
+ const shownRelease=RELEASE_ID, file=SURFACE_FILE;
+ if(!location.pathname.includes('/shared/releases/'))return;
+ setInterval(async()=>{
+  try{
+   const current=new URL('../../current.json',location.href);
+   const response=await fetch(current,{cache:'no-store'});
+   if(!response.ok)throw new Error('Shared refresh unavailable');
+   const next=await response.json();
+   if(next.schema_version!==2||!/^[a-f0-9]{24}$/.test(next.release_id)||!next.files?.[file])throw new Error('Invalid shared refresh');
+   if(next.release_id===shownRelease)return;
+   const target=new URL('releases/'+next.release_id+'/'+file,current);
+   const page=await fetch(target);
+   if(!page.ok)throw new Error('Shared refresh page unavailable');
+   const bytes=await page.arrayBuffer();
+   const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),v=>v.toString(16).padStart(2,'0')).join('');
+   if(hash!==next.files[file])throw new Error('Shared refresh verification failed');
+   location.replace(target.href);
+  }catch(error){console.warn('Shared refresh could not be verified; keeping the current report.');}
+ },5*60*1000);
+})();
+</script>'''
+    script=script.replace('RELEASE_ID',json.dumps(release_id)).replace('SURFACE_FILE',json.dumps(surface+'.html'))
+    head,separator,tail=html.rpartition('</body>')
+    if not separator:raise ValueError('Shared page has no body')
+    return head+script+separator+tail
+
 def stage_release(rep,mtd,canonical,mtd_html,stage,*,manager=None,manager_html=None):
     parity=validate_pair(rep,mtd,canonical);check_public(rep);check_public(mtd);check_mtd_html(mtd_html,mtd)
     if manager is not None:
@@ -47,12 +78,14 @@ def stage_release(rep,mtd,canonical,mtd_html,stage,*,manager=None,manager_html=N
     rep={**copy.deepcopy(rep),'publication':publication};mtd={**copy.deepcopy(mtd),'publication':publication}
     marker=f'<div role="status" style="padding:8px;text-align:center;font:12px system-ui;background:#f7f9fb">Shared reporting cutoff: {publication["cutoff"]} · Release {release_id}</div>'
     mtd_html=mtd_html.replace('<body>','<body>'+marker,1)
+    mtd_html=with_shared_refresh(mtd_html,release_id,'mtd')
     stage=Path(stage);stage.mkdir(parents=True,exist_ok=True)
     contents={'rep.json':encoded(rep),'mtd.json':encoded(mtd),'mtd.html':mtd_html.encode()}
     if manager is not None:
         manager={**copy.deepcopy(manager),'publication':publication}
         manager_html=re.sub(r'(<script type="application/json" id="shared-dashboard-data">).*?(</script>)',lambda match:match[1]+encoded(manager).decode().replace('<','\\u003c')+match[2],manager_html,flags=re.S)
         manager_html=manager_html.replace('<body>','<body>'+marker,1)
+        manager_html=with_shared_refresh(manager_html,release_id,'manager')
         contents.update({'manager.json':encoded(manager),'manager.html':manager_html.encode()})
     for name,content in contents.items():(stage/name).write_bytes(content)
     manifest={'schema_version':2 if manager is not None else 1,**publication,'files':{name:digest(content) for name,content in contents.items()},'parity':parity}
