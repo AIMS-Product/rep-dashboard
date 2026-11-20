@@ -1276,7 +1276,7 @@
       <tbody>${reps.map((r,i) => `<tr><td>${escapeHtml(r.name)}</td>${qaScoreCell(r.qa_score,r.qa_score_count)}</tr>`).join('')}</tbody>
       <tfoot><tr><td>Scored-call average</td>${qaScoreCell(D.team_qa_score,D.team_qa_score_count)}</tr></tfoot></table></div>
     </div>`;
-    app.innerHTML = (D.scorecard_meta ? `<div class="preview-banner">${(D.scorecard_meta.preview_only || ['127.0.0.1','localhost'].includes(window.location.hostname)) ? 'LOCAL PREVIEW · Not deployed' : 'SHARED REPORTING'} · ${D.publication ? `MTD source · Release ${escapeHtml(D.publication.release_id)} ·` : ''} New scorecard calculations use read-only Close snapshots. Loom links before the call count regardless of sender.</div>` : '') + topBar + quotaStrip + `<div class="boards">${renderScorecardBoard(D)}${board1}${board2}${board3}${D.scorecard_meta ? '' : qaBoard}${adherenceBoard}</div>` + footer;
+    app.innerHTML = topBar + quotaStrip + `<div class="boards">${renderScorecardBoard(D)}${board1}${board2}${board3}${D.scorecard_meta ? '' : qaBoard}${adherenceBoard}</div>` + footer;
     wireAdherenceButtons(D);
   }
 

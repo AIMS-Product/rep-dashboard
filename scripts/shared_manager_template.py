@@ -1,4 +1,3 @@
-from html import escape
 import json
 
 def local_manager(template, data):
@@ -33,7 +32,7 @@ def local_manager(template, data):
     page = replace_once(page, '        // Add totals row', export_history + '        // Add totals row')
     page = page.replace('    setInterval(fetchData, 5 * 60 * 1000);', '')
     page = page.replace('href="archive.html"', 'href="https://aims-product.github.io/sales-manager-dashboard/archive.html"')
-    return preview_banner(page, data['metric_definitions']['cutoff_exclusive'], data['auxiliary_snapshot'])
+    return page
 
 
 
@@ -41,17 +40,6 @@ def bind_payload(page, data):
     payload = json.dumps(data, ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c')
     insert = '<script type="application/json" id="shared-dashboard-data">' + payload + '</script>\n'
     return replace_once(page, '<script>', insert + '<script>\nconst percent = value => value == null ? "" : value + "%";')
-
-
-def preview_banner(page, cutoff, auxiliary=None):
-    timestamp = escape(cutoff.replace('T', ' '))
-    note = f' · Task and pipeline evidence observed {escape(auxiliary)}' if auxiliary else ''
-    banner = (
-        '<aside aria-label="Shared reporting source" style="padding:8px 16px;text-align:center;'
-        'font:12px/1.5 system-ui,sans-serif;background:#242c3c;color:white">'
-        f'Shared Close snapshot {timestamp}{note}</aside>'
-    )
-    return replace_once(page, '<body>', '<body>\n' + banner)
 
 
 def replace_once(text, marker, replacement, *, expected=1):

@@ -76,15 +76,12 @@ def stage_release(rep,mtd,canonical,mtd_html,stage,*,manager=None,manager_html=N
     release_id=digest(encoded(identity))[:24]
     publication={'release_id':release_id,'cutoff':canonical['cutoff'],'rules_version':canonical['rules_version'],'roster':[r['name'] for r in rep['reps']],'source_versions':canonical.get('source_versions',{})}
     rep={**copy.deepcopy(rep),'publication':publication};mtd={**copy.deepcopy(mtd),'publication':publication}
-    marker=f'<div role="status" style="padding:8px;text-align:center;font:12px system-ui;background:#f7f9fb">Shared reporting cutoff: {publication["cutoff"]} · Release {release_id}</div>'
-    mtd_html=mtd_html.replace('<body>','<body>'+marker,1)
     mtd_html=with_shared_refresh(mtd_html,release_id,'mtd')
     stage=Path(stage);stage.mkdir(parents=True,exist_ok=True)
     contents={'rep.json':encoded(rep),'mtd.json':encoded(mtd),'mtd.html':mtd_html.encode()}
     if manager is not None:
         manager={**copy.deepcopy(manager),'publication':publication}
         manager_html=re.sub(r'(<script type="application/json" id="shared-dashboard-data">).*?(</script>)',lambda match:match[1]+encoded(manager).decode().replace('<','\\u003c')+match[2],manager_html,flags=re.S)
-        manager_html=manager_html.replace('<body>','<body>'+marker,1)
         manager_html=with_shared_refresh(manager_html,release_id,'manager')
         contents.update({'manager.json':encoded(manager),'manager.html':manager_html.encode()})
     for name,content in contents.items():(stage/name).write_bytes(content)
