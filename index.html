@@ -995,7 +995,7 @@
     const clickableTotal = metric => `<button class="daily-metric-btn" type="button" data-daily-rep="team" data-daily-metric="${metric}">${team[`team_${metric}`] ?? 0}</button>`;
     const totalRate = team.team_booked ? `<span class="${rc(team.team_shown / team.team_booked * 100,75,60)}">${(team.team_shown / team.team_booked * 100).toFixed(1).replace(/\.0$/, '')}%</span>` : 'N/A';
     const funnel = `<div class="board performance-board meeting-board fade d2">
-      <div class="board-head"><div class="board-title">${shared ? 'Calls Occurred / Shown / Qualified' : 'Booked / Shown / Qualified'}</div><div class="board-sub">Qualified = Close field “Yes” &middot; click a count to see its leads</div></div>
+      <div class="board-head"><div class="board-title">Booked / Shown / Qualified</div><div class="board-sub">Qualified = Close field “Yes” &middot; click a count to see its leads</div></div>
       <div class="board-table-scroll"><table><colgroup><col style="width:38%"><col style="width:15%"><col style="width:15%"><col style="width:17%"><col style="width:15%"></colgroup>
       <thead><tr><th>Rep</th><th>Booked</th><th>Shown</th><th>Qual.</th><th>Show %</th></tr></thead>
       <tbody>${rows}</tbody><tfoot><tr><td>Team Total</td><td>${clickableTotal('booked')}</td><td>${clickableTotal('shown')}</td><td>${clickableTotal('qualified')}</td><td>${totalRate}</td></tr></tfoot></table></div></div>`;
@@ -1094,7 +1094,7 @@
     return `<section class="board scorecard-board" id="rep-scorecard"><div class="board-head"><div class="board-title">Rep Scorecard</div><div class="board-sub">Monthly results + current follow-up coverage · click process, follow-up, close rate or cash collected for lead details</div></div>
       <div class="board-table-scroll"><table><thead><tr><th>Rep</th><th>Show-up process<small>Target 90%</small></th><th>Show rate<small>Target 75%</small></th><th>Post-call adherence<small>Target 95%</small></th><th>Hot ≤72h<small>Target 95%</small></th><th>Warm/general ≤5d<small>Target 90%</small></th><th>Close rate<small>First calls · target 18%</small></th><th>Cash collected<small>Scorecard target $90k</small></th><th>QA / 5<small>Target 4 / 5 · 80%</small></th></tr></thead>
       <tbody>${rows}${historicalScorecardRow(D)}</tbody><tfoot><tr><td>Team Total</td><td>${rate(pre,90)}</td><td>${rate(D.team_show_rate,75)}</td><td>${rate(post.pct,95)}</td>${followupCell('team','hot_followup_72h')}${followupCell('team','warm_followup_5d')}<td>${financialButton('close','team',pctText(D.team_close_rate),scoreTone(D.team_close_rate,18))}<small>${D.total_deals} closed / ${D.total_booked} first calls</small></td>${cashCell(D.team_cash_collected,'team')}${qaScoreCell(D.team_qa_score,D.team_qa_score_count)}</tr></tfoot></table></div>
-      <div class="scorecard-note"><strong>Post-call adherence:</strong> Within 12 hours, send a recap AND either create a follow-up meeting OR create a task. Emails sent during the call count. Pending calls are excluded until their full window expires. Existing post-call exemptions are retained.<br>Follow-up: current lead owner’s last outbound call attempt or sent SMS/email; assignment dates do not reset the clock. Percentages describe current-book coverage, with all booking dates included.<br>Cash: the Close Cash Collected field on this month’s won opportunities; missing values stay blank. This is grouped by date won, not payment receipt date. Close rate uses the shared MTD calculation: won opportunities ÷ first calls that occurred (shown + no-show), with MTD’s booking and repeat-call rules. Call and win totals include the historical subtotal; departed closers stay out of the active roster. Other scorecard aggregates use their displayed eligible rows.<br>Post-call and cash snapshot: ${escapeHtml(previewStamp(D.scorecard_meta.as_of))} · Follow-up: ${escapeHtml(previewStamp(D.scorecard_meta.followup_as_of))} · QA: ${escapeHtml(previewStamp(D.qa_score_meta?.generated_at))}. Pre-call process snapshot: ${escapeHtml(previewStamp(D.adherence_meta?.generated_at))}. Call metrics use the reporting cutoff above.</div></section>`;
+      <div class="scorecard-note"><strong>Post-call adherence:</strong> Within 12 hours, send a recap AND either create a follow-up meeting OR create a task. Emails sent during the call count. Pending calls are excluded until their full window expires. Existing post-call exemptions are retained.<br>Follow-up: current lead owner’s last outbound call attempt or sent SMS/email; assignment dates do not reset the clock. Percentages describe current-book coverage, with all booking dates included.<br>Cash: the Close Cash Collected field on this month’s won opportunities; missing values stay blank. This is grouped by date won, not payment receipt date. Close rate uses the shared MTD calculation: won opportunities ÷ booked first calls (shown + no-show), with MTD’s booking and repeat-call rules. Call and win totals include the historical subtotal; departed closers stay out of the active roster. Other scorecard aggregates use their displayed eligible rows.<br>Post-call and cash snapshot: ${escapeHtml(previewStamp(D.scorecard_meta.as_of))} · Follow-up: ${escapeHtml(previewStamp(D.scorecard_meta.followup_as_of))} · QA: ${escapeHtml(previewStamp(D.qa_score_meta?.generated_at))}. Pre-call process snapshot: ${escapeHtml(previewStamp(D.adherence_meta?.generated_at))}. Call metrics use the reporting cutoff above.</div></section>`;
   }
 
   function openFollowupDrawer(D, trigger) {
@@ -1207,11 +1207,11 @@
     const [,tqTc] = qCol(D.pct_team_quota);
     const board1 = `
       <div class="board performance-board revenue-board fade d2">
-        <div class="board-head"><div class="board-title">Revenue Closed</div><div class="board-sub">${shared ? 'Revenue / Call = date-won revenue ÷ calls occurred (shows + no shows)' : 'Revenue / Booked = date-won revenue ÷ booked calls (shows + no shows)'}</div></div>
+        <div class="board-head"><div class="board-title">Revenue Closed</div><div class="board-sub">Revenue / Booked = date-won revenue ÷ booked calls (shows + no shows)</div></div>
         <div class="board-table-scroll">
         <table>
           <colgroup><col style="width:44%"><col style="width:18%"><col style="width:16%"><col style="width:22%"></colgroup>
-          <thead><tr><th>Rep</th><th>Revenue</th><th>% Quota</th><th title="Revenue won in period divided by calls occurred; independent date cohorts">${shared ? 'Rev / Call' : 'Rev / Booked'}</th></tr></thead>
+          <thead><tr><th>Rep</th><th>Revenue</th><th>% Quota</th><th title="Revenue won in period divided by booked calls; independent date cohorts">Rev / Booked</th></tr></thead>
           <tbody>${b1Rows}${hasHistorical ? `<tr class="historical-row"><td>Historical closers</td><td>${fmt$(hist.revenue)}</td><td>—</td><td>${moneyOrNA(hist.booked ? hist.revenue/hist.booked : null)}</td></tr>` : ''}</tbody>
           <tfoot><tr><td>Team Total</td><td>${fmt$(D.total_revenue)}</td><td><span class="pv ${tqTc}">${D.pct_team_quota}%</span></td><td title="Revenue per booked call is shown per rep">N/A</td></tr></tfoot>
         </table>
@@ -1232,7 +1232,7 @@
         <div class="board-table-scroll">
         <table>
           <colgroup><col style="width:44%"><col style="width:14%"><col style="width:20%"><col style="width:22%"></colgroup>
-          <thead><tr><th>Rep</th><th>Deals</th><th title="${D.scorecard_meta ? 'Closed divided by shown + no-show, using the shared MTD first-call rules. Target 18%.' : 'Leads closed by date won divided by Calls Occurred'}">Close %</th><th title="Month-to-date revenue divided by deals closed this month">AOV</th></tr></thead>
+          <thead><tr><th>Rep</th><th>Deals</th><th title="${D.scorecard_meta ? 'Closed divided by shown + no-show, using the shared MTD first-call rules. Target 18%.' : 'Leads closed by date won divided by Booked'}">Close %</th><th title="Month-to-date revenue divided by deals closed this month">AOV</th></tr></thead>
           <tbody>${b2Rows}${hasHistorical ? `<tr class="historical-row"><td>Historical closers</td><td>${hist.deals}</td><td>${pctText(hist.close_rate)}</td><td>${moneyOrNA(hist.deals ? hist.revenue/hist.deals : null)}</td></tr>` : ''}</tbody>
           <tfoot><tr><td>Team Total</td><td>${D.total_deals}</td><td><span class="${rc((D.team_close_rate)||0,D.scorecard_meta ? 18 : 20,10)}">${(D.team_close_rate) == null ? '—' : (D.team_close_rate) + '%'}</span></td><td>${moneyOrNA(D.team_aov)}</td></tr></tfoot>
         </table>
@@ -1252,11 +1252,11 @@
     </tr>`).join('');
     const board3 = `
       <div class="board performance-board meeting-board fade d2">
-        <div class="board-head"><div class="board-title">${shared ? 'Calls Occurred / Shown / Qualified' : 'Booked / Shown / Qualified'}</div><div class="board-sub">${shared ? 'Occurred = showed + no show' : outcomeBased ? 'Booked = showed + no show' : 'Booked = First Sales Call Booked Date'} · qualified uses Close “Yes”</div></div>
+        <div class="board-head"><div class="board-title">Booked / Shown / Qualified</div><div class="board-sub">${shared || outcomeBased ? 'Booked = showed + no show' : 'Booked = First Sales Call Booked Date'} · qualified uses Close “Yes”</div></div>
         <div class="board-table-scroll">
         <table>
           <colgroup><col style="width:32%"><col style="width:14%"><col style="width:13%"><col style="width:15%"><col style="width:13%"><col style="width:13%"></colgroup>
-          <thead><tr><th>Rep</th><th title="Qualifying calls scheduled in elapsed period with Completed or No Show outcome">${shared ? 'Occurred' : 'Booked'}</th><th>Shown</th><th title="Distinct leads from occurred calls with Qualified (Opp) = Yes; current flag, no reset">Qual.</th><th title="Shows divided by Calls Occurred">Show %</th><th title="Qualified leads from occurred calls divided by Calls Occurred">Qual %</th></tr></thead>
+          <thead><tr><th>Rep</th><th title="Qualifying calls scheduled in elapsed period with Completed or No Show outcome">Booked</th><th>Shown</th><th title="Distinct leads from booked calls with Qualified (Opp) = Yes; current flag, no reset">Qual.</th><th title="Shows divided by Booked">Show %</th><th title="Qualified leads from booked calls divided by Booked">Qual %</th></tr></thead>
           <tbody>${b3Rows}${hasHistorical ? `<tr class="historical-row"><td>Historical closers</td><td>${hist.booked}</td><td>${hist.shown}</td><td>${hist.qualified}</td><td>${pctText(hist.show_rate)}</td><td>${pctText(hist.qualification_rate)}</td></tr>` : ''}</tbody>
           <tfoot><tr><td>Team Total</td><td>${D.total_booked}</td><td>${D.total_shown}</td><td>${D.total_qualified ?? 'N/A'}</td><td><span class="${rc(D.team_show_rate||0,75,60)}">${D.team_show_rate == null ? '—' : D.team_show_rate + '%'}</span></td><td>${D.team_qualification_rate == null ? '—' : D.team_qualification_rate + '%'}</td></tr></tfoot>
         </table>
@@ -1464,7 +1464,7 @@
   window.downloadCSV = function() {
     if (!window._dashData) return;
     const D = window._dashData;
-    const rows = [['Rep','Revenue','Deals','Quota','% to Quota','Revenue per Occurred Call','AOV','Calls Occurred','Shown','Qualified','Close Rate / First Calls (%)','Show Rate','Qualification Rate','No Shows','Unresolved Outcomes','Pre-call Adherence','Post-call Email <=12h AND Next Step Created <=12h (%)','QA Score MTD (/5)','QA Scored Calls MTD','QA Score MTD (%)','Email <=12h AND Next Step Created <=12h (%)','12h Completed Calls','12h Eligible Calls','12h Pending Calls','Hot <=72h (%)','Hot Overdue Leads','Warm General <=5d (%)','Warm General Overdue Leads','Cash Collected ($)','Cash Fields Filled','Cash Fields Missing']];
+    const rows = [['Rep','Revenue','Deals','Quota','% to Quota','Revenue per Booked Call','AOV','Booked','Shown','Qualified','Close Rate / First Calls (%)','Show Rate','Qualification Rate','No Shows','Unresolved Outcomes','Pre-call Adherence','Post-call Email <=12h AND Next Step Created <=12h (%)','QA Score MTD (/5)','QA Scored Calls MTD','QA Score MTD (%)','Email <=12h AND Next Step Created <=12h (%)','12h Completed Calls','12h Eligible Calls','12h Pending Calls','Hot <=72h (%)','Hot Overdue Leads','Warm General <=5d (%)','Warm General Overdue Leads','Cash Collected ($)','Cash Fields Filled','Cash Fields Missing']];
     const reps = (D.reps || []).slice().sort((a,b) => b.revenue - a.revenue);
     for (const r of reps) {
       rows.push([

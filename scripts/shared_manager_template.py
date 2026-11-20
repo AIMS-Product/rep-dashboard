@@ -7,9 +7,6 @@ def local_manager(template, data):
                         '            closeMetricDrawer();\n            DATA = await resp.json();',
                         '            closeMetricDrawer();\n'
                         '            DATA = JSON.parse(document.getElementById("shared-dashboard-data").textContent);')
-    page = page.replace('>Booked</th>', '>Calls Occurred</th>')
-    page = page.replace("booked: 'Booked'", "booked: 'Calls Occurred'")
-    page = page.replace("'Lane', 'Booked', 'Shown'", "'Lane', 'Calls Occurred', 'Shown'")
     historical = '''
         const historical = DATA.historical_closers;
         if (historical.names.length) {
