@@ -5,6 +5,7 @@ from datetime import datetime
 from pathlib import Path
 from shared_sales_contract import validate_pair
 from shared_manager import validate_manager
+from shared_periods import week_starts
 
 FILES=('rep.json','mtd.json','mtd.html')
 MANAGER_FILES=('manager.json','manager.html')
@@ -57,6 +58,10 @@ def with_shared_refresh(html,release_id,surface):
    const bytes=await page.arrayBuffer();
    const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),v=>v.toString(16).padStart(2,'0')).join('');
    if(hash!==next.files[file])throw new Error('Shared refresh verification failed');
+   if(file==='manager.html'){
+    const period=new URLSearchParams(location.search).get('period');
+    if(period)target.searchParams.set('period',period);
+   }
    location.replace(target.href);
   }catch(error){console.warn('Shared refresh could not be verified; keeping the current report.');}
  },5*60*1000);
@@ -70,7 +75,15 @@ def with_shared_refresh(html,release_id,surface):
 def stage_release(rep,mtd,canonical,mtd_html,stage,*,manager=None,manager_html=None):
     parity=validate_pair(rep,mtd,canonical);check_public(rep);check_public(mtd);check_mtd_html(mtd_html,mtd)
     if manager is not None:
-        validate_manager(manager,rep,canonical);check_public(manager);check_manager_html(manager_html,manager)
+        validate_manager(manager,rep,canonical)
+        if set(manager.get('weeks', {})) != set(canonical.get('weeks', {})):
+            raise ValueError('Manager weekly release coverage mismatch')
+        for key, scope in canonical.get('weeks', {}).items():
+            week = manager['weeks'][key]
+            if week['period'] != scope['period']:
+                raise ValueError('Manager week date range mismatch')
+            validate_manager(week, week, scope)
+        check_public(manager);check_manager_html(manager_html,manager)
     identity={'rep':rep,'mtd':mtd,'html':mtd_html,'source_versions':canonical.get('source_versions',{})}
     if manager is not None:identity.update(manager=manager,manager_html=manager_html)
     release_id=digest(encoded(identity))[:24]
@@ -99,6 +112,14 @@ def verify_release(directory):
     payloads=[rep,mtd]
     if m['schema_version']==2:
         manager=json.loads((directory/'manager.json').read_text());check_public(manager);check_manager_html((directory/'manager.html').read_text(),manager)
+        cutoff = datetime.fromisoformat(m['cutoff'])
+        weeks = manager.get('weeks')
+        if weeks is not None:
+            if set(weeks) != {start.isoformat() for start in week_starts(cutoff)}:
+                raise ValueError('Invalid published weekly windows')
+            for key, view in weeks.items():
+                if view['period']['start'] != key or view['metric_definitions']['cutoff_exclusive'] != m['cutoff']:
+                    raise ValueError('Published Manager weekly cutoff mismatch')
         payloads.append(manager)
         for key in ['total_booked','total_shown','total_qualified','total_deals','total_revenue','team_qa_score','team_qa_score_count','team_post_call_12h']:
             if manager.get(key)!=rep.get(key):raise ValueError('Published manager mismatch: '+key)

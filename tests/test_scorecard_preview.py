@@ -5,7 +5,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from collect_scorecard_preview import enrich, add_followup_snapshot
-from scorecard_rules import CASH_FIELD
+from scorecard_rules import CASH_FIELD, QUALIFIED_FIELD
 
 
 class PreviewIntegrationTests(unittest.TestCase):
@@ -34,6 +34,12 @@ class PreviewIntegrationTests(unittest.TestCase):
         self.assertEqual(result['team_close_rate'],33.3)
         self.assertNotIn('shown_close_rate',result['reps'][0])
         self.assertNotIn('team_shown_close_rate',result)
+        capture['lead_metadata'] = {'lead_one': {'custom.' + QUALIFIED_FIELD: 'No'}}
+        excluded = enrich(copy.deepcopy(result), capture)
+        self.assertEqual(excluded['team_post_call_12h']['eligible'], 0)
+        self.assertEqual(excluded['team_post_call_12h']['exempt'], 1)
+        self.assertEqual(excluded['reps'][0]['adherence']['pre_call_pct'], 75)
+        self.assertEqual(len(excluded['reps'][0]['adherence']['lead_cohorts']['next_step_12h']['exempt']), 1)
 
     def test_followup_uses_verified_current_owner_and_correct_status_window(self):
         hot='stat_kY1aMGKOui3jjlgniY2LQWMadXN78cr7vTHVMPDCliy'

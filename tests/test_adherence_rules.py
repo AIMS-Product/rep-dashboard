@@ -80,7 +80,7 @@ class AdherenceRulesTests(unittest.TestCase):
         self.assertFalse(result["day_of_confirmation_text"]["done"])
         self.assertTrue(result["recap_email"]["done"])
 
-    def test_other_sender_loom_counts_without_crediting_their_other_sms(self):
+    def test_setter_confirmation_counts_but_closer_pre_call_text_remains_separate(self):
         base = dict(
             booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
             lead_owner_id="user_lead_owner", meetings=[meeting("2026-09-10T17:00:00Z")],
@@ -96,7 +96,7 @@ class AdherenceRulesTests(unittest.TestCase):
         rejected = score_lead(**base, sms=other_owner_sms)
         self.assertTrue(rejected["loom_usage"]["done"])
         self.assertFalse(rejected["precall_text"]["done"])
-        self.assertFalse(rejected["day_of_confirmation_text"]["done"])
+        self.assertTrue(rejected["day_of_confirmation_text"]["done"])
         self.assertFalse(rejected["recap_email"]["done"])
 
         after_call = dict(other_owner_sms[0], date_sent="2026-09-10T17:01:00Z")
@@ -123,7 +123,7 @@ class AdherenceRulesTests(unittest.TestCase):
         self.assertEqual(result["precall_text"], {"eligible": True, "done": True})
         self.assertEqual(result["day_of_confirmation_text"], {"eligible": True, "done": True})
 
-    def test_day_of_confirmation_counts_sent_email_from_credited_closer(self):
+    def test_day_of_confirmation_counts_sent_team_email(self):
         base = dict(
             booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
             lead_owner_id="user_other", meetings=[meeting("2026-09-10T17:00:00Z")],
@@ -141,7 +141,6 @@ class AdherenceRulesTests(unittest.TestCase):
         self.assertEqual(steps["day_of_confirmation_text"], {"eligible": True, "done": True})
         self.assertFalse(steps["precall_text"]["done"])
         for change in (
-            {"user_id": "user_other"},
             {"direction": "incoming"},
             {"status": "draft"},
             {"body_text": ""},
@@ -152,7 +151,7 @@ class AdherenceRulesTests(unittest.TestCase):
                 steps = score_lead(**base, emails=[dict(email, **change)])
                 self.assertEqual(steps["day_of_confirmation_text"], {"eligible": True, "done": False})
 
-    def test_day_of_text_uses_scoring_rep_not_current_lead_owner(self):
+    def test_day_of_confirmation_accepts_setter_sender_after_owner_handoff(self):
         lead_owner = "user_lead_owner"
         base = dict(
             booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
@@ -164,7 +163,7 @@ class AdherenceRulesTests(unittest.TestCase):
         }])
         self.assertFalse(wrong_sender["precall_text"]["done"])
         self.assertEqual(
-            wrong_sender["day_of_confirmation_text"], {"eligible": True, "done": False}
+            wrong_sender["day_of_confirmation_text"], {"eligible": True, "done": True}
         )
         closer_sent = score_lead(**base, sms=[{
             "activity_at": "2026-09-10T16:00:00Z", "direction": "outbound",
@@ -189,7 +188,7 @@ class AdherenceRulesTests(unittest.TestCase):
         dial = {"activity_at": "2026-09-10T16:00:00Z", "direction": "outbound",
                 "status": "no-answer", "user_id": OWNER}
         self.assertTrue(score_lead(**base, calls=[dial])["day_of_confirmation_text"]["done"])
-        self.assertFalse(score_lead(
+        self.assertTrue(score_lead(
             **base, calls=[dial | {"user_id": "user_new_owner"}]
         )["day_of_confirmation_text"]["done"])
 
@@ -204,7 +203,6 @@ class AdherenceRulesTests(unittest.TestCase):
                          {"eligible": True, "done": True})
         for invalid in (
             dial | {"direction": "inbound"},
-            dial | {"user_id": "another_user"},
             dial | {"activity_at": "2026-09-10T17:00:00Z"},
             dial | {"status": "deleted"},
         ):

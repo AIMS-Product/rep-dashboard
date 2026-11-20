@@ -281,7 +281,6 @@ def score_lead(
         (stamp := message_time(message)) is not None
         and stamp.date() == deadline.date()
         and stamp < deadline
-        and str(message.get("user_id") or "") == owner_id
         and is_outbound(message)
         and is_sent_activity(message)
         and bool(activity_body(message))
@@ -290,7 +289,6 @@ def score_lead(
         (stamp := activity_time(call)) is not None
         and stamp.date() == deadline.date()
         and stamp < deadline
-        and str(call.get("user_id") or "") == owner_id
         and str(call.get("direction") or "").strip().lower() in OUTBOUND_DIRECTIONS
         and is_active_activity(call)
         for call in calls

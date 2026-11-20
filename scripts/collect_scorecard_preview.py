@@ -8,8 +8,9 @@ from pathlib import Path
 from adherence_rules import PACIFIC, parse_datetime, round_percent
 from build_adherence_preview import (CloseClient, load_env_value, add_adherence_to_dashboard,
                                       LATEST_BOOKED_DATE_FIELD)
-from scorecard_rules import CASH_FIELD, aggregate_post_call, cash_collected, post_call_result, owner_touch_result
+from scorecard_rules import CASH_FIELD, QUALIFIED_FIELD, SHOW_FIELD, post_call_exemption_reason, aggregate_post_call, cash_collected, post_call_result, owner_touch_result
 from rep_roster import INACTIVE_CLOSERS
+from scheduled_sms_evidence import collect_scheduling_receipts
 from scorecard_details import attach_financial_details
 
 PIPELINE_ID = 'pipe_78hyBUVS7IKikGEmstObu1'
@@ -54,23 +55,34 @@ def cohort_for_rep(rep):
     for key in ('follow_up_created', 'recap_email'):
         for bucket, leads in cohorts.get(key, {}).items():
             for lead in leads:
-                result.setdefault(lead['id'], dict(lead, exempt=False))
+                identity = (lead['id'], lead.get('meeting_id') or lead.get('scored_call_at', ''))
+                result.setdefault(identity, dict(lead, exempt=False))
                 if bucket == 'exempt':
-                    result[lead['id']]['exempt'] = True
+                    result[identity]['exempt'] = True
     return list(result.values())
 
 
-def collect(client, dashboard, *, as_of=None, opportunities=None):
+def collect(client, dashboard, *, as_of=None, opportunities=None, shared_meetings=None):
     started = as_of or datetime.now(PACIFIC)
     by_rep = {rep['rep_owner_id']: cohort_for_rep(rep) for rep in dashboard['reps']}
-    ids = sorted({lead['id'] for leads in by_rep.values() for lead in leads if not lead['exempt']})
+    ids = sorted({lead['id'] for leads in by_rep.values() for lead in leads})
+    lead_metadata = {}
+    for lead_id in ids:
+        row = client.get('/lead/' + lead_id + '/', {'_fields':
+            f'id,status_id,status_label,opportunities,custom.{QUALIFIED_FIELD},custom.{SHOW_FIELD}'})
+        if row.get('id') != lead_id:
+            raise ValueError('Lead metadata read escaped requested scope')
+        lead_metadata[lead_id] = row
     activity = {}
     fields = {
         'emails': 'id,lead_id,user_id,status,direction,date_sent,date_created,activity_at',
-        'sms': 'id,lead_id,user_id,status,direction,date_sent,date_created,activity_at',
-        'meetings': 'id,lead_id,user_id,status,starts_at,ends_at,date_created,activity_at',
+        'sms': 'id,lead_id,user_id,status,direction,date_sent,date_created,activity_at,date_scheduled,date_updated',
+        'meetings': 'id,lead_id,user_id,status,starts_at,ends_at,outcome_id,date_created,activity_at',
     }
     for kind, selected_fields in fields.items():
+        if kind == "meetings" and shared_meetings is not None:
+            activity[kind] = shared_meetings.for_leads(ids)
+            continue
         grouped = defaultdict(list)
         endpoint = {'emails': 'email', 'sms': 'sms', 'meetings': 'meeting'}[kind]
         for offset in range(0, len(ids), 25):
@@ -80,6 +92,9 @@ def collect(client, dashboard, *, as_of=None, opportunities=None):
                 if row.get('lead_id') not in batch:
                     raise ValueError('Activity read escaped requested lead scope')
                 grouped[row['lead_id']].append(row)
+        if kind == 'sms':
+            for messages in grouped.values():
+                collect_scheduling_receipts(client, messages, started)
         activity[kind] = dict(grouped)
         print(f'Collected {kind} metadata for post-call cohort', flush=True)
     tasks = {}
@@ -97,7 +112,7 @@ def collect(client, dashboard, *, as_of=None, opportunities=None):
     ended = datetime.now(PACIFIC)
     return {'meta': {'started_at': started.isoformat(), 'ended_at': ended.isoformat(),
                      'as_of': started.isoformat(), 'api_requests': client.request_count},
-            'cohorts': by_rep, 'activities': activity, 'tasks': tasks,
+            'cohorts': by_rep, 'activities': activity, 'tasks': tasks, 'lead_metadata': lead_metadata,
             'opportunities': [o for o in opportunities if o.get('pipeline_id') == PIPELINE_ID]}
 
 
@@ -111,7 +126,11 @@ def enrich(dashboard, capture):
             lead_id = lead['id']
             starts = parse_datetime(lead.get('scored_call_at'))
             matching = [m for m in activity['meetings'].get(lead_id, [])
-                        if starts and parse_datetime(m.get('starts_at') or m.get('activity_at')) == starts]
+                        if (m.get('id') == lead['meeting_id'] if lead.get('meeting_id') else
+                            starts and parse_datetime(m.get('starts_at') or m.get('activity_at')) == starts)]
+            if lead.get('meeting_id') and (len(matching) != 1 or
+                    parse_datetime(matching[0].get('starts_at') or matching[0].get('activity_at')) != starts):
+                raise ValueError('Accepted post-call meeting identity is missing, ambiguous or changed')
             if len(matching) > 1:
                 matching.sort(key=lambda m: (str(m.get('status') or '').lower() in
                     {'canceled', 'declined-by-lead', 'declined-by-org'}, m.get('id', '')))
@@ -119,19 +138,25 @@ def enrich(dashboard, capture):
             end = parse_datetime(meeting.get('ends_at'))
             if end and starts and end < starts:
                 end = None
+            metadata = capture.get('lead_metadata', {}).get(lead_id, lead)
+            exclusion = post_call_exemption_reason(metadata, meeting)
+            exempt = bool(exclusion) if lead_id in capture.get('lead_metadata', {}) else lead['exempt'] or bool(exclusion)
             evidence = post_call_result(call_end=end, call_start=starts, owner_id=rep['rep_owner_id'], now=as_of,
-                exempt=lead['exempt'], emails=activity['emails'].get(lead_id, []),
+                exempt=exempt, emails=activity['emails'].get(lead_id, []),
                 sms=activity['sms'].get(lead_id, []), tasks=capture['tasks'].get(lead_id, []),
                 meetings=activity['meetings'].get(lead_id, []))
+            evidence['exempt'] = exempt
+            if exclusion:
+                evidence['exemption_reason'] = exclusion
             rows.append(dict(lead, **evidence))
         rep['post_call_12h'] = aggregate_post_call(rows)
         adherence = rep.get('adherence')
         if adherence is not None:
             adherence['post_call_12h'] = rep['post_call_12h']
             adherence['post_call_pct'] = rep['post_call_12h']['pct']
-            for key, label, flag in [('post_call_complete_12h', 'Email ≤12h AND next step', None),
+            for key, label, flag in [('post_call_complete_12h', 'Email/SMS ≤12h AND next step', None),
                                      ('recap_12h', 'Recap sent ≤12h', 'recap_done'),
-                                     ('next_step_12h', 'Task or follow-up meeting created ≤12h', 'next_step_done')]:
+                                     ('next_step_12h', 'Task, meeting or scheduled SMS set ≤12h', 'next_step_done')]:
                 due = [r for r in rows if r['state'] in {'completed', 'missed'}]
                 done = sum(r[flag] if flag else r['state'] == 'completed' for r in due)
                 adherence['steps'][key] = {'label': label, 'phase': 'post_call', 'done': done,
@@ -144,7 +169,8 @@ def enrich(dashboard, capture):
                         bucket = 'completed' if row[flag] else 'missed'
                     cohorts[bucket].append(row)
                 adherence['lead_cohorts'][key] = cohorts
-        all_rows.extend(rows)
+        if not rep.get("is_manager"):
+            all_rows.extend(rows)
         rep_opps = [o for o in capture['opportunities'] if o.get('user_id') == rep['rep_owner_id']]
         amounts = [cash_collected(o) for o in rep_opps]
         rep['cash_collected'] = {
@@ -162,9 +188,9 @@ def enrich(dashboard, capture):
         **capture['meta'], 'preview_only': True, 'post_call_hours': 12,
         'post_call_scoring': 'category_average',
         'anchor': 'Actions count from meeting starts_at; deadline is 12 elapsed hours after ends_at (scheduled end)',
-        'recap_basis': 'Any sent outbound email on the lead; no content/template/sender restriction; SMS excluded',
-        'next_step_basis': 'Existing task-or-follow-up-meeting eligibility, plus creation within the same 12-hour response window',
-        'cohort_basis': 'Existing post-call exemptions; full active-roster process cohort; any-sender pre-call Loom links; VP/blank business-line process scope',
+        'recap_basis': 'Any sent outbound email or SMS on the lead within 12 hours; no content/template/sender restriction',
+        'next_step_basis': 'Task or meeting created, or outbound SMS verifiably scheduled, within the same 12-hour response window',
+        'cohort_basis': 'Lost, Disqualified, Qualified = No and no-show calls excluded, plus existing exemptions; full active-roster process cohort; any-sender pre-call Loom links; VP/blank business-line process scope',
         'cash_basis': 'Cash Collected field on Sales Pipeline opportunities won this month, displayed owners only; not receipt-date reporting',
         'close_basis': 'Reuse existing rep dashboard close_rate and team_close_rate: closed / (shown + no-show), with its existing first-call eligibility and repeat-call rules',
         'targets': {'pre_call': 90, 'show_rate': 75, 'post_call_12h': 95,

@@ -17,7 +17,12 @@ HTML='''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="v
   if(hash!==release.files[file])throw new Error('Shared dashboard verification failed');
   const frame=document.getElementById('dashboard');
   frame.addEventListener('load',()=>{document.getElementById('status').hidden=true;frame.hidden=false;},{once:true});
-  window.location.replace(root+'releases/'+release.release_id+'/'+file);
+  const target=new URL(root+'releases/'+release.release_id+'/'+file,location.href);
+  if(file==='manager.html'){
+   const period=new URLSearchParams(location.search).get('period');
+   if(period)target.searchParams.set('period',period);
+  }
+  window.location.replace(target.href);
  }catch(error){document.getElementById('status').textContent='Could not load dashboard: '+error.message;}
 })();
 </script></body></html>'''

@@ -47,6 +47,14 @@ def main():
     base['lane_2_targets']=deepcopy(native.LANE_2_TARGETS)
     result=derive_manager(base,rep,canonical,native.FUNNEL_SOURCE);validate_manager(result,rep,canonical)
     result['auxiliary_snapshot']=base.get('auxiliary_snapshot',base.get('updated_at'))
+    if canonical.get('weeks'):
+        weekly_reps = json.loads((args.rep.parent / 'weekly-reps.private.json').read_text())
+        result['weeks'] = {}
+        for key, scope in canonical['weeks'].items():
+            week = derive_manager(base, weekly_reps[key], scope, native.FUNNEL_SOURCE)
+            week['auxiliary_snapshot'] = result['auxiliary_snapshot']
+            validate_manager(week, weekly_reps[key], scope)
+            result['weeks'][key] = week
     (args.output/'manager.json').write_text(json.dumps(result,indent=2)+'\n')
     (args.output/'manager.html').write_text(local_manager((args.manager_root/'dashboard-template.html').read_text(),result))
 

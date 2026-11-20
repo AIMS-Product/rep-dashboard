@@ -16,6 +16,7 @@ def main():
     build=sub.add_parser('build');build.add_argument('--mtd-root',type=Path,required=True);build.add_argument('--manager-root',type=Path,required=True);build.add_argument('--manager-base',type=Path,required=True);build.add_argument('--output',type=Path,required=True)
     build.add_argument('--base',type=Path);build.add_argument('--reuse-enrichment',action='store_true');build.add_argument('--env-file',type=Path)
     build.add_argument('--cutoff',default=None);build.add_argument('--private-work-dir',type=Path);build.add_argument('--canonical',type=Path)
+    build.add_argument('--independent-meeting-reads', action='store_true', help='Use separate Close meeting reads for comparison')
     accept=sub.add_parser('accept');accept.add_argument('--stage',type=Path,required=True);accept.add_argument('--site-root',type=Path,required=True)
     rollback=sub.add_parser('rollback');rollback.add_argument('--site-root',type=Path,required=True);rollback.add_argument('--release-id',required=True)
     args=parser.parse_args()
@@ -44,14 +45,18 @@ def main():
     versions={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in SCRIPTS.glob('*.py')}
     with context as private:
         private=Path(private);roster_path=private/'roster.json';roster_path.write_text(json.dumps(roster))
+        meeting_args = []
+        if not (args.canonical or args.reuse_enrichment or args.independent_meeting_reads):
+            meeting_args = ['--meeting-catalog', str(private/'meetings.private.json')]
         if args.canonical:
             for name in ['canonical.json','mtd.html']:
                 source=args.canonical.parent/name
                 if source.resolve()!=(private/name).resolve():shutil.copyfile(source,private/name)
             subprocess.run([sys.executable,str(SCRIPTS/'build_shared_mtd.py'),'--mtd-root',str(args.mtd_root),'--roster',str(roster_path),'--cutoff',cutoff.isoformat(),'--output',str(private),'--render-only'],check=True,env=mtd_env)
         else:
-            subprocess.run([sys.executable,str(SCRIPTS/'build_shared_mtd.py'),'--mtd-root',str(args.mtd_root),'--roster',str(roster_path),'--cutoff',cutoff.isoformat(),'--output',str(private)],check=True,env=mtd_env)
-        cmd=[sys.executable,str(SCRIPTS/'build_shared_rep.py'),'--canonical',str(private/'canonical.json'),'--output',str(private/'rep.json')]
+            period_args = ['--monthly-only'] if args.reuse_enrichment else []
+            subprocess.run([sys.executable,str(SCRIPTS/'build_shared_mtd.py'),'--mtd-root',str(args.mtd_root),'--roster',str(roster_path),'--cutoff',cutoff.isoformat(),'--output',str(private),*meeting_args,*period_args],check=True,env=mtd_env)
+        cmd=[sys.executable,str(SCRIPTS/'build_shared_rep.py'),'--canonical',str(private/'canonical.json'),'--output',str(private/'rep.json'),*meeting_args]
         if args.base:cmd+=['--base',str(args.base)]
         if args.reuse_enrichment:cmd+=['--reuse-enrichment']
         subprocess.run(cmd,check=True,env=env)

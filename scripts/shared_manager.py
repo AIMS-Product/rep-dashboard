@@ -1,8 +1,10 @@
 """Project the manager presentation from the same accepted rep/MTD records."""
 from copy import deepcopy
 from collections import Counter
+from datetime import date, datetime
 from scorecard_rules import post_call_average
 from shared_sales_contract import rate, validate_pair
+from shared_periods import PACIFIC
 
 
 def call_detail(row):
@@ -12,7 +14,7 @@ def call_detail(row):
 
 
 def derive_manager(base, rep, canonical, source_map):
-    result=deepcopy(base);old={row['name']:row for row in base['reps']};rows=[]
+    result=deepcopy({key: value for key, value in base.items() if key not in {'weeks', 'period', 'publication'}});old={row['name']:row for row in base['reps']};rows=[]
     accepted={row['meeting_id'] for row in canonical['occurred_rows']}
     for source in rep['reps']:
         row={**deepcopy(old.get(source['name'],{})),**deepcopy(source)}
@@ -35,6 +37,17 @@ def derive_manager(base, rep, canonical, source_map):
                   metric_definitions={**rep['metric_definitions'],'period_kind':'month'},historical_closers=deepcopy(rep['historical_closers']),
                   scorecard_meta=deepcopy(rep.get('scorecard_meta',{})),qa_score_meta=deepcopy(rep.get('qa_score_meta',{})),
                   adherence_meta=deepcopy(rep.get('adherence_meta',{})))
+    period = canonical.get('period')
+    if period:
+        start = date.fromisoformat(period['start'])
+        end = date.fromisoformat(period['end'])
+        cutoff = datetime.fromisoformat(canonical['cutoff']).astimezone(PACIFIC)
+        result.update(period=period, day_of_week=7 if period['complete'] else cutoff.weekday() + 1,
+                      week_label=f'{start:%b %d, %Y} – {end:%b %d, %Y}')
+        result['metric_definitions'].update(
+            period_kind='week', period_start=period['start'],
+            closed_won='Weekly opportunities by won date; historical wins retained',
+        )
     h=result['historical_closers'];h['occurred_calls']=h['booked']
     result['team_avg_rev_per_deal']=rep.get('team_aov')
     active=[r for r in rows if not r.get('is_manager')]

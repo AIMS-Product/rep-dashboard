@@ -4,7 +4,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from adherence_rules import parse_datetime
-from scorecard_rules import CASH_FIELD, aggregate_post_call, cash_collected, post_call_result, owner_touch_result
+from scorecard_rules import CASH_FIELD, aggregate_post_call, cash_collected, post_call_result, owner_touch_result, post_call_exemption_reason, QUALIFIED_FIELD, SHOW_FIELD
 
 
 class PostCallScorecardTests(unittest.TestCase):
@@ -52,11 +52,26 @@ class PostCallScorecardTests(unittest.TestCase):
                       dict(user_id='rep', direction='outbound', status='sent', date_created='2026-11-17T13:00:00-08:00', date_sent='2026-11-18T14:00:00-08:00')]:
             self.assertEqual(self.evaluate(emails=[email])['state'], 'missed')
 
-    def test_any_sent_email_counts_regardless_of_content_or_sender_but_sms_does_not(self):
+    def test_any_sent_email_or_sms_counts_regardless_of_content_or_sender(self):
         email = dict(user_id='other', direction='outgoing', status='sent',
                      date_sent='2026-11-17T13:00:00-08:00', subject='financing links')
         self.assertEqual(self.evaluate(emails=[email])['state'], 'completed')
-        self.assertEqual(self.evaluate(emails=[],sms=[email])['state'], 'missed')
+        self.assertEqual(self.evaluate(emails=[],sms=[email])['state'], 'completed')
+
+    def test_sms_must_be_sent_outbound_within_the_response_window(self):
+        sms = dict(id='sms', user_id='other', direction='outbound', status='sent', date_sent='2026-11-18T00:00:00-08:00')
+        self.assertEqual(self.evaluate(emails=[], sms=[sms])['recap_ids'], ['sms'])
+        for changes in [dict(direction='inbound'), dict(status='failed'), dict(date_sent='2026-11-18T00:00:01-08:00')]:
+            self.assertFalse(self.evaluate(emails=[], sms=[dict(sms, **changes)])['recap_done'])
+
+    def test_post_call_excludes_lost_disqualified_unqualified_and_no_show(self):
+        for lead in [dict(status_id='stat_aR2jBa8YnTNZmHAnPsnlQuinBdaXpSBCkZGP3UvoBlV'),
+                     dict(status_label='🚫 Disqualified'), dict(custom={QUALIFIED_FIELD:'No'})]:
+            self.assertIsNotNone(post_call_exemption_reason(lead, {}))
+        self.assertIsNotNone(post_call_exemption_reason({}, dict(outcome_id='outcome_032DjoyPo9BgPBdOF6DzqH')))
+        self.assertIsNotNone(post_call_exemption_reason(dict(custom={SHOW_FIELD:'No'}), {}))
+        self.assertIsNone(post_call_exemption_reason(dict(custom={QUALIFIED_FIELD:''}), dict(outcome='Completed')))
+        self.assertIsNone(post_call_exemption_reason(dict(custom={SHOW_FIELD:'No'}), dict(outcome='Completed')))
 
     def test_email_and_next_step_during_call_count_with_deadline_still_anchored_to_end(self):
         email = dict(direction='outbound',status='sent',date_sent='2026-11-17T11:30:00-08:00')

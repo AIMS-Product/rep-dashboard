@@ -1,7 +1,7 @@
 name: Publish Joint Sales Dashboards
 
 on:
-  workflow_dispatch:  # Triggered by cron-job.org every 15 minutes
+  workflow_dispatch:
 
 permissions:
   contents: write

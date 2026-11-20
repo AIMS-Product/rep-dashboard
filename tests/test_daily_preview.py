@@ -121,8 +121,10 @@ class DailyPreviewMetricTests(unittest.TestCase):
              patch("build_yesterday_preview.meeting_lead_rows", return_value=[]), \
              patch("build_yesterday_preview.add_adherence_to_dashboard", side_effect=record_process):
             extract_path = Path(directory) / "extract.json"
-            build(Path(directory) / "output.json", extract_path,
-                  report_date="2026-10-07", write_local_preview=False)
+            (Path(directory) / "data.json").write_text('{"reps":[]}')
+            with patch("build_yesterday_preview.ROOT", Path(directory)):
+                build(Path(directory) / "output.json", extract_path,
+                      report_date="2026-10-07", write_local_preview=False)
             extract = json.loads(extract_path.read_text())
         self.assertEqual(extract["leads"], [metric_lead])
         self.assertEqual(extract["process_extract"]["leads"], [process_lead])

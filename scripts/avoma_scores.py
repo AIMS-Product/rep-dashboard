@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
@@ -31,21 +31,20 @@ def score_for_close_email(scores, email):
     return scores.get(AVOMA_EMAIL_ALIASES.get(email, ""), {})
 
 
-def fetch_avoma_mtd_scores(api_key: str, *, as_of=None, audit_path=None) -> tuple[dict[str, dict[str, Any]], dict[str, Any]]:
-    """Return per-rep mean overall_score and call count for local-calendar MTD.
+def fetch_avoma_mtd_scores(api_key: str, *, as_of=None, audit_path=None):
+    """Return per-rep mean and call count for local-calendar MTD."""
+    cutoff = as_of.astimezone(PACIFIC) if as_of else datetime.now(PACIFIC)
+    start = cutoff.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    evaluations = fetch_avoma_evaluations(api_key, start, cutoff, audit_path=audit_path)
+    return summarize_avoma_scores(evaluations, start, cutoff, cutoff)
 
-    Avoma's date filters select scorecard evaluation records. The meeting's
-    start_at is checked again in Pacific time so MTD follows the dashboard's
-    local reporting calendar. Results are keyed by scored_for.email.
-    """
+
+def fetch_avoma_evaluations(api_key, local_start, cutoff, *, audit_path=None):
+    """Fetch evaluations once for all reporting windows in the release."""
     if not api_key:
-        print("  AVOMA_API_KEY is not set; Avoma MTD scores will be blank", flush=True)
-        return {}, {"available": False, "reason": "missing_api_key"}
-
-    local_now = as_of.astimezone(PACIFIC) if as_of else datetime.now(PACIFIC)
-    local_start = local_now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        return None
     utc_start = local_start.astimezone(timezone.utc)
-    utc_now = local_now.astimezone(timezone.utc)
+    utc_now = cutoff.astimezone(timezone.utc)
     params = urlencode({
         "from_date": utc_start.isoformat(timespec="seconds").replace("+00:00", "Z"),
         "to_date": utc_now.isoformat(timespec="seconds").replace("+00:00", "Z"),
@@ -69,10 +68,19 @@ def fetch_avoma_mtd_scores(api_key: str, *, as_of=None, audit_path=None) -> tupl
         evaluations.extend(payload.get("results") or [])
         url = payload.get("next")
 
-    # One score per rep per call. Keep the most recently modified evaluation
-    # if Avoma ever returns duplicate evaluations for a rep and meeting.
     if audit_path is not None:
-        audit_path.write_text(json.dumps({"as_of":local_now.isoformat(),"evaluations":evaluations}));audit_path.chmod(0o600)
+        audit_path.write_text(json.dumps({"as_of": cutoff.isoformat(), "evaluations": evaluations}))
+        audit_path.chmod(0o600)
+    return evaluations
+
+
+def summarize_avoma_scores(evaluations, local_start, end_exclusive, cutoff):
+    if evaluations is None:
+        return {}, {"available": False, "reason": "missing_api_key"}
+
+    start_utc = local_start.astimezone(timezone.utc)
+    end_utc = end_exclusive.astimezone(timezone.utc)
+    # One score per rep per call, using the last revision of the evaluation.
     latest_by_rep_meeting: dict[tuple[str, str], dict[str, Any]] = {}
     for evaluation in evaluations:
         if evaluation.get("scorecard_template_name") != SCORECARD_TEMPLATE:
@@ -81,10 +89,10 @@ def fetch_avoma_mtd_scores(api_key: str, *, as_of=None, audit_path=None) -> tupl
         try:
             meeting_start = datetime.fromisoformat(
                 str(meeting.get("start_at") or "").replace("Z", "+00:00")
-            ).astimezone(PACIFIC)
+            ).astimezone(timezone.utc)
         except ValueError:
             continue
-        if not local_start <= meeting_start <= local_now:
+        if not start_utc <= meeting_start < end_utc:
             continue
 
         scored_for = evaluation.get("scored_for") or {}
@@ -112,13 +120,13 @@ def fetch_avoma_mtd_scores(api_key: str, *, as_of=None, audit_path=None) -> tupl
         "scorecard": SCORECARD_TEMPLATE,
         "timezone": "America/Los_Angeles",
         "period_start": local_start.date().isoformat(),
-        "period_end": local_now.date().isoformat(),
+        "period_end": (end_exclusive - timedelta(microseconds=1)).date().isoformat(),
         "scale_max": 5,
         "evaluation_count": sum(item["count"] for item in scores.values()),
-        "generated_at": local_now.isoformat(timespec="seconds"),
+        "generated_at": cutoff.isoformat(timespec="seconds"),
     }
     print(
-        f"  Avoma MTD: {meta['evaluation_count']} scored calls across {len(scores)} reps "
+        f"  Avoma QA: {meta['evaluation_count']} scored calls across {len(scores)} reps "
         f"({meta['period_start']} through {meta['period_end']}, Pacific)",
         flush=True,
     )

@@ -2,10 +2,15 @@ import json
 
 def local_manager(template, data):
     page = bind_payload(template, data)
-    page = replace_once(page, "            const resp = await fetch(dataFile + '?t=' + Date.now());\n"
-                        '            closeMetricDrawer();\n            DATA = await resp.json();',
-                        '            closeMetricDrawer();\n'
-                        '            DATA = JSON.parse(document.getElementById("shared-dashboard-data").textContent);')
+    page = replace_once(
+        page, "            const resp = await fetch(dataFile + '?t=' + Date.now());\n"
+        '            if (!resp.ok) throw new Error(`Dashboard returned ${resp.status}`);\n'
+        '            setReport(await resp.json());',
+        '            setReport(JSON.parse(document.getElementById("shared-dashboard-data").textContent));',
+    )
+    page = page.replace('>Booked</th>', '>Calls Occurred</th>')
+    page = page.replace("booked: 'Booked'", "booked: 'Calls Occurred'")
+    page = page.replace("'Lane', 'Booked', 'Shown'", "'Lane', 'Calls Occurred', 'Shown'")
     historical = '''
         const historical = DATA.historical_closers;
         if (historical.names.length) {

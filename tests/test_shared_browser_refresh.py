@@ -15,19 +15,20 @@ const vm=require('node:vm'),assert=require('node:assert/strict'),crypto=require(
 const script=SCRIPT;
 const bytes=Uint8Array.from(Buffer.from('<html>next report</html>'));
 const hash=crypto.createHash('sha256').update(bytes).digest('hex');
-async function check(overrides,expected){
+async function check(overrides,expected,period=''){
  const state={calls:0,warnings:0,interval:null,redirect:null};
  const next={schema_version:2,release_id:'b'.repeat(24),files:{'manager.html':hash},...overrides};
- const context={URL,Uint8Array,crypto:crypto.webcrypto,
-  location:{pathname:'/rep-dashboard/shared/releases/'+ 'a'.repeat(24) +'/manager.html',href:'https://example.test/rep-dashboard/shared/releases/'+ 'a'.repeat(24) +'/manager.html',replace:v=>state.redirect=v},
+ const context={URL,URLSearchParams,Uint8Array,crypto:crypto.webcrypto,
+  location:{pathname:'/rep-dashboard/shared/releases/'+ 'a'.repeat(24) +'/manager.html',href:'https://example.test/rep-dashboard/shared/releases/'+ 'a'.repeat(24) +'/manager.html'+period,search:period,replace:v=>state.redirect=v},
   console:{warn:()=>state.warnings++},setInterval:(fn,ms)=>{state.callback=fn;state.interval=ms},
   fetch:async()=>{state.calls++;return state.calls===1?{ok:!overrides.failed,json:async()=>next}:{ok:true,arrayBuffer:async()=>bytes.buffer}}};
  vm.runInNewContext(script,context);assert.equal(state.interval,300000);await state.callback();
- assert.equal(state.redirect,expected?'https://example.test/rep-dashboard/shared/releases/'+ 'b'.repeat(24) +'/manager.html':null);
+ assert.equal(state.redirect,expected?'https://example.test/rep-dashboard/shared/releases/'+ 'b'.repeat(24) +'/manager.html'+period:null);
  return state;
 }
 (async()=>{
  await check({},true);
+ await check({},true,'?period=2026-11-16');
  assert.equal((await check({release_id:'a'.repeat(24)},false)).calls,1);
  assert.equal((await check({files:{'manager.html':'wrong'}},false)).warnings,1);
  assert.equal((await check({schema_version:1},false)).warnings,1);

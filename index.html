@@ -939,7 +939,7 @@
     return `
       <div class="board adherence-board fade d2">
         <div class="board-head">
-          <div><div class="board-title">Process Adherence</div><div class="board-sub">${D.scorecard_meta ? 'Pre-call average · 12-hour recap and next-step rates · click for details' : 'Equal-weight step averages · click a percentage for the breakdown'}</div></div>
+          <div><div class="board-title">Process Adherence</div><div class="board-sub">${D.scorecard_meta ? 'Pre-call average · 12-hour email/SMS recap and next-step rates · click for details' : 'Equal-weight step averages · click a percentage for the breakdown'}</div></div>
         </div>
         <div class="adherence-table-wrap">
           <table>
@@ -1094,7 +1094,7 @@
     return `<section class="board scorecard-board" id="rep-scorecard"><div class="board-head"><div class="board-title">Rep Scorecard</div><div class="board-sub">Monthly results + current follow-up coverage · click process, follow-up, close rate or cash collected for lead details</div></div>
       <div class="board-table-scroll"><table><thead><tr><th>Rep</th><th>Show-up process<small>Target 90%</small></th><th>Show rate<small>Target 75%</small></th><th>Post-call adherence<small>Target 95%</small></th><th>Hot ≤72h<small>Target 95%</small></th><th>Warm/general ≤5d<small>Target 90%</small></th><th>Close rate<small>First calls · target 18%</small></th><th>Cash collected<small>Scorecard target $90k</small></th><th>QA / 5<small>Target 4 / 5 · 80%</small></th></tr></thead>
       <tbody>${rows}${historicalScorecardRow(D)}</tbody><tfoot><tr><td>Team Total</td><td>${rate(pre,90)}</td><td>${rate(D.team_show_rate,75)}</td><td>${rate(post.pct,95)}</td>${followupCell('team','hot_followup_72h')}${followupCell('team','warm_followup_5d')}<td>${financialButton('close','team',pctText(D.team_close_rate),scoreTone(D.team_close_rate,18))}<small>${D.total_deals} closed / ${D.total_booked} first calls</small></td>${cashCell(D.team_cash_collected,'team')}${qaScoreCell(D.team_qa_score,D.team_qa_score_count)}</tr></tfoot></table></div>
-      <div class="scorecard-note"><strong>Post-call adherence</strong> ${D.scorecard_meta.post_call_scoring === 'category_average' ? 'averages the recap email and next-step completion rates.' : 'counts calls with a recap email and a completed next step.'} Both checks use the 12-hour window, and actions during the call count. Pending calls are excluded until their full window expires. Existing post-call exemptions are retained.<br>Follow-up: current lead owner’s last outbound call attempt or sent SMS/email; assignment dates do not reset the clock. Percentages describe current-book coverage, with all booking dates included.<br>Cash: the Close Cash Collected field on this month’s won opportunities; missing values stay blank. This is grouped by date won, not payment receipt date. Close rate uses the shared MTD calculation: won opportunities ÷ booked first calls (shown + no-show), with MTD’s booking and repeat-call rules. Call and win totals include the historical subtotal; departed closers stay out of the active roster. Other scorecard aggregates use their displayed eligible rows.<br>Post-call and cash snapshot: ${escapeHtml(previewStamp(D.scorecard_meta.as_of))} · Follow-up: ${escapeHtml(previewStamp(D.scorecard_meta.followup_as_of))} · QA: ${escapeHtml(previewStamp(D.qa_score_meta?.generated_at))}. Pre-call process snapshot: ${escapeHtml(previewStamp(D.adherence_meta?.generated_at))}. Call metrics use the reporting cutoff above.</div></section>`;
+      <div class="scorecard-note"><strong>Post-call adherence</strong> ${D.scorecard_meta.post_call_scoring === 'category_average' ? 'averages the recap email/SMS and next-step completion rates.' : 'counts calls with a recap email/SMS and a completed next step.'} Next step means a task, follow-up meeting or scheduled SMS. Both checks use the 12-hour window, and actions during the call count. Pending calls are excluded until their full window expires. Lost, Disqualified, Qualified = No and no-show calls are excluded; other existing exemptions are retained.<br>Follow-up: current lead owner’s last outbound call attempt or sent SMS/email; assignment dates do not reset the clock. Percentages describe current-book coverage, with all booking dates included.<br>Cash: the Close Cash Collected field on this month’s won opportunities; missing values stay blank. This is grouped by date won, not payment receipt date. Close rate uses the shared MTD calculation: won opportunities ÷ booked first calls (shown + no-show), with MTD’s booking and repeat-call rules. Call and win totals include the historical subtotal; departed closers stay out of the active roster. Other scorecard aggregates use their displayed eligible rows.<br>Post-call and cash snapshot: ${escapeHtml(previewStamp(D.scorecard_meta.as_of))} · Follow-up: ${escapeHtml(previewStamp(D.scorecard_meta.followup_as_of))} · QA: ${escapeHtml(previewStamp(D.qa_score_meta?.generated_at))}. Pre-call process snapshot: ${escapeHtml(previewStamp(D.adherence_meta?.generated_at))}. Call metrics use the reporting cutoff above.</div></section>`;
   }
 
   function openFollowupDrawer(D, trigger) {
@@ -1269,7 +1269,7 @@
     const footerSource = D.adherence_meta && D.adherence_meta.preview_only
       ? 'Local preview from Close CRM'
       : 'Data from Close CRM';
-    const footer = `<div class="footer fade d2">${footerSource} &middot; ${D.scorecard_meta ? 'Fixed local review snapshots' : 'Auto-updates every 15 minutes Mon–Fri 7 AM–5 PM PST'} &middot; <a href="https://aims-product.github.io/rep-dashboard/archive.html" style="color:var(--text-muted);text-decoration:underline">Monthly Archives</a> &middot; <a href="https://aims-product.github.io/rep-dashboard/daily-preview.html" style="color:var(--text-muted);text-decoration:underline">Daily History</a> &middot; <a class="dl-btn" onclick="downloadCSV()">⬇ Download CSV</a></div>`;
+    const footer = `<div class="footer fade d2">${footerSource} &middot; ${D.scorecard_meta ? (D.publication ? 'Published reporting snapshot' : "Fixed local review snapshots") : 'Auto-updates every 15 minutes Mon–Fri 7 AM–5 PM PST'} &middot; <a href="https://aims-product.github.io/rep-dashboard/archive.html" style="color:var(--text-muted);text-decoration:underline">Monthly Archives</a> &middot; <a href="https://aims-product.github.io/rep-dashboard/daily-preview.html" style="color:var(--text-muted);text-decoration:underline">Daily History</a> &middot; <a class="dl-btn" onclick="downloadCSV()">⬇ Download CSV</a></div>`;
     const qaBoard = `<div class="board qa-board fade d3" style="grid-column:1/-1">
       <div class="board-head"><div class="board-title">Call QA</div><div class="board-sub">Avoma · VP Closing Call Scorecard · month to date · target 4 / 5 (80%)</div></div>
       <div class="board-table-scroll"><table><thead><tr><th>Rep</th><th>QA score / 5</th></tr></thead>
@@ -1288,12 +1288,12 @@
   let drawerTrigger = null;
   let closeTimer = null;
   const stepHelp = {
-    post_call_complete_12h: 'Pass only when any outbound email is sent by 12 hours after the scheduled meeting end AND the existing task-or-follow-up-meeting check passes. The task or follow-up meeting must also be created within the same 12-hour window. Target: 95%.',
-    recap_12h: 'Any sent outbound email on the lead, from the call start through 12 hours after its scheduled end. No content, template or sender restriction. SMS does not count as email. Actual send time is used when available.',
-    next_step_12h: 'Next-step rule: a dated task assigned to the closer, due at or after the scheduled call start or created after it, OR a later meeting that is not canceled or declined. The task or meeting must be created from call start through 12 hours after scheduled end.',
+    post_call_complete_12h: 'Pass only when any outbound email or SMS is sent by 12 hours after the scheduled meeting end AND the existing task-or-follow-up-meeting check passes. A task or meeting must be created, or a follow-up SMS scheduled, within the same 12-hour window. Target: 95%.',
+    recap_12h: 'Any sent outbound email or SMS on the lead, from the call start through 12 hours after its scheduled end. No content, template or sender restriction. Actual send time is used when available.',
+    next_step_12h: 'Next-step rule: a dated task assigned to the closer, due at or after the scheduled call start or created after it, OR a later meeting that is not canceled or declined, OR a verifiably scheduled outbound SMS. The task or meeting must be created, or SMS scheduled, from call start through 12 hours after scheduled end. The SMS can send later.',
     loom_usage: 'Loom link on the lead at or before the first-call deadline, regardless of sender.',
     precall_text: 'Non-empty sent outbound SMS from the credited closer at or before the first-call deadline.',
-    day_of_confirmation_text: 'The credited closer sends an outbound SMS or email with a message body, or makes an outbound call, on the meeting’s Pacific calendar day before it begins.',
+    day_of_confirmation_text: 'The closer or Lane 2 sends an outbound SMS or email with a message body, or makes an outbound call, on the meeting’s Pacific calendar day before it begins.',
     follow_up_created: 'A dated task assigned to the credited closer, due at or after the scheduled first-call anchor or created after it, or a later meeting that is not canceled or declined and may be assigned to anyone. Either one completes this step. Show-up outcome does not affect eligibility; Closed/Won and Lost leads are exempt.',
     recap_email: 'A sent outbound email or SMS sent by the credited closer within 12 hours of the scheduled first-call anchor. Show-up outcome does not affect eligibility; Closed/Won and Lost leads are exempt.'
   };
@@ -1309,8 +1309,9 @@
       ${lead.url && /^https:\/\/app\.close\.com\/lead\/lead_[A-Za-z0-9]+\/?$/.test(lead.url)
         ? `<a class="step-lead-name" href="${escapeHtml(lead.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(lead.name)} ↗</a>`
         : `<span class="step-lead-name">${escapeHtml(lead.name)}</span>`}
-      <span class="step-lead-meta">${escapeHtml(scoredCallLabel(lead))}${label === 'Exempt' && lead.status_label ? ` · ${escapeHtml(lead.status_label)}` : ''}</span>
+      <span class="step-lead-meta">${escapeHtml(scoredCallLabel(lead))}${lead.reassigned ? ' · Reassigned' : ''}${label === 'Exempt' && lead.status_label ? ` · ${escapeHtml(lead.status_label)}` : ''}</span>
       ${lead.deadline_at ? `<span class="step-lead-meta">Response deadline: ${escapeHtml(new Date(lead.deadline_at).toLocaleString('en-US',{timeZone:'America/Los_Angeles'}))} PT · Recap ${lead.recap_done ? '✓' : '✗'} · Next step ${lead.next_step_done ? '✓' : '✗'}</span>` : ''}
+      ${lead.exemption_reason ? `<span class="step-lead-meta">Excluded: ${escapeHtml(lead.exemption_reason)}</span>` : ''}
     </li>`).join('');
     return `<details class="step-cohort"><summary>${label} (${leads.length})</summary>
       ${leads.length ? `<ul>${items}</ul>` : '<div class="step-empty">No leads</div>'}
@@ -1355,7 +1356,7 @@
         label: key === 'day_of_confirmation_text' ? 'Day-of confirmation' : key,
         pct: null, done: 0, eligible: 0
       };
-      const displayLabel = is12h ? (key === 'recap_12h' ? 'Recap email sent within 12 hours' : 'Follow-up meeting or task set within 12 hours') : cell.label;
+      const displayLabel = is12h ? (key === 'recap_12h' ? 'Recap email or SMS sent within 12 hours' : 'Follow-up meeting, task or scheduled text set within 12 hours') : cell.label;
       const pct = cell.pct;
       const cohorts = cell.leadCohorts || (rep.adherence.lead_cohorts && rep.adherence.lead_cohorts[key]);
       const leadLists = cohorts ? `<div class="step-cohorts">
@@ -1376,10 +1377,10 @@
     drawerContent.innerHTML = `
       <div class="drawer-score">
         <div class="drawer-score-value ${scoreTone(phaseValue, is12h ? 95 : 90)}">${pctText(phaseValue)}</div>
-        <div><div class="drawer-score-label">${phaseLabel}</div><p class="drawer-score-note" id="drawerDescription">${is12h ? (postCallScoring === 'category_average' ? 'The average of the 12-hour recap email rate and the 12-hour follow-up meeting or task rate. Pending calls are excluded.' : 'The share of eligible calls with both a recap email and a next step created within the 12-hour window. Pending calls are excluded.') : 'Equal average of the available step percentages below. Neutral steps are excluded.'}</p></div>
+        <div><div class="drawer-score-label">${phaseLabel}</div><p class="drawer-score-note" id="drawerDescription">${is12h ? (postCallScoring === 'category_average' ? 'The average of the 12-hour recap email/SMS rate and the 12-hour task, meeting or scheduled-text rate. Pending calls are excluded.' : 'The share of eligible calls with both a recap email/SMS and a next step created within the 12-hour window. Pending calls are excluded.') : 'Equal average of the available step percentages below. Neutral steps are excluded.'}</p></div>
       </div>
       <div class="step-list">${cards}</div>
-      <p class="drawer-rule-note">${is12h ? 'The email deadline is 12 hours after Close’s scheduled meeting end. Any outbound email sent from the call start through that deadline qualifies; SMS does not. The task or follow-up meeting must be created within the same 12-hour window. Current post-call exemptions are retained, including terminal, no-show, canceled and rescheduled calls. Calls without an end time are Unknown, not failed.' : 'This calculation uses first calls scheduled in the dashboard month. Post-call steps are Task or follow-up meeting, and Recap email sent; they do not depend on the show-up outcome. A dated task must be assigned to the closer; a later meeting can be assigned to anyone. Closed/Won and Lost leads remain visible as Exempt for post-call checks.'}${rep.adherence.lead_cohorts ? ' Lead lists, including exempt leads, are shown below.' : ''}</p>`;
+      <p class="drawer-rule-note">${is12h ? 'The recap deadline is 12 hours after Close’s scheduled meeting end. Any sent outbound email or SMS from the call start through that deadline qualifies. The task or follow-up meeting must be created, or the follow-up SMS scheduled, within the same 12-hour window. A scheduled SMS can send later; it counts as a recap only after it is sent within the recap window. Lost, Disqualified, Qualified = No, no-show, canceled, rescheduled and existing terminal exemptions are excluded from post-call scoring. Calls without an end time or verifiable scheduling evidence are Unknown, not failed.' : 'This calculation uses first calls scheduled in the dashboard month. Post-call steps are Task or follow-up meeting, and Recap email sent; they do not depend on the show-up outcome. A dated task must be assigned to the closer; a later meeting can be assigned to anyone. Closed/Won and Lost leads remain visible as Exempt for post-call checks.'}${rep.adherence.lead_cohorts ? ' Lead lists, including exempt leads, are shown below.' : ''}</p>`;
     drawer.hidden = false;
     document.body.classList.add('drawer-open');
     app.inert = true;
@@ -1464,7 +1465,7 @@
   window.downloadCSV = function() {
     if (!window._dashData) return;
     const D = window._dashData;
-    const rows = [['Rep','Revenue','Deals','Quota','% to Quota','Revenue per Booked Call','AOV','Booked','Shown','Qualified','Close Rate / First Calls (%)','Show Rate','Qualification Rate','No Shows','Unresolved Outcomes','Pre-call Adherence','Post-call Adherence (%)','QA Score MTD (/5)','QA Scored Calls MTD','QA Score MTD (%)','Email <=12h AND Next Step Created <=12h (%)','12h Calls With Both Actions','12h Eligible Calls','12h Pending Calls','Hot <=72h (%)','Hot Overdue Leads','Warm General <=5d (%)','Warm General Overdue Leads','Cash Collected ($)','Cash Fields Filled','Cash Fields Missing']];
+    const rows = [['Rep','Revenue','Deals','Quota','% to Quota','Revenue per Booked Call','AOV','Booked','Shown','Qualified','Close Rate / First Calls (%)','Show Rate','Qualification Rate','No Shows','Unresolved Outcomes','Pre-call Adherence','Post-call Adherence (%)','QA Score MTD (/5)','QA Scored Calls MTD','QA Score MTD (%)','Email/SMS <=12h AND Next Step Created <=12h (%)','12h Calls With Both Actions','12h Eligible Calls','12h Pending Calls','Hot <=72h (%)','Hot Overdue Leads','Warm General <=5d (%)','Warm General Overdue Leads','Cash Collected ($)','Cash Fields Filled','Cash Fields Missing']];
     const reps = (D.reps || []).slice().sort((a,b) => b.revenue - a.revenue);
     for (const r of reps) {
       rows.push([

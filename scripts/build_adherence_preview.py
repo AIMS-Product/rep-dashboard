@@ -28,6 +28,7 @@ from zoneinfo import ZoneInfo
 from adherence_rules import LOST_STATUS_ID, STEP_META, WON_STATUS_ID, aggregate_rep_scores, first_call_deadline, is_post_call_exempt_status, parse_datetime, score_lead, validate_aggregate
 from qualifying_meeting_rules import latest_qualifying_dates_in_period
 from rep_roster import INACTIVE_CLOSERS
+from shared_close_meetings import SharedCloseMeetings
 from call_attribution import scoring_rep_for_meeting
 
 
@@ -121,9 +122,14 @@ class CloseClient:
         while True:
             query["_skip"] = skip
             payload = self.get(endpoint, query)
-            rows = payload.get("data") or []
+            if (not isinstance(payload, dict) or not isinstance(payload.get("data"), list)
+                    or not isinstance(payload.get("has_more"), bool)):
+                raise ValueError(f"Unverifiable Close pagination response for {endpoint}")
+            rows = payload["data"]
+            if payload["has_more"] and not rows:
+                raise ValueError(f"Close pagination returned an empty nonfinal page for {endpoint}")
             yield from rows
-            if not payload.get("has_more") or not rows:
+            if not payload["has_more"]:
                 return
             skip += len(rows)
 
@@ -198,9 +204,13 @@ def fetch_process_cohort(client: CloseClient, start: str, end: str) -> list[dict
     return list(leads.values())
 
 
-def fetch_qualifying_process_cohort(client: CloseClient, start: str, end: str) -> list[dict[str, Any]]:
+def fetch_qualifying_process_cohort(
+    client: CloseClient, start: str, end: str, *, meetings: Iterable[dict[str, Any]] | None = None,
+) -> list[dict[str, Any]]:
     """Select leads by qualifying meeting dates, independent of booked-date fields."""
-    dates = latest_qualifying_dates_in_period(client.paginate("/activity/meeting/"), start, end)
+    dates = latest_qualifying_dates_in_period(
+        client.paginate("/activity/meeting/") if meetings is None else meetings, start, end,
+    )
 
     leads = {
         str(lead["id"]): lead for lead in fetch_process_cohort(client, start, end)
@@ -250,6 +260,7 @@ def fetch_activities(
     *,
     kinds: Iterable[str] | None = None,
 ) -> dict[str, dict[str, list[dict[str, Any]]]]:
+    lead_ids = sorted(set(lead_ids))
     by_kind: dict[str, dict[str, list[dict[str, Any]]]] = {}
     total_batches = max(1, (len(lead_ids) + 24) // 25)
     for kind in ACTIVITY_ENDPOINTS if kinds is None else kinds:
@@ -334,8 +345,11 @@ def build_lead_cohorts(
             "name": lead["name"],
             "booked_date": lead["booked_date"],
             "scored_call_at": lead.get("scored_call_at") or "",
+            "meeting_id": lead.get("meeting_id"),
             "url": lead.get("url") or "",
             "status_label": lead.get("status_label") or "",
+            "reassigned": bool(lead.get("current_owner_id") and lead.get("rep_id")
+                               and lead["current_owner_id"] != lead["rep_id"]),
         }
         for key in STEP_META:
             cell = evidence[key]
@@ -392,7 +406,11 @@ def add_adherence_to_dashboard(
     candidate_date_range: tuple[str, str] | None = None,
     as_of: datetime | None = None,
     audit_extract_path: Path | None = None,
+    accepted_process_rows: list[dict[str, Any]] | None = None,
+    shared_meetings: SharedCloseMeetings | None = None,
+    manager_adherence: frozenset[str] = frozenset(),
 ) -> dict[str, Any]:
+    collection_started_at = datetime.now(PACIFIC)
     repo_root = Path(__file__).resolve().parents[1]
     workspace_root = repo_root.parent
     year, month_number = (
@@ -414,11 +432,18 @@ def add_adherence_to_dashboard(
         print(f"Building read-only Close adherence for {year}-{month_number:02d}", flush=True)
         print("  Fetching users and monthly cohort", flush=True)
         users_by_id = fetch_users(client)
-        raw_cohort = (
-            fetch_qualifying_process_cohort(client, period_start, period_end)
-            if candidate_booked_date_field == LATEST_BOOKED_DATE_FIELD
-            else fetch_cohort(client, year, month_number)
-        )
+        if accepted_process_rows is not None:
+            # Reuse the MTD authority's title, repeat and appointment selection.
+            raw_cohort = [client.get('/lead/' + lead_id + '/')
+                          for lead_id in sorted({r['lead_id'] for r in accepted_process_rows})]
+        else:
+            raw_cohort = (
+                fetch_qualifying_process_cohort(
+                    client, period_start, period_end, meetings=shared_meetings.rows if shared_meetings is not None else None,
+                )
+                if candidate_booked_date_field == LATEST_BOOKED_DATE_FIELD
+                else fetch_cohort(client, year, month_number)
+            )
     else:
         if extract.get("meta", {}).get("month") != f"{year}-{month_number:02d}":
             raise ValueError("Close extract month does not match the dashboard month")
@@ -426,11 +451,19 @@ def add_adherence_to_dashboard(
             raise ValueError("Close extract is not marked complete")
         users_by_id = extract["users"]
         raw_cohort = extract["leads"]
+    if accepted_process_rows is not None:
+        source_leads = {lead['id']: lead for lead in raw_cohort}
+        missing = {row['lead_id'] for row in accepted_process_rows} - source_leads.keys()
+        if missing:
+            raise ValueError('Process extract is missing accepted MTD lead evidence')
+        raw_cohort = [dict(source_leads[row['lead_id']], _accepted_process_call=row)
+                      for row in accepted_process_rows]
     ids_by_name = {name: user_id for user_id, name in users_by_id.items()}
     dashboard_reps = {
         row["name"]: row
         for row in dashboard.get("reps") or []
-        if not row.get("exclude_meetings") and not row.get("is_manager")
+        if not row.get("exclude_meetings")
+        and (not row.get("is_manager") or row["name"] in manager_adherence)
     }
     visible_rep_ids = {user_id for user_id, name in users_by_id.items() if name in dashboard_reps}
     historical_rep_ids = visible_rep_ids | {
@@ -440,18 +473,19 @@ def add_adherence_to_dashboard(
     candidates = []
     exclusion_counts = defaultdict(int)
     for lead in raw_cohort:
+        accepted_call = lead.get('_accepted_process_call')
         business_line = str(custom_value(lead, "cf_aJlNlilQZIgLLuhcymNN8fiOzewnFxrbWjLZFPmsucO", "BTC Business Line") or "").strip()
-        if business_line not in {"", "Vendingpreneurs (VP)"}:
+        if accepted_call is None and business_line not in {"", "Vendingpreneurs (VP)"}:
             exclusion_counts["non_vp_business_line"] += 1
             continue
         status_exclusion = EXCLUDED_LEAD_STATUSES.get(lead.get("status_id"))
-        if status_exclusion and not (
+        if accepted_call is None and status_exclusion and not (
             include_canceled_by_lead_status and status_exclusion == "canceled_by_lead"
         ):
             exclusion_counts[status_exclusion] += 1
             continue
         funnel = str(custom_value(lead, CF_FUNNEL_NAME_DEAL_ID, "Funnel Name DEAL (Opp)") or "").strip()
-        if funnel in EXCLUDED_FUNNELS:
+        if accepted_call is None and funnel in EXCLUDED_FUNNELS:
             exclusion_counts["funnel"] += 1
             continue
         _, owner_id = resolve_owner(
@@ -459,7 +493,10 @@ def add_adherence_to_dashboard(
             users_by_id,
             ids_by_name,
         )
-        if candidate_booked_date_field == LATEST_BOOKED_DATE_FIELD:
+        if accepted_call is not None:
+            booked_date = parse_datetime(accepted_call['starts_at']).date().isoformat()
+            date_source = 'shared_mtd_accepted_call'
+        elif candidate_booked_date_field == LATEST_BOOKED_DATE_FIELD:
             booked_date, date_source = process_candidate_date(lead, period_start, period_end)
         else:
             date_field_id, date_field_name = candidate_booked_date_field or (
@@ -475,6 +512,7 @@ def add_adherence_to_dashboard(
             "name": str(lead.get("display_name") or lead.get("name") or "Unnamed lead"),
             "url": close_lead_url(lead),
             "status_label": str(lead.get("status_label") or ""),
+            "status_id": lead.get("status_id"),
             "opportunity_status_label": opportunity_status_label(lead),
             "closed_won": lead.get("status_id") == WON_STATUS_ID
             or "closed / won" in str(lead.get("status_label") or "").lower(),
@@ -487,10 +525,13 @@ def add_adherence_to_dashboard(
             "current_owner_id": owner_id,
             "booked_date": booked_date,
             "date_source": date_source,
+            "accepted_call": accepted_call,
             "show_state": str(custom_value(lead, CF_FIRST_CALL_SHOW_ID, CF_FIRST_CALL_SHOW_NAME) or ""),
         })
 
-    if extract is None:
+    if shared_meetings is not None and extract is None:
+        meetings_by_lead = shared_meetings.for_leads(lead["id"] for lead in candidates)
+    elif extract is None:
         print("  Fetching candidate first-call meetings", flush=True)
         meetings_by_lead = fetch_activities(
             client, [lead["id"] for lead in candidates], kinds=("meetings",)
@@ -499,23 +540,45 @@ def add_adherence_to_dashboard(
         meetings_by_lead = extract["activities"].get("meetings", {})
     included = []
     for lead in candidates:
-        if not has_active_first_meeting(
+        accepted_call = lead.get('accepted_call')
+        if accepted_call is None and not has_active_first_meeting(
             meetings_by_lead.get(lead["id"], []), lead["booked_date"]
         ):
             exclusion_counts["inactive_booked_meeting"] += 1
             continue
-        first_call_at, first_meeting = first_call_deadline(
-            lead["booked_date"], meetings_by_lead.get(lead["id"], []),
-            show_state=lead["show_state"],
-        )
+        if accepted_call is not None:
+            selected = [m for m in meetings_by_lead.get(lead['id'], [])
+                        if m.get('id') == accepted_call['meeting_id']]
+            if len(selected) != 1:
+                raise ValueError('Accepted MTD call is missing or ambiguous in process evidence')
+            first_meeting = selected[0]
+            if str(first_meeting.get('status') or '').lower().startswith(('canceled', 'cancelled', 'declined')):
+                raise ValueError('Accepted MTD call was canceled during process collection')
+            first_call_at = parse_datetime(first_meeting.get('starts_at'))
+            if first_call_at != parse_datetime(accepted_call['starts_at']):
+                raise ValueError('Accepted call start changed during process collection')
+            lead['meeting_id'] = first_meeting['id']
+        else:
+            first_call_at, first_meeting = first_call_deadline(
+                lead["booked_date"], meetings_by_lead.get(lead["id"], []),
+                show_state=lead["show_state"],
+            )
         lead["post_call_exempt"] = lead["post_call_exempt"] or is_post_call_exempt_status(
             lead.get("status_id"), lead.get("status_label"),
             lead.get("opportunity_status_label"),
             meeting_outcome_id=(first_meeting or {}).get("outcome_id"),
         )
-        rep_id, reason = scoring_rep_for_meeting(
-            first_meeting, lead["current_owner_id"], historical_rep_ids
-        )
+        if accepted_call is not None:
+            # Shared reports must retain the authority's call-taker identity,
+            # including when another closer appears only as a calendar attendee.
+            if not isinstance(accepted_call.get('owner'), str):
+                raise ValueError('Accepted process call is missing its authoritative call-taker')
+            rep_id = ids_by_name.get(accepted_call['owner'])
+            reason = 'shared_mtd_call_taker'
+        else:
+            rep_id, reason = scoring_rep_for_meeting(
+                first_meeting, lead["current_owner_id"], historical_rep_ids
+            )
         if not rep_id:
             exclusion_counts[reason] += 1
             continue
@@ -533,7 +596,7 @@ def add_adherence_to_dashboard(
     attribution_counts = defaultdict(int)
     for lead in included:
         attribution_counts[lead["attribution"]] += 1
-    lead_ids = [lead["id"] for lead in included]
+    lead_ids = sorted({lead["id"] for lead in included})
     print(f"  Cohort: {len(raw_cohort):,} raw, {len(included):,} included", flush=True)
     print(f"  Exclusions: {dict(exclusion_counts)}", flush=True)
 
@@ -555,11 +618,19 @@ def add_adherence_to_dashboard(
     evidence_by_rep: dict[str, list[dict[str, dict[str, bool]]]] = defaultdict(list)
     scored_leads_by_rep: dict[str, list[tuple[dict[str, Any], dict[str, dict[str, bool]]]]] = defaultdict(list)
     if audit_extract_path is not None:
-        payload={"meta":{"month":f"{year}-{month_number:02d}","complete":True,"started_at":now.isoformat(),"ended_at":now.isoformat(),"api_requests":client.request_count if client else 0},
-                 "users":users_by_id,"leads":raw_cohort,"activities":activity,"tasks":tasks_by_lead}
+        extract_leads = (list(source_leads.values()) if accepted_process_rows is not None else raw_cohort)
+        payload={"meta":{"month":f"{year}-{month_number:02d}","complete":True,"started_at":collection_started_at.isoformat(),"ended_at":datetime.now(PACIFIC).isoformat(),"as_of":now.isoformat(),"api_requests":client.request_count if client else 0},
+                 "users":users_by_id,"leads":extract_leads,"activities":activity,"tasks":tasks_by_lead}
         audit_extract_path.write_text(json.dumps(payload));audit_extract_path.chmod(0o600)
     for lead in included:
         lead_id = lead["id"]
+        scoring_meetings = meetings_by_lead.get(lead['id'], [])
+        if lead.get('accepted_call') is not None:
+            selected_at = parse_datetime(lead['scored_call_at'])
+            scoring_meetings = [m for m in scoring_meetings
+                               if m.get('id') == lead['meeting_id'] or
+                               ((starts := parse_datetime(m.get('starts_at') or m.get('activity_at')))
+                                and starts > selected_at)]
         evidence = score_lead(
             booked_date=lead["booked_date"],
             show_state=lead["show_state"],
@@ -572,7 +643,7 @@ def add_adherence_to_dashboard(
             sms=activity["sms"].get(lead_id, []),
             calls=activity.get("calls", {}).get(lead_id, []),
             notes=activity["notes"].get(lead_id, []),
-            meetings=activity["meetings"].get(lead_id, []),
+            meetings=scoring_meetings,
             tasks=tasks_by_lead.get(lead_id, []),
             now=now,
         )
@@ -610,7 +681,7 @@ def add_adherence_to_dashboard(
         "period": {
             "month": f"{year}-{month_number:02d}",
             "timezone": "America/Los_Angeles",
-            "basis": "latest_sales_call_booked_date_with_first_date_fallback"
+            "basis": "shared_mtd_accepted_scheduled_calls" if accepted_process_rows is not None else "latest_sales_call_booked_date_with_first_date_fallback"
             if candidate_booked_date_field == LATEST_BOOKED_DATE_FIELD
             else "first_sales_call_booked_date",
         },
