@@ -21,6 +21,7 @@ from calendar import monthrange
 
 from build_adherence_preview import LATEST_BOOKED_DATE_FIELD, add_adherence_to_dashboard
 from rep_roster import INACTIVE_CLOSERS
+from dashboard_qa import add_avoma_scores_to_dashboard
 
 # --- Configuration ---
 
@@ -85,7 +86,6 @@ REP_QUOTAS = {
     "Christian Hartwell": 100_000,
     "Scott Seymour": 100_000,
     "Robin Perkins": 100_000,
-    "Eric Piccione": 100_000,
     "Luke Herman": 100_000,
     "Ariella Irvine": 100_000,
 }
@@ -624,13 +624,14 @@ def apply_outcome_metrics(dashboard, *, now=None, reader=None):
 def build_live_dashboard_data():
     """Build the complete production payload before it is written or archived."""
     dashboard = apply_outcome_metrics(build_dashboard_data())
-    return add_adherence_to_dashboard(
+    dashboard = add_adherence_to_dashboard(
         dashboard,
         source="close_crm",
         preview_only=False,
         candidate_booked_date_field=LATEST_BOOKED_DATE_FIELD,
         include_canceled_by_lead_status=True,
     )
+    return add_avoma_scores_to_dashboard(dashboard)
 
 
 if __name__ == "__main__":

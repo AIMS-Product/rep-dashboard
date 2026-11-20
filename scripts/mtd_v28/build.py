@@ -19,7 +19,8 @@ from zoneinfo import ZoneInfo
 
 import requests
 
-from .aggregates import BOOKING_SCOPE, build_breakdowns, vp_closer_bookings
+from .aggregates import BOOKING_SCOPE, VP_BOOKING_CLOSERS, build_breakdowns, vp_closer_bookings, owner_name
+from call_attribution import scoring_rep_for_meeting
 
 ROOT = Path(__file__).resolve().parent
 PACIFIC = ZoneInfo("America/Los_Angeles")
@@ -103,7 +104,7 @@ class CloseReader:
             skip += len(batch)
 
     def meeting_catalog(self) -> list[dict[str, Any]]:
-        fields = "id,lead_id,user_id,title,date_created,starts_at,status,outcome_id"
+        fields = "id,lead_id,user_id,users,title,date_created,starts_at,status,outcome_id"
         rows = self.pages("activity/meeting/", {"_fields": fields})
         by_id: dict[str, dict[str, Any]] = {}
         for row in rows:
@@ -116,13 +117,13 @@ class CloseReader:
         return list(by_id.values())
 
     def meetings_created_in_window(self, start_utc: str, end_utc: str) -> list[dict[str, Any]]:
-        fields = "id,lead_id,user_id,title,date_created,starts_at,status,outcome_id"
+        fields = "id,lead_id,user_id,users,title,date_created,starts_at,status,outcome_id"
         return self.pages("activity/meeting/", {
             "date_created__gte": start_utc, "date_created__lte": end_utc, "_fields": fields,
         })
 
     def meeting_history_for_leads(self, lead_ids: set[str]) -> list[dict[str, Any]]:
-        fields = "id,lead_id,user_id,title,date_created,starts_at,status,outcome_id"
+        fields = "id,lead_id,user_id,users,title,date_created,starts_at,status,outcome_id"
         rows_by_id: dict[str, dict[str, Any]] = {}
         lead_list = sorted(lead_ids)
         for offset in range(0, len(lead_list), 25):
@@ -484,6 +485,10 @@ def build_dataset(reader: CloseReader, as_of: datetime | None = None, start_date
             for lead_id, contacts in zip(sorted(contact_ids), pool.map(lambda lid: fetch_contacts(reader, lid), sorted(contact_ids))):
                 contact_cache[lead_id] = contacts
 
+    users = {row["id"]: " ".join(filter(None, [row.get("first_name"), row.get("last_name")]))
+             for row in reader.pages("user/")}
+    closer_ids = {uid for uid, name in users.items() if name in VP_BOOKING_CLOSERS}
+    ids_by_name = {name: uid for uid, name in users.items()}
     candidate_rows: list[dict[str, Any]] = []
     for meeting in candidate_meetings:
         lead_id = str(meeting["lead_id"])
@@ -503,6 +508,8 @@ def build_dataset(reader: CloseReader, as_of: datetime | None = None, start_date
         campaign, content = contact_utm(contact_cache[lead_id])
         channel, source_basis = source_resolve(lead, contact_cache[lead_id])
         attribution_status, attribution_reason = attribution_review(lead, contact_cache[lead_id])
+        current_owner_id = ids_by_name.get(owner_name(lead.get("lead_owner"), users))
+        closer_id, attribution_basis = scoring_rep_for_meeting(meeting, current_owner_id, closer_ids)
         candidate_rows.append({
             "meeting_id": str(meeting["id"]), "lead_id": lead_id,
             "lead_name": lead.get("display_name") or "Unknown lead", "title": meeting.get("title") or "",
@@ -515,11 +522,9 @@ def build_dataset(reader: CloseReader, as_of: datetime | None = None, start_date
             "close_url": f"https://app.close.com/lead/{lead_id}/",
             "showed": normalized(outcome) == "completed",
             "qualified": yes(lead.get("qualified")),
-            "owner": lead.get("lead_owner"),
+            "owner": closer_id, "call_attribution": attribution_basis,
         })
     counted, suppressions = choose_bucket_credits(candidate_rows, meeting_history, outcomes)
-    users = {row["id"]: " ".join(filter(None, [row.get("first_name"), row.get("last_name")]))
-             for row in reader.pages("user/")}
     all_owner_count = len(counted)
     counted = vp_closer_bookings(counted, users)
 

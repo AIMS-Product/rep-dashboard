@@ -226,10 +226,9 @@ def classify(lead: dict, rep: str, booked: str, lead_owner: str | None,
     eligible = deadline <= now
     all_comms = [("email", x, message_stamp(x)) for x in emails] + [("sms", x, message_stamp(x)) for x in sms] + [("note", x, stamp(x)) for x in notes]
     loom_evidence = [event(kind, row, at) for kind, row, at in all_comms
-                     if at and at <= deadline and live(row) and LOOM.search(body(row))
-                     and (kind != "sms" or (rep and str(row.get("user_id") or "") == rep))]
+                     if at and at <= deadline and live(row) and LOOM.search(body(row))]
     result["loom_usage"] = {"result": ("Completed" if loom_evidence else "Missed") if eligible else "Neutral",
-                            "support": loom_evidence, "basis": "Pre-call deadline has passed; any active note/email body containing loom.com, or credited-closer-sent SMS body containing loom.com, by deadline counts."}
+                            "support": loom_evidence, "basis": "Any active SMS, email, or note containing a Loom link by the first-call deadline counts regardless of sender."}
 
     precall = [event("sms", msg, at) for msg in sms if (at := message_stamp(msg)) and at <= deadline
                and str(msg.get("direction") or "").lower() in OUTBOUND and sent(msg) and body(msg)

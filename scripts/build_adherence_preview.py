@@ -28,6 +28,7 @@ from zoneinfo import ZoneInfo
 from adherence_rules import LOST_STATUS_ID, STEP_META, WON_STATUS_ID, aggregate_rep_scores, first_call_deadline, is_post_call_exempt_status, parse_datetime, score_lead, validate_aggregate
 from qualifying_meeting_rules import latest_qualifying_dates_in_period
 from rep_roster import INACTIVE_CLOSERS
+from call_attribution import scoring_rep_for_meeting
 
 
 BASE_URL = "https://api.close.com/api/v1"
@@ -150,29 +151,6 @@ def resolve_owner(
     if value in ids_by_name:
         return value, ids_by_name[value]
     return value or "Unknown", None
-
-
-def scoring_rep_for_meeting(
-    first_meeting: dict[str, Any] | None,
-    current_owner_id: str | None,
-    visible_rep_ids: set[str],
-) -> tuple[str | None, str]:
-    """Choose the meeting's rep, falling back to current owner only without a known rep."""
-    if first_meeting:
-        primary = str(first_meeting.get("user_id") or "")
-        assigned = {str(value) for value in first_meeting.get("users") or [] if value}
-        if primary:
-            assigned.add(primary)
-        if primary in visible_rep_ids:
-            return primary, "meeting_rep"
-        visible_assigned = assigned & visible_rep_ids
-        if len(visible_assigned) == 1:
-            return next(iter(visible_assigned)), "meeting_rep"
-        if assigned:
-            return None, "meeting_rep_not_visible" if not visible_assigned else "ambiguous_meeting_rep"
-    if current_owner_id in visible_rep_ids:
-        return current_owner_id, "owner_fallback"
-    return None, "not_visible_rep"
 
 
 def chunks(values: list[str], size: int = 25):
@@ -412,6 +390,8 @@ def add_adherence_to_dashboard(
     include_canceled_by_lead_status: bool = False,
     candidate_booked_date_field: tuple[str, str] | None = None,
     candidate_date_range: tuple[str, str] | None = None,
+    as_of: datetime | None = None,
+    audit_extract_path: Path | None = None,
 ) -> dict[str, Any]:
     repo_root = Path(__file__).resolve().parents[1]
     workspace_root = repo_root.parent
@@ -460,6 +440,10 @@ def add_adherence_to_dashboard(
     candidates = []
     exclusion_counts = defaultdict(int)
     for lead in raw_cohort:
+        business_line = str(custom_value(lead, "cf_aJlNlilQZIgLLuhcymNN8fiOzewnFxrbWjLZFPmsucO", "BTC Business Line") or "").strip()
+        if business_line not in {"", "Vendingpreneurs (VP)"}:
+            exclusion_counts["non_vp_business_line"] += 1
+            continue
         status_exclusion = EXCLUDED_LEAD_STATUSES.get(lead.get("status_id"))
         if status_exclusion and not (
             include_canceled_by_lead_status and status_exclusion == "canceled_by_lead"
@@ -563,13 +547,17 @@ def add_adherence_to_dashboard(
         activity = extract["activities"]
         tasks_by_lead = extract["tasks"]
 
-    now = (
+    now = as_of or (
         datetime.fromisoformat(extract["meta"]["ended_at"]).astimezone(PACIFIC)
         if extract is not None
         else datetime.now(PACIFIC)
     )
     evidence_by_rep: dict[str, list[dict[str, dict[str, bool]]]] = defaultdict(list)
     scored_leads_by_rep: dict[str, list[tuple[dict[str, Any], dict[str, dict[str, bool]]]]] = defaultdict(list)
+    if audit_extract_path is not None:
+        payload={"meta":{"month":f"{year}-{month_number:02d}","complete":True,"started_at":now.isoformat(),"ended_at":now.isoformat(),"api_requests":client.request_count if client else 0},
+                 "users":users_by_id,"leads":raw_cohort,"activities":activity,"tasks":tasks_by_lead}
+        audit_extract_path.write_text(json.dumps(payload));audit_extract_path.chmod(0o600)
     for lead in included:
         lead_id = lead["id"]
         evidence = score_lead(

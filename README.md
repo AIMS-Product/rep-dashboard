@@ -102,8 +102,7 @@ does not apply this exact business-line allowlist. On Revenue Closed, Rev / Lead
 rep's month-to-date revenue divided by their booked leads; AOV is month-to-date revenue divided by
 closed deals. A zero denominator displays `N/A`. Team Rev / Lead is not displayed.
 
-Process Adherence has three pre-call and two post-call steps. All SMS evidence must come from the
-closer credited with the scored call, including texts used for Loom evidence and post-call follow-up.
+Process Adherence has three pre-call and two post-call steps. Any Loom link on the lead before the scored call counts regardless of sender. Other SMS evidence uses the closer credited with the scored call.
 The current Lead Owner is used only when no meeting rep can be identified; later ownership changes
 do not remove credit for the meeting closer. Day-of
 confirmation requires an outbound SMS or email with a message body, or an outbound call,
@@ -183,3 +182,7 @@ Edit the `EXCLUDE_USERS` set in `scripts/fetch_data.py`.
 **Page not loading**: Make sure GitHub Pages is enabled and pointing to the `main` branch root.
 
 **Stale data**: The page auto-refreshes every 5 minutes. You can also hard-refresh (Ctrl+Shift+R).
+
+## Avoma QA score
+
+The Rep Dashboard uses the same month-to-date Avoma VP Closing Call Scorecard integration as the Sales Manager Dashboard. Scores follow meetings held this month in Pacific time, matched to Close user email, and show the mean out of 5, percentage and scored-call count. The target is 4/5 (80%). Team QA is weighted by scored-call count across visible reps; users outside the active roster are excluded from that total. Missing scores display a dash. GitHub Actions requires AVOMA_API_KEY alongside CLOSE_API_KEY.

@@ -1,6 +1,7 @@
 """Aggregate drilldowns over the accepted V2 records; no booking selection here."""
 
 from collections import defaultdict
+from rep_roster import INACTIVE_CLOSERS
 
 SCHEMA_VERSION = 3
 BOOKING_SCOPE = "vp-closers.v1"
@@ -29,7 +30,7 @@ def owner_name(value, users):
 
 def vp_closer_bookings(bookings, users):
     """Apply sales roster scope after the complete-history booking decisions."""
-    return [row for row in bookings if owner_name(row.get("owner"), users) in VP_BOOKING_CLOSERS]
+    return [row for row in bookings if owner_name(row.get("owner"), users) in set(VP_BOOKING_CLOSERS) - INACTIVE_CLOSERS]
 
 
 def rollup(bookings, won, key):

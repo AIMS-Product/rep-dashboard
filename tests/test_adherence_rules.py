@@ -80,7 +80,7 @@ class AdherenceRulesTests(unittest.TestCase):
         self.assertFalse(result["day_of_confirmation_text"]["done"])
         self.assertTrue(result["recap_email"]["done"])
 
-    def test_sms_evidence_requires_credited_closer_across_pre_and_post_call_steps(self):
+    def test_other_sender_loom_counts_without_crediting_their_other_sms(self):
         base = dict(
             booked_date="2026-09-10", show_state="Yes", owner_id=OWNER,
             lead_owner_id="user_lead_owner", meetings=[meeting("2026-09-10T17:00:00Z")],
@@ -94,9 +94,13 @@ class AdherenceRulesTests(unittest.TestCase):
              "direction": "outbound", "status": "sent", "user_id": "user_lead_owner", "text": "Following up"},
         ]
         rejected = score_lead(**base, sms=other_owner_sms)
-        self.assertFalse(rejected["loom_usage"]["done"])
+        self.assertTrue(rejected["loom_usage"]["done"])
         self.assertFalse(rejected["precall_text"]["done"])
+        self.assertFalse(rejected["day_of_confirmation_text"]["done"])
         self.assertFalse(rejected["recap_email"]["done"])
+
+        after_call = dict(other_owner_sms[0], date_sent="2026-09-10T17:01:00Z")
+        self.assertFalse(score_lead(**base, sms=[after_call])["loom_usage"]["done"])
 
         closer_sms = [dict(message, user_id=OWNER) for message in other_owner_sms]
         accepted = score_lead(**base, sms=closer_sms)

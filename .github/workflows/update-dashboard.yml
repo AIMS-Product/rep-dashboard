@@ -1,4 +1,4 @@
-name: Update Sales Dashboard
+name: Publish Joint Sales Dashboards
 
 on:
   workflow_dispatch:  # Triggered by cron-job.org every 15 minutes
@@ -25,6 +25,22 @@ jobs:
           ref: main
           fetch-depth: 0
 
+      - name: Checkout authoritative MTD calculation
+        uses: actions/checkout@v4
+        with:
+          repository: AIMS-Product/mtd-funnel-dashboard
+          ref: ${{ vars.MTD_REPORTING_REF || 'main' }}
+          path: .reporting-dependencies/mtd
+          persist-credentials: false
+
+      - name: Checkout Sales Manager presentation and operating configuration
+        uses: actions/checkout@v4
+        with:
+          repository: AIMS-Product/sales-manager-dashboard
+          ref: ${{ vars.MANAGER_REPORTING_REF || 'main' }}
+          path: .reporting-dependencies/manager
+          persist-credentials: false
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -36,7 +52,14 @@ jobs:
       - name: Verify dashboard reporting rules
         run: python3 -m unittest discover -s tests -p 'test*.py' -q
 
+      - name: Verify authoritative MTD rules
+        run: python3 -m unittest discover -s .reporting-dependencies/mtd/v2 -p 'test*.py' -q
+
+      - name: Verify Sales Manager reporting rules
+        run: python3 -m unittest discover -s .reporting-dependencies/manager/tests -p 'test*.py' -q
+
       - name: Refresh and publish dashboard data
         env:
           CLOSE_API_KEY: ${{ secrets.CLOSE_API_KEY }}
-        run: bash scripts/refresh_and_publish.sh
+          AVOMA_API_KEY: ${{ secrets.AVOMA_API_KEY }}
+        run: bash scripts/refresh_shared_sales.sh

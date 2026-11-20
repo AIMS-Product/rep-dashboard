@@ -228,7 +228,7 @@ def score_lead(
     tasks: Iterable[dict[str, Any]] = (),
     now: datetime | None = None,
 ) -> dict[str, dict[str, bool]]:
-    """Score evidence from the credited closer (owner_id).
+    """Score lead evidence and attribute rep-specific steps to the credited closer.
 
     The adapter resolves owner_id from the meeting, falling back to the lead owner
     only without an identifiable meeting rep. lead_owner_id remains accepted for
@@ -250,17 +250,16 @@ def score_lead(
 
     pre_eligible = deadline <= now
     comms = (
-        [("email", activity, message_time) for activity in emails]
-        + [("sms", activity, message_time) for activity in sms]
-        + [("note", activity, activity_time) for activity in notes]
+        [(activity, message_time) for activity in emails]
+        + [(activity, message_time) for activity in sms]
+        + [(activity, activity_time) for activity in notes]
     )
     loom_done = any(
         (stamp := timestamp(activity)) is not None
         and stamp <= deadline
         and is_active_activity(activity)
-        and (kind != "sms" or (owner_id and str(activity.get("user_id") or "") == owner_id))
         and bool(LOOM_PATTERN.search(activity_body(activity)))
-        for kind, activity, timestamp in comms
+        for activity, timestamp in comms
     )
     precall_text_done = any(
         (stamp := message_time(message)) is not None

@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Current checkouts publish both dashboards through the single shared boundary.
+if [[ -f scripts/refresh_shared_sales.sh ]]; then
+  exec bash scripts/refresh_shared_sales.sh "$@"
+fi
+
 # Rollbacks below discard only this script's generated commit in a disposable runner.
 if [[ "${GITHUB_ACTIONS:-}" != "true" ]] || [[ -n "$(git status --porcelain)" ]]; then
   echo "::error::Publication requires a clean GitHub Actions checkout."
