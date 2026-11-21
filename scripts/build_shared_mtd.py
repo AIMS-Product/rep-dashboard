@@ -5,6 +5,23 @@ from datetime import datetime,time,timedelta
 from shared_periods import PACIFIC, scheduled_between, week_metadata, week_starts, weekly_canonical
 
 
+def certified_vp_inputs(path, digest, cutoff, month_start):
+    if path is None and digest is None:
+        return {}
+    if path is None or digest is None:
+        raise ValueError('VP meeting input requires the private artifact and its approved digest')
+    payload = path.read_bytes()
+    if hashlib.sha256(payload).hexdigest() != digest:
+        raise ValueError('VP meeting artifact hash differs from the approved input')
+    bundle = json.loads(payload)
+    if (bundle['contract'] != 'steeltrap.vp-equivalent-bookings.v1'
+            or datetime.fromisoformat(bundle['source_cutoff']) != cutoff
+            or not bundle['steeltrap_publication_id']):
+        raise ValueError('VP booking artifact belongs to a different accepted source cutoff')
+    return dict(certified_vp_membership=bundle['months'][month_start.strftime('%Y-%m')],
+                reviewed_booking_origins=bundle['reviewed_booking_origins'])
+
+
 def render_page(mtd,mtd_root,output):
     from publish_shadow import render_report
     navigation=json.loads((mtd_root/'v2/archives/nav.json').read_text())
@@ -19,6 +36,9 @@ def main():
     parser.add_argument('--render-only',action='store_true')
     parser.add_argument('--meeting-catalog', type=Path)
     parser.add_argument('--monthly-only', action='store_true')
+    parser.add_argument('--vp-membership-bundle', type=Path)
+    parser.add_argument('--vp-membership-sha256')
+    parser.add_argument('--read-certified-steeltrap-vp', action='store_true')
     args=parser.parse_args();sys.path.insert(0,str(args.mtd_root/'v2'))
     from build import CloseReader,build_dataset,load_api_key
     from outcome_core import ReportingReader,scheduled_dataset,occurred_dataset
@@ -37,7 +57,19 @@ def main():
     weeks = () if args.monthly_only else week_starts(cutoff)
     earliest = min((month_start, *weeks))
     reader = ReportingReader(CloseReader(load_api_key()).get, earliest, cutoff)
-    raw = build_dataset(reader, cutoff, month_start)
+    vp_inputs = certified_vp_inputs(args.vp_membership_bundle, args.vp_membership_sha256, cutoff, month_start)
+    vp_membership_sha256 = args.vp_membership_sha256
+    if args.read_certified_steeltrap_vp:
+        if vp_inputs:
+            raise ValueError('Supply exactly one certified VP booking source')
+        from read_steeltrap_vp_membership import read_accepted_bundle
+        bundle = read_accepted_bundle()
+        if datetime.fromisoformat(bundle['source_cutoff']) != cutoff:
+            raise ValueError('The requested cutoff differs from the accepted SteelTrap VP generation')
+        vp_inputs = dict(certified_vp_membership=bundle['months'][month_start.strftime('%Y-%m')],
+                         reviewed_booking_origins=bundle['reviewed_booking_origins'])
+        vp_membership_sha256=hashlib.sha256(json.dumps(bundle,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+    raw = build_dataset(reader, cutoff, month_start, **vp_inputs)
     scheduled_all = scheduled_dataset(reader)
     scheduled = scheduled_between(scheduled_all, month_start, cutoff)
     occurred = occurred_dataset(scheduled)
@@ -63,6 +95,9 @@ def main():
     monthly_ids = {row['opportunity_id'] for row in raw['won_rows']}
     opps = [row for row in opportunities if row['id'] in monthly_ids]
     versions={name:hashlib.sha256((args.mtd_root/'v2'/name).read_bytes()).hexdigest() for name in ['build.py','aggregates.py','outcome_core.py','outcome_public.py','rules.json']}
+    if vp_inputs:
+        versions['certified_vp_bookings.py']=hashlib.sha256((args.mtd_root/'v2/certified_vp_bookings.py').read_bytes()).hexdigest()
+        versions['vp_membership_sha256']=vp_membership_sha256
     canonical={'source_versions':{'mtd':versions},'cutoff':cutoff.isoformat(),'rules_version':raw['rules_version'],'roster':roster,'mtd':mtd,'scheduled_rows':scheduled['rows'],'occurred_rows':occurred['rows'],'opportunities':opps,'user_map':reader.user_map}
     canonical['weeks'] = {}
     for start in weeks:
