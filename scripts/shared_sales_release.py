@@ -27,7 +27,7 @@ def check_mtd_html(html,mtd):
     match=re.search(r'<script id="v2-data" type="application/json">(.*?)</script>',html,re.S)
     if not match:raise ValueError('MTD HTML has no aggregate evidence')
     embedded=json.loads(match.group(1))
-    for key in ['totals','team','channels','setters','source_cutoff','rules_version','booking_scope']:
+    for key in ['totals','team','channels','setters','source_cutoff','rules_version','booking_scope','vp_booking_source']:
         if embedded.get(key)!=mtd.get(key):raise ValueError('MTD HTML does not match shared data: '+key)
 
 
