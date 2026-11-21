@@ -595,7 +595,7 @@
   .step-fill { height: 100%; border-radius: 99px; background: currentColor; }
   .step-meta { display: flex; justify-content: space-between; gap: 14px; color: var(--text-muted); font-size: 10px; }
   .step-count { color: var(--text-secondary); font-family: var(--mono); font-weight: 700; white-space: nowrap; }
-  .step-cohorts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 14px; }
+  .step-cohorts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 155px), 1fr)); gap: 8px; margin-top: 14px; }
   .step-cohort { min-width: 0; border: 1px solid var(--border-light); border-radius: 8px; background: #fbfcfe; }
   .step-cohort summary { padding: 9px 10px; cursor: pointer; color: var(--text-secondary); font-size: 11px; font-weight: 700; }
   .step-cohort summary:hover, .step-cohort summary:focus-visible { background: var(--row-hover); }
@@ -604,6 +604,18 @@
   .step-lead-name { overflow-wrap: anywhere; color: var(--text); font-size: 11px; font-weight: 650; }
   a.step-lead-name { color: var(--teal); text-decoration: none; }
   a.step-lead-name:hover, a.step-lead-name:focus-visible { text-decoration: underline; }
+  .step-lead-reassigned {
+    display: inline-block;
+    margin-inline-start: 5px;
+    padding: 1px 5px;
+    border: 1px solid #fcd34d;
+    border-radius: 4px;
+    background: var(--amber-bg);
+    color: #854d0e;
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
   .step-lead-meta { overflow-wrap: anywhere; color: var(--text-muted); font-size: 10px; }
   .step-empty { padding: 0 10px 10px; color: var(--text-muted); font-size: 10px; }
   .drawer-rule-note {
@@ -853,13 +865,23 @@
     if (value >= 60) return 'score-watch';
     return 'score-low';
   }
+  function adherencePhaseKeys(rep, phase) {
+    if (phase === 'pre_call') return ['loom_usage', 'precall_text', 'day_of_confirmation_text'];
+    return rep.post_call_12h ? ['recap_12h', 'next_step_12h'] : ['follow_up_created', 'recap_email'];
+  }
+
   function adherenceButton(r, phase, repIndex) {
     const label = phase === 'pre_call' ? 'pre-call' : 'post-call';
     const value = r.adherence && adherencePhasePct(r.adherence, phase);
-    if (value == null) {
+    const hasDetails = value != null || (r.adherence && adherencePhaseKeys(r, phase).some(key => {
+      const step = adherenceStep(r.adherence, key);
+      const cohorts = step?.leadCohorts || r.adherence.lead_cohorts?.[key];
+      return cohorts && Object.values(cohorts).some(leads => leads.length > 0);
+    }));
+    if (!hasDetails) {
       return `<button class="adherence-btn" type="button" disabled aria-label="No ${label} adherence data for ${r.name}">—</button>`;
     }
-    return `<button class="adherence-btn ${scoreTone(value, phase === 'post_call' && r.post_call_12h ? 95 : 90)}" type="button" data-adherence-rep="${repIndex}" data-adherence-phase="${phase}" aria-label="Open ${label} adherence details for ${r.name}, ${value} percent">${value}%</button>`;
+    return `<button class="adherence-btn ${scoreTone(value, phase === 'post_call' && r.post_call_12h ? 95 : 90)}" type="button" data-adherence-rep="${repIndex}" data-adherence-phase="${phase}" aria-label="Open ${label} adherence details for ${r.name}, ${value == null ? 'no eligible score' : `${value} percent`}">${pctText(value)}</button>`;
   }
 
   function adherenceStepValue(r, key) {
@@ -953,7 +975,7 @@
                 <th class="adherence-post-group" scope="colgroup" colspan="3">${D.scorecard_meta ? 'Post-call · 12 hours · target 95%' : 'Post-call'}</th>
               </tr>
               <tr class="adherence-column-row">
-                <th scope="col">Average</th><th scope="col">Pre-Call Loom</th><th scope="col">Pre-call text</th><th scope="col">Day-of confirmation</th>
+                <th scope="col">Average</th><th scope="col">Pre-Call Loom</th><th scope="col">Pre-call outreach</th><th scope="col">Day-of confirmation</th>
                 <th class="adherence-post-start" scope="col">${D.scorecard_meta ? 'Post-call adherence' : 'Average'}</th><th scope="col">${D.scorecard_meta ? 'Task or follow-up meeting' : 'Task or follow-up meeting'}</th><th scope="col">${D.scorecard_meta ? 'Recap sent ≤12h' : 'Recap email sent'}</th>
               </tr>
             </thead>
@@ -1292,7 +1314,7 @@
     recap_12h: 'Any sent outbound email or SMS on the lead, from the call start through 12 hours after its scheduled end. No content, template or sender restriction. Actual send time is used when available.',
     next_step_12h: 'Next-step rule: a dated task assigned to the closer, due at or after the scheduled call start or created after it, OR a later meeting that is not canceled or declined, OR a verifiably scheduled outbound SMS. The task or meeting must be created, or SMS scheduled, from call start through 12 hours after scheduled end. The SMS can send later.',
     loom_usage: 'Loom link on the lead at or before the first-call deadline, regardless of sender.',
-    precall_text: 'Non-empty sent outbound SMS from the credited closer at or before the first-call deadline.',
+    precall_text: 'A sent outbound SMS or email with a message body from the credited closer by the first-call deadline.',
     day_of_confirmation_text: 'The closer or Lane 2 sends an outbound SMS or email with a message body, or makes an outbound call, on the meeting’s Pacific calendar day before it begins.',
     follow_up_created: 'A dated task assigned to the credited closer, due at or after the scheduled first-call anchor or created after it, or a later meeting that is not canceled or declined and may be assigned to anyone. Either one completes this step. Show-up outcome does not affect eligibility; Closed/Won and Lost leads are exempt.',
     recap_email: 'A sent outbound email or SMS sent by the credited closer within 12 hours of the scheduled first-call anchor. Show-up outcome does not affect eligibility; Closed/Won and Lost leads are exempt.'
@@ -1306,10 +1328,12 @@
 
   function renderStepCohort(label, leads) {
     const items = leads.map(lead => `<li>
-      ${lead.url && /^https:\/\/app\.close\.com\/lead\/lead_[A-Za-z0-9]+\/?$/.test(lead.url)
+      <div>${lead.url && /^https:\/\/app\.close\.com\/lead\/lead_[A-Za-z0-9]+\/?$/.test(lead.url)
         ? `<a class="step-lead-name" href="${escapeHtml(lead.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(lead.name)} ↗</a>`
-        : `<span class="step-lead-name">${escapeHtml(lead.name)}</span>`}
-      <span class="step-lead-meta">${escapeHtml(scoredCallLabel(lead))}${lead.reassigned ? ' · Reassigned' : ''}${label === 'Exempt' && lead.status_label ? ` · ${escapeHtml(lead.status_label)}` : ''}</span>
+        : `<span class="step-lead-name">${escapeHtml(lead.name)}</span>`}${lead.reassigned === true
+        ? '<span class="step-lead-reassigned" title="This call still counts for the credited closer. The lead has a different current owner.">Reassigned</span>'
+        : ''}</div>
+      <span class="step-lead-meta">${escapeHtml(scoredCallLabel(lead))}${label === 'Exempt' && lead.status_label ? ` · ${escapeHtml(lead.status_label)}` : ''}</span>
       ${lead.deadline_at ? `<span class="step-lead-meta">Response deadline: ${escapeHtml(new Date(lead.deadline_at).toLocaleString('en-US',{timeZone:'America/Los_Angeles'}))} PT · Recap ${lead.recap_done ? '✓' : '✗'} · Next step ${lead.next_step_done ? '✓' : '✗'}</span>` : ''}
       ${lead.exemption_reason ? `<span class="step-lead-meta">Excluded: ${escapeHtml(lead.exemption_reason)}</span>` : ''}
     </li>`).join('');
@@ -1348,9 +1372,7 @@
     const is12h = !isPre && Boolean(rep.post_call_12h);
     const phaseLabel = isPre ? 'Pre-call adherence' : is12h ? 'Post-call adherence' : 'Post-call adherence';
     const phaseValue = adherencePhasePct(rep.adherence, isPre ? 'pre_call' : 'post_call');
-    const keys = isPre
-      ? ['loom_usage', 'precall_text', 'day_of_confirmation_text']
-      : is12h ? ['recap_12h', 'next_step_12h'] : ['follow_up_created', 'recap_email'];
+    const keys = adherencePhaseKeys(rep, phase);
     const cards = keys.map(key => {
       const cell = adherenceStep(rep.adherence, key) || {
         label: key === 'day_of_confirmation_text' ? 'Day-of confirmation' : key,
