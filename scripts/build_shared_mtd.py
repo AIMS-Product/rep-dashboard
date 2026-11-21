@@ -5,45 +5,6 @@ from datetime import datetime,time,timedelta
 from shared_periods import PACIFIC, scheduled_between, week_metadata, week_starts, weekly_canonical
 
 
-def certified_vp_inputs(path, digest, cutoff, month_start):
-    if path is None and digest is None:
-        return {}
-    if path is None or digest is None:
-        raise ValueError('VP meeting input requires the private artifact and its approved digest')
-    payload = path.read_bytes()
-    if hashlib.sha256(payload).hexdigest() != digest:
-        raise ValueError('VP meeting artifact hash differs from the approved input')
-    bundle = json.loads(payload)
-    if (bundle['contract'] != 'steeltrap.vp-equivalent-bookings.v1'
-            or datetime.fromisoformat(bundle['source_cutoff']) > cutoff
-            or not bundle['steeltrap_publication_id']):
-        raise ValueError('VP booking artifact belongs to a different accepted source cutoff')
-    month = month_start.strftime('%Y-%m')
-    if month not in bundle['months']:
-        raise ValueError('The approved SteelTrap list does not cover this MTD report month')
-    return dict(certified_vp_membership=bundle['months'][month],
-                reviewed_booking_origins=bundle['reviewed_booking_origins'])
-
-
-def verify_vp_rows(raw, expected):
-    from collections import Counter
-
-    actual = [{
-        'activity_id': row['meeting_id'],
-        'booked_day': row['booked_date_pt'],
-        'bucket': row['bucket'],
-        'appointment_closer': row['appointment_closer'],
-    } for row in raw['rows'] if row['bucket'] in {'Lane 2', 'Social DMs'}]
-    order = lambda row: (row['booked_day'], row['bucket'], row['activity_id'])
-    actual = sorted(actual, key=order)
-    if actual != sorted(expected, key=order):
-        raise ValueError('MTDv2 meeting IDs, booking dates, buckets or closers differ from the approved list')
-    counts = Counter(row['bucket'] for row in actual)
-    if (raw['totals']['lane2'], raw['totals']['social_dms']) != (counts['Lane 2'], counts['Social DMs']):
-        raise ValueError('MTDv2 booking rollups do not equal the approved meetings')
-    return actual
-
-
 def render_page(mtd,mtd_root,output):
     from publish_shadow import render_report
     navigation=json.loads((mtd_root/'v2/archives/nav.json').read_text())
@@ -58,9 +19,6 @@ def main():
     parser.add_argument('--render-only',action='store_true')
     parser.add_argument('--meeting-catalog', type=Path)
     parser.add_argument('--monthly-only', action='store_true')
-    parser.add_argument('--vp-membership-bundle', type=Path)
-    parser.add_argument('--vp-membership-sha256')
-    parser.add_argument('--read-certified-steeltrap-vp', action='store_true')
     args=parser.parse_args();sys.path.insert(0,str(args.mtd_root/'v2'))
     from build import CloseReader,build_dataset,load_api_key
     from outcome_core import ReportingReader,scheduled_dataset,occurred_dataset
@@ -79,30 +37,7 @@ def main():
     weeks = () if args.monthly_only else week_starts(cutoff)
     earliest = min((month_start, *weeks))
     reader = ReportingReader(CloseReader(load_api_key()).get, earliest, cutoff)
-    vp_inputs = certified_vp_inputs(args.vp_membership_bundle, args.vp_membership_sha256, cutoff, month_start)
-    vp_membership_sha256 = args.vp_membership_sha256
-    if args.read_certified_steeltrap_vp:
-        if vp_inputs:
-            raise ValueError('Supply exactly one certified VP booking source')
-        from read_steeltrap_vp_membership import read_accepted_bundle
-        bundle = read_accepted_bundle()
-        if datetime.fromisoformat(bundle['source_cutoff']) != cutoff:
-            raise ValueError('The requested cutoff differs from the accepted SteelTrap VP generation')
-        vp_inputs = dict(certified_vp_membership=bundle['months'][month_start.strftime('%Y-%m')],
-                         reviewed_booking_origins=bundle['reviewed_booking_origins'])
-        vp_membership_sha256=hashlib.sha256(json.dumps(bundle,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-    raw = build_dataset(reader, cutoff, month_start, **vp_inputs)
-    vp_booking_source = None
-    if args.vp_membership_bundle:
-        approved = json.loads(args.vp_membership_bundle.read_bytes())
-        verified = verify_vp_rows(raw, vp_inputs['certified_vp_membership'])
-        vp_booking_source = {
-            'steeltrap_publication_id': approved['steeltrap_publication_id'],
-            'source_cutoff': approved['source_cutoff'],
-            'meeting_count': len(verified),
-            'membership_sha256': hashlib.sha256(json.dumps(
-                verified, sort_keys=True, separators=(',', ':')).encode()).hexdigest(),
-        }
+    raw = build_dataset(reader, cutoff, month_start)
     scheduled_all = scheduled_dataset(reader)
     scheduled = scheduled_between(scheduled_all, month_start, cutoff)
     occurred = occurred_dataset(scheduled)
@@ -117,8 +52,6 @@ def main():
         source=Path(temp)/'raw.json';source.write_text(json.dumps(raw));mtd=apply_occurred_mtd(public_data(source),occurred,scheduled)
     mtd['view']={'key':cutoff.strftime('%Y-%m'),'kind':'month','month':cutoff.strftime('%Y-%m'),'start':cutoff.date().replace(day=1).isoformat(),'end':cutoff.date().isoformat(),'end_exclusive':(cutoff.date().replace(day=28)+timedelta(days=4)).replace(day=1).isoformat(),'frozen':False,'label':cutoff.strftime('%B %Y')}
     mtd['metric_version']='calls-occurred.v1';mtd['source_cutoff']=cutoff.isoformat()
-    if vp_booking_source:
-        mtd['vp_booking_source'] = vp_booking_source
     # Wins are independent of meetings. Reuse the existing authority for the
     # previous-month tail when a supported week extends before this month.
     raw_wins = raw['won_rows']
@@ -130,11 +63,6 @@ def main():
     monthly_ids = {row['opportunity_id'] for row in raw['won_rows']}
     opps = [row for row in opportunities if row['id'] in monthly_ids]
     versions={name:hashlib.sha256((args.mtd_root/'v2'/name).read_bytes()).hexdigest() for name in ['build.py','aggregates.py','outcome_core.py','outcome_public.py','rules.json']}
-    if vp_booking_source:
-        versions['vp_booking_source'] = vp_booking_source
-    if vp_inputs:
-        versions['certified_vp_bookings.py']=hashlib.sha256((args.mtd_root/'v2/certified_vp_bookings.py').read_bytes()).hexdigest()
-        versions['vp_membership_sha256']=vp_membership_sha256
     canonical={'source_versions':{'mtd':versions},'cutoff':cutoff.isoformat(),'rules_version':raw['rules_version'],'roster':roster,'mtd':mtd,'scheduled_rows':scheduled['rows'],'occurred_rows':occurred['rows'],'opportunities':opps,'user_map':reader.user_map}
     canonical['weeks'] = {}
     for start in weeks:

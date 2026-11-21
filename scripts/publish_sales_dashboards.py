@@ -16,29 +16,12 @@ def main():
     build=sub.add_parser('build');build.add_argument('--mtd-root',type=Path,required=True);build.add_argument('--manager-root',type=Path,required=True);build.add_argument('--manager-base',type=Path,required=True);build.add_argument('--output',type=Path,required=True)
     build.add_argument('--base',type=Path);build.add_argument('--reuse-enrichment',action='store_true');build.add_argument('--env-file',type=Path)
     build.add_argument('--cutoff',default=None);build.add_argument('--private-work-dir',type=Path);build.add_argument('--canonical',type=Path)
-    build.add_argument('--vp-membership-bundle',type=Path);build.add_argument('--vp-membership-sha256')
-    build.add_argument('--read-certified-steeltrap-vp',action='store_true')
     build.add_argument('--independent-meeting-reads', action='store_true', help='Use separate Close meeting reads for comparison')
     accept=sub.add_parser('accept');accept.add_argument('--stage',type=Path,required=True);accept.add_argument('--site-root',type=Path,required=True)
     rollback=sub.add_parser('rollback');rollback.add_argument('--site-root',type=Path,required=True);rollback.add_argument('--release-id',required=True)
     args=parser.parse_args()
     if args.command=='accept':print(json.dumps(accept_release(args.stage,args.site_root)));return
     if args.command=='rollback':print(json.dumps(rollback_release(args.site_root,args.release_id)));return
-    if bool(args.vp_membership_bundle)!=bool(args.vp_membership_sha256) or (args.canonical and args.vp_membership_bundle):
-        raise ValueError('VP membership requires an approved digest and a fresh MTD build')
-    vp_args=[]
-    if args.vp_membership_bundle:
-        vp_args=['--vp-membership-bundle', str(args.vp_membership_bundle),
-                 '--vp-membership-sha256', args.vp_membership_sha256]
-    if args.read_certified_steeltrap_vp:
-        if args.canonical or vp_args:
-            raise ValueError('The accepted VP source requires an independent fresh reader')
-        from read_steeltrap_vp_membership import read_accepted_bundle
-        steeltrap_cutoff=read_accepted_bundle()['source_cutoff']
-        if args.cutoff and datetime.fromisoformat(args.cutoff)!=datetime.fromisoformat(steeltrap_cutoff):
-            raise ValueError('Requested report cutoff differs from the accepted SteelTrap cutoff')
-        args.cutoff=steeltrap_cutoff
-        vp_args=['--read-certified-steeltrap-vp']
     cutoff=datetime.fromisoformat(args.cutoff) if args.cutoff else datetime.now(ZoneInfo('America/Los_Angeles'))
     if cutoff.tzinfo is None:raise ValueError('Cutoff must have timezone')
     cutoff=cutoff.astimezone(ZoneInfo('America/Los_Angeles'))
@@ -72,7 +55,7 @@ def main():
             subprocess.run([sys.executable,str(SCRIPTS/'build_shared_mtd.py'),'--mtd-root',str(args.mtd_root),'--roster',str(roster_path),'--cutoff',cutoff.isoformat(),'--output',str(private),'--render-only'],check=True,env=mtd_env)
         else:
             period_args = ['--monthly-only'] if args.reuse_enrichment else []
-            subprocess.run([sys.executable,str(SCRIPTS/'build_shared_mtd.py'),'--mtd-root',str(args.mtd_root),'--roster',str(roster_path),'--cutoff',cutoff.isoformat(),'--output',str(private),*meeting_args,*period_args,*vp_args],check=True,env=mtd_env)
+            subprocess.run([sys.executable,str(SCRIPTS/'build_shared_mtd.py'),'--mtd-root',str(args.mtd_root),'--roster',str(roster_path),'--cutoff',cutoff.isoformat(),'--output',str(private),*meeting_args,*period_args],check=True,env=mtd_env)
         cmd=[sys.executable,str(SCRIPTS/'build_shared_rep.py'),'--canonical',str(private/'canonical.json'),'--output',str(private/'rep.json'),*meeting_args]
         if args.base:cmd+=['--base',str(args.base)]
         if args.reuse_enrichment:cmd+=['--reuse-enrichment']
