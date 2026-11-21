@@ -15,11 +15,33 @@ def certified_vp_inputs(path, digest, cutoff, month_start):
         raise ValueError('VP meeting artifact hash differs from the approved input')
     bundle = json.loads(payload)
     if (bundle['contract'] != 'steeltrap.vp-equivalent-bookings.v1'
-            or datetime.fromisoformat(bundle['source_cutoff']) != cutoff
+            or datetime.fromisoformat(bundle['source_cutoff']) > cutoff
             or not bundle['steeltrap_publication_id']):
         raise ValueError('VP booking artifact belongs to a different accepted source cutoff')
-    return dict(certified_vp_membership=bundle['months'][month_start.strftime('%Y-%m')],
+    month = month_start.strftime('%Y-%m')
+    if month not in bundle['months']:
+        raise ValueError('The approved SteelTrap list does not cover this MTD report month')
+    return dict(certified_vp_membership=bundle['months'][month],
                 reviewed_booking_origins=bundle['reviewed_booking_origins'])
+
+
+def verify_vp_rows(raw, expected):
+    from collections import Counter
+
+    actual = [{
+        'activity_id': row['meeting_id'],
+        'booked_day': row['booked_date_pt'],
+        'bucket': row['bucket'],
+        'appointment_closer': row['appointment_closer'],
+    } for row in raw['rows'] if row['bucket'] in {'Lane 2', 'Social DMs'}]
+    order = lambda row: (row['booked_day'], row['bucket'], row['activity_id'])
+    actual = sorted(actual, key=order)
+    if actual != sorted(expected, key=order):
+        raise ValueError('MTDv2 meeting IDs, booking dates, buckets or closers differ from the approved list')
+    counts = Counter(row['bucket'] for row in actual)
+    if (raw['totals']['lane2'], raw['totals']['social_dms']) != (counts['Lane 2'], counts['Social DMs']):
+        raise ValueError('MTDv2 booking rollups do not equal the approved meetings')
+    return actual
 
 
 def render_page(mtd,mtd_root,output):
@@ -70,6 +92,17 @@ def main():
                          reviewed_booking_origins=bundle['reviewed_booking_origins'])
         vp_membership_sha256=hashlib.sha256(json.dumps(bundle,sort_keys=True,separators=(',',':')).encode()).hexdigest()
     raw = build_dataset(reader, cutoff, month_start, **vp_inputs)
+    vp_booking_source = None
+    if args.vp_membership_bundle:
+        approved = json.loads(args.vp_membership_bundle.read_bytes())
+        verified = verify_vp_rows(raw, vp_inputs['certified_vp_membership'])
+        vp_booking_source = {
+            'steeltrap_publication_id': approved['steeltrap_publication_id'],
+            'source_cutoff': approved['source_cutoff'],
+            'meeting_count': len(verified),
+            'membership_sha256': hashlib.sha256(json.dumps(
+                verified, sort_keys=True, separators=(',', ':')).encode()).hexdigest(),
+        }
     scheduled_all = scheduled_dataset(reader)
     scheduled = scheduled_between(scheduled_all, month_start, cutoff)
     occurred = occurred_dataset(scheduled)
@@ -84,6 +117,8 @@ def main():
         source=Path(temp)/'raw.json';source.write_text(json.dumps(raw));mtd=apply_occurred_mtd(public_data(source),occurred,scheduled)
     mtd['view']={'key':cutoff.strftime('%Y-%m'),'kind':'month','month':cutoff.strftime('%Y-%m'),'start':cutoff.date().replace(day=1).isoformat(),'end':cutoff.date().isoformat(),'end_exclusive':(cutoff.date().replace(day=28)+timedelta(days=4)).replace(day=1).isoformat(),'frozen':False,'label':cutoff.strftime('%B %Y')}
     mtd['metric_version']='calls-occurred.v1';mtd['source_cutoff']=cutoff.isoformat()
+    if vp_booking_source:
+        mtd['vp_booking_source'] = vp_booking_source
     # Wins are independent of meetings. Reuse the existing authority for the
     # previous-month tail when a supported week extends before this month.
     raw_wins = raw['won_rows']
@@ -95,6 +130,8 @@ def main():
     monthly_ids = {row['opportunity_id'] for row in raw['won_rows']}
     opps = [row for row in opportunities if row['id'] in monthly_ids]
     versions={name:hashlib.sha256((args.mtd_root/'v2'/name).read_bytes()).hexdigest() for name in ['build.py','aggregates.py','outcome_core.py','outcome_public.py','rules.json']}
+    if vp_booking_source:
+        versions['vp_booking_source'] = vp_booking_source
     if vp_inputs:
         versions['certified_vp_bookings.py']=hashlib.sha256((args.mtd_root/'v2/certified_vp_bookings.py').read_bytes()).hexdigest()
         versions['vp_membership_sha256']=vp_membership_sha256
