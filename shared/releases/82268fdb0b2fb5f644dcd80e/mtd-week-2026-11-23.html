@@ -1,0 +1,2098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MTD Funnel Performance — November 2026 · Nov 23–26</title>
+<style>
+  :root {
+    --bg:        #f4f6f9;
+    --surface:   #ffffff;
+    --surface2:  #f0f2f7;
+    --border:    #dde1ea;
+    --border2:   #e8eaf0;
+    --text:      #1a1f36;
+    --muted:     #8792a2;
+    --muted2:    #5c6680;
+    --green:     #0e9f6e;
+    --green-dim: #0e9f6e20;
+    --red:       #e02424;
+    --red-dim:   #e0242420;
+    --amber:     #d97706;
+    --blue:      #2563eb;
+    --purple:    #7c3aed;
+    --accent:    #4f46e5;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+    font-size: 13px;
+    min-height: 100vh;
+  }
+
+  /* Light mode card shadow */
+  .kpi {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+  }
+  table {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  /* ── Header ── */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 28px 36px 0;
+  }
+  .header-left h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .header-left .sub {
+    font-size: 11.5px;
+    color: var(--muted2);
+    margin-top: 3px;
+  }
+  .header-right {
+    text-align: right;
+    font-size: 11px;
+    color: var(--muted2);
+    line-height: 1.6;
+  }
+  .header-right .snapshot-label {
+    font-weight: 600;
+    color: var(--muted2);
+    display: block;
+  }
+
+  /* ── KPI Cards ── */
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 14px;
+    padding: 24px 36px;
+  }
+  .kpi {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--kpi-accent, var(--accent));
+    opacity: 0.6;
+  }
+  .kpi .label {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--muted2);
+    margin-bottom: 8px;
+  }
+  .kpi .value {
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--kpi-color, var(--text));
+  }
+  .kpi .kpi-sub {
+    font-size: 11px;
+    color: var(--muted2);
+    margin-top: 5px;
+  }
+  .kpi-goal-pct {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted2);
+  }
+  .kpi-split {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+    padding-top: 9px;
+    border-top: 1px solid var(--border);
+  }
+  .kpi-split-item {
+    flex: 1;
+    background: var(--surface2);
+    border-radius: 6px;
+    padding: 6px 8px;
+  }
+  .kpi-split-item .split-label {
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+  .kpi-split-item .split-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.1;
+  }
+  .compact-stats {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--muted2);
+  }
+  .compact-stats strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .cs-sep {
+    color: var(--border);
+    font-size: 14px;
+  }
+
+  .kpi-split-item .split-rate {
+    font-size: 10px;
+    color: var(--muted2);
+    margin-top: 1px;
+  }
+
+  /* ── Section label ── */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 36px 10px;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+  .section-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── Table ── */
+  .table-wrap {
+    padding: 0 36px 40px;
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead th {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  thead th.col-num,
+  thead th.col-pct,
+  thead th.col-rev { text-align: right; }
+
+  /* Funnel parent rows */
+  .funnel-row {
+    cursor: pointer;
+    border-top: 1px solid var(--border2);
+    transition: background 0.1s;
+  }
+  .funnel-row:hover { background: rgba(79,70,229,0.04); }
+  .funnel-row td { padding: 11px 12px; }
+
+  /* UTM sub-rows */
+  .utm-row {
+    display: none;
+    background: rgba(79,70,229,0.025);
+  }
+  .utm-row.open { display: table-row; }
+  .utm-row td { padding: 7px 12px; }
+  .utm-row + .utm-row td { border-top: 1px solid var(--border2); }
+
+  .pkg-row { display: none; background: #faf9ff; }
+  .pkg-row.open { display: table-row; }
+  .pkg-row td {
+    padding: 10px 12px;
+    color: var(--muted) !important;
+    font-weight: 400 !important;
+  }
+  .pkg-row + .pkg-row td { border-top: 1px solid var(--border2); }
+  .pkg-row .col-rev  { color: #7bc4a0 !important; font-weight: 400 !important; }
+  .pkg-row .col-num  { color: var(--muted) !important; }
+  .col-pkg {
+    color: var(--muted2) !important;
+    font-size: 12px;
+    padding-left: 28px !important;
+  }
+  .pkg-trigger { cursor: pointer; user-select: none; }
+  .pkg-trigger:hover { opacity: 0.75; }
+  .pkg-chevron {
+    font-size: 11px; color: #c0c8d4; margin-left: 4px;
+    display: inline-block; transition: transform 0.15s;
+  }
+  .pkg-chevron.open { transform: rotate(90deg); color: var(--muted2); }
+
+  /* Total row */
+  .total-row {
+    border-top: 2px solid var(--border);
+    font-weight: 700;
+    background: var(--surface2);
+    color: var(--text);
+  }
+  .total-row td { padding: 12px 12px; }
+
+  /* Cell types */
+  .col-name   { min-width: 190px; font-weight: 500; white-space: nowrap; }
+  .col-utm    { color: var(--muted2); padding-left: 32px !important; font-weight: 400; }
+  .col-num    { text-align: right; color: var(--text); }
+  .col-pct    { text-align: right; font-weight: 500; }
+  .col-rev    { text-align: right; color: var(--green); font-weight: 500; }
+
+  /* Excluded-from-totals funnel rows — grayed out */
+  .funnel-row-excluded td { color: var(--muted) !important; }
+  .funnel-row-excluded .col-rev { color: var(--muted) !important; }
+  .funnel-row-excluded .col-pct { color: var(--muted) !important; }
+  .funnel-row-excluded .col-pace { color: var(--muted) !important; }
+  .funnel-row-excluded .col-goal { color: var(--muted) !important; }
+
+  .col-pct.good { color: var(--green); }
+  .col-pct.bad  { color: var(--red); }
+  .col-pct.mid  { color: var(--amber); }
+
+  .col-pace  { text-align: right; font-size: 12px; color: var(--muted); }
+  .col-goal  { text-align: right; font-size: 12px; color: var(--muted); }
+  .col-pace.pace-exceed  { color: var(--green); font-weight: 600; }
+  .col-pace.pace-on      { color: #ca8a04;      font-weight: 500; }
+  .col-pace.pace-behind  { color: var(--red);   font-weight: 500; }
+
+  /* Chevron toggle */
+  .chevron {
+    display: inline-block;
+    width: 16px;
+    color: var(--muted);
+    font-size: 14px;
+    transition: transform 0.15s ease;
+    transform: rotate(0deg);
+    line-height: 1;
+  }
+  .chevron.open { transform: rotate(90deg); color: var(--accent); }
+
+  /* Section header rows */
+  .section-header-row td {
+    padding: 16px 12px 6px;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    font-weight: 700;
+    border-top: 2px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    user-select: none;
+  }
+  .section-header-row td:hover { color: #a5b4fc; }
+  .section-header-row:first-child td { border-top: none; }
+  .section-chevron {
+    display: inline-block;
+    width: 14px;
+    margin-right: 4px;
+    transition: transform 0.15s ease;
+    opacity: 0.7;
+  }
+  .section-chevron.open { transform: rotate(90deg); }
+
+  /* Progress bar mini (optional decoration on booked column) */
+  /* Pickers row */
+  .pickers-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  /* Month picker */
+  .month-picker {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .month-picker select, .week-picker select {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    outline: none;
+  }
+  .month-picker select:hover, .week-picker select:hover {
+    border-color: var(--accent);
+  }
+  /* Week picker */
+  .week-picker {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .picker-divider {
+    color: var(--border);
+    font-size: 16px;
+    line-height: 1;
+    margin: 0 2px;
+  }
+  .archive-badge {
+    display: inline-block;
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fcd34d;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 7px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  /* CSV download button */
+  .csv-download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface);
+    color: var(--muted2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .csv-download-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  @media (max-width: 960px) {
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    .header { flex-direction: column; gap: 12px; }
+    .header-right { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-left">
+    <h1>MTD Funnel Performance
+      <a href="https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/mom.html"
+         style="font-size:12px; font-weight:500; color:var(--accent); margin-left:14px;
+                text-decoration:none; vertical-align:middle;">
+        Month over Month →
+      </a>
+    </h1>
+    <p class="sub">Vendingpreneurs · VP leads · appointment closer · November 2026 · Nov 23–26</p>
+  </div>
+  <div class="header-right">
+    <div class="pickers-row">
+      <div class="compact-stats">
+        <span class="cs-item">Day <strong>25/30</strong></span>
+        <span class="cs-sep">·</span>
+        <span class="cs-item">Working days <strong>18/21</strong></span>
+        <span class="cs-sep">·</span>
+        <span class="cs-item"><strong>85.7%</strong> elapsed</span>
+      </div>
+      <span class="picker-divider">|</span>
+      <div class="month-picker"><select onchange="window.location.href=this.value"><option value="mtd.html" selected>November 2026</option><option value="https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/2026-10.html" >October 2026</option><option value="https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/2026-09.html" >September 2026 (Historical)</option><option value="https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/2026-08.html" >August 2026 (Historical)</option><option value="https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/2026-07.html" >July 2026 (Historical)</option><option value="https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/2026-06.html" >June 2026 (Historical)</option><option value="https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/2026-05.html" >May 2026 (Historical)</option><option value="https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/2026-04.html" >April 2026 (Historical)</option><option value="https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/2026-03.html" >March 2026 (Historical)</option><option value="https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/2026-02.html" >February 2026 (Historical)</option><option value="https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/2026-01.html" >January 2026 (Historical)</option></select></div><span class="picker-divider">|</span><div class="week-picker"><select onchange="window.location.href=this.value"><option value="mtd.html">Full Month</option><option value="mtd-week-2026-11-23.html" selected>Nov 23–26</option><option value="mtd-week-2026-11-16.html" >Nov 16–22</option><option value="https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/week-2026-11-09.html" >Nov 9–15</option><option value="https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/week-2026-11-02.html" >Nov 2–8</option><option value="https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/week-2026-10-26.html" >Oct 26–Nov 1</option></select></div>
+    </div>
+    <span class="snapshot-label"><span class="archive-badge">Week View</span></span>
+    November 25, 2026 at 11:30 AM PT<br>
+    Source · Close CRM
+  </div>
+</div>
+
+<!-- KPI Cards -->
+<div class="kpis">
+  <div class="kpi" style="--kpi-accent:#6366f1; --kpi-color:#6366f1;">
+    <div class="label">Leads Created</div>
+    <div class="value">29</div>
+    <div class="kpi-sub">new leads MTD</div>
+  </div>
+  <div class="kpi" style="--kpi-accent:#4f46e5; --kpi-color:var(--text);">
+    <div class="kpi-goal-pct">4%</div>
+    <div class="label">Total Booked</div>
+    <div class="value">45<span style="font-size:15px; font-weight:400; color:var(--muted); margin-left:10px;">/ 1,241 <span style="font-size:12px;">goal</span></span></div>
+    <div class="kpi-sub">new first calls MTD</div><div class="kpi-sub">Marketing 3 · Lane 2 37 · Social DMs 5</div>
+  </div>
+  <div class="kpi" style="--kpi-accent:#0891b2; --kpi-color:#0891b2;">
+    <div class="label">Calls Occurred</div>
+    <div class="value">27</div>
+    <div class="kpi-sub">11 showed · 16 no shows</div>
+    <div class="kpi-sub">24 unresolved · excluded</div>
+  </div>
+  <div class="kpi" style="--kpi-accent:#2563eb; --kpi-color:#2563eb;">
+    <div class="label">Showed</div>
+    <div class="value">11</div>
+    <div class="kpi-sub">40.7% show rate</div>
+  </div>
+  <div class="kpi" style="--kpi-accent:#7c3aed; --kpi-color:#7c3aed;">
+    <div class="label">Qualified</div>
+    <div class="value">7</div>
+    <div class="kpi-sub">25.9% of calls occurred</div>
+    <div class="kpi-sub">7 qualified calls shown</div>
+  </div>
+  <div class="kpi" style="--kpi-accent:#d97706; --kpi-color:#d97706;">
+    <div class="label">Closed Won</div>
+    <div class="value">3</div>
+    <div class="kpi-sub">11.1% close rate · 3 won ÷ 27 shown + no-show first calls</div>
+  </div>
+  <div class="kpi" style="--kpi-accent:#0e9f6e; --kpi-color:#0e9f6e;">
+    <div class="kpi-goal-pct">2%</div>
+    <div class="label">Closed Revenue</div>
+    <div class="value">$13,194<span style="font-size:15px; font-weight:400; color:var(--muted); margin-left:10px;">/ $750,000</span></div>
+    <div class="kpi-sub">$4,398 avg deal  ·  <span style="color:#7bc4a0; font-weight:600;">ARR $3,600</span>  <span style="color:#7bc4a0; opacity:0.75; font-size:11px;">MRR $300</span></div>
+  </div>
+</div>
+
+<!-- Table -->
+<div class="section-label">Funnel Breakdown — Booked → Calls Occurred → Showed → Qualified → Closed Won → Revenue</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th class="col-name">Funnel</th>
+        <th class="col-num">Leads</th>
+        <th class="col-num">Booked</th>
+        <th class="col-pace">Projected</th>
+        <th class="col-goal">Goal %</th>
+        <th class="col-num" title="Completed + No Show; excludes cancellations, future calls and unresolved outcomes">Occurred</th>
+        <th class="col-num">Showed</th>
+        <th class="col-pct" title="Period numerator divided by Calls Occurred">Show %</th>
+        <th class="col-num">Qualified</th>
+        <th class="col-pct" title="Period numerator divided by Calls Occurred">Qual %</th>
+        <th class="col-num">Closed</th>
+        <th class="col-pct" title="Won opportunities by date won divided by shown plus no-show first calls">Close %</th>
+        <th class="col-rev">Revenue</th>
+        <th class="col-num">Rev / Close</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    <tr class="section-header-row" onclick="toggleSection('lead_sources')">
+      <td colspan="14">
+        <span class="section-chevron open" id="secchev-lead_sources">›</span>FUNNEL BREAKDOWN — LEAD SOURCES
+      </td>
+    </tr>
+
+    <tr class="funnel-row" data-section="lead_sources" onclick="toggleUTM('youtube')" data-fid="youtube">
+      <td class="col-name">
+        <span class="chevron" id="chev-youtube">›</span>YouTube<div style="font-size:11px; font-weight:400; color:var(--muted2); margin-left:16px;">Marketing 1 · Lane 2 3 · Social DMs 0</div>
+      </td>
+      <td class="col-num">2</td>
+      <td class="col-num">4</td>
+      <td class="col-pace pace-behind">5</td>
+      <td class="col-goal">3% (132)</td>
+      <td class="col-num">3</td>
+      <td class="col-num">2</td>
+      <td class="col-pct mid">66.7%</td>
+      <td class="col-num">1</td>
+      <td class="col-pct bad">33.3%</td>
+      <td class="col-num">1</td>
+      <td class="col-pct good">33.3%</td>
+      <td class="col-rev pkg-trigger" onclick="event.stopPropagation();togglePkg('youtube')" title="Click to see package breakdown">$1,200 <span class="pkg-chevron" id="pkgchev-youtube">›</span></td>
+      <td class="col-num">$1,200</td>
+    </tr>
+
+    <tr class="pkg-row" data-parent="youtube" style="display:none">
+      <td class="col-name col-pkg">↳ VendHub - Basic $1,188 · Community</td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct"></td>
+      <td class="col-num">—</td>
+      <td class="col-pct"></td>
+      <td class="col-num">1</td>
+      <td class="col-pct"></td>
+      <td class="col-rev">$1,200</td>
+      <td class="col-num">$1,200</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="youtube">
+      <td class="col-name col-utm">↳ Setter · Vince Bartolini</td>
+      <td class="col-num">—</td>
+      <td class="col-num">2</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="youtube">
+      <td class="col-name col-utm">↳ diy</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">1</td>
+      <td class="col-pct good">100.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">1</td>
+      <td class="col-pct good">100.0%</td>
+      <td class="col-rev">$1,200</td>
+      <td class="col-num">$1,200</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="youtube">
+      <td class="col-name col-utm">↳ How To Replace Your Full Time Salary With Vending Full Guide</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="youtube">
+      <td class="col-name col-utm">↳ how-to-buy-vending-machines-online-for-cheap-best-methods</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="youtube">
+      <td class="col-name col-utm">↳ start-vending-business</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="youtube">
+      <td class="col-name col-utm">↳ Setter · Tara Hall</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="youtube">
+      <td class="col-name col-utm">↳ dont-start-vending</td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">1</td>
+      <td class="col-pct good">100.0%</td>
+      <td class="col-num">1</td>
+      <td class="col-pct good">100.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="youtube">
+      <td class="col-name col-utm">↳ first-vending-machine</td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="youtube">
+      <td class="col-name col-utm">↳ flop</td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="funnel-row" data-section="lead_sources" onclick="toggleUTM('meta_ads')" data-fid="meta_ads">
+      <td class="col-name">
+        <span class="chevron" id="chev-meta_ads">›</span>Meta Ads<div style="font-size:11px; font-weight:400; color:var(--muted2); margin-left:16px;">Marketing 0 · Lane 2 1 · Social DMs 0</div>
+      </td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace pace-behind">1</td>
+      <td class="col-goal">2% (44)</td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev pkg-trigger" onclick="event.stopPropagation();togglePkg('meta_ads')" title="Click to see package breakdown">$0 <span class="pkg-chevron" id="pkgchev-meta_ads">›</span></td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="meta_ads">
+      <td class="col-name col-utm">↳ retargeting-lost-crm</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="meta_ads">
+      <td class="col-name col-utm">↳ Setter · Rob Maxfield</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="meta_ads">
+      <td class="col-name col-utm">↳ 6/22 Call Booking Campaign</td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="funnel-row" data-section="lead_sources" onclick="toggleUTM('website')" data-fid="website">
+      <td class="col-name">
+        <span class="chevron" id="chev-website">›</span>Website<div style="font-size:11px; font-weight:400; color:var(--muted2); margin-left:16px;">Marketing 0 · Lane 2 1 · Social DMs 0</div>
+      </td>
+      <td class="col-num">2</td>
+      <td class="col-num">1</td>
+      <td class="col-pace pace-behind">1</td>
+      <td class="col-goal">1% (100)</td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev pkg-trigger" onclick="event.stopPropagation();togglePkg('website')" title="Click to see package breakdown">$0 <span class="pkg-chevron" id="pkgchev-website">›</span></td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="website">
+      <td class="col-name col-utm">↳ _____</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="website">
+      <td class="col-name col-utm">↳ Setter · Anastasiya Peralaika</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="website">
+      <td class="col-name col-utm">↳ Unattributed</td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="funnel-row" data-section="lead_sources" onclick="toggleUTM('internal_webinar')" data-fid="internal_webinar">
+      <td class="col-name">
+        <span class="chevron" id="chev-internal_webinar">›</span>Internal Webinar<div style="font-size:11px; font-weight:400; color:var(--muted2); margin-left:16px;">Marketing 0 · Lane 2 13 · Social DMs 0</div>
+      </td>
+      <td class="col-num">1</td>
+      <td class="col-num">13</td>
+      <td class="col-pace pace-behind">16</td>
+      <td class="col-goal">19% (70)</td>
+      <td class="col-num">11</td>
+      <td class="col-num">2</td>
+      <td class="col-pct bad">18.2%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev pkg-trigger" onclick="event.stopPropagation();togglePkg('internal_webinar')" title="Click to see package breakdown">$0 <span class="pkg-chevron" id="pkgchev-internal_webinar">›</span></td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ Setter · Vince Bartolini</td>
+      <td class="col-num">—</td>
+      <td class="col-num">4</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">4</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ nov10</td>
+      <td class="col-num">—</td>
+      <td class="col-num">3</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ Setter · Esther Cohen</td>
+      <td class="col-num">—</td>
+      <td class="col-num">3</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">2</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ nov03</td>
+      <td class="col-num">—</td>
+      <td class="col-num">2</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">2</td>
+      <td class="col-num">1</td>
+      <td class="col-pct mid">50.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ oct20</td>
+      <td class="col-num">—</td>
+      <td class="col-num">2</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ Setter · Katie Meloche</td>
+      <td class="col-num">—</td>
+      <td class="col-num">2</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ Unattributed</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ june30_end_cta</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ nov17</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ oct13</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ oct27</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ sept01</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ Setter · Ariadna Rufrancos</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ Setter · Ariella Irvine</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ Setter · Brad Savage</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ Setter · Rob Maxfield</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">2</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ July23</td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ aug11</td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ june16_end_cta</td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ oct06</td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ sept15</td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">3</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="internal_webinar">
+      <td class="col-name col-utm">↳ sept22</td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">1</td>
+      <td class="col-pct good">100.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="funnel-row" data-section="lead_sources" onclick="toggleUTM('wwws')" data-fid="wwws">
+      <td class="col-name">
+        <span class="chevron" id="chev-wwws">›</span>WWWS<div style="font-size:11px; font-weight:400; color:var(--muted2); margin-left:16px;">Marketing 0 · Lane 2 2 · Social DMs 0</div>
+      </td>
+      <td class="col-num">—</td>
+      <td class="col-num">2</td>
+      <td class="col-pace pace-exceed">2</td>
+      <td class="col-goal">200% (1)</td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev pkg-trigger" onclick="event.stopPropagation();togglePkg('wwws')" title="Click to see package breakdown">$0 <span class="pkg-chevron" id="pkgchev-wwws">›</span></td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="wwws">
+      <td class="col-name col-utm">↳ Unattributed</td>
+      <td class="col-num">—</td>
+      <td class="col-num">2</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="wwws">
+      <td class="col-name col-utm">↳ Setter · Rob Maxfield</td>
+      <td class="col-num">—</td>
+      <td class="col-num">2</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="funnel-row" data-section="lead_sources" onclick="toggleUTM('sales_reactivation')" data-fid="sales_reactivation">
+      <td class="col-name">
+        <span class="chevron" id="chev-sales_reactivation">›</span>Sales Reactivation<div style="font-size:11px; font-weight:400; color:var(--muted2); margin-left:16px;">Marketing 0 · Lane 2 1 · Social DMs 0</div>
+      </td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace pace-muted">1</td>
+      <td class="col-goal">—</td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev pkg-trigger" onclick="event.stopPropagation();togglePkg('sales_reactivation')" title="Click to see package breakdown">$0 <span class="pkg-chevron" id="pkgchev-sales_reactivation">›</span></td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="sales_reactivation">
+      <td class="col-name col-utm">↳ Unattributed</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="sales_reactivation">
+      <td class="col-name col-utm">↳ Setter · Esther Cohen</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="funnel-row" data-section="lead_sources" onclick="toggleUTM('google_ads')" data-fid="google_ads">
+      <td class="col-name">
+        <span class="chevron" id="chev-google_ads">›</span>Google Ads<div style="font-size:11px; font-weight:400; color:var(--muted2); margin-left:16px;">Marketing 1 · Lane 2 3 · Social DMs 0</div>
+      </td>
+      <td class="col-num">3</td>
+      <td class="col-num">4</td>
+      <td class="col-pace pace-muted">5</td>
+      <td class="col-goal">—</td>
+      <td class="col-num">2</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev pkg-trigger" onclick="event.stopPropagation();togglePkg('google_ads')" title="Click to see package breakdown">$0 <span class="pkg-chevron" id="pkgchev-google_ads">›</span></td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="google_ads">
+      <td class="col-name col-utm">↳ 23815771816</td>
+      <td class="col-num">—</td>
+      <td class="col-num">3</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="google_ads">
+      <td class="col-name col-utm">↳ Setter · Brad Savage</td>
+      <td class="col-num">—</td>
+      <td class="col-num">2</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="google_ads">
+      <td class="col-name col-utm">↳ 24410703799</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="google_ads">
+      <td class="col-name col-utm">↳ Setter · Anastasiya Peralaika</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="google_ads">
+      <td class="col-name col-utm">↳ 23805931083</td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="google_ads">
+      <td class="col-name col-utm">↳ 23883800856</td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="funnel-row" data-section="lead_sources" onclick="toggleUTM('ltf___in_house')" data-fid="ltf___in_house">
+      <td class="col-name">
+        <span class="chevron" id="chev-ltf___in_house">›</span>LTF - In-House<div style="font-size:11px; font-weight:400; color:var(--muted2); margin-left:16px;">Marketing 0 · Lane 2 3 · Social DMs 0</div>
+      </td>
+      <td class="col-num">—</td>
+      <td class="col-num">3</td>
+      <td class="col-pace pace-muted">4</td>
+      <td class="col-goal">—</td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev pkg-trigger" onclick="event.stopPropagation();togglePkg('ltf___in_house')" title="Click to see package breakdown">$5,997 <span class="pkg-chevron" id="pkgchev-ltf___in_house">›</span></td>
+      <td class="col-num">$5,997</td>
+    </tr>
+
+    <tr class="pkg-row" data-parent="ltf___in_house" style="display:none">
+      <td class="col-name col-pkg">↳ Bronze - $5,997 · Community</td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct"></td>
+      <td class="col-num">—</td>
+      <td class="col-pct"></td>
+      <td class="col-num">1</td>
+      <td class="col-pct"></td>
+      <td class="col-rev">$5,997</td>
+      <td class="col-num">$5,997</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="ltf___in_house">
+      <td class="col-name col-utm">↳ Setter · Vince Bartolini</td>
+      <td class="col-num">—</td>
+      <td class="col-num">3</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$5,997</td>
+      <td class="col-num">$5,997</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="ltf___in_house">
+      <td class="col-name col-utm">↳ wescale</td>
+      <td class="col-num">—</td>
+      <td class="col-num">2</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$5,997</td>
+      <td class="col-num">$5,997</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="ltf___in_house">
+      <td class="col-name col-utm">↳ Unattributed</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="funnel-row" data-section="lead_sources" onclick="toggleUTM('instagram')" data-fid="instagram">
+      <td class="col-name">
+        <span class="chevron" id="chev-instagram">›</span>Instagram<div style="font-size:11px; font-weight:400; color:var(--muted2); margin-left:16px;">Marketing 0 · Lane 2 1 · Social DMs 5</div>
+      </td>
+      <td class="col-num">10</td>
+      <td class="col-num">6</td>
+      <td class="col-pace pace-behind">7</td>
+      <td class="col-goal">2% (300)</td>
+      <td class="col-num">5</td>
+      <td class="col-num">3</td>
+      <td class="col-pct mid">60.0%</td>
+      <td class="col-num">2</td>
+      <td class="col-pct bad">40.0%</td>
+      <td class="col-num">1</td>
+      <td class="col-pct good">20.0%</td>
+      <td class="col-rev pkg-trigger" onclick="event.stopPropagation();togglePkg('instagram')" title="Click to see package breakdown">$5,997 <span class="pkg-chevron" id="pkgchev-instagram">›</span></td>
+      <td class="col-num">$5,997</td>
+    </tr>
+
+    <tr class="pkg-row" data-parent="instagram" style="display:none">
+      <td class="col-name col-pkg">↳ Bronze - $5,997 · Community</td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct"></td>
+      <td class="col-num">—</td>
+      <td class="col-pct"></td>
+      <td class="col-num">1</td>
+      <td class="col-pct"></td>
+      <td class="col-rev">$5,997</td>
+      <td class="col-num">$5,997</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="instagram">
+      <td class="col-name col-utm">↳ Unattributed</td>
+      <td class="col-num">—</td>
+      <td class="col-num">5</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">1</td>
+      <td class="col-pct good">100.0%</td>
+      <td class="col-num">1</td>
+      <td class="col-pct good">100.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="instagram">
+      <td class="col-name col-utm">↳ Setter · Unassigned</td>
+      <td class="col-num">—</td>
+      <td class="col-num">4</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">1</td>
+      <td class="col-pct good">100.0%</td>
+      <td class="col-num">1</td>
+      <td class="col-pct good">100.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="instagram">
+      <td class="col-name col-utm">↳ mh-ig-bio</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="instagram">
+      <td class="col-name col-utm">↳ Setter · Pearl Sathekge</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="instagram">
+      <td class="col-name col-utm">↳ Setter · Vince Bartolini</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">1</td>
+      <td class="col-pct good">100.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="instagram">
+      <td class="col-name col-utm">↳ mh-dm-setter</td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">1</td>
+      <td class="col-pct good">100.0%</td>
+      <td class="col-num">1</td>
+      <td class="col-pct good">100.0%</td>
+      <td class="col-num">1</td>
+      <td class="col-pct good">100.0%</td>
+      <td class="col-rev">$5,997</td>
+      <td class="col-num">$5,997</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="instagram">
+      <td class="col-name col-utm">↳ 6/23 Call Booking Campaign</td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="instagram">
+      <td class="col-name col-utm">↳ 755610065</td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">1</td>
+      <td class="col-pct good">100.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="funnel-row" data-section="lead_sources" onclick="toggleUTM('linkedin')" data-fid="linkedin">
+      <td class="col-name">
+        <span class="chevron" id="chev-linkedin">›</span>Linkedin<div style="font-size:11px; font-weight:400; color:var(--muted2); margin-left:16px;">Marketing 0 · Lane 2 0 · Social DMs 0</div>
+      </td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace pace-muted">—</td>
+      <td class="col-goal">0% (10)</td>
+      <td class="col-num">1</td>
+      <td class="col-num">1</td>
+      <td class="col-pct good">100.0%</td>
+      <td class="col-num">1</td>
+      <td class="col-pct good">100.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev pkg-trigger" onclick="event.stopPropagation();togglePkg('linkedin')" title="Click to see package breakdown">$0 <span class="pkg-chevron" id="pkgchev-linkedin">›</span></td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="linkedin">
+      <td class="col-name col-utm">↳ book-call</td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">1</td>
+      <td class="col-pct good">100.0%</td>
+      <td class="col-num">1</td>
+      <td class="col-pct good">100.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="funnel-row funnel-row-excluded" onclick="toggleUTM('ltf___quiz_funnel')" data-fid="ltf___quiz_funnel">
+      <td class="col-name">
+        <span class="chevron" id="chev-ltf___quiz_funnel">›</span>LTF - Quiz Funnel *
+      </td>
+      <td class="col-num">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pace pace-muted">—</td>
+      <td class="col-goal">—</td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev pkg-trigger" onclick="event.stopPropagation();togglePkg('ltf___quiz_funnel')" title="Click to see package breakdown">$0 <span class="pkg-chevron" id="pkgchev-ltf___quiz_funnel">›</span></td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="section-header-row" onclick="toggleSection('uncategorized')">
+      <td colspan="14">
+        <span class="section-chevron open" id="secchev-uncategorized">›</span>FUNNEL BREAKDOWN — UNCATEGORIZED
+      </td>
+    </tr>
+
+    <tr class="funnel-row" data-section="uncategorized" onclick="toggleUTM('unknown__needs_review_')" data-fid="unknown__needs_review_">
+      <td class="col-name">
+        <span class="chevron" id="chev-unknown__needs_review_">›</span>Unknown (Needs Review)<div style="font-size:11px; font-weight:400; color:var(--muted2); margin-left:16px;">Marketing 0 · Lane 2 9 · Social DMs 0</div>
+      </td>
+      <td class="col-num">10</td>
+      <td class="col-num">9</td>
+      <td class="col-pace pace-muted">11</td>
+      <td class="col-goal">—</td>
+      <td class="col-num">5</td>
+      <td class="col-num">3</td>
+      <td class="col-pct mid">60.0%</td>
+      <td class="col-num">3</td>
+      <td class="col-pct mid">60.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev pkg-trigger" onclick="event.stopPropagation();togglePkg('unknown__needs_review_')" title="Click to see package breakdown">$0 <span class="pkg-chevron" id="pkgchev-unknown__needs_review_">›</span></td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="unknown__needs_review_">
+      <td class="col-name col-utm">↳ Unattributed</td>
+      <td class="col-num">—</td>
+      <td class="col-num">9</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">5</td>
+      <td class="col-num">3</td>
+      <td class="col-pct mid">60.0%</td>
+      <td class="col-num">3</td>
+      <td class="col-pct mid">60.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="unknown__needs_review_">
+      <td class="col-name col-utm">↳ Setter · Vince Bartolini</td>
+      <td class="col-num">—</td>
+      <td class="col-num">3</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="unknown__needs_review_">
+      <td class="col-name col-utm">↳ Setter · Adam Linn</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">1</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="unknown__needs_review_">
+      <td class="col-name col-utm">↳ Setter · Ariella Irvine</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="unknown__needs_review_">
+      <td class="col-name col-utm">↳ Setter · Brad Savage</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="unknown__needs_review_">
+      <td class="col-name col-utm">↳ Setter · Christine Ocalan</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="unknown__needs_review_">
+      <td class="col-name col-utm">↳ Setter · Jennifer Murray</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="unknown__needs_review_">
+      <td class="col-name col-utm">↳ Setter · Rob Maxfield</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">3</td>
+      <td class="col-num">3</td>
+      <td class="col-pct good">100.0%</td>
+      <td class="col-num">3</td>
+      <td class="col-pct good">100.0%</td>
+      <td class="col-num">—</td>
+      <td class="col-pct bad">0.0%</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="section-header-row" onclick="toggleSection('other')">
+      <td colspan="14">
+        <span class="section-chevron open" id="secchev-other">›</span>FUNNEL BREAKDOWN — OTHER
+      </td>
+    </tr>
+
+    <tr class="funnel-row" data-section="other" onclick="toggleUTM('website___og___cam')" data-fid="website___og___cam">
+      <td class="col-name">
+        <span class="chevron" id="chev-website___og___cam">›</span>Website - OG - Cam<div style="font-size:11px; font-weight:400; color:var(--muted2); margin-left:16px;">Marketing 1 · Lane 2 0 · Social DMs 0</div>
+      </td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace pace-muted">1</td>
+      <td class="col-goal">—</td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev pkg-trigger" onclick="event.stopPropagation();togglePkg('website___og___cam')" title="Click to see package breakdown">$0 <span class="pkg-chevron" id="pkgchev-website___og___cam">›</span></td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="utm-row" data-parent="website___og___cam">
+      <td class="col-name col-utm">↳ apply_now</td>
+      <td class="col-num">—</td>
+      <td class="col-num">1</td>
+      <td class="col-pace"></td>
+      <td class="col-goal"></td>
+      <td class="col-num">0</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-num">—</td>
+      <td class="col-pct ">—</td>
+      <td class="col-rev">$0</td>
+      <td class="col-num">—</td>
+    </tr>
+
+    <tr class="total-row">
+      <td class="col-name">TOTAL</td>
+      <td class="col-num">29</td>
+      <td class="col-num">45</td>
+      <td class="col-pace">—</td>
+      <td class="col-goal">—</td>
+      <td class="col-num">27</td>
+      <td class="col-num">11</td>
+      <td class="col-pct bad">40.7%</td>
+      <td class="col-num">7</td>
+      <td class="col-pct bad">25.9%</td>
+      <td class="col-num">3</td>
+      <td class="col-pct mid">11.1%</td>
+      <td class="col-rev">$13,194</td>
+      <td class="col-num">$4,398</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<script>
+  function togglePkg(fid) {
+    const pkgRows = document.querySelectorAll(`.pkg-row[data-parent="${fid}"]`);
+    const chevron = document.getElementById("pkgchev-" + fid);
+    const isOpen  = chevron && chevron.classList.contains("open");
+    pkgRows.forEach(r => {
+      r.style.display = isOpen ? "none" : "table-row";
+      r.classList.toggle("open", !isOpen);
+    });
+    if (chevron) chevron.classList.toggle("open", !isOpen);
+  }
+
+  function toggleUTM(fid) {
+    const utmRows = document.querySelectorAll(`.utm-row[data-parent="${fid}"]`);
+    const chevron = document.getElementById("chev-" + fid);
+    const isOpen  = chevron.classList.contains("open");
+    utmRows.forEach(r => r.classList.toggle("open", !isOpen));
+    chevron.classList.toggle("open", !isOpen);
+  }
+
+  function toggleSection(grpId) {
+    const chevron  = document.getElementById("secchev-" + grpId);
+    const isOpen   = chevron.classList.contains("open");
+    // All funnel rows and their utm sub-rows in this section
+    const funnelRows = document.querySelectorAll(`.funnel-row[data-section="${grpId}"]`);
+    funnelRows.forEach(row => {
+      row.style.display = isOpen ? "none" : "";
+      // Also collapse any open UTM sub-rows within this section
+      const fid = row.dataset.fid;
+      if (fid) {
+        const utmRows = document.querySelectorAll(`.utm-row[data-parent="${fid}"]`);
+        if (isOpen) {
+          utmRows.forEach(r => r.classList.remove("open"));
+          const utmChev = document.getElementById("chev-" + fid);
+          if (utmChev) utmChev.classList.remove("open");
+        }
+      }
+    });
+    chevron.classList.toggle("open", !isOpen);
+  }
+
+  function csvEscape(value) {
+    const s = String(value == null ? "" : value);
+    if (/["\n,]/.test(s)) {
+      return '"' + s.replace(/"/g, '""') + '"';
+    }
+    return s;
+  }
+
+  function downloadFunnelCSV() {
+    const table = document.querySelector(".table-wrap table");
+    if (!table) return;
+
+    const headerCells = Array.from(table.querySelectorAll("thead th"))
+      .map(th => th.textContent.replace(/\s+/g, " ").trim());
+    const rows = [headerCells];
+
+    table.querySelectorAll("tbody tr").forEach(tr => {
+      // Only export top-level funnel rows and the TOTAL row — skip section
+      // headers and the collapsible UTM/package sub-rows.
+      if (!tr.classList.contains("funnel-row") && !tr.classList.contains("total-row")) return;
+      const cells = Array.from(tr.children).map(td =>
+        td.textContent.replace(/[›▶]/g, "").replace(/\s+/g, " ").trim()
+      );
+      rows.push(cells);
+    });
+
+    const csv = rows.map(r => r.map(csvEscape).join(",")).join("\r\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "mtd-funnel-november-2026-nov-23-26.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+</script>
+
+<div style="padding: 24px 36px 32px; border-top: 1px solid var(--border); margin-top: 8px; display:flex; align-items:flex-start; justify-content:space-between; gap:20px; flex-wrap:wrap;">
+  <p style="font-size: 11px; color: var(--muted); line-height: 1.7; max-width: 640px; margin:0;">
+    <strong style="color: var(--muted2);">Projected</strong> — End-of-month estimate based on current daily booking pace:
+    <em>(Booked ÷ Days Elapsed) × Days in Month</em>. Color reflects projected vs goal.
+    &nbsp;&nbsp;<strong style="color: var(--muted2);">*</strong> — Funnel excluded from top-line totals and KPI tiles.
+    <span style="color: var(--green); font-weight:600;">Green</span> = exceeding pace &nbsp;·&nbsp;
+    <span style="color: #ca8a04; font-weight:600;">Yellow</span> = on pace &nbsp;·&nbsp;
+    <span style="color: var(--red); font-weight:600;">Red</span> = behind pace.
+    Funnels without a goal show —.
+    Goals are updated monthly in <code style="font-size:10.5px; background:var(--surface2); padding:1px 4px; border-radius:3px;">goals.json</code>.
+  </p>
+  <button type="button" class="csv-download-btn" onclick="downloadFunnelCSV()">⬇ Download CSV</button>
+</div>
+
+<script id="v2-data" type="application/json">{"schema_version":3,"setters":[{"value":"Vince Bartolini","bookings":13,"marketing":0,"lane2":13,"social_dms":0,"showed":1,"qualified":0,"closed_won":1,"revenue":5997.0,"formats":{"show":"16.7%","qualified":"0.0%","close":"16.7%","revenue":"$5,997","average":"$5,997","qualified_occurred":"0.0%"},"scheduled_calls":12,"occurred_calls":6,"no_shows":5,"unresolved_calls":6,"qualified_shown":0},{"value":"Rob Maxfield","bookings":5,"marketing":0,"lane2":5,"social_dms":0,"showed":3,"qualified":3,"closed_won":0,"revenue":0,"formats":{"show":"60.0%","qualified":"60.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"60.0%"},"scheduled_calls":8,"occurred_calls":5,"no_shows":2,"unresolved_calls":3,"qualified_shown":3},{"value":"Brad Savage","bookings":4,"marketing":0,"lane2":4,"social_dms":0,"showed":2,"qualified":2,"closed_won":1,"revenue":5997.0,"formats":{"show":"100.0%","qualified":"100.0%","close":"50.0%","revenue":"$5,997","average":"$5,997","qualified_occurred":"100.0%"},"scheduled_calls":7,"occurred_calls":2,"no_shows":0,"unresolved_calls":5,"qualified_shown":2},{"value":"Esther Cohen","bookings":4,"marketing":0,"lane2":4,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"scheduled_calls":6,"occurred_calls":5,"no_shows":5,"unresolved_calls":1,"qualified_shown":0},{"value":"Unassigned","bookings":4,"marketing":0,"lane2":0,"social_dms":4,"showed":1,"qualified":1,"closed_won":0,"revenue":0,"formats":{"show":"100.0%","qualified":"100.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"100.0%"},"scheduled_calls":4,"occurred_calls":1,"no_shows":0,"unresolved_calls":3,"qualified_shown":1},{"value":"Marketing","bookings":3,"marketing":3,"lane2":0,"social_dms":0,"showed":1,"qualified":1,"closed_won":0,"revenue":0,"formats":{"show":"100.0%","qualified":"100.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"100.0%"},"scheduled_calls":1,"occurred_calls":1,"no_shows":0,"unresolved_calls":0,"qualified_shown":1},{"value":"Katie Meloche","bookings":2,"marketing":0,"lane2":2,"social_dms":0,"showed":1,"qualified":0,"closed_won":1,"revenue":1200.0,"formats":{"show":"50.0%","qualified":"0.0%","close":"50.0%","revenue":"$1,200","average":"$1,200","qualified_occurred":"0.0%"},"scheduled_calls":2,"occurred_calls":2,"no_shows":1,"unresolved_calls":0,"qualified_shown":0},{"value":"Anastasiya Peralaika","bookings":2,"marketing":0,"lane2":2,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":0,"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"Ariella Irvine","bookings":2,"marketing":0,"lane2":2,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":1,"occurred_calls":0,"no_shows":0,"unresolved_calls":1,"qualified_shown":0},{"value":"Adam Linn","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"scheduled_calls":3,"occurred_calls":2,"no_shows":2,"unresolved_calls":1,"qualified_shown":0},{"value":"Ariadna Rufrancos","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":2,"occurred_calls":0,"no_shows":0,"unresolved_calls":2,"qualified_shown":0},{"value":"Christine Ocalan","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":1,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"100.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"scheduled_calls":1,"occurred_calls":1,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"Jennifer Murray","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":0,"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"Pearl Sathekge","bookings":1,"marketing":0,"lane2":0,"social_dms":1,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"scheduled_calls":1,"occurred_calls":1,"no_shows":1,"unresolved_calls":0,"qualified_shown":0},{"value":"Tara Hall","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":0,"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"Andrea Harris","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":1,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":2,"formats":{"show":"100.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"occurred_calls":1,"no_shows":0,"unresolved_calls":1,"qualified_shown":0},{"value":"Luke Eyouni","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":1,"qualified_shown":0}],"team":[{"value":"Christian Hartwell","bookings":14,"marketing":0,"lane2":11,"social_dms":3,"showed":6,"qualified":4,"closed_won":1,"revenue":5997.0,"formats":{"show":"54.5%","qualified":"36.4%","close":"9.1%","revenue":"$5,997","average":"$5,997","qualified_occurred":"36.4%"},"scheduled_calls":12,"occurred_calls":11,"no_shows":5,"unresolved_calls":1,"qualified_shown":4},{"value":"Ariella Irvine","bookings":10,"marketing":0,"lane2":10,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":10,"occurred_calls":0,"no_shows":0,"unresolved_calls":10,"qualified_shown":0},{"value":"Scott Seymour","bookings":8,"marketing":0,"lane2":7,"social_dms":1,"showed":1,"qualified":1,"closed_won":1,"revenue":5997.0,"formats":{"show":"33.3%","qualified":"33.3%","close":"33.3%","revenue":"$5,997","average":"$5,997","qualified_occurred":"33.3%"},"scheduled_calls":8,"occurred_calls":3,"no_shows":2,"unresolved_calls":5,"qualified_shown":1},{"value":"Luke Herman","bookings":6,"marketing":2,"lane2":3,"social_dms":1,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"scheduled_calls":2,"occurred_calls":2,"no_shows":2,"unresolved_calls":0,"qualified_shown":0},{"value":"Robin Perkins","bookings":4,"marketing":1,"lane2":3,"social_dms":0,"showed":2,"qualified":2,"closed_won":0,"revenue":0,"formats":{"show":"33.3%","qualified":"33.3%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"33.3%"},"scheduled_calls":9,"occurred_calls":6,"no_shows":4,"unresolved_calls":3,"qualified_shown":2},{"value":"Joe Dysert","bookings":3,"marketing":0,"lane2":3,"social_dms":0,"showed":2,"qualified":0,"closed_won":1,"revenue":1200.0,"formats":{"show":"40.0%","qualified":"0.0%","close":"20.0%","revenue":"$1,200","average":"$1,200","qualified_occurred":"0.0%"},"scheduled_calls":8,"occurred_calls":5,"no_shows":3,"unresolved_calls":3,"qualified_shown":0},{"value":"Eric Piccione","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":2,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":2,"qualified_shown":0}],"generated_at":"2026-11-25T11:30:39.242982-08:00","source_cutoff":"2026-11-25T11:30:39.242982-08:00","vendhub_arr":3600.0,"progress":{"day":25,"days":30,"working_days":21,"working_elapsed":18,"elapsed_pct":85.7},"goals":{"bookings":1241,"revenue":750000,"channels":{"Instagram":300,"Low Ticket Funnel":200,"VSL":110,"Website":100,"YouTube":132,"Internal Webinar":70,"Mike Newsletter":10,"X":10,"Linkedin":10,"Meta Ads":44,"Tik Tok":5,"Side Hustle Nation":1,"WWWS":1}},"period":"2026-11-23 through 2026-11-25 PT","rules_version":"booked_calls.v2.18-verified-vp-reassignment","booking_scope":"vp-appointments.v2","counted_meetings":45,"excluded_repeat_candidates":7,"attribution_reviewed_at":"2026-11-25T11:30:39.242982-08:00","lead_source_note":"Lead source is shown separately from meeting-title booking attribution. Attribution values show aggregate counts only.","totals":{"leads_created":29,"bookings":45,"marketing":3,"lane2":37,"social_dms":5,"showed":11,"qualified":7,"closed_won":3,"revenue":13194.0,"formats":{"show":"40.7%","qualified":"25.9%","close":"11.1%","revenue":"$13,194","average":"$4,398","qualified_occurred":"25.9%"},"scheduled_calls":51,"occurred_calls":27,"no_shows":16,"unresolved_calls":24,"qualified_shown":7},"channels":[{"channel":"Internal Webinar","leads_created":1,"bookings":13,"marketing":0,"lane2":13,"social_dms":0,"showed":2,"qualified":0,"closed_won":0,"revenue":0.0,"unrecoverable_booked_leads":0,"drilldowns":[{"value":"nov10","bookings":3,"marketing":0,"lane2":3,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"scheduled_calls":1,"occurred_calls":1,"no_shows":1,"unresolved_calls":0,"qualified_shown":0},{"value":"nov03","bookings":2,"marketing":0,"lane2":2,"social_dms":0,"showed":1,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"50.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"scheduled_calls":3,"occurred_calls":2,"no_shows":1,"unresolved_calls":1,"qualified_shown":0},{"value":"oct20","bookings":2,"marketing":0,"lane2":2,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":1,"occurred_calls":0,"no_shows":0,"unresolved_calls":1,"qualified_shown":0},{"value":"Unattributed","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":1,"occurred_calls":0,"no_shows":0,"unresolved_calls":1,"qualified_shown":0},{"value":"june30_end_cta","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":0,"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"nov17","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"scheduled_calls":1,"occurred_calls":1,"no_shows":1,"unresolved_calls":0,"qualified_shown":0},{"value":"oct13","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":2,"occurred_calls":0,"no_shows":0,"unresolved_calls":2,"qualified_shown":0},{"value":"oct27","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":2,"occurred_calls":0,"no_shows":0,"unresolved_calls":2,"qualified_shown":0},{"value":"sept01","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":0,"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"July23","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"occurred_calls":1,"no_shows":1,"unresolved_calls":0,"qualified_shown":0},{"value":"aug11","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":3,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"occurred_calls":1,"no_shows":1,"unresolved_calls":2,"qualified_shown":0},{"value":"june16_end_cta","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":1,"qualified_shown":0},{"value":"oct06","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"occurred_calls":1,"no_shows":1,"unresolved_calls":0,"qualified_shown":0},{"value":"sept15","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":3,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"occurred_calls":3,"no_shows":3,"unresolved_calls":0,"qualified_shown":0},{"value":"sept22","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":1,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"100.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"occurred_calls":1,"no_shows":0,"unresolved_calls":0,"qualified_shown":0}],"packages":[],"setters":[{"value":"Vince Bartolini","bookings":4,"marketing":0,"lane2":4,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":6,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","qualified_occurred":"0.0%"},"occurred_calls":4,"no_shows":4,"unresolved_calls":2,"qualified_shown":0},{"value":"Esther Cohen","bookings":3,"marketing":0,"lane2":3,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":3,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","qualified_occurred":"0.0%"},"occurred_calls":2,"no_shows":2,"unresolved_calls":1,"qualified_shown":0},{"value":"Katie Meloche","bookings":2,"marketing":0,"lane2":2,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","qualified_occurred":"0.0%"},"occurred_calls":1,"no_shows":1,"unresolved_calls":0,"qualified_shown":0},{"value":"Ariadna Rufrancos","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":2,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":2,"qualified_shown":0},{"value":"Ariella Irvine","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":0,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"Brad Savage","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":1,"qualified_shown":0},{"value":"Rob Maxfield","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":4,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","qualified_occurred":"0.0%"},"occurred_calls":2,"no_shows":2,"unresolved_calls":2,"qualified_shown":0},{"value":"Andrea Harris","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":1,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":2,"formats":{"show":"100.0%","qualified":"0.0%","close":"0.0%","qualified_occurred":"0.0%"},"occurred_calls":1,"no_shows":0,"unresolved_calls":1,"qualified_shown":0},{"value":"Christine Ocalan","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":1,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"100.0%","qualified":"0.0%","close":"0.0%","qualified_occurred":"0.0%"},"occurred_calls":1,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"Luke Eyouni","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":1,"qualified_shown":0}],"display":{"projected":16,"goal":70,"goal_pct":19,"pace":"pace-behind"},"formats":{"show":"18.2%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"scheduled_calls":21,"occurred_calls":11,"no_shows":9,"unresolved_calls":10,"qualified_shown":0},{"channel":"Unknown (Needs Review)","leads_created":10,"bookings":9,"marketing":0,"lane2":9,"social_dms":0,"showed":3,"qualified":3,"closed_won":0,"revenue":0.0,"unrecoverable_booked_leads":9,"drilldowns":[{"value":"Unattributed","bookings":9,"marketing":0,"lane2":9,"social_dms":0,"showed":3,"qualified":3,"closed_won":0,"revenue":0,"formats":{"show":"60.0%","qualified":"60.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"60.0%"},"scheduled_calls":9,"occurred_calls":5,"no_shows":2,"unresolved_calls":4,"qualified_shown":3}],"packages":[],"setters":[{"value":"Vince Bartolini","bookings":3,"marketing":0,"lane2":3,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":3,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","qualified_occurred":"0.0%"},"occurred_calls":1,"no_shows":1,"unresolved_calls":2,"qualified_shown":0},{"value":"Adam Linn","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":2,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","qualified_occurred":"0.0%"},"occurred_calls":1,"no_shows":1,"unresolved_calls":1,"qualified_shown":0},{"value":"Ariella Irvine","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":1,"qualified_shown":0},{"value":"Brad Savage","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":0,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"Christine Ocalan","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":0,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"Jennifer Murray","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":0,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"Rob Maxfield","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":3,"qualified":3,"closed_won":0,"revenue":0,"scheduled_calls":3,"formats":{"show":"100.0%","qualified":"100.0%","close":"0.0%","qualified_occurred":"100.0%"},"occurred_calls":3,"no_shows":0,"unresolved_calls":0,"qualified_shown":3}],"display":{"projected":11,"goal":null,"goal_pct":null,"pace":""},"formats":{"show":"60.0%","qualified":"60.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"60.0%"},"scheduled_calls":9,"occurred_calls":5,"no_shows":2,"unresolved_calls":4,"qualified_shown":3},{"channel":"Instagram","leads_created":10,"bookings":6,"marketing":0,"lane2":1,"social_dms":5,"showed":3,"qualified":2,"closed_won":1,"revenue":5997.0,"unrecoverable_booked_leads":0,"drilldowns":[{"value":"Unattributed","bookings":5,"marketing":0,"lane2":1,"social_dms":4,"showed":1,"qualified":1,"closed_won":0,"revenue":0,"formats":{"show":"100.0%","qualified":"100.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"100.0%"},"scheduled_calls":3,"occurred_calls":1,"no_shows":0,"unresolved_calls":2,"qualified_shown":1},{"value":"mh-ig-bio","bookings":1,"marketing":0,"lane2":0,"social_dms":1,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"scheduled_calls":2,"occurred_calls":1,"no_shows":1,"unresolved_calls":1,"qualified_shown":0},{"value":"mh-dm-setter","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":1,"qualified":1,"closed_won":1,"revenue":5997.0,"formats":{"show":"100.0%","qualified":"100.0%","close":"100.0%","revenue":"$5,997","average":"$5,997","qualified_occurred":"100.0%"},"scheduled_calls":1,"occurred_calls":1,"no_shows":0,"unresolved_calls":0,"qualified_shown":1},{"value":"6/23 Call Booking Campaign","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"occurred_calls":1,"no_shows":1,"unresolved_calls":0,"qualified_shown":0},{"value":"755610065","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":1,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"100.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"occurred_calls":1,"no_shows":0,"unresolved_calls":0,"qualified_shown":0}],"packages":[{"value":"Bronze - $5,997 · Community","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":1,"revenue":5997.0,"formats":{"show":"—","qualified":"—","qualified_booked":"—","close":"—","qualified_close":"—","revenue":"$5,997","average":"$5,997"}}],"setters":[{"value":"Unassigned","bookings":4,"marketing":0,"lane2":0,"social_dms":4,"showed":1,"qualified":1,"closed_won":0,"revenue":0,"scheduled_calls":4,"formats":{"show":"100.0%","qualified":"100.0%","close":"0.0%","qualified_occurred":"100.0%"},"occurred_calls":1,"no_shows":0,"unresolved_calls":3,"qualified_shown":1},{"value":"Pearl Sathekge","bookings":1,"marketing":0,"lane2":0,"social_dms":1,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","qualified_occurred":"0.0%"},"occurred_calls":1,"no_shows":1,"unresolved_calls":0,"qualified_shown":0},{"value":"Vince Bartolini","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":1,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"100.0%","qualified":"0.0%","close":"0.0%","qualified_occurred":"0.0%"},"occurred_calls":1,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"Brad Savage","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":1,"qualified":1,"closed_won":1,"revenue":5997.0,"scheduled_calls":1,"formats":{"show":"100.0%","qualified":"100.0%","close":"100.0%","qualified_occurred":"100.0%"},"occurred_calls":1,"no_shows":0,"unresolved_calls":0,"qualified_shown":1},{"value":"Adam Linn","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","qualified_occurred":"0.0%"},"occurred_calls":1,"no_shows":1,"unresolved_calls":0,"qualified_shown":0}],"display":{"projected":7,"goal":300,"goal_pct":2,"pace":"pace-behind"},"formats":{"show":"60.0%","qualified":"40.0%","close":"20.0%","revenue":"$5,997","average":"$5,997","qualified_occurred":"40.0%"},"scheduled_calls":8,"occurred_calls":5,"no_shows":2,"unresolved_calls":3,"qualified_shown":2},{"channel":"Google Ads","leads_created":3,"bookings":4,"marketing":1,"lane2":3,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0.0,"unrecoverable_booked_leads":0,"drilldowns":[{"value":"23815771816","bookings":3,"marketing":1,"lane2":2,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"scheduled_calls":1,"occurred_calls":1,"no_shows":1,"unresolved_calls":0,"qualified_shown":0},{"value":"24410703799","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":0,"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"23805931083","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":2,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":2,"qualified_shown":0},{"value":"23883800856","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"occurred_calls":1,"no_shows":1,"unresolved_calls":0,"qualified_shown":0}],"packages":[],"setters":[{"value":"Brad Savage","bookings":2,"marketing":0,"lane2":2,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":2,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":2,"qualified_shown":0},{"value":"Anastasiya Peralaika","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":0,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"Marketing","bookings":1,"marketing":1,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":0,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"Esther Cohen","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":2,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","qualified_occurred":"0.0%"},"occurred_calls":2,"no_shows":2,"unresolved_calls":0,"qualified_shown":0}],"display":{"projected":5,"goal":null,"goal_pct":null,"pace":""},"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"scheduled_calls":4,"occurred_calls":2,"no_shows":2,"unresolved_calls":2,"qualified_shown":0},{"channel":"YouTube","leads_created":2,"bookings":4,"marketing":1,"lane2":3,"social_dms":0,"showed":2,"qualified":1,"closed_won":1,"revenue":1200.0,"unrecoverable_booked_leads":0,"drilldowns":[{"value":"diy","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":1,"qualified":0,"closed_won":1,"revenue":1200.0,"formats":{"show":"100.0%","qualified":"0.0%","close":"100.0%","revenue":"$1,200","average":"$1,200","qualified_occurred":"0.0%"},"scheduled_calls":1,"occurred_calls":1,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"How To Replace Your Full Time Salary With Vending Full Guide","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":0,"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"how-to-buy-vending-machines-online-for-cheap-best-methods","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":0,"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"start-vending-business","bookings":1,"marketing":1,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":0,"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"dont-start-vending","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":1,"qualified":1,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"100.0%","qualified":"100.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"100.0%"},"occurred_calls":1,"no_shows":0,"unresolved_calls":0,"qualified_shown":1},{"value":"first-vending-machine","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"0.0%"},"occurred_calls":1,"no_shows":1,"unresolved_calls":0,"qualified_shown":0},{"value":"flop","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":1,"qualified_shown":0}],"packages":[{"value":"VendHub - Basic $1,188 · Community","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":1,"revenue":1200.0,"formats":{"show":"—","qualified":"—","qualified_booked":"—","close":"—","qualified_close":"—","revenue":"$1,200","average":"$1,200"}}],"setters":[{"value":"Vince Bartolini","bookings":2,"marketing":0,"lane2":2,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":0,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"Marketing","bookings":1,"marketing":1,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":0,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"Tara Hall","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":0,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"Katie Meloche","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":1,"qualified":0,"closed_won":1,"revenue":1200.0,"scheduled_calls":1,"formats":{"show":"100.0%","qualified":"0.0%","close":"100.0%","qualified_occurred":"0.0%"},"occurred_calls":1,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"Brad Savage","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":1,"qualified":1,"closed_won":0,"revenue":0,"scheduled_calls":2,"formats":{"show":"100.0%","qualified":"100.0%","close":"0.0%","qualified_occurred":"100.0%"},"occurred_calls":1,"no_shows":0,"unresolved_calls":1,"qualified_shown":1},{"value":"Esther Cohen","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"0.0%","qualified":"0.0%","close":"0.0%","qualified_occurred":"0.0%"},"occurred_calls":1,"no_shows":1,"unresolved_calls":0,"qualified_shown":0}],"display":{"projected":5,"goal":132,"goal_pct":3,"pace":"pace-behind"},"formats":{"show":"66.7%","qualified":"33.3%","close":"33.3%","revenue":"$1,200","average":"$1,200","qualified_occurred":"33.3%"},"scheduled_calls":4,"occurred_calls":3,"no_shows":1,"unresolved_calls":1,"qualified_shown":1},{"channel":"LTF - In-House","leads_created":0,"bookings":3,"marketing":0,"lane2":3,"social_dms":0,"showed":0,"qualified":0,"closed_won":1,"revenue":5997.0,"unrecoverable_booked_leads":0,"drilldowns":[{"value":"wescale","bookings":2,"marketing":0,"lane2":2,"social_dms":0,"showed":0,"qualified":0,"closed_won":1,"revenue":5997.0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$5,997","average":"$5,997","qualified_occurred":"—"},"scheduled_calls":1,"occurred_calls":0,"no_shows":0,"unresolved_calls":1,"qualified_shown":0},{"value":"Unattributed","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":0,"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0}],"packages":[{"value":"Bronze - $5,997 · Community","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":1,"revenue":5997.0,"formats":{"show":"—","qualified":"—","qualified_booked":"—","close":"—","qualified_close":"—","revenue":"$5,997","average":"$5,997"}}],"setters":[{"value":"Vince Bartolini","bookings":3,"marketing":0,"lane2":3,"social_dms":0,"showed":0,"qualified":0,"closed_won":1,"revenue":5997.0,"scheduled_calls":1,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":1,"qualified_shown":0}],"display":{"projected":4,"goal":null,"goal_pct":null,"pace":""},"formats":{"show":"—","qualified":"—","close":"—","revenue":"$5,997","average":"$5,997","qualified_occurred":"—"},"scheduled_calls":1,"occurred_calls":0,"no_shows":0,"unresolved_calls":1,"qualified_shown":0},{"channel":"WWWS","leads_created":0,"bookings":2,"marketing":0,"lane2":2,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0.0,"unrecoverable_booked_leads":0,"drilldowns":[{"value":"Unattributed","bookings":2,"marketing":0,"lane2":2,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":0,"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0}],"packages":[],"setters":[{"value":"Rob Maxfield","bookings":2,"marketing":0,"lane2":2,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":0,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0}],"display":{"projected":2,"goal":1,"goal_pct":200,"pace":"pace-exceed"},"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":0,"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"channel":"Meta Ads","leads_created":0,"bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0.0,"unrecoverable_booked_leads":0,"drilldowns":[{"value":"retargeting-lost-crm","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":0,"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"6/22 Call Booking Campaign","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":1,"qualified_shown":0}],"packages":[],"setters":[{"value":"Rob Maxfield","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":0,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"Vince Bartolini","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":1,"qualified_shown":0}],"display":{"projected":1,"goal":44,"goal_pct":2,"pace":"pace-behind"},"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":1,"occurred_calls":0,"no_shows":0,"unresolved_calls":1,"qualified_shown":0},{"channel":"Sales Reactivation","leads_created":0,"bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0.0,"unrecoverable_booked_leads":0,"drilldowns":[{"value":"Unattributed","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":0,"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0}],"packages":[],"setters":[{"value":"Esther Cohen","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":0,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0}],"display":{"projected":1,"goal":null,"goal_pct":null,"pace":""},"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":0,"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"channel":"Website","leads_created":2,"bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0.0,"unrecoverable_booked_leads":0,"drilldowns":[{"value":"_____","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":0,"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"Unattributed","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":1,"qualified_shown":0}],"packages":[],"setters":[{"value":"Anastasiya Peralaika","bookings":1,"marketing":0,"lane2":1,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":0,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"value":"Brad Savage","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":1,"qualified_shown":0}],"display":{"projected":1,"goal":100,"goal_pct":1,"pace":"pace-behind"},"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":1,"occurred_calls":0,"no_shows":0,"unresolved_calls":1,"qualified_shown":0},{"channel":"Website - OG - Cam","leads_created":0,"bookings":1,"marketing":1,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0.0,"unrecoverable_booked_leads":0,"drilldowns":[{"value":"apply_now","bookings":1,"marketing":1,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":0,"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0}],"packages":[],"setters":[{"value":"Marketing","bookings":1,"marketing":1,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":0,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0}],"display":{"projected":1,"goal":null,"goal_pct":null,"pace":""},"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":0,"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"channel":"Mike Newsletter","leads_created":1,"bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0.0,"unrecoverable_booked_leads":0,"drilldowns":[],"packages":[],"setters":[],"display":{"projected":null,"goal":10,"goal_pct":0,"pace":""},"formats":{"show":"—","qualified":"—","close":"—","revenue":"$0","average":"—","qualified_occurred":"—"},"scheduled_calls":0,"occurred_calls":0,"no_shows":0,"unresolved_calls":0,"qualified_shown":0},{"channel":"Linkedin","leads_created":0,"bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":1,"qualified":1,"closed_won":0,"revenue":0,"unrecoverable_booked_leads":0,"drilldowns":[{"value":"book-call","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":1,"qualified":1,"closed_won":0,"revenue":0,"scheduled_calls":2,"formats":{"show":"100.0%","qualified":"100.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"100.0%"},"occurred_calls":1,"no_shows":0,"unresolved_calls":1,"qualified_shown":1}],"packages":[],"setters":[{"value":"Marketing","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":1,"qualified":1,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"100.0%","qualified":"100.0%","close":"0.0%","qualified_occurred":"100.0%"},"occurred_calls":1,"no_shows":0,"unresolved_calls":0,"qualified_shown":1},{"value":"Rob Maxfield","bookings":0,"marketing":0,"lane2":0,"social_dms":0,"showed":0,"qualified":0,"closed_won":0,"revenue":0,"scheduled_calls":1,"formats":{"show":"—","qualified":"—","close":"—","qualified_occurred":"—"},"occurred_calls":0,"no_shows":0,"unresolved_calls":1,"qualified_shown":0}],"scheduled_calls":2,"display":{"projected":null,"goal":10,"goal_pct":0,"pace":""},"formats":{"show":"100.0%","qualified":"100.0%","close":"0.0%","revenue":"$0","average":"—","qualified_occurred":"100.0%"},"occurred_calls":1,"no_shows":0,"unresolved_calls":1,"qualified_shown":1}],"goal_percentages":{"bookings":4,"revenue":2},"arr_display":{"arr":"$3,600","mrr":"$300"},"scheduled_outcome_basis":"Accepted v2.8 calls scheduled in [Pacific period start, cutoff), with native Completed or No Show outcome; independent of creation date","qualification_evidence":"Current lead flag; the separate reset automation has not been applied","close_rate_basis":"occurred_first_calls","occurred_basis":"Accepted v2.8 calls scheduled in [Pacific period start, cutoff), with native Completed or No Show outcome; independent of creation date","closed_won_basis":"Native date_won in reporting period; no booking or scheduled-call join","view":{"key":"week-2026-11-23","kind":"week","month":"2026-11","start":"2026-11-23","end":"2026-11-25","end_exclusive":"2026-11-27","frozen":false,"label":"Nov 23 – Nov 26, 2026"},"metric_version":"calls-occurred.v1","csv_rows":[["Funnel","Leads","Booked","Projected","Goal %","Calls Occurred","Showed","Show %","Qualified","Qual %","Closed","CW %","Revenue","Rev / Close"],["Internal Webinar",1,13,16,"19% (70)",11,2,"18.2%",0,"0.0%",0,"0.0%","$0","—"],["Unknown (Needs Review)",10,9,11,"—",5,3,"60.0%",3,"60.0%",0,"0.0%","$0","—"],["Instagram",10,6,7,"2% (300)",5,3,"60.0%",2,"40.0%",1,"20.0%","$5,997","$5,997"],["Google Ads",3,4,5,"—",2,0,"0.0%",0,"0.0%",0,"0.0%","$0","—"],["YouTube",2,4,5,"3% (132)",3,2,"66.7%",1,"33.3%",1,"33.3%","$1,200","$1,200"],["LTF - In-House",0,3,4,"—",0,0,"—",0,"—",1,"—","$5,997","$5,997"],["WWWS",0,2,2,"200% (1)",0,0,"—",0,"—",0,"—","$0","—"],["Meta Ads",0,1,1,"2% (44)",0,0,"—",0,"—",0,"—","$0","—"],["Sales Reactivation",0,1,1,"—",0,0,"—",0,"—",0,"—","$0","—"],["Website",2,1,1,"1% (100)",0,0,"—",0,"—",0,"—","$0","—"],["Website - OG - Cam",0,1,1,"—",0,0,"—",0,"—",0,"—","$0","—"],["Mike Newsletter",1,0,"—","0% (10)",0,0,"—",0,"—",0,"—","$0","—"],["Linkedin",0,0,"—","0% (10)",1,1,"100.0%",1,"100.0%",0,"0.0%","$0","—"],["TOTAL",29,45,"—","—",27,11,"40.7%",7,"25.9%",3,"11.1%","$13,194","$4,398"]],"navigation":{"months":[{"key":"2026-01","kind":"month","month":"2026-01","start":"2026-01-01","end":"2026-01-31","end_exclusive":"2026-02-01","frozen":true,"live":false,"supplemental":true,"label":"January 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/2026-01.html","source":"archives/2026-01.html","source_sha256":"4acebc4197e09650b8d41adac559e5d8d12cc04301e1bae4745ac2f7f4d6f85a"},{"key":"2026-02","kind":"month","month":"2026-02","start":"2026-02-01","end":"2026-02-28","end_exclusive":"2026-03-01","frozen":true,"live":false,"supplemental":true,"label":"February 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/2026-02.html","source":"archives/2026-02.html","source_sha256":"fa3dc41895d218640c1e329bcf986e5d86e88785df936910bc88fcc22b82039e"},{"key":"2026-03","kind":"month","month":"2026-03","start":"2026-03-01","end":"2026-03-31","end_exclusive":"2026-04-01","frozen":true,"live":false,"supplemental":true,"label":"March 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/2026-03.html","source":"archives/2026-03.html","source_sha256":"6b41b1a853e20f2e17f5ff6bb40c892123d33d17997de32111a806f18c80df02"},{"key":"2026-04","kind":"month","month":"2026-04","start":"2026-04-01","end":"2026-04-30","end_exclusive":"2026-05-01","frozen":true,"live":false,"supplemental":true,"label":"April 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/2026-04.html","source":"archives/2026-04.html","source_sha256":"785e9269bdfa636582d50b14f33355c6b48af257ea2df70c466fbcae87bd2bad"},{"key":"2026-05","kind":"month","month":"2026-05","start":"2026-05-01","end":"2026-05-31","end_exclusive":"2026-06-01","frozen":true,"live":false,"supplemental":true,"label":"May 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/2026-05.html","source":"archives/2026-05.html","source_sha256":"4d0ed6d8ed7c5d8471c67ebf97ad425159362c9298b870b3afdb1e75a65d432c"},{"key":"2026-06","kind":"month","month":"2026-06","start":"2026-06-01","end":"2026-06-30","end_exclusive":"2026-07-01","frozen":true,"live":false,"supplemental":true,"label":"June 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/2026-06.html","source":"archives/2026-06.html","source_sha256":"3db3688a76c0bd8cf849f6f2d36902a469a2ba3555ae4402e4d479e76dc362e3"},{"key":"2026-07","kind":"month","month":"2026-07","start":"2026-07-01","end":"2026-07-31","end_exclusive":"2026-08-01","frozen":true,"live":false,"supplemental":true,"label":"July 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/2026-07.html","source":"archives/2026-07.html","source_sha256":"18b55bc992c433399cbd46e6b351ab4277eae5dc8bcd1ee05212a2ade04ea4e0"},{"key":"2026-08","kind":"month","month":"2026-08","start":"2026-08-01","end":"2026-08-31","end_exclusive":"2026-09-01","frozen":true,"live":false,"supplemental":true,"label":"August 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/2026-08.html","source":"archives/2026-08.html","source_sha256":"62342be700fd4234c5f71072b43ed6d4a79b643f5bce5a6a7b5d1accf2403e1b"},{"key":"2026-09","kind":"month","month":"2026-09","start":"2026-09-01","end":"2026-09-30","end_exclusive":"2026-10-01","frozen":true,"live":false,"supplemental":true,"label":"September 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/2026-09.html","source":"archives/2026-09.html","source_sha256":"6de973b402ec58af665e128402258f3ed2b243bbbda5f64dd0840146b400055a"},{"key":"2026-10","kind":"month","month":"2026-10","start":"2026-10-01","end":"2026-10-31","end_exclusive":"2026-11-01","frozen":true,"label":"October 2026","live":false},{"key":"2026-11","kind":"month","month":"2026-11","start":"2026-11-01","end":"2026-11-25","end_exclusive":"2026-12-01","frozen":false,"label":"November 2026","live":true,"href":"mtd.html"}],"weeks":[{"key":"week-2026-04-06","kind":"week","month":"2026-04","start":"2026-04-06","end":"2026-04-12","end_exclusive":"2026-04-13","frozen":true,"live":false,"supplemental":true,"label":"April 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-04-06.html","source":"archives/week-2026-04-06.html","source_sha256":"7b5adc8280674f2d6d8a2137d2a8527f4ca0a0bb27b4a00e8e89f0b5a2beda0b"},{"key":"week-2026-04-13","kind":"week","month":"2026-04","start":"2026-04-13","end":"2026-04-19","end_exclusive":"2026-04-20","frozen":true,"live":false,"supplemental":true,"label":"April 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-04-13.html","source":"archives/week-2026-04-13.html","source_sha256":"1916572c917e7d773f1e00d7b995761fd7e2fb1eeb0d99fd5215b0d5fcbd1e8b"},{"key":"week-2026-04-20","kind":"week","month":"2026-04","start":"2026-04-20","end":"2026-04-26","end_exclusive":"2026-04-27","frozen":true,"live":false,"supplemental":true,"label":"April 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-04-20.html","source":"archives/week-2026-04-20.html","source_sha256":"5167d0ebce9571b6b96fd1365b930e67941189e6102d7856e83aa7d256dcd40c"},{"key":"week-2026-04-27","kind":"week","month":"2026-04","start":"2026-04-27","end":"2026-05-03","end_exclusive":"2026-05-04","frozen":true,"live":false,"supplemental":true,"label":"April 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-04-27.html","source":"archives/week-2026-04-27.html","source_sha256":"bed2622e1a7f59b1e133d0cbadf22000a270fbcdcbd514210a1a8f4dddb8601c"},{"key":"week-2026-05-04","kind":"week","month":"2026-05","start":"2026-05-04","end":"2026-05-10","end_exclusive":"2026-05-11","frozen":true,"live":false,"supplemental":true,"label":"May 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-05-04.html","source":"archives/week-2026-05-04.html","source_sha256":"9a9b2dbd35b84cf6882efe993c28a71fd401fc8de336e8afe9c9928ec4ac41e7"},{"key":"week-2026-05-11","kind":"week","month":"2026-05","start":"2026-05-11","end":"2026-05-17","end_exclusive":"2026-05-18","frozen":true,"live":false,"supplemental":true,"label":"May 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-05-11.html","source":"archives/week-2026-05-11.html","source_sha256":"12804bf28cdecde9ae64fdd70758e0ab28f9e90beaa573fed79a09f6b11b0f49"},{"key":"week-2026-05-18","kind":"week","month":"2026-05","start":"2026-05-18","end":"2026-05-24","end_exclusive":"2026-05-25","frozen":true,"live":false,"supplemental":true,"label":"May 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-05-18.html","source":"archives/week-2026-05-18.html","source_sha256":"c198d374883077e69be1d5759cc06289b3c659b8a7e9b881191a6a531d0cda3a"},{"key":"week-2026-05-25","kind":"week","month":"2026-05","start":"2026-05-25","end":"2026-05-31","end_exclusive":"2026-06-01","frozen":true,"live":false,"supplemental":true,"label":"May 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-05-25.html","source":"archives/week-2026-05-25.html","source_sha256":"f06a0591973821f5f051f5c3c10e7bcdf93ff57ad074df7342714f3d29184899"},{"key":"week-2026-06-01","kind":"week","month":"2026-06","start":"2026-06-01","end":"2026-06-07","end_exclusive":"2026-06-08","frozen":true,"live":false,"supplemental":true,"label":"June 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-06-01.html","source":"archives/week-2026-06-01.html","source_sha256":"b877acb3f3606dc05d283aff950af1403ff265bba10b2abb2b41e70892f7cfcd"},{"key":"week-2026-06-08","kind":"week","month":"2026-06","start":"2026-06-08","end":"2026-06-14","end_exclusive":"2026-06-15","frozen":true,"live":false,"supplemental":true,"label":"June 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-06-08.html","source":"archives/week-2026-06-08.html","source_sha256":"83334615b04780f76c69c5a93d0f7c4e105b33a89c79fdbd46e754a51964b528"},{"key":"week-2026-06-15","kind":"week","month":"2026-06","start":"2026-06-15","end":"2026-06-21","end_exclusive":"2026-06-22","frozen":true,"live":false,"supplemental":true,"label":"June 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-06-15.html","source":"archives/week-2026-06-15.html","source_sha256":"a857fe64698851ac9e8814690e8a8ce21b595c23b01b31069fdef5db6f60399a"},{"key":"week-2026-06-22","kind":"week","month":"2026-06","start":"2026-06-22","end":"2026-06-28","end_exclusive":"2026-06-29","frozen":true,"live":false,"supplemental":true,"label":"June 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-06-22.html","source":"archives/week-2026-06-22.html","source_sha256":"706198e982da637730c3ed09fc1bcb70f7c0f8e29877fe4b03105095025dd492"},{"key":"week-2026-06-29","kind":"week","month":"2026-06","start":"2026-06-29","end":"2026-07-05","end_exclusive":"2026-07-06","frozen":true,"live":false,"supplemental":true,"label":"June 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-06-29.html","source":"archives/week-2026-06-29.html","source_sha256":"130cc606133f23032d0103b6b18b333d3a7b9317263944ab4ac96dcd5881d7f0"},{"key":"week-2026-07-06","kind":"week","month":"2026-07","start":"2026-07-06","end":"2026-07-12","end_exclusive":"2026-07-13","frozen":true,"live":false,"supplemental":true,"label":"July 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-07-06.html","source":"archives/week-2026-07-06.html","source_sha256":"27e7419517994f8399df59515fd946e43664fbdb5029cb723b6e9a0fa161ee2c"},{"key":"week-2026-07-13","kind":"week","month":"2026-07","start":"2026-07-13","end":"2026-07-19","end_exclusive":"2026-07-20","frozen":true,"live":false,"supplemental":true,"label":"July 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-07-13.html","source":"archives/week-2026-07-13.html","source_sha256":"01fcd892dcf4dd921febb84f6435d130a988f3d0e27c8b89cf83556f8dbdac74"},{"key":"week-2026-07-20","kind":"week","month":"2026-07","start":"2026-07-20","end":"2026-07-26","end_exclusive":"2026-07-27","frozen":true,"live":false,"supplemental":true,"label":"July 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-07-20.html","source":"archives/week-2026-07-20.html","source_sha256":"03c889417afee95a8b90df2929ca20492016fbcf3ba3337f082107726fb9ef17"},{"key":"week-2026-07-27","kind":"week","month":"2026-07","start":"2026-07-27","end":"2026-08-02","end_exclusive":"2026-08-03","frozen":true,"live":false,"supplemental":true,"label":"July 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-07-27.html","source":"archives/week-2026-07-27.html","source_sha256":"b3d87e67b1cca5f1114dfb47bb99543e5b0215f5cf6365bb4caf0ea470de3cc0"},{"key":"week-2026-08-03","kind":"week","month":"2026-08","start":"2026-08-03","end":"2026-08-09","end_exclusive":"2026-08-10","frozen":true,"live":false,"supplemental":true,"label":"August 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-08-03.html","source":"archives/week-2026-08-03.html","source_sha256":"9b209938196df68b766fd3b35e1878925289e72eb6c19426d87cfca334b8c855"},{"key":"week-2026-08-10","kind":"week","month":"2026-08","start":"2026-08-10","end":"2026-08-16","end_exclusive":"2026-08-17","frozen":true,"live":false,"supplemental":true,"label":"August 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-08-10.html","source":"archives/week-2026-08-10.html","source_sha256":"ac8e58040e7fc6f00ce832ed376bca231988309d35eee909351b5677d57386ec"},{"key":"week-2026-08-17","kind":"week","month":"2026-08","start":"2026-08-17","end":"2026-08-23","end_exclusive":"2026-08-24","frozen":true,"live":false,"supplemental":true,"label":"August 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-08-17.html","source":"archives/week-2026-08-17.html","source_sha256":"a842a5d66de3788c3c32c6e5a66c3f01a33c87d604040f2427e55075e6569985"},{"key":"week-2026-08-24","kind":"week","month":"2026-08","start":"2026-08-24","end":"2026-08-30","end_exclusive":"2026-08-31","frozen":true,"live":false,"supplemental":true,"label":"August 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-08-24.html","source":"archives/week-2026-08-24.html","source_sha256":"9da0c615fb9620bec2a5c746006273dd74fd15982a80fdc53b5836c6f62208e1"},{"key":"week-2026-08-31","kind":"week","month":"2026-08","start":"2026-08-31","end":"2026-09-06","end_exclusive":"2026-09-07","frozen":true,"live":false,"supplemental":true,"label":"August 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-08-31.html","source":"archives/week-2026-08-31.html","source_sha256":"0be757df1f9076b99ede52898dd07f8ff1a91ebad2dce46717fa6bd426a38d71"},{"key":"week-2026-09-07","kind":"week","month":"2026-09","start":"2026-09-07","end":"2026-09-13","end_exclusive":"2026-09-14","frozen":true,"live":false,"supplemental":true,"label":"September 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-09-07.html","source":"archives/week-2026-09-07.html","source_sha256":"1699fe657048b4623c0a4a463ac5eccfa0ee798b41e786cdfede9ee97df5558e"},{"key":"week-2026-09-14","kind":"week","month":"2026-09","start":"2026-09-14","end":"2026-09-20","end_exclusive":"2026-09-21","frozen":true,"live":false,"supplemental":true,"label":"September 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-09-14.html","source":"archives/week-2026-09-14.html","source_sha256":"3f38e7ed2075100991b788c81f3ad10408ce983a1d5d0e810060d5485c7d18db"},{"key":"week-2026-09-21","kind":"week","month":"2026-09","start":"2026-09-21","end":"2026-09-27","end_exclusive":"2026-09-28","frozen":true,"live":false,"supplemental":true,"label":"September 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-09-21.html","source":"archives/week-2026-09-21.html","source_sha256":"3215f23fe37334a3001121b6b6e693a9745e89f69c2608fc375eebddb0160c6f"},{"key":"week-2026-09-28","kind":"week","month":"2026-09","start":"2026-09-28","end":"2026-10-04","end_exclusive":"2026-10-05","frozen":true,"live":false,"supplemental":true,"label":"September 2026 (Historical)","href":"https://aims-product.github.io/mtd-funnel-dashboard/v2/archives/supplemental/week-2026-09-28.html","source":"archives/week-2026-09-28.html","source_sha256":"6730ff76d69256f9d7eb3b6201676f637786aa4050c79956a0ae5487988f9c68"},{"key":"week-2026-09-28","kind":"week","month":"2026-10","start":"2026-10-01","end":"2026-10-04","end_exclusive":"2026-10-05","frozen":true,"label":"Oct 1 – Oct 4, 2026"},{"key":"week-2026-10-05","kind":"week","month":"2026-10","start":"2026-10-05","end":"2026-10-11","end_exclusive":"2026-10-12","frozen":true,"label":"Oct 5 – Oct 11, 2026"},{"key":"week-2026-10-12","kind":"week","month":"2026-10","start":"2026-10-12","end":"2026-10-18","end_exclusive":"2026-10-19","frozen":true,"label":"Oct 12 – Oct 18, 2026"},{"key":"week-2026-10-19","kind":"week","month":"2026-10","start":"2026-10-19","end":"2026-10-25","end_exclusive":"2026-10-26","frozen":true,"label":"Oct 19 – Oct 25, 2026"},{"key":"week-2026-10-26","kind":"week","month":"2026-10","start":"2026-10-26","end":"2026-11-01","end_exclusive":"2026-11-02","frozen":true,"label":"Oct 26 – Nov 1, 2026"},{"key":"week-2026-11-02","kind":"week","month":"2026-11","start":"2026-11-02","end":"2026-11-08","end_exclusive":"2026-11-09","frozen":true,"label":"Nov 2 – Nov 8, 2026"},{"key":"week-2026-11-09","kind":"week","month":"2026-11","start":"2026-11-09","end":"2026-11-15","end_exclusive":"2026-11-16","frozen":true,"label":"Nov 9 – Nov 15, 2026"},{"key":"week-2026-11-16","kind":"week","month":"2026-11","start":"2026-11-16","end":"2026-11-22","end_exclusive":"2026-11-23","frozen":true,"label":"Nov 16 – Nov 22, 2026","href":"mtd-week-2026-11-16.html"},{"key":"week-2026-11-23","kind":"week","month":"2026-11","start":"2026-11-23","end":"2026-11-25","end_exclusive":"2026-11-27","frozen":false,"label":"Nov 23 – Nov 26, 2026","href":"mtd-week-2026-11-23.html"}]}}</script>
+</body>
+</html>
