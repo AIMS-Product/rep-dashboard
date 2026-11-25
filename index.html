@@ -859,6 +859,9 @@
     return `<span class="rep-name">${r.name}</span>${tag}`;
   }
   function pctText(value) { return value == null ? '—' : value + '%'; }
+  function closeRateTarget(report) {
+    return report.scorecard_meta?.targets?.close_rate ?? (report.scorecard_meta ? 13 : 20);
+  }
   function scoreTone(value, target = 90) {
     if (value == null) return '';
     if (value >= target) return 'score-high';
@@ -1091,6 +1094,7 @@
   function renderScorecardBoard(D) {
     if (!D.scorecard_meta) return '';
     const targets = D.scorecard_meta.targets;
+    const closeTarget = closeRateTarget(D);
     const rate = (value, target) => `<span class="${scoreTone(value,target)}">${pctText(value)}</span>`;
     const cashCell = (cash, index) => `<td>${financialButton('cash',index,cash?.amount == null ? '—' : money(cash.amount))}<small>${cash?.opportunities ? `${cash.recorded}/${cash.opportunities} fields filled${cash.missing ? (cash.recorded ? ' · partial' : ' · missing') : ''}` : 'No MTD wins'}</small></td>`;
     const followupCell = (rep, key) => {
@@ -1109,14 +1113,14 @@
         <td>${rate(rep.booked ? rep.show_rate : null,targets.show_rate)}<small>${rep.shown} / ${rep.booked} calls</small></td>
         <td>${adherenceButton(rep,'post_call',index)}</td>
         ${followupCell(rep,'hot_followup_72h')}${followupCell(rep,'warm_followup_5d')}
-        <td>${financialButton('close',index,pctText(rep.close_rate),scoreTone(rep.close_rate,targets.close_rate))}<small>${rep.deals} closed / ${closeDenominator(D, rep)} ${closeDenominatorLabel(D)}</small></td>
+        <td>${financialButton('close',index,pctText(rep.close_rate),scoreTone(rep.close_rate,closeTarget))}<small>${rep.deals} closed / ${closeDenominator(D, rep)} ${closeDenominatorLabel(D)}</small></td>
         ${cashCell(rep.cash_collected,index)}${qaScoreCell(rep.qa_score,rep.qa_score_count)}${salesFollowupCells(D, rep.sales_followup, index)}</tr>`;
     }).join('');
     const post = D.team_post_call_12h;
     const pre = teamPreCallPct(D);
     return `<section class="board scorecard-board${D.sales_followup ? ' has-sales-followup' : ''}" id="rep-scorecard"><div class="board-head"><div class="board-title">Rep Scorecard</div><div class="board-sub">${D.period ? "Weekly results" : "Monthly results"} + current follow-up coverage · click a metric for details</div></div>
-      <div class="board-table-scroll"><table><thead><tr><th>Rep</th><th>Show-up process<small>Target 90%</small></th><th>Show rate<small>Target 75%</small></th><th>Post-call adherence<small>Target 95%</small></th><th>Hot ≤72h<small>Target 95%</small></th><th>Warm/general ≤5d<small>Target 90%</small></th><th>${qualifiedClose(D) ? "Qualified close rate" : "Close rate"}<small>Target 18%</small></th><th>Cash collected<small>Scorecard target $90k</small></th><th>QA / 5<small>${D.qa_score_meta?.qualification_basis === 'avoma_meeting_outcome' ? 'Qualified calls · ' : ''}Target 4 / 5 · 80%</small></th>${D.sales_followup ? '<th>Second-call rate<small>Within 14 days · Target 50%</small></th><th>Follow-up slots used<small>Weekly target 10 per rep</small></th>' : ''}</tr></thead>
-      <tbody>${rows}${historicalScorecardRow(D)}</tbody><tfoot><tr><td>Team Total</td><td>${rate(pre,90)}</td><td>${rate(D.team_show_rate,75)}</td><td>${rate(post.pct,95)}</td>${followupCell('team','hot_followup_72h')}${followupCell('team','warm_followup_5d')}<td>${financialButton('close','team',pctText(D.team_close_rate),scoreTone(D.team_close_rate,18))}<small>${D.total_deals} closed / ${closeDenominator(D)} ${closeDenominatorLabel(D)}</small></td>${cashCell(D.team_cash_collected,'team')}${qaScoreCell(D.team_qa_score,D.team_qa_score_count)}${salesFollowupCells(D, D.sales_followup?.team, "team")}</tr></tfoot></table></div>
+      <div class="board-table-scroll"><table><thead><tr><th>Rep</th><th>Show-up process<small>Target 90%</small></th><th>Show rate<small>Target 75%</small></th><th>Post-call adherence<small>Target 95%</small></th><th>Hot ≤72h<small>Target 95%</small></th><th>Warm/general ≤5d<small>Target 90%</small></th><th>${qualifiedClose(D) ? "Qualified close rate" : "Close rate"}<small>Target ${closeTarget}%</small></th><th>Cash collected<small>Scorecard target $90k</small></th><th>QA / 5<small>${D.qa_score_meta?.qualification_basis === 'avoma_meeting_outcome' ? 'Qualified calls · ' : ''}Target 4 / 5 · 80%</small></th>${D.sales_followup ? '<th>Second-call rate<small>Within 14 days · Target 50%</small></th><th>Follow-up slots used<small>Weekly target 10 per rep</small></th>' : ''}</tr></thead>
+      <tbody>${rows}${historicalScorecardRow(D)}</tbody><tfoot><tr><td>Team Total</td><td>${rate(pre,90)}</td><td>${rate(D.team_show_rate,75)}</td><td>${rate(post.pct,95)}</td>${followupCell('team','hot_followup_72h')}${followupCell('team','warm_followup_5d')}<td>${financialButton('close','team',pctText(D.team_close_rate),scoreTone(D.team_close_rate,closeTarget))}<small>${D.total_deals} closed / ${closeDenominator(D)} ${closeDenominatorLabel(D)}</small></td>${cashCell(D.team_cash_collected,'team')}${qaScoreCell(D.team_qa_score,D.team_qa_score_count)}${salesFollowupCells(D, D.sales_followup?.team, "team")}</tr></tfoot></table></div>
       ${D.sales_followup ? `<p class="scorecard-note">Follow-up slots · ${escapeHtml(D.sales_followup.slot_week)} to ${escapeHtml(D.sales_followup.slot_week_end)} Pacific. Used slots include held follow-ups, no-shows, and upcoming bookings. Team totals include calls without a listed active closer.</p>` : ''}
       <div class="scorecard-note"><strong>Post-call adherence</strong> ${D.scorecard_meta.post_call_scoring === 'category_average' ? 'averages the recap email/SMS and next-step completion rates.' : 'counts calls with a recap email/SMS and a completed next step.'} Next step means a task, follow-up meeting or scheduled SMS. Both checks use the 12-hour window, and actions during the call count. Pending calls are excluded until their full window expires. Lost, Disqualified, Qualified = No and no-show calls are excluded; other existing exemptions are retained.<br>Follow-up: current lead owner’s last outbound call attempt or sent SMS/email; assignment dates do not reset the clock. Percentages describe current-book coverage, with all booking dates included.<br>Cash: the Close Cash Collected field on the selected period’s won opportunities; missing values stay blank. This is grouped by date won, not payment receipt date. ${qualifiedClose(D) ? 'Qualified close rate divides won opportunities by eligible qualified shown calls in the selected period.' : 'Close rate divides wins by shown plus no-show first calls.'} Call and win totals include the historical subtotal; departed closers stay out of the active roster. Other scorecard aggregates use their displayed eligible rows.<br>Post-call and cash snapshot: ${escapeHtml(previewStamp(D.scorecard_meta.as_of))} · Follow-up: ${escapeHtml(previewStamp(D.scorecard_meta.followup_as_of))} · QA: ${escapeHtml(previewStamp(D.qa_score_meta?.generated_at))}. Pre-call process snapshot: ${escapeHtml(previewStamp(D.adherence_meta?.generated_at))}. Call metrics use the reporting cutoff above.</div></section>`;
   }
@@ -1349,10 +1353,11 @@
 
     // ── BOARD 2: Opps Closed
     const dealSorted = [...reps].sort((a,b) => b.deals - a.deals);
+    const closeTarget = closeRateTarget(D);
     const b2Rows = dealSorted.map((r,i) => `<tr>
       <td><span class="${rkC(i)}">${i+1}</span>${repLabel(r)}</td>
       <td>${r.deals}</td>
-      <td>${r.exclude_meetings || r.close_rate == null ? '<span style="color:var(--text-faint)">—</span>' : `<span class="${rc(r.close_rate,D.scorecard_meta ? 18 : 20,10)}">${r.close_rate}%</span>`}</td>
+      <td>${r.exclude_meetings || r.close_rate == null ? '<span style="color:var(--text-faint)">—</span>' : `<span class="${rc(r.close_rate,closeTarget,10)}">${r.close_rate}%</span>`}</td>
       <td>${moneyOrNA(r.aov)}</td>
     </tr>`).join('');
     const board2 = `
@@ -1363,7 +1368,7 @@
           <colgroup><col style="width:44%"><col style="width:14%"><col style="width:20%"><col style="width:22%"></colgroup>
           <thead><tr><th>Rep</th><th>Deals</th><th title="Won opportunities by date won divided by ${closeDenominatorLabel(D)}">${qualifiedClose(D) ? 'Qualified Close %' : 'Close %'}</th><th title="Month-to-date revenue divided by deals closed this month">AOV</th></tr></thead>
           <tbody>${b2Rows}${hasHistorical ? `<tr class="historical-row"><td>Historical closers</td><td>${hist.deals}</td><td>${pctText(hist.close_rate)}</td><td>${moneyOrNA(hist.deals ? hist.revenue/hist.deals : null)}</td></tr>` : ''}</tbody>
-          <tfoot><tr><td>Team Total</td><td>${D.total_deals}</td><td><span class="${rc((D.team_close_rate)||0,D.scorecard_meta ? 18 : 20,10)}">${(D.team_close_rate) == null ? '—' : (D.team_close_rate) + '%'}</span></td><td>${moneyOrNA(D.team_aov)}</td></tr></tfoot>
+          <tfoot><tr><td>Team Total</td><td>${D.total_deals}</td><td><span class="${rc((D.team_close_rate)||0,closeTarget,10)}">${(D.team_close_rate) == null ? '—' : (D.team_close_rate) + '%'}</span></td><td>${moneyOrNA(D.team_aov)}</td></tr></tfoot>
         </table>
         </div>
       </div>`;
